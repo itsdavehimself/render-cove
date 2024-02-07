@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import usersRouter from './routes/users.js';
+import projectsRouter from './routes/projects.js';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -14,7 +16,11 @@ app.use((req: Request, res: Response, next) => {
   next();
 });
 
+app.use(cors({ origin: true, credentials: true }));
+
 app.use('/api/users', usersRouter);
+
+app.use('/api/projects', projectsRouter);
 
 const mongoURI = process.env.MONGO_URI;
 
