@@ -82,6 +82,7 @@ const ProjectForm: React.FC = () => {
       setDescription('');
       setTags([]);
       setSoftwareList([]);
+      setImagePreview('');
       if (imageInput.current) {
         imageInput.current.value = '';
       }
