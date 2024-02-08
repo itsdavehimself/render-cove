@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import Image from '../types/Image.js';
-import Project from '../types/Project.js';
+import ProjectDocument from '../types/ProjectDocument.js';
 
-const projectSchema = new Schema<Project>(
+const projectSchema = new Schema<ProjectDocument>(
   {
     // author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     title: {
@@ -35,7 +35,7 @@ const projectSchema = new Schema<Project>(
     images: [
       {
         url: { type: String, required: true },
-        filename: { type: String, required: true },
+        fileName: { type: String, required: true },
         mimeType: { type: String, required: true },
         size: { type: Number, required: true },
         createdAt: { type: Date, required: true },
@@ -50,4 +50,4 @@ function arrayLimit(val: string[]) {
   return val.length <= 15;
 }
 
-export default mongoose.model<Project>('Project', projectSchema);
+export default mongoose.model<ProjectDocument>('Project', projectSchema);
