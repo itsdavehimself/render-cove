@@ -10,17 +10,21 @@ const ProjectForm: React.FC = () => {
 
   const imageInput = useRef<HTMLInputElement | null>(null);
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setTitle(e.target.value);
   };
 
-  const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescriptionChange = (
+    e: ChangeEvent<HTMLTextAreaElement>,
+  ): void => {
     setDescription(e.target.value);
   };
 
-  const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value.trim() !== '') {
-      const tagValue = e.currentTarget.value.replace(/,/g, '').trim();
+  const addTag = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    const inputValue: string = e.currentTarget.value.trim();
+
+    if (inputValue !== '') {
+      const tagValue: string = e.currentTarget.value.replace(/,/g, '').trim();
 
       if (tagValue !== '') {
         setTags([...tags, tagValue]);
@@ -29,13 +33,17 @@ const ProjectForm: React.FC = () => {
     }
   };
 
-  const removeTag = (indexToRemove: number) => {
+  const removeTag = (indexToRemove: number): void => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
   };
 
-  const addSoftware = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value.trim() !== '') {
-      const softwareItemValue = e.currentTarget.value.replace(/,/g, '').trim();
+  const addSoftware = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    const inputValue: string = e.currentTarget.value.trim();
+
+    if (inputValue !== '') {
+      const softwareItemValue: string = e.currentTarget.value
+        .replace(/,/g, '')
+        .trim();
 
       if (softwareItemValue !== '') {
         setSoftwareList([...softwareList, softwareItemValue]);
@@ -44,12 +52,12 @@ const ProjectForm: React.FC = () => {
     }
   };
 
-  const removeSoftware = (indexToRemove: number) => {
+  const removeSoftware = (indexToRemove: number): void => {
     setSoftwareList(softwareList.filter((_, index) => index !== indexToRemove));
   };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedImage = event.target.files?.[0];
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const selectedImage: File | undefined = event.target.files?.[0];
 
     if (selectedImage) {
       const previewURL = URL.createObjectURL(selectedImage);
@@ -57,7 +65,9 @@ const ProjectForm: React.FC = () => {
     }
   };
 
-  const handleSubmitProject = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitProject = async (
+    e: FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     formData.append('tags', JSON.stringify(tags));
@@ -89,7 +99,9 @@ const ProjectForm: React.FC = () => {
     }
   };
 
-  const preventEnterKeySubmission = (e: KeyboardEvent<HTMLFormElement>) => {
+  const preventEnterKeySubmission = (
+    e: KeyboardEvent<HTMLFormElement>,
+  ): void => {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     if (e.key === 'Enter' && !['TEXTAREA', 'BUTTON'].includes(target.tagName)) {
       e.preventDefault();
