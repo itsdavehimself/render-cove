@@ -5,7 +5,6 @@ const ProjectForm: React.FC = () => {
   const [description, setDescription] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [softwareList, setSoftwareList] = useState<string[]>([]);
-  const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
@@ -53,7 +52,6 @@ const ProjectForm: React.FC = () => {
     const selectedImage = event.target.files?.[0];
 
     if (selectedImage) {
-      setImage(selectedImage);
       const previewURL = URL.createObjectURL(selectedImage);
       setImagePreview(previewURL);
     }
@@ -84,7 +82,6 @@ const ProjectForm: React.FC = () => {
       setDescription('');
       setTags([]);
       setSoftwareList([]);
-      setImage(null);
       if (imageInput.current) {
         imageInput.current.value = '';
       }
