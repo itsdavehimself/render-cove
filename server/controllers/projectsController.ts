@@ -1,7 +1,11 @@
 import Project from '../models/projectModel.js';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
 import ProjectDocument from '../types/ProjectDocument.js';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
@@ -67,8 +71,6 @@ const createProject = async (
 
   const command = new PutObjectCommand(params);
 
-  await s3.send(command);
-
   const s3Url = `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${imageName}`;
 
   const { author, title, description, tags, softwareList } = req.body;
@@ -89,13 +91,14 @@ const createProject = async (
       images: [
         {
           url: s3Url,
-          filename: imageName,
+          fileName: imageName,
           mimeType: req.file?.mimetype || '',
           size: req.file?.size || 0,
           createdAt: Date.now(),
         },
       ],
     });
+    await s3.send(command);
     res.status(200).json(project);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
@@ -116,6 +119,14 @@ const deleteProject = async (req: Request, res: Response) => {
     if (!project) {
       return res.status(404).json({ message: 'Project not found.' });
     }
+
+    const params = {
+      Bucket: bucketName,
+      Key: project.images[0].fileName,
+    };
+
+    const command = new DeleteObjectCommand(params);
+    await s3.send(command);
 
     res.status(200).json(project);
   } catch (error: any) {
