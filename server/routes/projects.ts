@@ -6,6 +6,10 @@ import {
   deleteProject,
   updateProject,
 } from '../controllers/projectsController.js';
+import multer from 'multer';
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const projectsRouter = express.Router();
 
@@ -13,7 +17,7 @@ projectsRouter.get('/', getAllProjects);
 
 projectsRouter.get('/:id', getProject);
 
-projectsRouter.post('/', createProject);
+projectsRouter.post('/', upload.single('image'), createProject);
 
 projectsRouter.delete('/:id', deleteProject);
 
