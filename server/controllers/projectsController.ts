@@ -1,16 +1,29 @@
-import Project, { ProjectDocument } from '../models/projectModel.js';
+import Project from '../models/projectModel.js';
 import { Request, Response } from 'express';
-import { Types, Schema } from 'mongoose';
+import { Types } from 'mongoose';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import ProjectDocument from '../types/ProjectDocument.js';
+import dotenv from 'dotenv';
+import crypto from 'crypto';
 
-interface CreateProjectRequest {
-  author: Schema.Types.ObjectId | string;
-  title: string;
-  description?: string;
-  tags: string[];
-  software: string[];
-  likes: number;
-  createdAt: Date;
-}
+dotenv.config();
+
+const bucketName = process.env.BUCKET_NAME as string;
+const bucketRegion = process.env.BUCKET_REGION as string;
+const accessKey = process.env.ACCESS_KEY as string;
+const secretAccessKey = process.env.SECRET_ACCESS_KEY as string;
+
+const randomImageName = (bytes: number = 32) => {
+  return crypto.randomBytes(bytes).toString('hex');
+};
+
+const s3 = new S3Client({
+  region: bucketRegion,
+  credentials: {
+    accessKeyId: accessKey,
+    secretAccessKey: secretAccessKey,
+  },
+});
 
 const getProject = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -40,21 +53,48 @@ const getAllProjects = async (req: Request, res: Response) => {
 };
 
 const createProject = async (
-  req: Request<{}, {}, CreateProjectRequest>,
+  req: Request<{}, {}, ProjectDocument>,
   res: Response
 ) => {
-  const { author, title, description, tags, software, likes, createdAt } =
-    req.body;
+  const imageName = randomImageName();
+
+  const params = {
+    Bucket: bucketName,
+    Key: imageName,
+    Body: req.file?.buffer,
+    ContentType: req.file?.mimetype,
+  };
+
+  const command = new PutObjectCommand(params);
+
+  await s3.send(command);
+
+  const s3Url = `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${imageName}`;
+
+  const { author, title, description, tags, softwareList } = req.body;
+
+  const parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags || [];
+  const parsedSoftwareList =
+    typeof softwareList === 'string'
+      ? JSON.parse(softwareList)
+      : softwareList || [];
 
   try {
     const project: ProjectDocument = await Project.create({
       author,
       title,
       description,
-      tags,
-      software,
-      likes,
-      createdAt,
+      tags: parsedTags,
+      softwareList: parsedSoftwareList,
+      images: [
+        {
+          url: s3Url,
+          filename: imageName,
+          mimeType: req.file?.mimetype || '',
+          size: req.file?.size || 0,
+          createdAt: Date.now(),
+        },
+      ],
     });
     res.status(200).json(project);
   } catch (error: any) {
