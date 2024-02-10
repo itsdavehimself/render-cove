@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
+import validator from 'validator';
 
 interface UserDocument {
   email: string;
@@ -7,6 +8,7 @@ interface UserDocument {
   displayName: string;
   summary?: string;
   skills?: string[];
+  _id: string;
 }
 
 const userSchema = new Schema<UserDocument>(
@@ -48,9 +50,26 @@ interface UserModel extends mongoose.Model<UserDocument> {
     password: string,
     displayName: string
   ): Promise<UserDocument>;
+  login(email: string, password: string): Promise<UserDocument>;
 }
 
-userSchema.statics.signup = async function (email, password, displayName) {
+userSchema.statics.signup = async function (
+  email,
+  password,
+  displayName
+): Promise<UserDocument> {
+  if (!email || !password || !displayName) {
+    throw Error('All fields are required.');
+  }
+
+  if (!validator.isEmail(email)) {
+    throw Error('Please enter a valid email address.');
+  }
+
+  if (!validator.isStrongPassword(password)) {
+    throw Error('Password is not strong enough.');
+  }
+
   const emailExists = await this.findOne({ email });
 
   if (emailExists) {
@@ -65,6 +84,29 @@ userSchema.statics.signup = async function (email, password, displayName) {
     password: hash,
     displayName,
   });
+
+  return user;
+};
+
+userSchema.statics.login = async function (
+  email,
+  password
+): Promise<UserDocument> {
+  if (!email || !password) {
+    throw Error('All fields are required.');
+  }
+
+  const user: UserDocument = await this.findOne({ email });
+
+  if (!user) {
+    throw Error('Invalid email or password. Please try again.');
+  }
+
+  const passwordMatch: boolean = await bcrypt.compare(password, user.password);
+
+  if (!passwordMatch) {
+    throw Error('Invalid email or password. Please try again.');
+  }
 
   return user;
 };
