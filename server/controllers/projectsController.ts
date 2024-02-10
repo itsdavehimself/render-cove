@@ -75,6 +75,23 @@ const createProject = async (
 
   const { author, title, description, tags, softwareList } = req.body;
 
+  let emptyFields = [];
+
+  if (!title) {
+    emptyFields.push('title');
+  }
+
+  if (!req.file) {
+    emptyFields.push('image');
+  }
+
+  if (emptyFields.length > 0) {
+    return res.status(400).json({
+      error: `Oops! Make sure you give your masterpiece a title and add an image to show off your work!`,
+      emptyFields,
+    });
+  }
+
   const parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags || [];
   const parsedSoftwareList =
     typeof softwareList === 'string'
