@@ -1,4 +1,4 @@
-import User, { UserDocument } from '../models/userModel.js';
+import { User, UserDocument } from '../models/userModel.js';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 
@@ -35,25 +35,23 @@ const getAllUsers = async (req: Request, res: Response) => {
   res.status(200).json(allUsers);
 };
 
-const createUser = async (
-  req: Request<{}, {}, CreateUserRequest>,
-  res: Response
-) => {
-  const { email, password, displayName, summary, skills } = req.body;
+// const createUser = async (
+//   req: Request<{}, {}, CreateUserRequest>,
+//   res: Response
+// ) => {
+//   const { email, password, displayName } = req.body;
 
-  try {
-    const user: UserDocument = await User.create({
-      email,
-      password,
-      displayName,
-      summary,
-      skills,
-    });
-    res.status(200).json(user);
-  } catch (error: any) {
-    res.status(400).json({ error: error.message });
-  }
-};
+//   try {
+//     const user: UserDocument = await User.create({
+//       email,
+//       password,
+//       displayName,
+//     });
+//     res.status(200).json(user);
+//   } catch (error: any) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
 const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -97,4 +95,4 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export { getUser, getAllUsers, createUser, deleteUser, updateUser };
+export { getUser, getAllUsers, deleteUser, updateUser };
