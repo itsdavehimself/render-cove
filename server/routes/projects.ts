@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import {
   getAllProjects,
   getProject,
@@ -11,7 +11,7 @@ import multer from 'multer';
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const projectsRouter = express.Router();
+const projectsRouter: Router = express.Router();
 
 projectsRouter.get('/', getAllProjects);
 
