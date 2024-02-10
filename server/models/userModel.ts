@@ -1,15 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
-
-interface UserDocument {
-  email: string;
-  password: string;
-  displayName: string;
-  summary?: string;
-  skills?: string[];
-  _id: string;
-}
+import { UserDocument, UserModel } from '../types/UserInterfaces.js';
 
 const userSchema = new Schema<UserDocument>(
   {
@@ -43,15 +35,6 @@ const userSchema = new Schema<UserDocument>(
   },
   { timestamps: true }
 );
-
-interface UserModel extends mongoose.Model<UserDocument> {
-  signup(
-    email: string,
-    password: string,
-    displayName: string
-  ): Promise<UserDocument>;
-  login(email: string, password: string): Promise<UserDocument>;
-}
 
 userSchema.statics.signup = async function (
   email,
@@ -113,4 +96,4 @@ userSchema.statics.login = async function (
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
 
-export { User, UserDocument };
+export default User;
