@@ -1,14 +1,13 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import bcrypt from 'bcrypt';
 
-interface User {
+interface UserDocument {
   email: string;
   password: string;
   displayName: string;
   summary?: string;
   skills?: string[];
 }
-
-export interface UserDocument extends User, Document {}
 
 const userSchema = new Schema<UserDocument>(
   {
@@ -31,6 +30,7 @@ const userSchema = new Schema<UserDocument>(
     summary: {
       type: String,
       trim: true,
+      default: '',
     },
     skills: [
       {
@@ -42,4 +42,33 @@ const userSchema = new Schema<UserDocument>(
   { timestamps: true }
 );
 
-export default mongoose.model<UserDocument>('User', userSchema);
+interface UserModel extends mongoose.Model<UserDocument> {
+  signup(
+    email: string,
+    password: string,
+    displayName: string
+  ): Promise<UserDocument>;
+}
+
+userSchema.statics.signup = async function (email, password, displayName) {
+  const emailExists = await this.findOne({ email });
+
+  if (emailExists) {
+    throw Error('Email already in use.');
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+
+  const user = await this.create({
+    email,
+    password: hash,
+    displayName,
+  });
+
+  return user;
+};
+
+const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
+
+export { User, UserDocument };
