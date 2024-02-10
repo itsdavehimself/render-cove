@@ -116,7 +116,6 @@ const ProjectForm: React.FC = () => {
         type="text"
         onChange={handleTitleChange}
         value={title}
-        required={true}
         id="title"
         name="title"
       ></input>
@@ -139,7 +138,6 @@ const ProjectForm: React.FC = () => {
         type="file"
         name="image"
         id="image"
-        required={true}
         onChange={handleFileChange}
         ref={imageInput}
       ></input>
