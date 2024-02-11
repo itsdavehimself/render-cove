@@ -2,8 +2,14 @@ import { ReactNode, createContext, useReducer, Dispatch } from 'react';
 import { authReducer } from '../reducers/authReducer';
 import { AuthAction } from '../types/ActionTypes';
 
+interface UserType {
+  email: string;
+  displayName: string;
+}
+
 interface AuthContextType {
   dispatch: Dispatch<AuthAction>;
+  user: UserType;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
