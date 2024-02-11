@@ -11,6 +11,7 @@ interface ProjectDocument {
   images: Image[];
   createdAt: Date;
   updatedAt: Date;
+  _id: string;
 }
 
 export default ProjectDocument;
