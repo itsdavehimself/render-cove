@@ -22,8 +22,9 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const user: UserDocument = await User.login(email, password);
     const token: string = createToken(user._id);
+    const displayName = user.displayName;
 
-    res.status(200).json({ email, token });
+    res.status(200).json({ email, displayName, token });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
