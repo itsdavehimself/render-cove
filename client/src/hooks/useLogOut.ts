@@ -9,9 +9,8 @@ const useLogOut = (): LogOutResult => {
 
   const logOut = () => {
     localStorage.removeItem('user');
+    dispatch({ type: 'LOGOUT' });
   };
-
-  dispatch({ type: 'LOGOUT' });
 
   return { logOut };
 };
