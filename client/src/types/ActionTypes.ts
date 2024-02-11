@@ -3,7 +3,7 @@ export const LOGOUT = 'LOGOUT';
 
 interface LoginAction {
   type: typeof LOGIN;
-  payload: { email: string; token: string };
+  payload: { email: string; displayName: string; token: string };
 }
 
 interface LogoutAction {
