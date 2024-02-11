@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmitLogin}>
-      <h3>Sign up</h3>
+      <h3>Login</h3>
       <label htmlFor="email">Email:</label>
       <input type="email" onChange={(e) => setEmail(e.target.value)} />
       <label htmlFor="password">Password:</label>
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
         type="password"
         onChange={(e) => setPassword(e.target.value)}
       />{' '}
-      <button disabled={isLoading}>Sign Up</button>
+      <button disabled={isLoading}>Login</button>
       {error && <div>{error.toString()}</div>}
     </form>
   );
