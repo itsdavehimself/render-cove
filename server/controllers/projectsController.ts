@@ -10,6 +10,10 @@ import ProjectDocument from '../types/ProjectDocument.js';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 
+interface AuthRequest extends Request {
+  user?: { _id: string };
+}
+
 dotenv.config();
 
 const bucketName = process.env.BUCKET_NAME as string;
@@ -56,10 +60,17 @@ const getAllProjects = async (req: Request, res: Response) => {
   res.status(200).json(allProjects);
 };
 
-const createProject = async (
-  req: Request<{}, {}, ProjectDocument>,
-  res: Response
-) => {
+const getUsersProjects = async (req: AuthRequest, res: Response) => {
+  const user_id = req.user?._id;
+  const allProjects: ProjectDocument[] = await Project.find({
+    author: user_id,
+  }).sort({
+    createdAt: -1,
+  });
+  res.status(200).json(allProjects);
+};
+
+const createProject = async (req: AuthRequest, res: Response) => {
   const imageName = randomImageName();
 
   const params = {
@@ -73,7 +84,7 @@ const createProject = async (
 
   const s3Url = `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${imageName}`;
 
-  const { author, title, description, tags, softwareList } = req.body;
+  const { title, description, tags, softwareList } = req.body;
 
   let emptyFields = [];
 
@@ -99,8 +110,9 @@ const createProject = async (
       : softwareList || [];
 
   try {
+    const user_id = req.user?._id;
     const project: ProjectDocument = await Project.create({
-      author,
+      author: user_id,
       title,
       description,
       tags: parsedTags,
@@ -112,6 +124,7 @@ const createProject = async (
           mimeType: req.file?.mimetype || '',
           size: req.file?.size || 0,
           createdAt: Date.now(),
+          author: user_id,
         },
       ],
     });
@@ -177,6 +190,7 @@ const updateProject = async (req: Request, res: Response) => {
 export {
   getProject,
   getAllProjects,
+  getUsersProjects,
   createProject,
   deleteProject,
   updateProject,
