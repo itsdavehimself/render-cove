@@ -4,7 +4,7 @@ import ProjectDocument from '../types/ProjectDocument.js';
 
 const projectSchema = new Schema<ProjectDocument>(
   {
-    // author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     title: {
       type: String,
       required: true,
@@ -39,7 +39,7 @@ const projectSchema = new Schema<ProjectDocument>(
         mimeType: { type: String, required: true },
         size: { type: Number, required: true },
         createdAt: { type: Date, required: true },
-        // userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
       },
     ],
   },
