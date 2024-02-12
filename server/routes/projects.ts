@@ -2,25 +2,29 @@ import express, { Router } from 'express';
 import {
   getAllProjects,
   getProject,
+  getUsersProjects,
   createProject,
   deleteProject,
   updateProject,
 } from '../controllers/projectsController.js';
 import multer from 'multer';
+import requireAuth from '../middleware/requireAuth.js';
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const projectsRouter: Router = express.Router();
 
-projectsRouter.get('/', getAllProjects);
+projectsRouter.get('/all', getAllProjects);
 
 projectsRouter.get('/:id', getProject);
 
-projectsRouter.post('/', upload.single('image'), createProject);
+projectsRouter.get('/', requireAuth, getUsersProjects);
 
-projectsRouter.delete('/:id', deleteProject);
+projectsRouter.post('/', requireAuth, upload.single('image'), createProject);
 
-projectsRouter.patch('/:id', updateProject);
+projectsRouter.delete('/:id', requireAuth, deleteProject);
+
+projectsRouter.patch('/:id', requireAuth, updateProject);
 
 export default projectsRouter;
