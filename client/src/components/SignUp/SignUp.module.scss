@@ -1,0 +1,166 @@
+@use 'variables';
+
+@mixin auth-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin form-container-mixin {
+  display: flex;
+  height: 45rem;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  background-color: variables.$secondary-color;
+}
+
+@mixin form-image-mixin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  background-color: variables.$accent-color;
+  height: 100%;
+  width: 26rem;
+  row-gap: 4rem;
+}
+
+.signup-container {
+  @include auth-container();
+}
+
+.signup-header {
+  color: variables.$primary-color;
+}
+
+.form-container {
+  @include form-container-mixin();
+}
+
+.form-image {
+  @include form-image-mixin();
+}
+
+.form-copy-large {
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+.form-copy-small {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-elements {
+  display: flex;
+  flex-direction: column;
+  width: 28rem;
+  padding: 3rem;
+  row-gap: 1.5rem;
+}
+
+.oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.oauth-button {
+  background-color: variables.$secondary-color;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.2rem;
+  border: 1px solid variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
+
+.oauth-button:hover {
+  cursor: pointer;
+  background-color: variables.$secondary-lighter;
+  transition: all 0.2s ease-in-out;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider-line {
+  border: 1px solid variables.$secondary-light;
+  width: 10rem;
+  height: 1px;
+}
+
+.divider-text {
+  color: variables.$secondary-darker;
+  padding: 0 0.5rem 0.15rem;
+  font-size: 0.8rem;
+}
+
+form {
+  display: flex;
+  color: variables.$primary-color;
+  flex-direction: column;
+  row-gap: 1.25rem;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  input {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.2rem;
+    border: 1px solid variables.$secondary-darker;
+  }
+
+  input:focus {
+    border: 1px solid variables.$accent-color;
+    outline: none;
+    box-shadow: 0 0 5px 0.5px rgba(0, 185, 229, 0.2);
+  }
+
+  p {
+    font-size: 0.8rem;
+    font-weight: 900;
+  }
+}
+
+.signup-button {
+  background-color: variables.$accent-color;
+  color: variables.$secondary-color;
+  padding: 0.5rem 0.75rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.signup-button:hover {
+  cursor: pointer;
+  background-color: variables.$accent-secondary;
+  transition: all 0.2s ease-in-out;
+}
+
+.members-container {
+  font-size: 0.9rem;
+  color: variables.$primary-color;
+}
+
+.link {
+  color: variables.$accent-color;
+}
+
+.terms-container {
+  color: variables.$primary-color;
+  font-size: 0.7rem;
+}
