@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import Image from '../types/Image.js';
 import ProjectDocument from '../types/ProjectDocument.js';
 
 const projectSchema = new Schema<ProjectDocument>(
@@ -32,6 +31,13 @@ const projectSchema = new Schema<ProjectDocument>(
       validate: [arrayLimit, '{PATH} cannot exceed 15 items'],
     },
     likes: { type: Number, default: 0 },
+    comments: [
+      {
+        author: Schema.Types.ObjectId,
+        content: String,
+        likes: Number,
+      },
+    ],
     images: [
       {
         url: { type: String, required: true },
