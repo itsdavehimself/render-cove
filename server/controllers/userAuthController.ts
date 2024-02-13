@@ -43,4 +43,36 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { loginUser, signupUser };
+const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
+  const { email, displayName } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      const token = createToken(existingUser._id);
+      res.status(200).json({
+        email: existingUser.email,
+        displayName: existingUser.displayName,
+        token,
+      });
+    } else {
+      const newUser = await User.create({
+        email,
+        password: 'dummy-password',
+        displayName,
+      });
+
+      const token = createToken(newUser._id);
+      res.status(200).json({
+        email: newUser.email,
+        displayName: newUser.displayName,
+        token,
+      });
+    }
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export { loginUser, signupUser, signUpWithOAuth };
