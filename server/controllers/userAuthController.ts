@@ -69,12 +69,12 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         token,
       });
     } else {
-      const newUser = await User.signup(
+      const newUser = await User.create({
         email,
-        'google-oauth-password',
+        password: 'GOOGLE_OAUTH_USED!',
         displayName,
-        true
-      );
+        oauthUsed: true,
+      });
 
       const token = createToken(newUser._id);
       res.status(200).json({
