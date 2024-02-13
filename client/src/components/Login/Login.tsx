@@ -7,12 +7,36 @@ import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<boolean>(false);
 
   const { login, error, isLoading } = useLogin();
 
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const emailCheck = (): boolean => {
+      if (email === '') {
+        return true;
+      }
+      return false;
+    };
+
+    const passwordCheck = (): boolean => {
+      if (password === '') {
+        return true;
+      }
+      return false;
+    };
+
+    if (emailCheck() || passwordCheck()) {
+      setEmailError(emailCheck());
+      setPasswordError(passwordCheck());
+      return;
+    }
+
+    setEmailError(false);
+    setPasswordError(false);
     await login(email, password);
   };
 
@@ -35,19 +59,32 @@ const Login: React.FC = () => {
             <h1 className={styles['login-header']}>Log In</h1>
             <div className={styles['input-container']}>
               <label htmlFor="email">Email</label>
-              <input type="email" onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type="email"
+                className={`${styles['signup-input']} ${emailError ? styles.error : ''} ${error ? styles.error : ''}`}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <div className={styles['input-error-message']}>
+                {emailError ? 'Please enter your email' : ''}
+              </div>
             </div>
             <div className={styles['input-container']}>
               <label htmlFor="password">Password</label>
               <input
                 type="password"
+                className={`${styles['signup-input']} ${passwordError ? styles.error : ''} ${error ? styles.error : ''}`}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <div className={styles['input-error-message']}>
+                {passwordError ? 'Please enter your password' : ''}
+              </div>
             </div>
             <button className={styles['signup-button']} disabled={isLoading}>
               Log In
             </button>
-            {error && <div>{error.toString()}</div>}
+            {error && (
+              <div className={styles['submit-error']}>{error.toString()}</div>
+            )}
           </form>
           <div className={styles.divider}>
             <div className={styles['divider-line']}></div>

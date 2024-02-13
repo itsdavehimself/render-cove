@@ -70,7 +70,7 @@
   flex-direction: column;
   width: 28rem;
   padding: 3rem;
-  row-gap: 1.5rem;
+  row-gap: 1rem;
 }
 
 .oauth-buttons {
@@ -128,22 +128,37 @@ form {
     font-weight: 700;
   }
 
-  input {
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.2rem;
-    border: 1px solid variables.$secondary-darker;
-  }
-
-  input:focus {
-    border: 1px solid variables.$accent-color;
-    outline: none;
-    box-shadow: 0 0 5px 0.5px rgba(0, 185, 229, 0.2);
-  }
-
   p {
     font-size: 0.8rem;
     font-weight: 900;
   }
+}
+
+.signup-input {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.2rem;
+  border: 1px solid variables.$secondary-darker;
+}
+
+.signup-input:focus {
+  border: 1px solid variables.$accent-color;
+  outline: none;
+  box-shadow: 0 0 5px 0.5px rgba(0, 185, 229, 0.2);
+}
+
+.error {
+  border: 1px solid variables.$error-color;
+  box-shadow: 0 0 5px 0.5px rgba(217, 83, 79, 0.2);
+}
+
+.error:focus {
+  border: 1px solid variables.$error-color;
+  box-shadow: 0 0 5px 0.5px rgba(217, 83, 79, 0.2);
+}
+
+.input-error-message {
+  font-size: 0.8rem;
+  color: variables.$error-color;
 }
 
 .signup-button {
@@ -160,6 +175,29 @@ form {
   cursor: pointer;
   background-color: variables.$accent-secondary;
   transition: all 0.2s ease-in-out;
+}
+
+.validation-container {
+  align-self: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 0.8rem;
+  column-gap: 3rem;
+}
+
+.validation {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr;
+}
+
+.submit-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid variables.$error-color;
+  padding: 0.5rem;
+  color: variables.$error-color;
+  font-size: 0.9rem;
 }
 
 .members-container {
