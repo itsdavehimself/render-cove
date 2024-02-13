@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import useSignUp from '../../hooks/useSignUp';
+import useOAuthSignUp from '../../hooks/useOAuthSignUp.js';
 import styles from './SignUp.module.scss';
 import { Link } from 'react-router-dom';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import FaceBookSVG from '../SVGComponents/FaceBookSVG';
 import GoogleSVG from '../SVGComponents/GoogleSVG';
 
 interface PasswordChecks {
@@ -16,11 +17,17 @@ interface PasswordChecks {
   symbol: boolean;
 }
 
+interface OAuthPayload extends JwtPayload {
+  email?: string;
+  name?: string;
+}
+
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [displayName, setDisplayName] = useState<string>('');
   const { signUp, error, isLoading } = useSignUp();
+  const { signUpWithOAuth } = useOAuthSignUp();
   const [passwordChecks, setPasswordChecks] = useState<PasswordChecks>({
     length: false,
     uppercase: false,
@@ -83,6 +90,38 @@ const SignUp: React.FC = () => {
     checkPassword();
   }, [password]);
 
+  const handleCallbackResponse = async (response: { credential: string }) => {
+    const userObject: OAuthPayload = jwtDecode(response.credential);
+    const email = userObject.email;
+    const displayName = userObject.name;
+    console.log('email', email);
+    console.log('display', displayName);
+    if (email && displayName) {
+      console.log('hi');
+      await signUpWithOAuth(email, displayName);
+      console.log('bye');
+    }
+  };
+
+  const handleGoogleSignIn = (): void => {
+    document.cookie = `g_state=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+
+    google.accounts.id.prompt();
+  };
+
+  useEffect(() => {
+    const initGoogleSignIn = (): void => {
+      /* global google*/
+      google.accounts.id.initialize({
+        client_id:
+          '43377408457-0hfctmp1to5dl1ekr8hbvbqnv2l8jlmq.apps.googleusercontent.com',
+        callback: handleCallbackResponse,
+      });
+    };
+
+    initGoogleSignIn();
+  }, []);
+
   return (
     <div className={styles['signup-container']}>
       <div className={styles['form-container']}>
@@ -100,13 +139,13 @@ const SignUp: React.FC = () => {
         <div className={styles['form-elements']}>
           <h1 className={styles['signup-header']}>Join RenderCove</h1>
           <div className={styles['oauth-buttons']}>
-            <button className={styles['oauth-button']}>
+            <button
+              className={styles['oauth-button']}
+              onClick={handleGoogleSignIn}
+              disabled={isLoading}
+            >
               <GoogleSVG />
               Continue with Google
-            </button>
-            <button className={styles['oauth-button']}>
-              <FaceBookSVG />
-              Continue with Facebook
             </button>
           </div>
           <div className={styles.divider}>

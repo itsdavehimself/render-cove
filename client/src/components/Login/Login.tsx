@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useLogin from '../../hooks/useLogin';
 import styles from './Login.module.scss';
 import { Link } from 'react-router-dom';
 import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 import GoogleSVG from '../SVGComponents/GoogleSVG';
-import FaceBookSVG from '../SVGComponents/FaceBookSVG';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+import useOAuthSignUp from '../../hooks/useOAuthSignUp';
+
+interface OAuthPayload extends JwtPayload {
+  email?: string;
+  name?: string;
+}
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -13,6 +19,7 @@ const Login: React.FC = () => {
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const { login, error, isLoading } = useLogin();
+  const { signUpWithOAuth } = useOAuthSignUp();
 
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +48,38 @@ const Login: React.FC = () => {
     setPasswordError(false);
     await login(email, password);
   };
+
+  const handleCallbackResponse = async (response: { credential: string }) => {
+    const userObject: OAuthPayload = jwtDecode(response.credential);
+    const email = userObject.email;
+    const displayName = userObject.name;
+    console.log('email', email);
+    console.log('display', displayName);
+    if (email && displayName) {
+      console.log('hi');
+      await signUpWithOAuth(email, displayName);
+      console.log('bye');
+    }
+  };
+
+  const handleGoogleSignIn = (): void => {
+    document.cookie = `g_state=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+
+    google.accounts.id.prompt();
+  };
+
+  useEffect(() => {
+    const initGoogleSignIn = (): void => {
+      /* global google*/
+      google.accounts.id.initialize({
+        client_id:
+          '43377408457-0hfctmp1to5dl1ekr8hbvbqnv2l8jlmq.apps.googleusercontent.com',
+        callback: handleCallbackResponse,
+      });
+    };
+
+    initGoogleSignIn();
+  }, []);
 
   return (
     <div className={styles['login-container']}>
@@ -94,13 +133,12 @@ const Login: React.FC = () => {
             <div className={styles['divider-line']}></div>
           </div>
           <div className={styles['oauth-buttons']}>
-            <button className={styles['oauth-button']}>
+            <button
+              className={styles['oauth-button']}
+              onClick={handleGoogleSignIn}
+            >
               <GoogleSVG />
               Continue with Google
-            </button>
-            <button className={styles['oauth-button']}>
-              <FaceBookSVG />
-              Continue with Facebook
             </button>
           </div>
           <div className={styles['members-container']}>
