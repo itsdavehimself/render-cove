@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useSignUp from '../../hooks/useSignUp';
 import styles from './SignUp.module.scss';
 import { Link } from 'react-router-dom';
+import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -18,6 +19,7 @@ const SignUp: React.FC = () => {
     <div className={styles['signup-container']}>
       <div className={styles['form-container']}>
         <div className={styles['form-image']}>
+          <img className={styles['background-image']} src={formImage}></img>
           <h3 className={styles['form-copy-large']}>
             EXPERIENCE THE FUTURE OF AI-DRIVEN EXPRESSION
           </h3>

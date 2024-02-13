@@ -22,10 +22,12 @@
   justify-content: center;
   align-items: center;
   padding: 3rem;
-  background-color: variables.$accent-color;
+  background-color: variables.$primary-color;
   height: 100%;
   width: 26rem;
   row-gap: 4rem;
+  overflow: hidden;
+  position: relative;
 }
 
 .signup-container {
@@ -44,12 +46,21 @@
   @include form-image-mixin();
 }
 
+.background-image {
+  position: absolute;
+  height: 100%;
+  width: auto;
+  opacity: 0.5;
+}
+
 .form-copy-large {
+  position: relative;
   font-size: 2.5rem;
   font-weight: 900;
 }
 
 .form-copy-small {
+  position: relative;
   font-size: 0.9rem;
   font-weight: 500;
 }

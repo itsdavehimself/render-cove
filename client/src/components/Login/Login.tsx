@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useLogin from '../../hooks/useLogin';
 import styles from './Login.module.scss';
 import { Link } from 'react-router-dom';
+import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -19,6 +20,7 @@ const Login: React.FC = () => {
     <div className={styles['login-container']}>
       <div className={styles['form-container']}>
         <div className={styles['form-image']}>
+          <img className={styles['background-image']} src={formImage}></img>
           <h3 className={styles['form-copy-large']}>
             EXPERIENCE THE FUTURE OF AI-DRIVEN EXPRESSION
           </h3>
