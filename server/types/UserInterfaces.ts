@@ -4,6 +4,7 @@ interface UserDocument {
   email: string;
   password: string;
   displayName: string;
+  avatarUrl: string;
   summary?: string;
   skills?: string[];
   oauthUsed: boolean;
