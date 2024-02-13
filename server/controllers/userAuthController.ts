@@ -24,8 +24,9 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     const user: UserDocument = await User.login(email, password);
     const token: string = createToken(user._id);
     const displayName = user.displayName;
+    const avatarUrl = user.avatarUrl;
 
-    res.status(200).json({ email, displayName, token });
+    res.status(200).json({ email, displayName, avatarUrl, token });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
@@ -42,15 +43,16 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       false
     );
     const token: string = createToken(user._id);
+    const avatarUrl = user.avatarUrl;
 
-    res.status(200).json({ email, displayName, token });
+    res.status(200).json({ email, displayName, avatarUrl, token });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
 };
 
 const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
-  const { email, displayName } = req.body;
+  const { email, displayName, userAvatar } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -66,6 +68,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
       res.status(200).json({
         email: existingUser.email,
         displayName: existingUser.displayName,
+        avatarUrl: existingUser.avatarUrl,
         token,
       });
     } else {
@@ -73,6 +76,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         email,
         password: 'GOOGLE_OAUTH_USED!',
         displayName,
+        avatarUrl: userAvatar,
         oauthUsed: true,
       });
 
@@ -80,6 +84,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
       res.status(200).json({
         email: newUser.email,
         displayName: newUser.displayName,
+        avatarUrl: newUser.avatarUrl,
         token,
       });
     }
