@@ -96,7 +96,7 @@ const SignUp: React.FC = () => {
     const email = userObject.email;
     const displayName = userObject.name;
     const userAvatar = userObject.picture;
-    if (email && displayName) {
+    if (email && displayName && userAvatar) {
       await signUpWithOAuth(email, displayName, userAvatar);
     }
   };
