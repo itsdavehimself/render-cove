@@ -10,6 +10,7 @@ import useOAuthSignUp from '../../hooks/useOAuthSignUp';
 interface OAuthPayload extends JwtPayload {
   email?: string;
   name?: string;
+  picture?: string;
 }
 
 const Login: React.FC = () => {
@@ -53,8 +54,10 @@ const Login: React.FC = () => {
     const userObject: OAuthPayload = jwtDecode(response.credential);
     const email = userObject.email;
     const displayName = userObject.name;
-    if (email && displayName) {
-      await signUpWithOAuth(email, displayName);
+    const userAvatar = userObject.picture;
+
+    if (email && displayName && userAvatar) {
+      await signUpWithOAuth(email, displayName, userAvatar);
     }
   };
 

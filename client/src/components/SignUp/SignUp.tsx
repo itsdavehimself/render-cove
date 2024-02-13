@@ -20,6 +20,7 @@ interface PasswordChecks {
 interface OAuthPayload extends JwtPayload {
   email?: string;
   name?: string;
+  picture?: string;
 }
 
 const SignUp: React.FC = () => {
@@ -94,8 +95,9 @@ const SignUp: React.FC = () => {
     const userObject: OAuthPayload = jwtDecode(response.credential);
     const email = userObject.email;
     const displayName = userObject.name;
+    const userAvatar = userObject.picture;
     if (email && displayName) {
-      await signUpWithOAuth(email, displayName);
+      await signUpWithOAuth(email, displayName, userAvatar);
     }
   };
 

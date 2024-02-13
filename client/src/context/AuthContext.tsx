@@ -11,6 +11,7 @@ import { AuthAction } from '../types/ActionTypes';
 interface UserType {
   email: string;
   displayName: string;
+  avatarUrl: string;
   token: string;
 }
 

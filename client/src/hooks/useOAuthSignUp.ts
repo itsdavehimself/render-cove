@@ -5,7 +5,11 @@ const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
 interface OAuthSignUpResult {
-  signUpWithOAuth: (email: string, displayName: string) => Promise<void>;
+  signUpWithOAuth: (
+    email: string,
+    displayName: string,
+    userAvatar: string,
+  ) => Promise<void>;
   isLoadingOAuth: boolean;
   errorOAuth: Error | null;
 }
@@ -18,6 +22,7 @@ const useOAuthSignUp = (): OAuthSignUpResult => {
   const signUpWithOAuth = async (
     email: string,
     displayName: string,
+    userAvatar: string,
   ): Promise<void> => {
     setIsLoadingOAuth(true);
     setErrorOAuth(null);
@@ -27,7 +32,7 @@ const useOAuthSignUp = (): OAuthSignUpResult => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, displayName }),
+      body: JSON.stringify({ email, displayName, userAvatar }),
     });
 
     const signUpJSON = await signUpResponse.json();
