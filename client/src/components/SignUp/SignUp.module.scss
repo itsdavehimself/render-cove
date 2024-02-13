@@ -80,11 +80,15 @@
 }
 
 .oauth-button {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr;
+  align-items: center;
   background-color: variables.$secondary-color;
   padding: 0.5rem 0.75rem;
   border-radius: 0.2rem;
   border: 1px solid variables.$secondary-darker;
   transition: all 0.2s ease-in-out;
+  font-size: 0.9rem;
 }
 
 .oauth-button:hover {
@@ -207,6 +211,8 @@ form {
 
 .link {
   color: variables.$accent-color;
+  text-decoration: none;
+  font-weight: 700;
 }
 
 .terms-container {

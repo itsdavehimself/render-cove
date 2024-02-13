@@ -3,6 +3,8 @@ import useLogin from '../../hooks/useLogin';
 import styles from './Login.module.scss';
 import { Link } from 'react-router-dom';
 import formImage from '../../assets/images/jungle-cyberpunk-city.png';
+import GoogleSVG from '../SVGComponents/GoogleSVG';
+import FaceBookSVG from '../SVGComponents/FaceBookSVG';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -93,9 +95,11 @@ const Login: React.FC = () => {
           </div>
           <div className={styles['oauth-buttons']}>
             <button className={styles['oauth-button']}>
+              <GoogleSVG />
               Continue with Google
             </button>
             <button className={styles['oauth-button']}>
+              <FaceBookSVG />
               Continue with Facebook
             </button>
           </div>

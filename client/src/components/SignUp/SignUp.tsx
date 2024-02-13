@@ -6,6 +6,8 @@ import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import FaceBookSVG from '../SVGComponents/FaceBookSVG';
+import GoogleSVG from '../SVGComponents/GoogleSVG';
 
 interface PasswordChecks {
   length: boolean;
@@ -99,9 +101,11 @@ const SignUp: React.FC = () => {
           <h1 className={styles['signup-header']}>Join RenderCove</h1>
           <div className={styles['oauth-buttons']}>
             <button className={styles['oauth-button']}>
+              <GoogleSVG />
               Continue with Google
             </button>
             <button className={styles['oauth-button']}>
+              <FaceBookSVG />
               Continue with Facebook
             </button>
           </div>
