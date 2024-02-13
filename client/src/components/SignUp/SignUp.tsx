@@ -94,8 +94,6 @@ const SignUp: React.FC = () => {
     const userObject: OAuthPayload = jwtDecode(response.credential);
     const email = userObject.email;
     const displayName = userObject.name;
-    console.log('email', email);
-    console.log('display', displayName);
     if (email && displayName) {
       await signUpWithOAuth(email, displayName);
     }
