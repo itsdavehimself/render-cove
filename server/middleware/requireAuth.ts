@@ -8,7 +8,11 @@ interface AuthRequest extends Request {
 
 const jwtSecret: string = process.env.JWT_SECRET || '';
 
-const requireAuth = async (req, res, next) => {
+const requireAuth = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
