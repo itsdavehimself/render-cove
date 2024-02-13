@@ -27,7 +27,7 @@ const SignUp: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [displayName, setDisplayName] = useState<string>('');
   const { signUp, error, isLoading } = useSignUp();
-  const { signUpWithOAuth } = useOAuthSignUp();
+  const { signUpWithOAuth, errorOAuth } = useOAuthSignUp();
   const [passwordChecks, setPasswordChecks] = useState<PasswordChecks>({
     length: false,
     uppercase: false,
@@ -97,9 +97,7 @@ const SignUp: React.FC = () => {
     console.log('email', email);
     console.log('display', displayName);
     if (email && displayName) {
-      console.log('hi');
       await signUpWithOAuth(email, displayName);
-      console.log('bye');
     }
   };
 
@@ -163,10 +161,11 @@ const SignUp: React.FC = () => {
                 autoComplete="true"
                 placeholder="E.g. john@mccarthy.com"
                 onChange={(e) => setEmail(e.target.value)}
-                className={`${styles['signup-input']} ${emailError ? styles.error : ''}`}
+                className={`${styles['signup-input']} ${emailError || errorOAuth ? styles.error : ''}`}
               />
               <div className={styles['input-error-message']}>
                 {emailError ? 'Please enter a valid email' : ''}
+                {errorOAuth && <>{errorOAuth.toString()}</>}
               </div>
             </div>
             <div className={styles['input-container']}>

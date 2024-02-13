@@ -19,7 +19,7 @@ const Login: React.FC = () => {
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const { login, error, isLoading } = useLogin();
-  const { signUpWithOAuth } = useOAuthSignUp();
+  const { signUpWithOAuth, errorOAuth } = useOAuthSignUp();
 
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,9 +56,7 @@ const Login: React.FC = () => {
     console.log('email', email);
     console.log('display', displayName);
     if (email && displayName) {
-      console.log('hi');
       await signUpWithOAuth(email, displayName);
-      console.log('bye');
     }
   };
 
@@ -102,11 +100,12 @@ const Login: React.FC = () => {
               <label htmlFor="email">Email</label>
               <input
                 type="email"
-                className={`${styles['signup-input']} ${emailError ? styles.error : ''} ${error ? styles.error : ''}`}
+                className={`${styles['signup-input']} ${emailError ? styles.error : ''} ${error || errorOAuth ? styles.error : ''}`}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <div className={styles['input-error-message']}>
                 {emailError ? 'Please enter your email' : ''}
+                {errorOAuth && <>{errorOAuth.toString()}</>}
               </div>
             </div>
             <div className={styles['input-container']}>

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 import { UserDocument } from '../types/UserInterfaces.js';
+import { error } from 'console';
 
 const jwtSecret: string = process.env.JWT_SECRET || '';
 
@@ -34,7 +35,12 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password, displayName } = req.body;
 
   try {
-    const user: UserDocument = await User.signup(email, password, displayName);
+    const user: UserDocument = await User.signup(
+      email,
+      password,
+      displayName,
+      false
+    );
     const token: string = createToken(user._id);
 
     res.status(200).json({ email, displayName, token });
@@ -49,6 +55,12 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
   try {
     const existingUser = await User.findOne({ email });
 
+    if (existingUser && existingUser.oauthUsed === false) {
+      throw new Error(
+        'This account was creating using an email. Please try logging in using your email and password.'
+      );
+    }
+
     if (existingUser) {
       const token = createToken(existingUser._id);
       res.status(200).json({
@@ -57,11 +69,12 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         token,
       });
     } else {
-      const newUser = await User.create({
+      const newUser = await User.signup(
         email,
-        password: 'google-oauth-password',
+        'google-oauth-password',
         displayName,
-      });
+        true
+      );
 
       const token = createToken(newUser._id);
       res.status(200).json({
@@ -71,7 +84,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
       });
     }
   } catch (error: any) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
 };
 

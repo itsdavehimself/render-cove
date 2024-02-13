@@ -32,6 +32,7 @@ const userSchema = new Schema<UserDocument>(
         trim: true,
       },
     ],
+    oauthUsed: { type: Boolean, required: true },
   },
   { timestamps: true }
 );
@@ -39,7 +40,8 @@ const userSchema = new Schema<UserDocument>(
 userSchema.statics.signup = async function (
   email,
   password,
-  displayName
+  displayName,
+  oauthUsed
 ): Promise<UserDocument> {
   if (!email || !password || !displayName) {
     throw Error('All fields are required.');
@@ -66,6 +68,7 @@ userSchema.statics.signup = async function (
     email,
     password: hash,
     displayName,
+    oauthUsed,
   });
 
   return user;
