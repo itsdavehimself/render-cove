@@ -59,7 +59,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
     } else {
       const newUser = await User.create({
         email,
-        password: 'dummy-password',
+        password: 'google-oauth-password',
         displayName,
       });
 
@@ -71,7 +71,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
       });
     }
   } catch (error: any) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
