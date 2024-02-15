@@ -3,7 +3,7 @@ import useLogin from '../../hooks/useLogin';
 import styles from './Login.module.scss';
 import { Link } from 'react-router-dom';
 import formImage from '../../assets/images/jungle-cyberpunk-city.png';
-import GoogleSVG from '../SVGComponents/GoogleSVG';
+import GoogleSVG from '../../components/SVGComponents/GoogleSVG';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import useOAuthSignUp from '../../hooks/useOAuthSignUp';
 

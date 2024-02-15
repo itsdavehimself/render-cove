@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useSignUp from '../../hooks/useSignUp';
+import useSignUp from '../../hooks/useSignUp.js';
 import useOAuthSignUp from '../../hooks/useOAuthSignUp.js';
 import styles from './SignUp.module.scss';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import GoogleSVG from '../SVGComponents/GoogleSVG';
+import GoogleSVG from '../../components/SVGComponents/GoogleSVG.js';
 
 interface PasswordChecks {
   length: boolean;
