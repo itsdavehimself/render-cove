@@ -8,6 +8,7 @@
   color: variables.$primary-color;
   padding: 0.35rem 1rem;
   font-size: 1rem;
+  font-weight: 500;
   transition: all 0.2s ease-in-out;
   column-gap: 0.5rem;
 }
@@ -56,7 +57,7 @@
 .logo {
   color: variables.$accent-color;
   font-size: 2rem;
-  font-weight: 900;
+  font-weight: 800;
   cursor: pointer;
 }
 
