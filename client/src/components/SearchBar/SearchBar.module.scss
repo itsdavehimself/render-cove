@@ -1,0 +1,44 @@
+@use 'variables';
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  width: 40rem;
+  height: 2.5rem;
+  background-color: variables.$primary-color;
+  border-radius: 0.25rem;
+  border: 1.5px solid variables.$primary-lighter;
+  align-items: center;
+  padding: 0 0.75rem;
+  transition: all 0.2s ease-in-out;
+
+  input {
+    border: none;
+    background-color: transparent;
+    color: variables.$secondary-color;
+    padding: 0 0.75rem;
+    width: 100%;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  input::placeholder {
+    color: variables.$primary-lighter;
+  }
+}
+
+.hovering {
+  border: 1.5px solid variables.$primary-lightest;
+  transition: all 0.2s ease-in-out;
+}
+
+.focused {
+  border: 1.5px solid variables.$accent-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.search-icon {
+  color: variables.$primary-lighter;
+}
