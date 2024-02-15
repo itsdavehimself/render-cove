@@ -13,19 +13,21 @@ import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../SearchBar/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [isUserPopOutShowing, setIsUserPopOutShowing] =
     useState<boolean>(false);
   const { logOut } = useLogOut();
   const { user } = useAuthContext();
+  const navigate = useNavigate();
 
   const handleLogout = (): void => {
     logOut();
   };
 
   const handleEditProfile = (): void => {
-    console.log('edit profile');
+    navigate('/profile/edit');
   };
 
   const logOutSymbol: React.ReactNode = (
