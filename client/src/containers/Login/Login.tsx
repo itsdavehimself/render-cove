@@ -95,7 +95,7 @@ const Login: React.FC = () => {
           </p>
         </div>
         <div className={styles['form-elements']}>
-          <form onSubmit={handleSubmitLogin}>
+          <form onSubmit={handleSubmitLogin} noValidate>
             <h1 className={styles['login-header']}>Log In</h1>
             <div className={styles['input-container']}>
               <label htmlFor="email">Email</label>

@@ -151,7 +151,7 @@ const SignUp: React.FC = () => {
             <span className={styles['divider-text']}>or</span>
             <div className={styles['divider-line']}></div>
           </div>
-          <form onSubmit={handleSubmitSignUp}>
+          <form onSubmit={handleSubmitSignUp} noValidate>
             <div className={styles['input-container']}>
               <label htmlFor="email">Add your email</label>
               <input
