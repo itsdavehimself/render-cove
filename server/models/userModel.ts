@@ -37,10 +37,33 @@ const userSchema = new Schema<UserDocument>(
         trim: true,
       },
     ],
+    socials: {
+      type: [
+        {
+          type: String,
+          trim: true,
+        },
+      ],
+      validate: [socialsLimit, '{PATH} cannot exceed 15 items'],
+    },
+    location: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    tagline: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     oauthUsed: { type: Boolean, required: true },
   },
   { timestamps: true }
 );
+
+function socialsLimit(val: string[]) {
+  return val.length <= 5;
+}
 
 userSchema.statics.signup = async function (
   email,

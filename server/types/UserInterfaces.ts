@@ -7,8 +7,12 @@ interface UserDocument {
   avatarUrl: string;
   summary?: string;
   skills?: string[];
+  socials?: string[];
+  location?: string[];
+  tagline?: string[];
   oauthUsed: boolean;
   _id: string;
+  createdAt: Date;
 }
 
 interface UserModel extends mongoose.Model<UserDocument> {
