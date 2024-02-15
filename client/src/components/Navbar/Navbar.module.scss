@@ -1,0 +1,133 @@
+@use 'variables';
+
+@mixin colored-button {
+  display: flex;
+  background-color: variables.$accent-color;
+  border: none;
+  border-radius: 0.25rem;
+  color: variables.$primary-color;
+  padding: 0.35rem 1rem;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  column-gap: 0.5rem;
+}
+
+@mixin colored-button-hover {
+  background-color: variables.$accent-tertiary;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.navbar {
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  align-items: center;
+  height: 5rem;
+  padding: 0 2rem;
+}
+
+.left-third-nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+  font-size: 1.1rem;
+
+  button {
+    background-color: transparent;
+    border: none;
+    color: variables.$primary-lighter;
+    transition: all 0.2s ease-in-out;
+  }
+
+  button:hover {
+    color: variables.$primary-lightest;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.logo {
+  color: variables.$accent-color;
+  font-size: 2rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.right-third-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 2rem;
+}
+
+.login {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+
+.nav-link {
+  text-decoration: none;
+}
+
+.login-button,
+.create-project-button {
+  @include colored-button();
+}
+
+.login-button:hover,
+.create-project-button:hover {
+  @include colored-button-hover();
+}
+
+.signup-button {
+  @include colored-button();
+  background-color: variables.$primary-light;
+  color: variables.$secondary-color;
+}
+
+.signup-button:hover {
+  @include colored-button-hover();
+  background-color: variables.$primary-lighter;
+  color: variables.$secondary-color;
+}
+
+.notification-icons {
+  display: flex;
+  column-gap: 2rem;
+  font-size: 1.2rem;
+}
+
+.notification-bell,
+.notification-envelope {
+  color: variables.$primary-lighter;
+  transition: all 0.2s ease-in-out;
+}
+
+.notification-bell:hover,
+.notification-envelope:hover {
+  color: variables.$primary-lightest;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.avatar-container {
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.avatar-container:hover {
+  cursor: pointer;
+}
+
+.user-avatar {
+  height: 38px;
+  width: auto;
+}
