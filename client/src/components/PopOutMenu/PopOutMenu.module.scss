@@ -1,0 +1,39 @@
+@use 'variables';
+
+.popout-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: variables.$primary-alt;
+  padding: 0.5rem;
+  border-radius: 0.15rem;
+  top: 4rem;
+  right: 2rem;
+}
+
+.popout-button {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr;
+  align-items: center;
+  column-gap: 1rem;
+  border: none;
+  background-color: variables.$primary-alt;
+  color: variables.$secondary-color;
+  border-radius: 0.15rem;
+  padding: 0.25rem 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.popout-button > :nth-child(2) {
+  justify-self: start;
+}
+
+.popout-button:hover {
+  background-color: variables.$primary-light;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.popout-button-icon {
+  width: 20px;
+}
