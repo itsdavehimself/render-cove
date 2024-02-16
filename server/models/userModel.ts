@@ -21,6 +21,11 @@ const userSchema = new Schema<UserDocument>(
       required: true,
       trim: true,
     },
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     avatarUrl: {
       type: String,
       default:
@@ -68,10 +73,11 @@ function socialsLimit(val: string[]) {
 userSchema.statics.signup = async function (
   email,
   password,
+  username,
   displayName,
   oauthUsed
 ): Promise<UserDocument> {
-  if (!email || !password || !displayName) {
+  if (!email || !password || !username) {
     throw Error('All fields are required.');
   }
 
@@ -89,12 +95,19 @@ userSchema.statics.signup = async function (
     throw Error('Email already in use.');
   }
 
+  const usernameExists = await this.findOne({ username });
+
+  if (usernameExists) {
+    throw Error('Username already in use.');
+  }
+
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
   const user = await this.create({
     email,
     password: hash,
+    username,
     displayName,
     oauthUsed,
   });
