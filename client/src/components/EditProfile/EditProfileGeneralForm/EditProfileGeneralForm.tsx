@@ -5,14 +5,14 @@ import useUpdateUser from '../../../hooks/useUserUpdate';
 
 const EditProfileGeneralForm: React.FC = () => {
   const { user } = useAuthContext();
-  const { update, error, isLoading } = useUpdateUser();
+  const { updateUser, error, isLoading } = useUpdateUser();
   const [displayName, setDisplayName] = useState<string>(user.displayName);
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>(user.username);
   const [usernameError, setUsernameError] = useState<boolean>(false);
   const [displayNameError, setDisplayNameError] = useState<boolean>(false);
 
   const validateUsername = (username: string): boolean => {
-    const usernameRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const usernameRegex = /^[a-zA-Z0-9]{5,16}$/;
     return usernameRegex.test(username);
   };
 
@@ -36,7 +36,7 @@ const EditProfileGeneralForm: React.FC = () => {
     setUsernameError(false);
     setDisplayNameError(false);
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    update(formData);
+    updateUser(formData);
   };
 
   return (
@@ -80,7 +80,7 @@ const EditProfileGeneralForm: React.FC = () => {
               Username
             </label>
             <input
-              className={`${styles['edit-profile-input']} ${usernameError ? styles.error : ''}`}
+              className={`${styles['edit-profile-input']} ${usernameError || error ? styles.error : ''}`}
               type="text"
               id="username"
               name="username"
@@ -89,12 +89,17 @@ const EditProfileGeneralForm: React.FC = () => {
             ></input>
             {usernameError && (
               <div className={styles['input-error-message']}>
-                Username exists. Please choose another one.
+                Username must be between 5-16 characters. Numbers and letters
+                only.{' '}
+              </div>
+            )}
+            {!usernameError && error && (
+              <div className={styles['input-error-message']}>
+                {error.toString()}
               </div>
             )}
           </div>
         </div>
-        {error && <div>{error.toString()}</div>}
         <button className={styles['save-edit-button']} disabled={isLoading}>
           Save
         </button>
