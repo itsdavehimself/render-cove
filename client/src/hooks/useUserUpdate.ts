@@ -10,7 +10,7 @@ const useUpdateUser = () => {
 
   const { user, dispatch } = useAuthContext();
 
-  const update = async (formData: FormData) => {
+  const updateUser = async (formData: FormData) => {
     setIsLoading(true);
     setError(null);
 
@@ -31,7 +31,8 @@ const useUpdateUser = () => {
     const updateJSON = await updateResponse.json();
 
     if (!updateResponse.ok) {
-      setError(new Error(updateJSON));
+      setError(updateJSON.error);
+      setIsLoading(false);
     }
 
     if (updateResponse.ok) {
@@ -46,7 +47,7 @@ const useUpdateUser = () => {
     }
   };
 
-  return { update, error, isLoading };
+  return { updateUser, error, isLoading };
 };
 
 export default useUpdateUser;
