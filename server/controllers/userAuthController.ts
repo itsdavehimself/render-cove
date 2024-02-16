@@ -25,8 +25,12 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     const token: string = createToken(user._id);
     const displayName = user.displayName;
     const avatarUrl = user.avatarUrl;
+    const createdAt = user.createdAt;
+    const userId = user._id;
 
-    res.status(200).json({ email, displayName, avatarUrl, token });
+    res
+      .status(200)
+      .json({ email, displayName, avatarUrl, createdAt, userId, token });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
@@ -44,8 +48,12 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
     );
     const token: string = createToken(user._id);
     const avatarUrl = user.avatarUrl;
+    const createdAt = user.createdAt;
+    const userId = user._id;
 
-    res.status(200).json({ email, displayName, avatarUrl, token });
+    res
+      .status(200)
+      .json({ email, displayName, avatarUrl, createdAt, userId, token });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
@@ -69,6 +77,8 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         email: existingUser.email,
         displayName: existingUser.displayName,
         avatarUrl: existingUser.avatarUrl,
+        createdAt: existingUser.createdAt,
+        userId: existingUser._id,
         token,
       });
     } else {
@@ -85,6 +95,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         email: newUser.email,
         displayName: newUser.displayName,
         avatarUrl: newUser.avatarUrl,
+        userId: newUser._id,
         token,
       });
     }
