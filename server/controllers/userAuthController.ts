@@ -89,6 +89,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
       const token = createToken(existingUser._id);
       res.status(200).json({
         email: existingUser.email,
+        username: existingUser.username,
         displayName: existingUser.displayName,
         avatarUrl: existingUser.avatarUrl,
         createdAt: existingUser.createdAt,
