@@ -20,7 +20,7 @@ const Login: React.FC = () => {
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const { login, error, isLoading } = useLogin();
-  const { signUpWithOAuth, errorOAuth } = useOAuthSignUp();
+  const { checkEmailOAuth, errorOAuth } = useOAuthSignUp();
 
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
     const userAvatar = userObject.picture;
 
     if (email && displayName && userAvatar) {
-      await signUpWithOAuth(email, displayName, userAvatar);
+      await checkEmailOAuth(email, displayName, userAvatar);
     }
   };
 
