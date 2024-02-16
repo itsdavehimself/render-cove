@@ -26,9 +26,9 @@ interface OAuthPayload extends JwtPayload {
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [displayName, setDisplayName] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const { signUp, error, isLoading } = useSignUp();
-  const { signUpWithOAuth, errorOAuth } = useOAuthSignUp();
+  const { checkEmailOAuth, errorOAuth } = useOAuthSignUp();
   const [passwordChecks, setPasswordChecks] = useState<PasswordChecks>({
     length: false,
     uppercase: false,
@@ -37,7 +37,7 @@ const SignUp: React.FC = () => {
   });
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
-  const [displayNameError, setDisplayNameError] = useState<boolean>(false);
+  const [usernameError, setUsernameError] = useState<boolean>(false);
 
   const xmark = <FontAwesomeIcon icon={faXmark} size="xs" />;
   const check = <FontAwesomeIcon icon={faCheck} size="xs" />;
@@ -47,9 +47,9 @@ const SignUp: React.FC = () => {
     return emailRegex.test(email);
   };
 
-  const validateDisplayName = (displayName: string): boolean => {
-    const displayNameRegex = /^[a-zA-Z0-9\s]{1,20}$/;
-    return displayNameRegex.test(displayName);
+  const validateUsername = (username: string): boolean => {
+    const usernameRegex = /^[a-zA-Z0-9]{5,16}$/;
+    return usernameRegex.test(username);
   };
 
   const handleSubmitSignUp = async (e: React.FormEvent) => {
@@ -59,18 +59,18 @@ const SignUp: React.FC = () => {
       (check) => !check,
     );
     const emailCheckFailed = !validateEmail(email);
-    const displayNameCheckFailed = !validateDisplayName(displayName);
+    const usernameCheckFailed = !validateUsername(username);
 
-    if (passwordCheckFailed || emailCheckFailed || displayNameCheckFailed) {
+    if (passwordCheckFailed || emailCheckFailed || usernameCheckFailed) {
       setPasswordError(passwordCheckFailed);
       setEmailError(emailCheckFailed);
-      setDisplayNameError(displayNameCheckFailed);
+      setUsernameError(usernameCheckFailed);
       return;
     }
 
     setPasswordError(false);
     setEmailError(false);
-    await signUp(email, password, displayName);
+    await signUp(email, password, username);
   };
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const SignUp: React.FC = () => {
     const displayName = userObject.name;
     const userAvatar = userObject.picture;
     if (email && displayName && userAvatar) {
-      await signUpWithOAuth(email, displayName, userAvatar);
+      await checkEmailOAuth(email, displayName, userAvatar);
     }
   };
 
@@ -169,15 +169,19 @@ const SignUp: React.FC = () => {
               </div>
             </div>
             <div className={styles['input-container']}>
-              <label htmlFor="displayName">Choose a display name</label>
+              <label htmlFor="username">Choose a username</label>
               <input
-                id="displayName"
-                name="displayName"
+                id="username"
+                name="username"
                 type="text"
-                placeholder="E.g. John McCarthy"
-                onChange={(e) => setDisplayName(e.target.value)}
-                className={`${styles['signup-input']} ${displayNameError ? styles.error : ''}`}
+                onChange={(e) => setUsername(e.target.value)}
+                className={`${styles['signup-input']} ${usernameError ? styles.error : ''}`}
               />
+              <div className={styles['input-error-message']}>
+                {usernameError
+                  ? 'Username must be between 5-16 characters. Letters and numbers only.'
+                  : ''}
+              </div>
             </div>
             <div className={styles['input-container']}>
               <label htmlFor="password">Create a password</label>
