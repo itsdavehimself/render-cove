@@ -64,6 +64,20 @@ const updateUser = async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ message: 'Invalid user ID.' });
     }
 
+    if (req.body.username) {
+      const newUsername = req.body.username;
+      console.log(newUsername);
+      const usernameExists: UserDocument | null = await User.findOne({
+        username: newUsername,
+      });
+
+      if (usernameExists) {
+        return res
+          .status(400)
+          .json({ error: 'Username exists. Please try another username.' });
+      }
+    }
+
     const user: UserDocument | null = await User.findOneAndUpdate(
       { _id: id },
       { ...req.body },
