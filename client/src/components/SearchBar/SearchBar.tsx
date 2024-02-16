@@ -20,12 +20,10 @@ const SearchBar: React.FC = () => {
   };
 
   const focusSearch = (): void => {
-    console.log('hi');
     setIsSearchFocused(true);
   };
 
   const blurSearch = (): void => {
-    console.log('bye');
     setIsSearchFocused(false);
   };
 
