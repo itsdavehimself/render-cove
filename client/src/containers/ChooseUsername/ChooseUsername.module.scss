@@ -1,0 +1,14 @@
+@use 'variables';
+@use '../SignUp/SignUp.module.scss' as signup;
+
+.choose-username-container {
+  @include signup.auth-container();
+}
+
+.form-container {
+  @include signup.form-container-mixin();
+}
+
+.form-image {
+  @include signup.form-image-mixin();
+}
