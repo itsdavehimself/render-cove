@@ -42,6 +42,12 @@ const userSchema = new Schema<UserDocument>(
         trim: true,
       },
     ],
+    software: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     socials: {
       type: [
         {

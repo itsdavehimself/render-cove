@@ -8,6 +8,7 @@ interface UserDocument {
   avatarUrl: string;
   summary?: string;
   skills?: string[];
+  software?: string[];
   socials?: string[];
   location?: string[];
   tagline?: string[];
