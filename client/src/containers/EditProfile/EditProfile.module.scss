@@ -1,0 +1,67 @@
+@use 'variables';
+
+.edit-profile-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.edit-profile-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  width: 70rem;
+  column-gap: 1.5rem;
+}
+
+.edit-profile-sidebar {
+  position: sticky;
+  top: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: variables.$primary-color;
+  height: 46rem;
+}
+
+.edit-profile-side-nav {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.profile-overview {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 0 1.2rem;
+  align-items: center;
+}
+
+.user-avatar {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.user-display-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.member-since {
+  font-size: 0.8rem;
+  color: variables.$primary-lighter;
+}
+
+.edit-profile-forms {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-alt;
+  border-radius: 0.25rem;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+}
