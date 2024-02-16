@@ -66,7 +66,6 @@ const updateUser = async (req: AuthRequest, res: Response) => {
 
     if (req.body.username) {
       const newUsername = req.body.username;
-      console.log(newUsername);
       const usernameExists: UserDocument | null = await User.findOne({
         username: newUsername,
       });
