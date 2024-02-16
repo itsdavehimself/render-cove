@@ -10,6 +10,7 @@ import { AuthAction } from '../types/ActionTypes';
 
 interface UserType {
   email: string;
+  username: string;
   displayName: string;
   avatarUrl: string;
   createdAt: Date;
