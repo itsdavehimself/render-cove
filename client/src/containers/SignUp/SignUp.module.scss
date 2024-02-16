@@ -1,4 +1,5 @@
 @use 'variables';
+@use '../../index.module.scss' as index;
 
 @mixin auth-container {
   display: flex;
@@ -166,19 +167,11 @@ form {
 }
 
 .signup-button {
-  background-color: variables.$accent-color;
-  color: variables.$secondary-color;
-  padding: 0.5rem 0.75rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 0.2rem;
-  transition: all 0.2s ease-in-out;
+  @include index.main-blue-button;
 }
 
 .signup-button:hover {
-  cursor: pointer;
-  background-color: variables.$accent-secondary;
-  transition: all 0.2s ease-in-out;
+  @include index.main-blue-button-hover;
 }
 
 .validation-container {
