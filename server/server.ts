@@ -12,11 +12,6 @@ const app = express();
 
 app.use(express.json());
 
-app.use((req: Request, res: Response, next) => {
-  console.log(req.path, req.method);
-  next();
-});
-
 app.use(cors({ origin: true, credentials: true }));
 
 app.use('/api/users', usersRouter);
