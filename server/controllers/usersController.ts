@@ -3,6 +3,10 @@ import { UserDocument } from '../types/UserInterfaces';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 
+interface AuthRequest extends Request {
+  user?: { _id: string };
+}
+
 const getUser = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -47,9 +51,15 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-const updateUser = async (req: Request, res: Response) => {
+const updateUser = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
+  const userId = req.user?._id;
+
   try {
+    if (!userId || userId.toString() !== id) {
+      return res.status(403).json({ error: 'Forbidden - Unauthorized User' });
+    }
+
     if (!Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid user ID.' });
     }
@@ -63,7 +73,6 @@ const updateUser = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
-
     res.status(200).json(user);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
