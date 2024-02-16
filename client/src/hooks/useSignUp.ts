@@ -5,11 +5,7 @@ const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
 interface SignUpResult {
-  signUp: (
-    email: string,
-    password: string,
-    displayName: string,
-  ) => Promise<void>;
+  signUp: (email: string, password: string, username: string) => Promise<void>;
   isLoading: boolean;
   error: Error | null;
 }
@@ -22,7 +18,7 @@ const useSignUp = (): SignUpResult => {
   const signUp = async (
     email: string,
     password: string,
-    displayName: string,
+    username: string,
   ): Promise<void> => {
     setIsLoading(true);
     setError(null);
@@ -32,7 +28,12 @@ const useSignUp = (): SignUpResult => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password, displayName }),
+      body: JSON.stringify({
+        email,
+        password,
+        username,
+        displayName: username,
+      }),
     });
 
     const signUpJSON = await signUpResponse.json();
