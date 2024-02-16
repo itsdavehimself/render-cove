@@ -44,7 +44,7 @@ const EditProfileGeneralForm: React.FC = () => {
       <header className={styles['profile-section-header']}>
         <h2 className={styles['edit-profile-header']}>General</h2>
         <p className={styles['edit-profile-description']}>
-          Update your display name and username address
+          Update your display name and username
         </p>
       </header>
       <form
