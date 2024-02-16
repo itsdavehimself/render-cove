@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 
 interface AuthRequest extends Request {
-  user?: { _id: string };
+  user?: { _id: string; username: string };
 }
 
 const getUser = async (req: Request, res: Response) => {
@@ -70,7 +70,7 @@ const updateUser = async (req: AuthRequest, res: Response) => {
         username: newUsername,
       });
 
-      if (usernameExists) {
+      if (usernameExists && newUsername !== usernameExists.username) {
         return res
           .status(400)
           .json({ error: 'Username exists. Please try another username.' });
