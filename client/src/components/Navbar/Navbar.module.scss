@@ -20,6 +20,9 @@
 }
 
 .navbar {
+  position: sticky;
+  top: 0;
+  background-color: variables.$primary-color;
   display: grid;
   grid-template-columns: repeat(3, 33%);
   align-items: center;
@@ -39,6 +42,7 @@
   align-items: center;
   column-gap: 2rem;
   font-size: 1.1rem;
+  font-weight: 400;
 
   button {
     background-color: transparent;
