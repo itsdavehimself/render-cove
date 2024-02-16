@@ -1,10 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
+import dotenv from 'dotenv';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
 }
+
+dotenv.config();
 
 const jwtSecret: string = process.env.JWT_SECRET || '';
 
