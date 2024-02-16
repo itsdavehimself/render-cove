@@ -1,5 +1,5 @@
 import styles from './ChooseUsername.module.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 import useOAuthSignUp from '../../hooks/useOAuthSignUp';
