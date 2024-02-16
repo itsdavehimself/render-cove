@@ -12,6 +12,8 @@ interface UserType {
   email: string;
   displayName: string;
   avatarUrl: string;
+  createdAt: Date;
+  userId: string;
   token: string;
 }
 
