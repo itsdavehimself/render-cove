@@ -15,6 +15,7 @@
   justify-content: center;
   align-items: center;
   background-color: variables.$secondary-color;
+  border-radius: 0.25rem;
 }
 
 @mixin form-image-mixin {
@@ -29,6 +30,8 @@
   row-gap: 4rem;
   overflow: hidden;
   position: relative;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
 }
 
 .signup-container {
