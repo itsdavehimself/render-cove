@@ -40,7 +40,7 @@ const EditProfileGeneralForm: React.FC = () => {
   };
 
   return (
-    <div className={styles['profile-general-form']}>
+    <div className={styles['edit-profile-form']}>
       <header className={styles['profile-section-header']}>
         <h2 className={styles['edit-profile-header']}>General</h2>
         <p className={styles['edit-profile-description']}>

@@ -1,7 +1,11 @@
 @use 'variables';
 @use '../../../index.module.scss' as index;
 
-.profile-general-form {
+@mixin edit-profile-header {
+  font-size: 2rem;
+}
+
+.edit-profile-form {
   padding: 1rem 1.5rem;
 
   header {
@@ -12,7 +16,7 @@
 }
 
 .edit-profile-header {
-  font-size: 2rem;
+  @include edit-profile-header();
 }
 
 .edit-profile-description {
@@ -70,6 +74,12 @@
 
 .edit-profile-input.error {
   border: 1px solid variables.$error-color;
+}
+
+.edit-profile-input::placeholder {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: variables.$primary-light;
 }
 
 .input-error-message {
