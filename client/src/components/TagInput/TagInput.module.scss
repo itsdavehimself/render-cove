@@ -1,0 +1,61 @@
+@use '../EditProfile/EditProfileGeneralForm/EditProfileGeneralForm.module.scss'
+  as editProfile;
+@use 'variables';
+@use '../../index.module.scss' as index;
+
+.tag-list {
+  display: flex;
+  width: fit-content;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  gap: 0.5rem;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.25rem 0.65rem;
+  font-weight: 400;
+  font-size: 0.9rem;
+  background-color: variables.$primary-light;
+  border-radius: 0.25rem;
+  column-gap: 0.5rem;
+}
+
+.delete-tag-icon {
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.delete-tag-icon:hover {
+  cursor: pointer;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
+
+.tag-input {
+  background-color: variables.$primary-color;
+  color: variables.$secondary-color;
+  border: none;
+  border-radius: 0.2rem;
+  transition: all 0.2s ease-in-out;
+  font-weight: 400;
+  font-size: 0.9rem;
+  padding: 0.25rem;
+}
+
+.tag-input::placeholder {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: variables.$primary-light;
+}
+
+.tag-input:focus {
+  outline: none;
+}
+
+.edit-profile-input.focused {
+  border: 1px solid variables.$accent-color;
+}
