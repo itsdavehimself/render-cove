@@ -13,8 +13,12 @@ interface UserType {
   username: string;
   displayName: string;
   avatarUrl: string;
+  summary: string;
   createdAt: Date;
   userId: string;
+  website: string;
+  tagline: string;
+  location: string;
   token: string;
 }
 
