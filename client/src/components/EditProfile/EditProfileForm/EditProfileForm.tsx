@@ -1,7 +1,8 @@
 import styles from './EditProfileForm.module.scss';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import useUpdateUser from '../../../hooks/useUserUpdate';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import EditProfileInput from '../EditProfileInput/EditProfileInput';
 import TagInput from '../../TagInput/TagInput';
 import {
@@ -101,6 +102,30 @@ const EditProfileForm: React.FC = () => {
     generatorsInputRef.current?.value,
   ]);
 
+  const onAvatarDrop = useCallback((acceptedFiles) => {
+    // Handle avatar drop here
+  }, []);
+
+  const onBannerDrop = useCallback((acceptedFiles) => {
+    // Handle banner drop here
+  }, []);
+
+  const {
+    getRootProps: getAvatarRootProps,
+    getInputProps: getAvatarInputProps,
+    isDragActive: isAvatarDragActive,
+  } = useDropzone({
+    onDrop: onAvatarDrop,
+  });
+
+  const {
+    getRootProps: getBannerRootProps,
+    getInputProps: getBannerInputProps,
+    isDragActive: isBannerDragActive,
+  } = useDropzone({
+    onDrop: onBannerDrop,
+  });
+
   return (
     <div className={styles['edit-profile-form']}>
       <header className={styles['profile-section-header']}>
@@ -122,49 +147,47 @@ const EditProfileForm: React.FC = () => {
           <label className={styles['edit-profile-label']} htmlFor="bannerInput">
             Banner
           </label>
-          <div
-            className={styles['edit-avatar-box']}
-            onClick={() => avatarInputRef.current?.click()}
-          >
-            <input
-              className={styles['profile-image-input']}
-              type="file"
-              id="avatarInput"
-              name="avatarInput"
-              ref={avatarInputRef}
-            ></input>
-            <div className={styles['avatar-circle']}>
-              <img src={user.avatarUrl}></img>
-            </div>
-            <div className={styles['avatar-upload-description']}>
-              <p className={styles['avatar-upload-main']}>
-                Drag image here or click to upload
-              </p>
-              <p className={styles['avatar-size-limit']}>1MB max size</p>
+          <div {...getAvatarRootProps()}>
+            <input {...getAvatarInputProps()} />
+            <div className={styles['edit-avatar-box']}>
+              <div className={styles['avatar-circle']}>
+                <img src={user.avatarUrl}></img>
+              </div>
+              <div className={styles['avatar-upload-description']}>
+                <p className={styles['avatar-upload-main']}>
+                  {isAvatarDragActive ? (
+                    <p>Drop it like it's hot 🔥</p>
+                  ) : (
+                    <p className={styles['avatar-upload-main']}>
+                      Drag image here or click to upload
+                    </p>
+                  )}
+                </p>
+                <p className={styles['avatar-size-limit']}>1MB max size</p>
+              </div>
             </div>
           </div>
-          <div
-            className={styles['edit-banner-box']}
-            onClick={() => bannerInputRef.current?.click()}
-          >
-            <input
-              className={styles['profile-image-input']}
-              type="file"
-              id="bannerInput"
-              name="bannerInput"
-              ref={bannerInputRef}
-            ></input>
-            <div className={styles['banner-image-container']}>
-              <img
-                className={styles['banner-image-preview']}
-                src={user.avatarUrl}
-              ></img>
-            </div>
-            <div className={styles['avatar-upload-description']}>
-              <p className={styles['avatar-upload-main']}>
-                Drag image here or click to upload
-              </p>
-              <p className={styles['avatar-size-limit']}>1MB max size</p>
+          <div {...getBannerRootProps()}>
+            <input {...getBannerInputProps()} />
+            <div className={styles['edit-banner-box']}>
+              <div className={styles['banner-image-container']}>
+                <img
+                  className={styles['banner-image-preview']}
+                  src={user.avatarUrl}
+                ></img>
+              </div>
+              <div className={styles['avatar-upload-description']}>
+                <p className={styles['avatar-upload-main']}>
+                  {isBannerDragActive ? (
+                    <p>Drop it like it's hot 🔥</p>
+                  ) : (
+                    <p className={styles['avatar-upload-main']}>
+                      Drag image here or click to upload
+                    </p>
+                  )}
+                </p>
+                <p className={styles['avatar-size-limit']}>1MB max size</p>
+              </div>
             </div>
           </div>
         </div>
