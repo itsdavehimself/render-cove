@@ -37,6 +37,12 @@
   height: 14rem;
 }
 
+.edit-avatar-box.dragging,
+.edit-banner-box.dragging {
+  background-color: variables.$primary-tertiary-hover;
+  transition: all 0.2s ease-in-out;
+}
+
 .edit-avatar-box:hover,
 .edit-banner-box:hover {
   cursor: pointer;
@@ -50,6 +56,11 @@
   overflow: hidden;
   border-radius: 50%;
   width: fit-content;
+}
+
+.avatar-preview {
+  height: 100px;
+  width: 100px;
 }
 
 .avatar-upload-description {
@@ -70,15 +81,20 @@
 }
 
 .banner-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   justify-self: center;
   align-self: center;
-  width: 100%;
-  height: calc(100% / 1.5);
+  height: 5rem;
+  width: 15rem;
   overflow: hidden;
+  background-color: variables.$primary-color;
 }
 
 .banner-image-preview {
   width: 100%;
+  height: auto;
 }
 
 .edit-profile-info-form {

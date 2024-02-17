@@ -1,7 +1,7 @@
 import styles from './EditProfileForm.module.scss';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import useUpdateUser from '../../../hooks/useUserUpdate';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, FormEvent } from 'react';
 import { useDropzone } from 'react-dropzone';
 import EditProfileInput from '../EditProfileInput/EditProfileInput';
 import TagInput from '../../TagInput/TagInput';
@@ -16,8 +16,6 @@ import {
 const EditProfileForm: React.FC = () => {
   const { user } = useAuthContext();
   const { updateUser, error, isLoading } = useUpdateUser();
-  const avatarInputRef = useRef<HTMLInputElement | null>(null);
-  const bannerInputRef = useRef<HTMLInputElement | null>(null);
 
   const [softwareList, setSoftwareList] = useState<string[]>([]);
   const [softwareInputWidth, setSoftwareInputWidth] = useState(23);
@@ -39,6 +37,13 @@ const EditProfileForm: React.FC = () => {
   const [taglineError, setTaglineError] = useState<boolean>(false);
   const [location, setLocation] = useState<string>(user.location);
   const [locationError, setLocationError] = useState<boolean>(false);
+
+  const [avatarPreview, setAvatarPreview] = useState<
+    string | ArrayBuffer | null
+  >(user.avatarUrl);
+  const [bannerPreview, setBannerPreview] = useState<
+    string | ArrayBuffer | null
+  >(null);
 
   const handleKeyDownSoftware = (
     indexToRemove: number,
@@ -102,18 +107,31 @@ const EditProfileForm: React.FC = () => {
     generatorsInputRef.current?.value,
   ]);
 
-  const onAvatarDrop = useCallback((acceptedFiles) => {
-    // Handle avatar drop here
+  const onAvatarDrop = useCallback((acceptedFiles: File[]) => {
+    const avatarFile = new FileReader();
+
+    avatarFile.onload = function () {
+      setAvatarPreview(avatarFile.result);
+    };
+
+    avatarFile.readAsDataURL(acceptedFiles[0]);
   }, []);
 
-  const onBannerDrop = useCallback((acceptedFiles) => {
-    // Handle banner drop here
+  const onBannerDrop = useCallback((acceptedFiles: File[]) => {
+    const bannerFile = new FileReader();
+
+    bannerFile.onload = function () {
+      setBannerPreview(bannerFile.result);
+    };
+
+    bannerFile.readAsDataURL(acceptedFiles[0]);
   }, []);
 
   const {
     getRootProps: getAvatarRootProps,
     getInputProps: getAvatarInputProps,
     isDragActive: isAvatarDragActive,
+    acceptedFiles: acceptedAvatarFile,
   } = useDropzone({
     onDrop: onAvatarDrop,
   });
@@ -122,9 +140,24 @@ const EditProfileForm: React.FC = () => {
     getRootProps: getBannerRootProps,
     getInputProps: getBannerInputProps,
     isDragActive: isBannerDragActive,
+    acceptedFiles: acceptedBannerFile,
   } = useDropzone({
     onDrop: onBannerDrop,
   });
+
+  const handleSubmitEdit = async (
+    e: FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    formData.append('avatarFile', acceptedAvatarFile[0]);
+    formData.append('bannerFile', acceptedBannerFile[0]);
+    formData.append('software', JSON.stringify(softwareList));
+    formData.append('generators', JSON.stringify(generatorsList));
+
+    await updateUser(formData);
+  };
 
   return (
     <div className={styles['edit-profile-form']}>
@@ -136,7 +169,7 @@ const EditProfileForm: React.FC = () => {
       </header>
       <form
         className={styles['profile-form']}
-        onSubmit={() => console.log('submit')}
+        onSubmit={handleSubmitEdit}
         noValidate
         onKeyDown={preventEnterKeySubmission}
       >
@@ -149,12 +182,24 @@ const EditProfileForm: React.FC = () => {
           </label>
           <div {...getAvatarRootProps()}>
             <input {...getAvatarInputProps()} />
-            <div className={styles['edit-avatar-box']}>
+            <div
+              className={`${styles['edit-avatar-box']} ${isAvatarDragActive ? styles['dragging'] : ''}`}
+            >
               <div className={styles['avatar-circle']}>
-                <img src={user.avatarUrl}></img>
+                <img
+                  className={styles['avatar-preview']}
+                  src={
+                    typeof avatarPreview === 'string'
+                      ? avatarPreview
+                      : avatarPreview instanceof ArrayBuffer
+                        ? 'data:image/jpeg;base64,' +
+                          Buffer.from(avatarPreview).toString('base64')
+                        : ''
+                  }
+                ></img>
               </div>
               <div className={styles['avatar-upload-description']}>
-                <p className={styles['avatar-upload-main']}>
+                <div className={styles['avatar-upload-main']}>
                   {isAvatarDragActive ? (
                     <p>Drop it like it's hot 🔥</p>
                   ) : (
@@ -162,22 +207,31 @@ const EditProfileForm: React.FC = () => {
                       Drag image here or click to upload
                     </p>
                   )}
-                </p>
+                </div>
                 <p className={styles['avatar-size-limit']}>1MB max size</p>
               </div>
             </div>
           </div>
           <div {...getBannerRootProps()}>
             <input {...getBannerInputProps()} />
-            <div className={styles['edit-banner-box']}>
+            <div
+              className={`${styles['edit-banner-box']} ${isBannerDragActive ? styles['dragging'] : ''}`}
+            >
               <div className={styles['banner-image-container']}>
                 <img
                   className={styles['banner-image-preview']}
-                  src={user.avatarUrl}
+                  src={
+                    typeof bannerPreview === 'string'
+                      ? bannerPreview
+                      : bannerPreview instanceof ArrayBuffer
+                        ? 'data:image/jpeg;base64,' +
+                          Buffer.from(bannerPreview).toString('base64')
+                        : ''
+                  }
                 ></img>
               </div>
               <div className={styles['avatar-upload-description']}>
-                <p className={styles['avatar-upload-main']}>
+                <div className={styles['avatar-upload-main']}>
                   {isBannerDragActive ? (
                     <p>Drop it like it's hot 🔥</p>
                   ) : (
@@ -185,8 +239,10 @@ const EditProfileForm: React.FC = () => {
                       Drag image here or click to upload
                     </p>
                   )}
+                </div>
+                <p className={styles['avatar-size-limit']}>
+                  1MB max size (1920px x 640px)
                 </p>
-                <p className={styles['avatar-size-limit']}>1MB max size</p>
               </div>
             </div>
           </div>
@@ -246,7 +302,7 @@ const EditProfileForm: React.FC = () => {
             htmlFor="software"
             label="Tools and Software"
             id="software"
-            name="software"
+            name=""
             onClick={() => handleInputClick(softwareInputRef)}
             isFocusedInput={isSoftwareInputFocused}
             tagList={softwareList}
@@ -267,7 +323,7 @@ const EditProfileForm: React.FC = () => {
             htmlFor="generators"
             label="AI Generators"
             id="generators"
-            name="generators"
+            name=""
             onClick={() => handleInputClick(generatorsInputRef)}
             isFocusedInput={isGeneratorsInputFocused}
             tagList={generatorsList}
@@ -293,6 +349,7 @@ const EditProfileForm: React.FC = () => {
         <button className={styles['save-edit-button']} disabled={isLoading}>
           Save
         </button>
+        {error && <div>{error.toString()}</div>}
       </form>
     </div>
   );
