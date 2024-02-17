@@ -106,10 +106,6 @@
   flex-wrap: wrap;
 }
 
-.edit-profile-input:hover {
-  cursor: text;
-}
-
 .save-edit-button {
   @include index.main-blue-button;
   justify-self: flex-end;

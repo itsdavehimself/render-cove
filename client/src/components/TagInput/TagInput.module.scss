@@ -3,6 +3,10 @@
 @use 'variables';
 @use '../../index.module.scss' as index;
 
+.edit-profile-input:hover {
+  cursor: text;
+}
+
 .tag-list {
   display: flex;
   width: fit-content;
