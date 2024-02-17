@@ -127,6 +127,12 @@
 .avatar-container {
   overflow: hidden;
   border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
+.avatar-container:hover {
+  border-radius: 35%;
+  transition: all 0.2s ease-in-out;
 }
 
 .avatar-container:hover {
