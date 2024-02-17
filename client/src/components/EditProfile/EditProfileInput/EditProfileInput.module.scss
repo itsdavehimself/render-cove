@@ -1,0 +1,50 @@
+@use 'variables';
+@use '../../../index.module.scss' as index;
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.edit-profile-label {
+  color: variables.$secondary-color;
+  font-size: 0.9rem;
+}
+
+.edit-profile-input {
+  background-color: variables.$primary-color;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-light;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.edit-profile-input:hover {
+  border: 1px solid variables.$primary-lighter;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.edit-profile-input:focus {
+  border: 1px solid variables.$accent-color;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.edit-profile-input.error {
+  border: 1px solid variables.$error-color;
+}
+
+.edit-profile-input::placeholder {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: variables.$primary-light;
+}
+
+.input-error-message {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: variables.$error-color;
+}
