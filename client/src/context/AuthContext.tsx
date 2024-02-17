@@ -13,6 +13,7 @@ interface UserType {
   username: string;
   displayName: string;
   avatarUrl: string;
+  bannerUrl: string;
   summary: string;
   createdAt: Date;
   userId: string;
