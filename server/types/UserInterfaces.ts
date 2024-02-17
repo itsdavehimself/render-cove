@@ -6,12 +6,14 @@ interface UserDocument {
   displayName: string;
   username: string;
   avatarUrl: string;
+  bannerUrl: string;
   summary?: string;
   skills?: string[];
   software?: string[];
   socials?: string[];
   location?: string[];
   tagline?: string[];
+  website?: string[];
   oauthUsed: boolean;
   _id: string;
   createdAt: Date;

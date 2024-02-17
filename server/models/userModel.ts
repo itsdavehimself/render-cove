@@ -67,6 +67,11 @@ const userSchema = new Schema<UserDocument>(
       trim: true,
       default: '',
     },
+    website: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     oauthUsed: { type: Boolean, required: true },
   },
   { timestamps: true }
