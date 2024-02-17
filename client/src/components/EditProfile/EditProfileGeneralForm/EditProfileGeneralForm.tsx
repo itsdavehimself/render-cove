@@ -2,6 +2,7 @@ import styles from './EditProfileGeneralForm.module.scss';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useState } from 'react';
 import useUpdateUser from '../../../hooks/useUserUpdate';
+import EditProfileInput from '../EditProfileInput/EditProfileInput';
 
 const EditProfileGeneralForm: React.FC = () => {
   const { user } = useAuthContext();
@@ -53,52 +54,35 @@ const EditProfileGeneralForm: React.FC = () => {
         noValidate
       >
         <div className={styles['form-inputs']}>
-          <div className={styles['input-container']}>
-            <label
-              className={styles['edit-profile-label']}
-              htmlFor="displayName"
-            >
-              Display Name
-            </label>
-            <input
-              className={`${styles['edit-profile-input']} ${displayNameError ? styles.error : ''}`}
-              type="text"
-              id="displayName"
-              name="displayName"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-            ></input>
-            {displayNameError && (
-              <div className={styles['input-error-message']}>
-                Display name must be between 1-20 characters. No special
-                characters allowed.
-              </div>
-            )}
-          </div>
-          <div className={styles['input-container']}>
-            <label className={styles['edit-profile-label']} htmlFor="username">
-              Username
-            </label>
-            <input
-              className={`${styles['edit-profile-input']} ${usernameError || error ? styles.error : ''}`}
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            ></input>
-            {usernameError && (
-              <div className={styles['input-error-message']}>
-                Username must be between 5-16 characters. Numbers and letters
-                only.{' '}
-              </div>
-            )}
-            {!usernameError && error && (
-              <div className={styles['input-error-message']}>
-                {error.toString()}
-              </div>
-            )}
-          </div>
+          <EditProfileInput
+            htmlFor="displayName"
+            label="Display Name"
+            type="text"
+            id="displayName"
+            name="displayName"
+            value={displayName}
+            clientError={
+              displayNameError
+                ? 'Display name must be between 1-20 characters. No special characters allowed.'
+                : ''
+            }
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
+          <EditProfileInput
+            htmlFor="username"
+            label="Username"
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            clientError={
+              usernameError
+                ? 'Username must be between 5-16 characters. Numbers and letters only.'
+                : ''
+            }
+            serverError={error?.toString()}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
         <button className={styles['save-edit-button']} disabled={isLoading}>
           Save
