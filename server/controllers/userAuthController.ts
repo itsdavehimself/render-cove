@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 import { UserDocument } from '../types/UserInterfaces.js';
-import { error } from 'console';
 
 const jwtSecret: string = process.env.JWT_SECRET || '';
 
@@ -23,19 +22,31 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const user: UserDocument = await User.login(email, password);
     const token: string = createToken(user._id);
-    const username = user.username;
-    const displayName = user.displayName;
-    const avatarUrl = user.avatarUrl;
-    const createdAt = user.createdAt;
-    const userId = user._id;
+    const {
+      username,
+      displayName,
+      avatarUrl,
+      bannerUrl,
+      summary,
+      createdAt,
+      website,
+      location,
+      tagline,
+      _id: userId,
+    } = user;
 
     res.status(200).json({
       email,
       username,
       displayName,
       avatarUrl,
+      bannerUrl,
+      summary,
       createdAt,
       userId,
+      website,
+      location,
+      tagline,
       token,
     });
   } catch (error: any) {
@@ -55,17 +66,29 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       false
     );
     const token: string = createToken(user._id);
-    const avatarUrl = user.avatarUrl;
-    const createdAt = user.createdAt;
-    const userId = user._id;
+    const {
+      avatarUrl,
+      bannerUrl,
+      summary,
+      createdAt,
+      website,
+      location,
+      tagline,
+      _id: userId,
+    } = user;
 
     res.status(200).json({
       email,
       username,
       displayName,
       avatarUrl,
+      bannerUrl,
+      summary,
       createdAt,
       userId,
+      website,
+      location,
+      tagline,
       token,
     });
   } catch (error: any) {
@@ -87,13 +110,31 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
 
     if (existingUser && existingUser.oauthUsed === true) {
       const token = createToken(existingUser._id);
+      const {
+        username,
+        displayName,
+        avatarUrl,
+        bannerUrl,
+        summary,
+        createdAt,
+        website,
+        location,
+        tagline,
+        _id: userId,
+      } = existingUser;
+
       res.status(200).json({
-        email: existingUser.email,
-        username: existingUser.username,
-        displayName: existingUser.displayName,
-        avatarUrl: existingUser.avatarUrl,
-        createdAt: existingUser.createdAt,
-        userId: existingUser._id,
+        email,
+        username,
+        displayName,
+        avatarUrl,
+        bannerUrl,
+        summary,
+        createdAt,
+        website,
+        location,
+        tagline,
+        userId,
         token,
       });
     }
@@ -125,13 +166,29 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
       });
 
       const token = createToken(newUser._id);
+      const {
+        avatarUrl,
+        bannerUrl,
+        summary,
+        createdAt,
+        website,
+        location,
+        tagline,
+        _id: userId,
+      } = newUser;
+
       res.status(200).json({
-        email: newUser.email,
-        username: newUser.username,
-        displayName: newUser.displayName,
-        avatarUrl: newUser.avatarUrl,
-        userId: newUser._id,
-        createdAt: newUser.createdAt,
+        email,
+        username,
+        displayName,
+        avatarUrl,
+        bannerUrl,
+        summary,
+        userId,
+        website,
+        location,
+        tagline,
+        createdAt,
         token,
       });
     }
