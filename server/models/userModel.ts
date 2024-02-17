@@ -31,6 +31,10 @@ const userSchema = new Schema<UserDocument>(
       default:
         'https://rendercove.s3.us-east-2.amazonaws.com/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.png',
     },
+    bannerUrl: {
+      type: String,
+      default: '',
+    },
     summary: {
       type: String,
       trim: true,
