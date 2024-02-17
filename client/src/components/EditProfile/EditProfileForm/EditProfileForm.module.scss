@@ -1,12 +1,149 @@
-.profile-general-form {
-  padding: 1rem 1.5rem;
+@use '../EditProfileGeneralForm/EditProfileGeneralForm.module.scss' as
+  editProfile;
+@use 'variables';
+@use '../../../index.module.scss' as index;
+
+.profile-form {
+  padding: 2rem 0;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
 }
 
-.edit-profile-header {
-  font-size: 2rem;
+.edit-image-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  row-gap: 0.5rem;
 }
 
-.edit-profile-description {
-  font-size: 0.9rem;
+.edit-avatar-box,
+.edit-banner-box {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  border: 1px solid variables.$primary-lighter;
+  border-radius: 0.25rem;
+  background-color: variables.$primary-tertiary;
+  transition: all 0.2s ease-in-out;
   font-weight: 400;
+  flex: 1;
+  padding: 2rem 2rem 0;
+  height: 14rem;
+}
+
+.edit-avatar-box:hover,
+.edit-banner-box:hover {
+  cursor: pointer;
+  background-color: variables.$primary-tertiary-hover;
+  transition: all 0.2s ease-in-out;
+}
+
+.avatar-circle {
+  justify-self: center;
+  align-self: center;
+  overflow: hidden;
+  border-radius: 50%;
+  width: fit-content;
+}
+
+.avatar-upload-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.avatar-upload-main {
+  color: variables.$secondary-color;
+}
+
+.avatar-size-limit {
+  font-size: 0.8rem;
+  color: variables.$secondary-darker;
+}
+
+.banner-image-preview {
+  width: 100%;
+  height: 6rem;
+}
+
+.edit-profile-info-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.textarea {
+  resize: none;
+}
+
+.edit-profile-input {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.edit-profile-input:hover {
+  cursor: text;
+}
+
+.edit-profile-input.focused {
+  border: 1px solid variables.$accent-color;
+}
+
+.tag-list {
+  display: flex;
+  width: fit-content;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  gap: 0.5rem;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.25rem 0.65rem;
+  font-weight: 400;
+  font-size: 0.9rem;
+  background-color: variables.$primary-light;
+  border-radius: 0.25rem;
+  column-gap: 0.5rem;
+}
+
+.delete-tag-icon {
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.delete-tag-icon:hover {
+  cursor: pointer;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
+
+.tag-input {
+  background-color: variables.$primary-color;
+  color: variables.$secondary-color;
+  border: none;
+  border-radius: 0.2rem;
+  transition: all 0.2s ease-in-out;
+  font-weight: 400;
+  font-size: 0.9rem;
+  padding: 0.25rem;
+}
+
+.tag-input:focus {
+  outline: none;
+}
+
+.save-edit-button {
+  @include index.main-blue-button;
+  justify-self: flex-end;
+  align-self: flex-start;
+  width: 6rem;
+}
+
+.save-edit-button:hover {
+  @include index.main-blue-button-hover;
 }
