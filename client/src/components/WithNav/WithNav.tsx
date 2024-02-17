@@ -1,11 +1,14 @@
 import NavBar from '../Navbar/Navbar';
 import { Outlet } from 'react-router';
+import styles from './WithNav.module.scss';
 
 const WithNav: React.FC = () => {
   return (
     <>
       <NavBar />
-      <Outlet />
+      <div className={styles['added-margin']}>
+        <Outlet />
+      </div>
     </>
   );
 };
