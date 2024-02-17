@@ -2,88 +2,50 @@ import styles from './EditProfileForm.module.scss';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import useUpdateUser from '../../../hooks/useUserUpdate';
 import { useState, useRef, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import EditProfileInput from '../EditProfileInput/EditProfileInput';
+import TagInput from '../../TagInput/TagInput';
+import {
+  addTag,
+  removeTag,
+  handleInputChange,
+  handleInputClick,
+  preventEnterKeySubmission,
+} from './EditProfileForm.utility';
 
 const EditProfileForm: React.FC = () => {
   const { user } = useAuthContext();
   const { updateUser, error, isLoading } = useUpdateUser();
+  const avatarInputRef = useRef<HTMLInputElement | null>(null);
+  const bannerInputRef = useRef<HTMLInputElement | null>(null);
+
   const [softwareList, setSoftwareList] = useState<string[]>([]);
   const [softwareInputWidth, setSoftwareInputWidth] = useState(23);
   const softwareInputRef = useRef<HTMLInputElement | null>(null);
   const [isSoftwareInputFocused, setIsSoftwareInputFocused] =
     useState<boolean>(false);
+
   const [generatorsList, setGeneratorsList] = useState<string[]>([]);
   const [generatorsInputWidth, setGeneratorsInputWidth] = useState(23);
   const generatorsInputRef = useRef<HTMLInputElement | null>(null);
   const [isGeneratorsInputFocused, setIsGeneratorsInputFocused] =
     useState<boolean>(false);
 
-  const xMark: React.ReactNode = <FontAwesomeIcon icon={faXmark} />;
+  const [website, setWebsite] = useState<string>(user.website);
+  const [websiteError, setWebsiteError] = useState<boolean>(false);
+  const [bio, setBio] = useState<string>(user.summary);
+  const [bioCharsRemaining, setBioCharsRemaining] = useState<number>(500);
+  const [tagline, setTagline] = useState<string>(user.tagline);
+  const [taglineError, setTaglineError] = useState<boolean>(false);
+  const [location, setLocation] = useState<string>(user.location);
+  const [locationError, setLocationError] = useState<boolean>(false);
 
-  const addSoftware = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    const inputValue: string = e.currentTarget.value.trim();
-
-    if (inputValue !== '') {
-      const tagValue: string = e.currentTarget.value.replace(/,/g, '').trim();
-
-      if (tagValue !== '') {
-        setSoftwareList([...softwareList, tagValue]);
-        e.currentTarget.value = '';
-        setSoftwareInputWidth(1);
-      }
-    }
-  };
-
-  const removeSoftware = (indexToRemove: number): void => {
-    setSoftwareList(softwareList.filter((_, index) => index !== indexToRemove));
-  };
-
-  const handleKeyDown = (
+  const handleKeyDownSoftware = (
     indexToRemove: number,
     e: React.KeyboardEvent<HTMLInputElement>,
   ): void => {
     if (e.key === 'Backspace' && e.currentTarget.value === '') {
-      removeSoftware(indexToRemove);
+      removeTag(indexToRemove, setSoftwareList, softwareList);
     }
-  };
-
-  const handleSoftwareInputChange = (): void => {
-    if (softwareInputRef.current) {
-      setSoftwareInputWidth(softwareInputRef.current.value.length || 1);
-    }
-  };
-
-  const handleSoftwareClick = (): void => {
-    if (softwareInputRef.current) {
-      softwareInputRef.current.focus();
-    }
-  };
-
-  useEffect(() => {
-    if (softwareList.length === 0) {
-      setSoftwareInputWidth(23);
-    }
-  }, [softwareList]);
-
-  const addGenerator = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    const inputValue: string = e.currentTarget.value.trim();
-
-    if (inputValue !== '') {
-      const tagValue: string = e.currentTarget.value.replace(/,/g, '').trim();
-
-      if (tagValue !== '') {
-        setGeneratorsList([...generatorsList, tagValue]);
-        e.currentTarget.value = '';
-        setGeneratorsInputWidth(1);
-      }
-    }
-  };
-
-  const removeGenerators = (indexToRemove: number): void => {
-    setGeneratorsList(
-      generatorsList.filter((_, index) => index !== indexToRemove),
-    );
   };
 
   const handleKeyDownGenerators = (
@@ -91,36 +53,53 @@ const EditProfileForm: React.FC = () => {
     e: React.KeyboardEvent<HTMLInputElement>,
   ): void => {
     if (e.key === 'Backspace' && e.currentTarget.value === '') {
-      removeGenerators(indexToRemove);
-    }
-  };
-
-  const handleGeneratorsInputChange = (): void => {
-    if (generatorsInputRef.current) {
-      setGeneratorsInputWidth(generatorsInputRef.current.value.length || 1);
-    }
-  };
-
-  const handleGeneratorsClick = (): void => {
-    if (generatorsInputRef.current) {
-      generatorsInputRef.current.focus();
+      removeTag(indexToRemove, setGeneratorsList, generatorsList);
     }
   };
 
   useEffect(() => {
-    if (generatorsList.length === 0) {
+    const isTaglineValid = tagline.length <= 30;
+    const isLocationValid = location.length <= 30;
+    setTaglineError(!isTaglineValid);
+    setLocationError(!isLocationValid);
+
+    const MAX_CHARACTERS_BIO = 500;
+    const remainingCharacters = MAX_CHARACTERS_BIO - bio.length;
+    setBioCharsRemaining(remainingCharacters);
+
+    const isValidWebsite = (website: string) => {
+      const urlRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return urlRegex.test(website);
+    };
+
+    setWebsiteError(!isValidWebsite(website) && website.length > 0);
+  }, [tagline, location, bio, website]);
+
+  useEffect(() => {
+    if (softwareList.length === 0 || softwareInputRef.current?.value === '') {
+      setSoftwareInputWidth(23);
+    }
+
+    if (softwareList.length > 0 && softwareInputRef.current?.value === '') {
+      setSoftwareInputWidth(softwareInputRef.current.value.length || 1);
+    }
+
+    if (
+      generatorsList.length === 0 ||
+      generatorsInputRef.current?.value === ''
+    ) {
       setGeneratorsInputWidth(23);
     }
-  }, [generatorsList]);
 
-  const preventEnterKeySubmission = (
-    e: React.KeyboardEvent<HTMLFormElement>,
-  ): void => {
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-    if (e.key === 'Enter' && !['TEXTAREA', 'BUTTON'].includes(target.tagName)) {
-      e.preventDefault();
+    if (generatorsList.length > 0 && generatorsInputRef.current?.value === '') {
+      setGeneratorsInputWidth(generatorsInputRef.current.value.length || 1);
     }
-  };
+  }, [
+    softwareList,
+    softwareInputRef.current?.value,
+    generatorsList,
+    generatorsInputRef.current?.value,
+  ]);
 
   return (
     <div className={styles['edit-profile-form']}>
@@ -137,13 +116,23 @@ const EditProfileForm: React.FC = () => {
         onKeyDown={preventEnterKeySubmission}
       >
         <div className={styles['edit-image-container']}>
-          <label className={styles['edit-profile-label']} htmlFor="">
+          <label className={styles['edit-profile-label']} htmlFor="avatarInput">
             Avatar
           </label>
-          <label className={styles['edit-profile-label']} htmlFor="">
+          <label className={styles['edit-profile-label']} htmlFor="bannerInput">
             Banner
           </label>
-          <div className={styles['edit-avatar-box']}>
+          <div
+            className={styles['edit-avatar-box']}
+            onClick={() => avatarInputRef.current?.click()}
+          >
+            <input
+              className={styles['profile-image-input']}
+              type="file"
+              id="avatarInput"
+              name="avatarInput"
+              ref={avatarInputRef}
+            ></input>
             <div className={styles['avatar-circle']}>
               <img src={user.avatarUrl}></img>
             </div>
@@ -154,11 +143,23 @@ const EditProfileForm: React.FC = () => {
               <p className={styles['avatar-size-limit']}>1MB max size</p>
             </div>
           </div>
-          <div className={styles['edit-banner-box']}>
-            <img
-              className={styles['banner-image-preview']}
-              src={user.avatarUrl}
-            ></img>
+          <div
+            className={styles['edit-banner-box']}
+            onClick={() => bannerInputRef.current?.click()}
+          >
+            <input
+              className={styles['profile-image-input']}
+              type="file"
+              id="bannerInput"
+              name="bannerInput"
+              ref={bannerInputRef}
+            ></input>
+            <div className={styles['banner-image-container']}>
+              <img
+                className={styles['banner-image-preview']}
+                src={user.avatarUrl}
+              ></img>
+            </div>
             <div className={styles['avatar-upload-description']}>
               <p className={styles['avatar-upload-main']}>
                 Drag image here or click to upload
@@ -168,117 +169,103 @@ const EditProfileForm: React.FC = () => {
           </div>
         </div>
         <div className={styles['edit-profile-info-form']}>
+          <EditProfileInput
+            htmlFor="website"
+            label="Website"
+            type="text"
+            id="website"
+            name="website"
+            value={website}
+            placeholder="yourwebsite.com"
+            clientError={websiteError ? 'Please enter a valid website' : ''}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
           <div className={styles['input-container']}>
-            <label className={styles['edit-profile-label']}>Bio</label>
+            <label className={styles['edit-profile-label']}>
+              Bio{' '}
+              <span
+                className={`${styles['bio-remaining-characters']} ${bioCharsRemaining < 1 ? styles['error'] : ''}`}
+              >
+                ({bioCharsRemaining} characters remaining)
+              </span>
+            </label>
             <textarea
               rows={3}
               className={`${styles['edit-profile-input']} ${styles['textarea']}`}
+              onChange={(e) => setBio(e.target.value)}
             ></textarea>
           </div>
-          <div className={styles['input-container']}>
-            <label className={styles['edit-profile-label']}>Tagline</label>
-            <input type="text" className={styles['edit-profile-input']}></input>
-          </div>
-          <div className={styles['input-container']}>
-            <label className={styles['edit-profile-label']}>Location</label>
-            <input type="text" className={styles['edit-profile-input']}></input>
-          </div>
-          <div
-            onClick={handleSoftwareClick}
-            className={styles['input-container']}
-          >
-            <label className={styles['edit-profile-label']} htmlFor="software">
-              Tools and Software
-            </label>
-            <div
-              className={`${styles['edit-profile-input']} ${
-                isSoftwareInputFocused ? styles['focused'] : ''
-              }`}
-            >
-              <ul className={styles['tag-list']}>
-                {softwareList.map((software, index) => (
-                  <li key={index} className={styles['tag']}>
-                    <span>{software}</span>
-                    <span
-                      className={styles['delete-tag-icon']}
-                      onClick={() => removeSoftware(index)}
-                    >
-                      {xMark}
-                    </span>
-                  </li>
-                ))}
-                <input
-                  className={styles['tag-input']}
-                  type="text"
-                  placeholder={
-                    softwareList.length === 0
-                      ? 'Press enter after each item'
-                      : ''
-                  }
-                  ref={softwareInputRef}
-                  size={softwareInputWidth}
-                  id="software"
-                  name="software"
-                  onFocus={() => setIsSoftwareInputFocused(true)}
-                  onBlur={() => setIsSoftwareInputFocused(false)}
-                  onChange={handleSoftwareInputChange}
-                  onKeyDown={(e) => handleKeyDown(softwareList.length - 1, e)}
-                  onKeyUp={(e) =>
-                    e.key === ',' || e.key === 'Enter' ? addSoftware(e) : null
-                  }
-                ></input>
-              </ul>
-            </div>
-          </div>
-          <div
-            onClick={handleGeneratorsClick}
-            className={styles['input-container']}
-          >
-            <label className={styles['edit-profile-label']} htmlFor="software">
-              Image Generators
-            </label>
-            <div
-              className={`${styles['edit-profile-input']} ${
-                isGeneratorsInputFocused ? styles['focused'] : ''
-              }`}
-            >
-              <ul className={styles['tag-list']}>
-                {generatorsList.map((generator, index) => (
-                  <li key={index} className={styles['tag']}>
-                    <span>{generator}</span>
-                    <span
-                      className={styles['delete-tag-icon']}
-                      onClick={() => removeGenerators(index)}
-                    >
-                      {xMark}
-                    </span>
-                  </li>
-                ))}
-                <input
-                  className={styles['tag-input']}
-                  type="text"
-                  placeholder={
-                    generatorsList.length === 0
-                      ? 'Press enter after each item'
-                      : ''
-                  }
-                  ref={generatorsInputRef}
-                  size={generatorsInputWidth}
-                  id="software"
-                  name="software"
-                  onFocus={() => setIsGeneratorsInputFocused(true)}
-                  onBlur={() => setIsGeneratorsInputFocused(false)}
-                  onChange={handleGeneratorsInputChange}
-                  onKeyDown={(e) =>
-                    handleKeyDownGenerators(generatorsList.length - 1, e)
-                  }
-                  onKeyUp={(e) =>
-                    e.key === ',' || e.key === 'Enter' ? addGenerator(e) : null
-                  }
-                ></input>
-              </ul>
-            </div>
-          </div>
+          <EditProfileInput
+            htmlFor="tagline"
+            label="Tagline"
+            type="text"
+            id="tagline"
+            name="tagline"
+            value={tagline}
+            clientError={
+              taglineError ? 'Your tagline cannot exceed 30 characters.' : ''
+            }
+            onChange={(e) => setTagline(e.target.value)}
+          />
+          <EditProfileInput
+            htmlFor="location"
+            label="Location"
+            type="text"
+            id="location"
+            name="location"
+            value={location}
+            clientError={
+              locationError ? 'Location cannot exceed 30 characters.' : ''
+            }
+            onChange={(e) => setLocation(e.target.value)}
+          />
+          <TagInput
+            htmlFor="software"
+            label="Tools and Software"
+            id="software"
+            name="software"
+            onClick={() => handleInputClick(softwareInputRef)}
+            isFocusedInput={isSoftwareInputFocused}
+            tagList={softwareList}
+            setTagList={setSoftwareList}
+            removeTag={removeTag}
+            inputRef={softwareInputRef}
+            size={softwareInputWidth}
+            setIsFocusedInput={setIsSoftwareInputFocused}
+            handleInputChange={() =>
+              handleInputChange(softwareInputRef, setSoftwareInputWidth)
+            }
+            handleKeyDown={handleKeyDownSoftware}
+            addTag={(e) =>
+              addTag(e, setSoftwareList, softwareList, setSoftwareInputWidth)
+            }
+          />
+          <TagInput
+            htmlFor="generators"
+            label="AI Generators"
+            id="generators"
+            name="generators"
+            onClick={() => handleInputClick(generatorsInputRef)}
+            isFocusedInput={isGeneratorsInputFocused}
+            tagList={generatorsList}
+            setTagList={setGeneratorsList}
+            removeTag={removeTag}
+            inputRef={generatorsInputRef}
+            size={generatorsInputWidth}
+            setIsFocusedInput={setIsGeneratorsInputFocused}
+            handleInputChange={() =>
+              handleInputChange(generatorsInputRef, setGeneratorsInputWidth)
+            }
+            handleKeyDown={handleKeyDownGenerators}
+            addTag={(e) =>
+              addTag(
+                e,
+                setGeneratorsList,
+                generatorsList,
+                setGeneratorsInputWidth,
+              )
+            }
+          />
         </div>
         <button className={styles['save-edit-button']} disabled={isLoading}>
           Save
