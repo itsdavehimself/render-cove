@@ -28,7 +28,7 @@
   display: grid;
   grid-template-rows: 1fr 1fr;
   border: 1px solid variables.$primary-lighter;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   background-color: variables.$primary-tertiary;
   transition: all 0.2s ease-in-out;
   font-weight: 400;
@@ -131,4 +131,11 @@
 
 .save-edit-button:hover {
   @include index.main-blue-button-hover;
+}
+
+.file-input-error {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: variables.$error-color;
 }
