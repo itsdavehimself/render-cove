@@ -12,6 +12,7 @@ import {
   handleInputClick,
   preventEnterKeySubmission,
 } from './EditProfileForm.utility';
+import imageCompression from 'browser-image-compression';
 
 const EditProfileForm: React.FC = () => {
   const { user } = useAuthContext();
@@ -107,33 +108,105 @@ const EditProfileForm: React.FC = () => {
     generatorsInputRef.current?.value,
   ]);
 
-  const onAvatarDrop = useCallback((acceptedFiles: File[]) => {
-    const avatarFile = new FileReader();
+  const MAX_IMAGE_SIZE: number = 5 * 1024 * 1024;
+  const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
-    avatarFile.onload = function () {
-      setAvatarPreview(avatarFile.result);
-    };
+  function customValidation(file: File) {
+    if (!allowedFileTypes.includes(file.type)) {
+      return {
+        code: 'invalid-file-type',
+        message: 'Invalid file type.',
+      };
+    }
 
-    avatarFile.readAsDataURL(acceptedFiles[0]);
-  }, []);
+    if (file.size > MAX_IMAGE_SIZE) {
+      return {
+        code: 'file-too-large',
+        message: 'File size exceeds 5MB limit',
+      };
+    }
 
-  const onBannerDrop = useCallback((acceptedFiles: File[]) => {
-    const bannerFile = new FileReader();
+    return null;
+  }
 
-    bannerFile.onload = function () {
-      setBannerPreview(bannerFile.result);
-    };
+  const onAvatarDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      const options = {
+        maxSizeKB: 100,
+        maxWidthOrHeight: 200,
+        useWebWorker: true,
+      };
 
-    bannerFile.readAsDataURL(acceptedFiles[0]);
-  }, []);
+      try {
+        const compressedFiles = await Promise.all(
+          acceptedFiles.map(async (file) => {
+            try {
+              return await imageCompression(file, options);
+            } catch (error) {
+              console.error('Image compression failed:', error);
+              return file;
+            }
+          }),
+        );
+
+        const avatarFile = compressedFiles[0];
+
+        const avatarFileReader = new FileReader();
+        avatarFileReader.onload = function () {
+          setAvatarPreview(avatarFileReader.result);
+        };
+        avatarFileReader.readAsDataURL(avatarFile);
+      } catch (error) {
+        console.error('Error compressing avatar files:', error);
+      }
+    },
+    [setAvatarPreview],
+  );
+
+  const onBannerDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+
+      try {
+        const compressedFiles = await Promise.all(
+          acceptedFiles.map(async (file) => {
+            try {
+              return await imageCompression(file, options);
+            } catch (error) {
+              console.error('Image compression failed:', error);
+              return file;
+            }
+          }),
+        );
+
+        const bannerFile = compressedFiles[0];
+
+        const bannerFileReader = new FileReader();
+        bannerFileReader.onload = function () {
+          setBannerPreview(bannerFileReader.result);
+        };
+        bannerFileReader.readAsDataURL(bannerFile);
+      } catch (error) {
+        console.error('Error compressing avatar files:', error);
+      }
+    },
+    [setBannerPreview],
+  );
 
   const {
     getRootProps: getAvatarRootProps,
     getInputProps: getAvatarInputProps,
     isDragActive: isAvatarDragActive,
     acceptedFiles: acceptedAvatarFile,
+    fileRejections: avatarFileRejections,
   } = useDropzone({
     onDrop: onAvatarDrop,
+    maxFiles: 1,
+    validator: customValidation,
   });
 
   const {
@@ -141,8 +214,11 @@ const EditProfileForm: React.FC = () => {
     getInputProps: getBannerInputProps,
     isDragActive: isBannerDragActive,
     acceptedFiles: acceptedBannerFile,
+    fileRejections: bannerFileRejections,
   } = useDropzone({
     onDrop: onBannerDrop,
+    maxFiles: 1,
+    validator: customValidation,
   });
 
   const handleSubmitEdit = async (
@@ -208,7 +284,16 @@ const EditProfileForm: React.FC = () => {
                     </p>
                   )}
                 </div>
-                <p className={styles['avatar-size-limit']}>1MB max size</p>
+                <p className={styles['avatar-size-limit']}>
+                  5MB max size (JPEG, JPG, PNG)
+                </p>
+                {avatarFileRejections.length > 0 && (
+                  <div className={styles['file-input-error']}>
+                    {avatarFileRejections.map(({ errors }) =>
+                      errors.map((e) => <>{e.message}</>),
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -241,8 +326,15 @@ const EditProfileForm: React.FC = () => {
                   )}
                 </div>
                 <p className={styles['avatar-size-limit']}>
-                  1MB max size (1920px x 640px)
+                  5MB max size (1920px x 640px)
                 </p>
+                {bannerFileRejections.length > 0 && (
+                  <div className={styles['file-input-error']}>
+                    {bannerFileRejections.map(({ errors }) =>
+                      errors.map((e) => <>{e.message}</>),
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
