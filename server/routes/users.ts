@@ -19,6 +19,14 @@ usersRouter.get('/:id', getUser);
 
 usersRouter.delete('/:id', deleteUser);
 
-usersRouter.patch('/:id', requireAuth, upload.none(), updateUser);
+usersRouter.patch(
+  '/:id',
+  requireAuth,
+  upload.fields([
+    { name: 'avatarFile', maxCount: 1 },
+    { name: 'bannerFile', maxCount: 1 },
+  ]),
+  updateUser
+);
 
 export default usersRouter;
