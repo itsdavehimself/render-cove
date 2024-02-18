@@ -40,7 +40,7 @@ const userSchema = new Schema<UserDocument>(
       trim: true,
       default: '',
     },
-    skills: [
+    generators: [
       {
         type: String,
         trim: true,
