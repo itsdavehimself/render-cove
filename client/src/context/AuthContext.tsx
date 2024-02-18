@@ -15,6 +15,8 @@ interface UserType {
   avatarUrl: string;
   bannerUrl: string;
   summary: string;
+  software: string;
+  generators: string;
   createdAt: Date;
   userId: string;
   website: string;
