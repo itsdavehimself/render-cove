@@ -21,9 +21,8 @@ const useUpdateUser = () => {
 
     const updateResponse = await fetch(`${API_BASE_URL}/users/${user.userId}`, {
       method: 'PATCH',
-      body: JSON.stringify(updatedFields),
+      body: formData,
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${user.token}`,
       },
     });
@@ -36,7 +35,7 @@ const useUpdateUser = () => {
     }
 
     if (updateResponse.ok) {
-      const mergedUser = { ...user, ...updatedFields };
+      const mergedUser = { ...user, ...updateJSON };
 
       dispatch({ type: 'UPDATE_USER', payload: mergedUser });
 
