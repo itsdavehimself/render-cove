@@ -76,7 +76,7 @@ const EditProfileForm: React.FC = () => {
   };
 
   useEffect(() => {
-    const isTaglineValid = tagline.length <= 30;
+    const isTaglineValid = tagline.length <= 75;
     const isLocationValid = location.length <= 30;
     setTaglineError(!isTaglineValid);
     setLocationError(!isLocationValid);
