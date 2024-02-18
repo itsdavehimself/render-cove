@@ -83,6 +83,7 @@ const compressAndSetPreview = async (
     maxWidthOrHeight: number;
     useWebWorker: boolean;
   },
+  setCompressedImage: React.Dispatch<React.SetStateAction<File | null>>,
 ) => {
   try {
     const compressedFiles = await Promise.all(
@@ -97,6 +98,7 @@ const compressAndSetPreview = async (
     );
 
     const compressedFile = compressedFiles[0];
+    setCompressedImage(compressedFile);
 
     const fileReader = new FileReader();
     fileReader.onload = function () {
