@@ -28,6 +28,10 @@
   column-gap: 0.5rem;
 }
 
+.tag:hover {
+  cursor: default;
+}
+
 .delete-tag-icon {
   color: variables.$secondary-color;
   transition: all 0.2s ease-in-out;
