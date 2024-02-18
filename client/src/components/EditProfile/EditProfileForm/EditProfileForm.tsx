@@ -19,16 +19,14 @@ const EditProfileForm: React.FC = () => {
   const { user } = useAuthContext();
   const { updateUser, error, isLoading } = useUpdateUser();
 
-  const [softwareList, setSoftwareList] = useState<string[]>(
-    user.software ? JSON.parse(user.software) : [],
-  );
+  const [softwareList, setSoftwareList] = useState<string[]>(user.software);
   const [softwareInputWidth, setSoftwareInputWidth] = useState(23);
   const softwareInputRef = useRef<HTMLInputElement | null>(null);
   const [isSoftwareInputFocused, setIsSoftwareInputFocused] =
     useState<boolean>(false);
 
   const [generatorsList, setGeneratorsList] = useState<string[]>(
-    user.generators ? JSON.parse(user.generators) : [],
+    user.generators,
   );
   const [generatorsInputWidth, setGeneratorsInputWidth] = useState(23);
   const generatorsInputRef = useRef<HTMLInputElement | null>(null);
@@ -49,7 +47,12 @@ const EditProfileForm: React.FC = () => {
   >(user.avatarUrl);
   const [bannerPreview, setBannerPreview] = useState<
     string | ArrayBuffer | null
-  >(null);
+  >(user.bannerUrl);
+
+  const [compressedAvatarImage, setCompressedAvatarImage] =
+    useState<File | null>(null);
+  const [compressedBannerImage, setCompressedBannerImage] =
+    useState<File | null>(null);
 
   const MAX_IMAGE_SIZE: number = 5 * 1024 * 1024;
   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -124,7 +127,12 @@ const EditProfileForm: React.FC = () => {
         useWebWorker: true,
       };
 
-      compressAndSetPreview(acceptedFiles, setAvatarPreview, options);
+      compressAndSetPreview(
+        acceptedFiles,
+        setAvatarPreview,
+        options,
+        setCompressedAvatarImage,
+      );
     },
     [setAvatarPreview],
   );
@@ -137,7 +145,12 @@ const EditProfileForm: React.FC = () => {
         useWebWorker: true,
       };
 
-      compressAndSetPreview(acceptedFiles, setBannerPreview, options);
+      compressAndSetPreview(
+        acceptedFiles,
+        setBannerPreview,
+        options,
+        setCompressedBannerImage,
+      );
     },
     [setBannerPreview],
   );
@@ -146,7 +159,6 @@ const EditProfileForm: React.FC = () => {
     getRootProps: getAvatarRootProps,
     getInputProps: getAvatarInputProps,
     isDragActive: isAvatarDragActive,
-    acceptedFiles: acceptedAvatarFile,
     fileRejections: avatarFileRejections,
   } = useDropzone({
     onDrop: onAvatarDrop,
@@ -159,7 +171,6 @@ const EditProfileForm: React.FC = () => {
     getRootProps: getBannerRootProps,
     getInputProps: getBannerInputProps,
     isDragActive: isBannerDragActive,
-    acceptedFiles: acceptedBannerFile,
     fileRejections: bannerFileRejections,
   } = useDropzone({
     onDrop: onBannerDrop,
@@ -174,8 +185,12 @@ const EditProfileForm: React.FC = () => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    formData.append('avatarFile', acceptedAvatarFile[0]);
-    formData.append('bannerFile', acceptedBannerFile[0]);
+    if (compressedAvatarImage) {
+      formData.append('avatarFile', compressedAvatarImage);
+    }
+    if (compressedBannerImage) {
+      formData.append('bannerFile', compressedBannerImage);
+    }
     formData.append('software', JSON.stringify(softwareList));
     formData.append('generators', JSON.stringify(generatorsList));
 
