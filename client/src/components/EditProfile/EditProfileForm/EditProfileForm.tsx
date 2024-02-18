@@ -19,13 +19,17 @@ const EditProfileForm: React.FC = () => {
   const { user } = useAuthContext();
   const { updateUser, error, isLoading } = useUpdateUser();
 
-  const [softwareList, setSoftwareList] = useState<string[]>([]);
+  const [softwareList, setSoftwareList] = useState<string[]>(
+    user.software ? JSON.parse(user.software) : [],
+  );
   const [softwareInputWidth, setSoftwareInputWidth] = useState(23);
   const softwareInputRef = useRef<HTMLInputElement | null>(null);
   const [isSoftwareInputFocused, setIsSoftwareInputFocused] =
     useState<boolean>(false);
 
-  const [generatorsList, setGeneratorsList] = useState<string[]>([]);
+  const [generatorsList, setGeneratorsList] = useState<string[]>(
+    user.generators ? JSON.parse(user.generators) : [],
+  );
   const [generatorsInputWidth, setGeneratorsInputWidth] = useState(23);
   const generatorsInputRef = useRef<HTMLInputElement | null>(null);
   const [isGeneratorsInputFocused, setIsGeneratorsInputFocused] =
@@ -307,6 +311,8 @@ const EditProfileForm: React.FC = () => {
               rows={3}
               className={`${styles['edit-profile-input']} ${styles['textarea']}`}
               onChange={(e) => setBio(e.target.value)}
+              name="summary"
+              value={bio}
             ></textarea>
           </div>
           <EditProfileInput
