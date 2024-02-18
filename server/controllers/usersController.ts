@@ -2,9 +2,21 @@ import User from '../models/userModel.js';
 import { UserDocument } from '../types/UserInterfaces';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
+import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import {
+  bucketName,
+  bucketRegion,
+  randomImageName,
+  s3,
+} from '../utility/s3Utils.js';
 
 interface AuthRequest extends Request {
-  user?: { _id: string; username: string };
+  user?: {
+    _id: string;
+    username: string;
+    avatarUrl: string;
+    bannerUrl: string;
+  };
 }
 
 const getUser = async (req: Request, res: Response) => {
@@ -54,6 +66,19 @@ const deleteUser = async (req: Request, res: Response) => {
 const updateUser = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
   const userId = req.user?._id;
+  const currentAvatarUrl = req.user?.avatarUrl;
+  const currentBannerUrl = req.user?.bannerUrl;
+  const { software, generators } = req.body;
+  const avatarFile = (req.files as { avatarFile?: Express.Multer.File[] })
+    ?.avatarFile?.[0];
+  const bannerFile = (req.files as { bannerFile?: Express.Multer.File[] })
+    ?.bannerFile?.[0];
+
+  const parsedSoftwareList =
+    typeof software === 'string' ? JSON.parse(software) : software || [];
+
+  const parsedGeneratorsList =
+    typeof generators === 'string' ? JSON.parse(generators) : generators || [];
 
   try {
     if (!userId || userId.toString() !== id) {
@@ -65,31 +90,70 @@ const updateUser = async (req: AuthRequest, res: Response) => {
     }
 
     if (req.body.username) {
-      const newUsername = req.body.username;
-      const usernameExists: UserDocument | null = await User.findOne({
-        username: newUsername,
-      });
-
-      if (usernameExists && newUsername !== usernameExists.username) {
-        return res
-          .status(400)
-          .json({ error: 'Username exists. Please try another username.' });
-      }
+      await validateUsername(req.body.username, res);
     }
 
-    const user: UserDocument | null = await User.findOneAndUpdate(
-      { _id: id },
-      { ...req.body },
-      { new: true }
-    );
+    const updatedAvatarUrl = avatarFile
+      ? await uploadImagesToS3(avatarFile)
+      : null;
+    const updatedBannerUrl = bannerFile
+      ? await uploadImagesToS3(bannerFile)
+      : null;
 
-    if (!user) {
+    const updatedUser = await updateUserInDatabase(id, {
+      ...req.body,
+      software: parsedSoftwareList,
+      generators: parsedGeneratorsList,
+      avatarUrl: updatedAvatarUrl || currentAvatarUrl,
+      bannerUrl: updatedBannerUrl || currentBannerUrl,
+    });
+
+    if (!updatedUser) {
       return res.status(404).json({ message: 'User not found.' });
     }
-    res.status(200).json(user);
+
+    res.status(200).json(updatedUser);
   } catch (error: any) {
+    console.error('Error in updateUser:', error);
     res.status(500).json({ error: error.message });
   }
+};
+
+const validateUsername = async (newUsername: string, res: Response) => {
+  const usernameExists = await User.findOne({ username: newUsername });
+
+  if (usernameExists && newUsername !== usernameExists.username) {
+    res
+      .status(400)
+      .json({ error: 'Username exists. Please try another username.' });
+    throw new Error('Username already exists. Please try another username.');
+  }
+};
+
+const uploadImagesToS3 = async (file: Express.Multer.File | undefined) => {
+  if (!file) return;
+
+  const imageName = randomImageName();
+
+  const params = {
+    Bucket: bucketName,
+    Key: imageName,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+  };
+
+  const command = new PutObjectCommand(params);
+
+  try {
+    await s3.send(command);
+    return `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${imageName}`;
+  } catch (error) {
+    console.error('Error uploading to S3:', error);
+    throw new Error('Failed to upload to S3');
+  }
+};
+const updateUserInDatabase = async (id: string, data: any) => {
+  return await User.findOneAndUpdate({ _id: id }, data, { new: true });
 };
 
 export { getUser, getAllUsers, deleteUser, updateUser };
