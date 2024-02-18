@@ -1,37 +1,18 @@
 import Project from '../models/projectModel.js';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
-import {
-  S3Client,
-  PutObjectCommand,
-  DeleteObjectCommand,
-} from '@aws-sdk/client-s3';
+import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import ProjectDocument from '../types/ProjectDocument.js';
-import dotenv from 'dotenv';
-import crypto from 'crypto';
+import {
+  bucketName,
+  bucketRegion,
+  randomImageName,
+  s3,
+} from '../utility/s3Utils.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
 }
-
-dotenv.config();
-
-const bucketName = process.env.BUCKET_NAME as string;
-const bucketRegion = process.env.BUCKET_REGION as string;
-const accessKey = process.env.ACCESS_KEY as string;
-const secretAccessKey = process.env.SECRET_ACCESS_KEY as string;
-
-const randomImageName = (bytes: number = 32) => {
-  return crypto.randomBytes(bytes).toString('hex');
-};
-
-const s3 = new S3Client({
-  region: bucketRegion,
-  credentials: {
-    accessKeyId: accessKey,
-    secretAccessKey: secretAccessKey,
-  },
-});
 
 const getProject = async (req: Request, res: Response) => {
   const { id } = req.params;
