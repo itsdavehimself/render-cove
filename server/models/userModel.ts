@@ -3,6 +3,16 @@ import bcrypt from 'bcrypt';
 import validator from 'validator';
 import { UserDocument, UserModel } from '../types/UserInterfaces.js';
 
+const allowedSocialMedia = [
+  'facebook',
+  'instagram',
+  'x',
+  'youtube',
+  'github',
+  'discord',
+  'behance',
+];
+
 const userSchema = new Schema<UserDocument>(
   {
     email: {
@@ -52,15 +62,21 @@ const userSchema = new Schema<UserDocument>(
         trim: true,
       },
     ],
-    socials: {
-      type: [
-        {
+    socials: [
+      {
+        network: {
           type: String,
           trim: true,
+          lowercase: true,
+          enum: allowedSocialMedia,
         },
-      ],
-      validate: [socialsLimit, '{PATH} cannot exceed 15 items'],
-    },
+        username: {
+          type: String,
+          trim: true,
+          default: '',
+        },
+      },
+    ],
     location: {
       type: String,
       trim: true,
@@ -80,10 +96,6 @@ const userSchema = new Schema<UserDocument>(
   },
   { timestamps: true }
 );
-
-function socialsLimit(val: string[]) {
-  return val.length <= 5;
-}
 
 userSchema.statics.signup = async function (
   email,
