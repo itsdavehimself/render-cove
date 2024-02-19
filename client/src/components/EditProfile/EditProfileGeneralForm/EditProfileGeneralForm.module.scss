@@ -1,31 +1,13 @@
 @use 'variables';
-@use '../../../index.module.scss' as index;
 @use '../EditProfileInput/EditProfileInput.module.scss';
-
-@mixin edit-profile-header {
-  font-size: 2rem;
-}
+@use '../EditProfileMixins.module.scss' as profile;
 
 .edit-profile-form {
-  padding: 1rem 1.5rem;
-
-  header {
-    display: flex;
-    flex-direction: column;
-    row-gap: 0.25rem;
-  }
-}
-
-.edit-profile-header {
-  @include edit-profile-header();
+  @include profile.edit-profile-form;
 }
 
 .edit-profile-description {
-  font-size: 0.9rem;
-  font-weight: 400;
-  border-bottom: 1px solid variables.$primary-light;
-  padding-bottom: 1rem;
-  color: variables.$secondary-darker;
+  @include profile.edit-profile-description;
 }
 
 .general-form {
@@ -41,13 +23,8 @@
   padding-bottom: 1rem;
 }
 
-.save-edit-button {
-  @include index.main-blue-button;
-  justify-self: flex-end;
-  align-self: flex-start;
-  width: 6rem;
-}
-
-.save-edit-button:hover {
-  @include index.main-blue-button-hover;
+.save-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
 }

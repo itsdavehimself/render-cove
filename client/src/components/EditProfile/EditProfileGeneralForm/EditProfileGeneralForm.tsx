@@ -3,6 +3,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useState } from 'react';
 import useUpdateUser from '../../../hooks/useUserUpdate';
 import EditProfileInput from '../EditProfileInput/EditProfileInput';
+import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 
 const EditProfileGeneralForm: React.FC = () => {
   const { user } = useAuthContext();
@@ -84,9 +85,9 @@ const EditProfileGeneralForm: React.FC = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <button className={styles['save-edit-button']} disabled={isLoading}>
-          Save
-        </button>
+        <div className={styles['save-button-container']}>
+          <SaveSubmitButton label="Save" isLoading={isLoading} />
+        </div>
       </form>
     </div>
   );

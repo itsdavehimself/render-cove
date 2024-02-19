@@ -1,0 +1,19 @@
+@use 'variables';
+
+@mixin edit-profile-description {
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-bottom: 1px solid variables.$primary-light;
+  padding-bottom: 1rem;
+  color: variables.$secondary-darker;
+}
+
+@mixin edit-profile-form {
+  padding: 1rem 1.5rem;
+
+  header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.25rem;
+  }
+}

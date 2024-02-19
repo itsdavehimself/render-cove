@@ -14,6 +14,7 @@ import {
   customFileValidation,
   compressAndSetPreview,
 } from './EditProfileForm.utility';
+import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 
 const EditProfileForm: React.FC = () => {
   const { user } = useAuthContext();
@@ -402,9 +403,9 @@ const EditProfileForm: React.FC = () => {
             }
           />
         </div>
-        <button className={styles['save-edit-button']} disabled={isLoading}>
-          Save
-        </button>
+        <div className={styles['save-button-container']}>
+          <SaveSubmitButton label="Save" isLoading={isLoading} />
+        </div>
         {error && <div>{error.toString()}</div>}
       </form>
     </div>

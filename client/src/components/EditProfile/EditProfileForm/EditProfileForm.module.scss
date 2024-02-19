@@ -1,7 +1,6 @@
 @use '../EditProfileGeneralForm/EditProfileGeneralForm.module.scss' as
   editProfile;
 @use 'variables';
-@use '../../../index.module.scss' as index;
 
 .profile-form {
   padding: 2rem 0;
@@ -100,7 +99,7 @@
 .edit-profile-info-form {
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 2rem;
 }
 
 .bio-remaining-characters {
@@ -122,20 +121,15 @@
   flex-wrap: wrap;
 }
 
-.save-edit-button {
-  @include index.main-blue-button;
-  justify-self: flex-end;
-  align-self: flex-start;
-  width: 6rem;
-}
-
-.save-edit-button:hover {
-  @include index.main-blue-button-hover;
-}
-
 .file-input-error {
   text-align: center;
   font-size: 0.8rem;
   font-weight: 300;
   color: variables.$error-color;
+}
+
+.save-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
 }
