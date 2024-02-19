@@ -27,6 +27,9 @@ const EditProfileSocialForm: React.FC = () => {
     return socialEntry?.username || '';
   };
 
+  const [serverResponse, setServerResponse] = useState<boolean>(false);
+  const [isError, setIsError] = useState<Error | null>(error);
+
   const [facebookLink, setFacebookLink] = useState<string>(
     findUsernameByNetwork(user, 'facebook'),
   );
@@ -70,6 +73,7 @@ const EditProfileSocialForm: React.FC = () => {
     e: FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
+    setServerResponse(false);
 
     const formData = new FormData(e.currentTarget);
 
@@ -81,7 +85,16 @@ const EditProfileSocialForm: React.FC = () => {
       socialsFormData.append(`socials[${index}][username]`, social.username);
     });
 
-    await updateUser(socialsFormData);
+    try {
+      await updateUser(socialsFormData);
+      setServerResponse(true);
+    } catch (updateError) {
+      if (updateError instanceof Error) {
+        setIsError(updateError);
+      } else {
+        console.error('Unexpected error type:', updateError);
+      }
+    }
   };
 
   return (
@@ -106,6 +119,7 @@ const EditProfileSocialForm: React.FC = () => {
           initialValue={facebookLink}
           placeholder="Username"
           onChange={(e) => setFacebookLink(e.target.value)}
+          serverResponse={serverResponse}
         />
         <SocialInput
           htmlFor="instagram"
@@ -116,6 +130,7 @@ const EditProfileSocialForm: React.FC = () => {
           initialValue={instagramLink}
           placeholder="Username"
           onChange={(e) => setInstagramLink(e.target.value)}
+          serverResponse={serverResponse}
         />
         <SocialInput
           htmlFor="x"
@@ -126,6 +141,7 @@ const EditProfileSocialForm: React.FC = () => {
           initialValue={xLink}
           placeholder="Username"
           onChange={(e) => setXLink(e.target.value)}
+          serverResponse={serverResponse}
         />
         <SocialInput
           htmlFor="youtube"
@@ -136,6 +152,7 @@ const EditProfileSocialForm: React.FC = () => {
           initialValue={youtubeLink}
           placeholder="Username"
           onChange={(e) => setYoutubeLink(e.target.value)}
+          serverResponse={serverResponse}
         />
         <SocialInput
           htmlFor="github"
@@ -146,6 +163,7 @@ const EditProfileSocialForm: React.FC = () => {
           initialValue={githubLink}
           placeholder="Username"
           onChange={(e) => setGithubLink(e.target.value)}
+          serverResponse={serverResponse}
         />
         <SocialInput
           htmlFor="discord"
@@ -156,6 +174,7 @@ const EditProfileSocialForm: React.FC = () => {
           initialValue={discordLink}
           placeholder="Username"
           onChange={(e) => setDiscordLink(e.target.value)}
+          serverResponse={serverResponse}
         />
         <SocialInput
           htmlFor="behance"
@@ -166,8 +185,11 @@ const EditProfileSocialForm: React.FC = () => {
           initialValue={behanceLink}
           placeholder="Username"
           onChange={(e) => setBehanceLink(e.target.value)}
+          serverResponse={serverResponse}
         />
-        {error && <div>{error.toString()}</div>}
+        {isError && (
+          <div className={styles['error-message']}>{isError.toString()}</div>
+        )}
         <div className={styles['save-button-container']}>
           <SaveSubmitButton label="Save" isLoading={isLoading} />
         </div>
