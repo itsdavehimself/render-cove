@@ -60,7 +60,6 @@ const EditProfileSocialForm: React.FC = () => {
 
     for (const [key, value] of formData.entries()) {
       const social = { network: key, username: value.toString() };
-      console.log(social);
       socialsArray.push(social);
     }
 
