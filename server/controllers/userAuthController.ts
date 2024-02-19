@@ -34,6 +34,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       website,
       location,
       tagline,
+      socials,
       _id: userId,
     } = user;
 
@@ -51,6 +52,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       website,
       location,
       tagline,
+      socials,
       token,
     });
   } catch (error: any) {
@@ -80,6 +82,7 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       website,
       location,
       tagline,
+      socials,
       _id: userId,
     } = user;
 
@@ -97,6 +100,7 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       website,
       location,
       tagline,
+      socials,
       token,
     });
   } catch (error: any) {
@@ -130,6 +134,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         website,
         location,
         tagline,
+        socials,
         _id: userId,
       } = existingUser;
 
@@ -146,6 +151,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         website,
         location,
         tagline,
+        socials,
         userId,
         token,
       });
@@ -188,6 +194,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         website,
         location,
         tagline,
+        socials,
         _id: userId,
       } = newUser;
 
@@ -204,6 +211,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         website,
         location,
         tagline,
+        socials,
         createdAt,
         token,
       });
