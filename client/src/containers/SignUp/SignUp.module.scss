@@ -1,5 +1,4 @@
 @use 'variables';
-@use '../../index.module.scss' as index;
 
 @mixin auth-container {
   display: flex;
@@ -167,14 +166,6 @@ form {
 .input-error-message {
   font-size: 0.8rem;
   color: variables.$error-color;
-}
-
-.signup-button {
-  @include index.main-blue-button;
-}
-
-.signup-button:hover {
-  @include index.main-blue-button-hover;
 }
 
 .validation-container {

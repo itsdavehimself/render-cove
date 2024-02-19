@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import GoogleSVG from '../../components/SVGComponents/GoogleSVG.js';
+import SaveSubmitButton from '../../components/SaveSubmitButton/SaveSubmitButton.js';
 
 interface PasswordChecks {
   length: boolean;
@@ -227,10 +228,7 @@ const SignUp: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            <button className={styles['signup-button']} disabled={isLoading}>
-              Sign Up
-            </button>
+            <SaveSubmitButton label="Sign Up" isLoading={isLoading} />
             {error && (
               <div className={styles['submit-error']}>{error?.toString()}</div>
             )}

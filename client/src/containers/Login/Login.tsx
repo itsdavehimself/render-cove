@@ -6,6 +6,7 @@ import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 import GoogleSVG from '../../components/SVGComponents/GoogleSVG';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import useOAuthSignUp from '../../hooks/useOAuthSignUp';
+import SaveSubmitButton from '../../components/SaveSubmitButton/SaveSubmitButton';
 
 interface OAuthPayload extends JwtPayload {
   email?: string;
@@ -120,9 +121,7 @@ const Login: React.FC = () => {
                 {passwordError ? 'Please enter your password' : ''}
               </div>
             </div>
-            <button className={styles['signup-button']} disabled={isLoading}>
-              Log In
-            </button>
+            <SaveSubmitButton label="Log In" isLoading={isLoading} />
             {error && (
               <div className={styles['submit-error']}>{error.toString()}</div>
             )}
