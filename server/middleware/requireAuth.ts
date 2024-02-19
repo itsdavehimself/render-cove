@@ -27,7 +27,10 @@ const requireAuth = async (
   try {
     const decodedToken = jwt.verify(token, jwtSecret) as { _id: string };
     const { _id } = decodedToken;
-    req.user = await User.findOne({ _id }).select('_id');
+    const user = await User.findOne({ _id });
+    if (user) {
+      req.user = user;
+    }
     next();
   } catch (error: any) {
     console.error('JWT Verification Error:', error.message);
