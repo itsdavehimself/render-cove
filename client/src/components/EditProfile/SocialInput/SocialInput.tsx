@@ -12,6 +12,7 @@ interface SocialInputProps {
   initialValue: string;
   placeholder?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  serverResponse: boolean;
 }
 
 const SocialInput: React.FC<SocialInputProps> = ({
@@ -22,6 +23,7 @@ const SocialInput: React.FC<SocialInputProps> = ({
   name,
   initialValue,
   placeholder,
+  serverResponse,
 }) => {
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -34,6 +36,12 @@ const SocialInput: React.FC<SocialInputProps> = ({
     const usernameNotValid = inputValue.length > 30;
     setError(usernameNotValid);
   }, [inputValue]);
+
+  useEffect(() => {
+    if (serverResponse) {
+      setIsAdding(false);
+    }
+  }, [serverResponse]);
 
   return (
     <div className={styles['social-input-container']}>
@@ -77,7 +85,7 @@ const SocialInput: React.FC<SocialInputProps> = ({
         ) : (
           <>
             <div className={styles['social-display']}>
-              {inputValue && <>@{inputValue}</>}
+              {inputValue !== '' && <>@{inputValue}</>}
             </div>
             <button
               className={styles['add-social-button']}
