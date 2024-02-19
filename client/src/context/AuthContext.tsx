@@ -8,7 +8,12 @@ import {
 import { authReducer } from '../reducers/authReducer';
 import { AuthAction } from '../types/ActionTypes';
 
-interface UserType {
+export interface SocialEntry {
+  network: string;
+  username: string;
+}
+
+export interface UserType {
   email: string;
   username: string;
   displayName: string;
@@ -17,6 +22,7 @@ interface UserType {
   summary: string;
   software: string[];
   generators: string[];
+  socials: SocialEntry[];
   createdAt: Date;
   userId: string;
   website: string;
