@@ -1,6 +1,6 @@
 import styles from './EditProfileSocialForm.module.scss';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import SocialInput from '../SocialInput/SocialInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,29 +13,76 @@ import {
   faBehance,
 } from '@fortawesome/free-brands-svg-icons';
 import useUpdateUser from '../../../hooks/useUserUpdate';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { UserType, SocialEntry } from '../../../context/AuthContext';
 
 const EditProfileSocialForm: React.FC = () => {
-  const [facebookLink, setFacebookLink] = useState<string>('');
-  const [instagramLink, setInstagramLink] = useState<string>('');
-  const [xTwitterLink, setXTwitterLink] = useState<string>('');
-  const [youtubeLink, setYoutubeLink] = useState<string>('');
-  const [githubLink, setGithubLink] = useState<string>('');
-  const [discordLink, setDiscordLink] = useState<string>('');
-  const [behanceLink, setBehanceLink] = useState<string>('');
+  const { updateUser, isLoading, error } = useUpdateUser();
+  const { user } = useAuthContext();
+
+  const findUsernameByNetwork = (user: UserType, network: string): string => {
+    const socialEntry = user.socials.find(
+      (entry: SocialEntry) => entry.network === network,
+    ) as SocialEntry;
+    return socialEntry?.username || '';
+  };
+
+  const [facebookLink, setFacebookLink] = useState<string>(
+    findUsernameByNetwork(user, 'facebook'),
+  );
+  const [instagramLink, setInstagramLink] = useState<string>(
+    findUsernameByNetwork(user, 'instagram'),
+  );
+  const [xLink, setXLink] = useState<string>(findUsernameByNetwork(user, 'x'));
+  const [youtubeLink, setYoutubeLink] = useState<string>(
+    findUsernameByNetwork(user, 'youtube'),
+  );
+  const [githubLink, setGithubLink] = useState<string>(
+    findUsernameByNetwork(user, 'github'),
+  );
+  const [discordLink, setDiscordLink] = useState<string>(
+    findUsernameByNetwork(user, 'discord'),
+  );
+  const [behanceLink, setBehanceLink] = useState<string>(
+    findUsernameByNetwork(user, 'behance'),
+  );
 
   const facebookIcon: React.ReactNode = <FontAwesomeIcon icon={faFacebook} />;
   const instagramIcon: React.ReactNode = <FontAwesomeIcon icon={faInstagram} />;
-  const xTwitterIcon: React.ReactNode = <FontAwesomeIcon icon={faXTwitter} />;
+  const xIcon: React.ReactNode = <FontAwesomeIcon icon={faXTwitter} />;
   const youtubeIcon: React.ReactNode = <FontAwesomeIcon icon={faYoutube} />;
   const githubIcon: React.ReactNode = <FontAwesomeIcon icon={faGithub} />;
   const discordIcon: React.ReactNode = <FontAwesomeIcon icon={faDiscord} />;
   const behanceIcon: React.ReactNode = <FontAwesomeIcon icon={faBehance} />;
 
-  const { updateUser, isLoading, error } = useUpdateUser();
+  const convertToSocialEntryArray = (formData: FormData): SocialEntry[] => {
+    const socialsArray: SocialEntry[] = [];
 
-  const handleFormSubmit = (e: React.FormEvent): void => {
+    for (const [key, value] of formData.entries()) {
+      const social = { network: key, username: value.toString() };
+      console.log(social);
+      socialsArray.push(social);
+    }
+
+    return socialsArray;
+  };
+
+  const handleFormSubmit = async (
+    e: FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     e.preventDefault();
-    console.log('submitted');
+
+    const formData = new FormData(e.currentTarget);
+
+    const socialsArray = convertToSocialEntryArray(formData);
+
+    const socialsFormData = new FormData();
+    socialsArray.forEach((social, index) => {
+      socialsFormData.append(`socials[${index}][network]`, social.network);
+      socialsFormData.append(`socials[${index}][username]`, social.username);
+    });
+
+    await updateUser(socialsFormData);
   };
 
   return (
@@ -57,10 +104,8 @@ const EditProfileSocialForm: React.FC = () => {
           icon={facebookIcon}
           id="facebook"
           name="facebook"
-          value={facebookLink}
+          initialValue={facebookLink}
           placeholder="Username"
-          clientError=""
-          serverError=""
           onChange={(e) => setFacebookLink(e.target.value)}
         />
         <SocialInput
@@ -69,23 +114,19 @@ const EditProfileSocialForm: React.FC = () => {
           icon={instagramIcon}
           id="instagram"
           name="instagram"
-          value={instagramLink}
+          initialValue={instagramLink}
           placeholder="Username"
-          clientError=""
-          serverError=""
           onChange={(e) => setInstagramLink(e.target.value)}
         />
         <SocialInput
-          htmlFor="xTwitter"
+          htmlFor="x"
           label="X"
-          icon={xTwitterIcon}
-          id="xTwitter"
-          name="xTwitter"
-          value={xTwitterLink}
+          icon={xIcon}
+          id="x"
+          name="x"
+          initialValue={xLink}
           placeholder="Username"
-          clientError=""
-          serverError=""
-          onChange={(e) => setXTwitterLink(e.target.value)}
+          onChange={(e) => setXLink(e.target.value)}
         />
         <SocialInput
           htmlFor="youtube"
@@ -93,10 +134,8 @@ const EditProfileSocialForm: React.FC = () => {
           icon={youtubeIcon}
           id="youtube"
           name="youtube"
-          value={youtubeLink}
+          initialValue={youtubeLink}
           placeholder="Username"
-          clientError=""
-          serverError=""
           onChange={(e) => setYoutubeLink(e.target.value)}
         />
         <SocialInput
@@ -105,10 +144,8 @@ const EditProfileSocialForm: React.FC = () => {
           icon={githubIcon}
           id="github"
           name="github"
-          value={githubLink}
+          initialValue={githubLink}
           placeholder="Username"
-          clientError=""
-          serverError=""
           onChange={(e) => setGithubLink(e.target.value)}
         />
         <SocialInput
@@ -117,10 +154,8 @@ const EditProfileSocialForm: React.FC = () => {
           icon={discordIcon}
           id="discord"
           name="discord"
-          value={discordLink}
+          initialValue={discordLink}
           placeholder="Username"
-          clientError=""
-          serverError=""
           onChange={(e) => setDiscordLink(e.target.value)}
         />
         <SocialInput
@@ -129,14 +164,13 @@ const EditProfileSocialForm: React.FC = () => {
           icon={behanceIcon}
           id="behance"
           name="behance"
-          value={behanceLink}
+          initialValue={behanceLink}
           placeholder="Username"
-          clientError=""
-          serverError=""
           onChange={(e) => setBehanceLink(e.target.value)}
         />
+        {error && <div>{error.toString()}</div>}
         <div className={styles['save-button-container']}>
-          <SaveSubmitButton label="Save" isLoading={false} />
+          <SaveSubmitButton label="Save" isLoading={isLoading} />
         </div>
       </form>
     </div>
