@@ -10,12 +10,18 @@ import {
   s3,
 } from '../utility/s3Utils.js';
 
+export interface SocialEntry {
+  network: string;
+  username: string;
+}
+
 interface AuthRequest extends Request {
   user?: {
     _id: string;
     username: string;
     avatarUrl: string;
     bannerUrl: string;
+    socials: SocialEntry[];
   };
 }
 
@@ -68,11 +74,15 @@ const updateUser = async (req: AuthRequest, res: Response) => {
   const userId = req.user?._id;
   const currentAvatarUrl = req.user?.avatarUrl;
   const currentBannerUrl = req.user?.bannerUrl;
+  const currentSocials = req.user?.socials;
   const { software, generators } = req.body;
   const avatarFile = (req.files as { avatarFile?: Express.Multer.File[] })
     ?.avatarFile?.[0];
   const bannerFile = (req.files as { bannerFile?: Express.Multer.File[] })
     ?.bannerFile?.[0];
+  const newSocials = req.body.socials;
+
+  const updatedSocials = updateSocials(currentSocials, newSocials);
 
   const parsedSoftwareList =
     typeof software === 'string' ? JSON.parse(software) : software;
@@ -102,6 +112,7 @@ const updateUser = async (req: AuthRequest, res: Response) => {
 
     const updateObject: any = {
       ...req.body,
+      socials: updatedSocials,
       avatarUrl: updatedAvatarUrl || currentAvatarUrl,
       bannerUrl: updatedBannerUrl || currentBannerUrl,
     };
@@ -160,8 +171,39 @@ const uploadImagesToS3 = async (file: Express.Multer.File | undefined) => {
     throw new Error('Failed to upload to S3');
   }
 };
+
 const updateUserInDatabase = async (id: string, data: any) => {
   return await User.findOneAndUpdate({ _id: id }, data, { new: true });
+};
+
+const updateSocials = (
+  currentSocials: SocialEntry[] | undefined,
+  newSocials: SocialEntry[]
+) => {
+  let currentSocialsMap = new Map(
+    currentSocials ? currentSocials.map((obj) => [obj.network, obj]) : []
+  );
+
+  if (!newSocials) {
+    return currentSocials;
+  }
+
+  newSocials.forEach((newObj: SocialEntry) => {
+    if (currentSocials && currentSocialsMap.has(newObj.network)) {
+      const index = currentSocials.findIndex(
+        (obj) => obj.network === newObj.network
+      );
+      if (index !== -1) {
+        currentSocials[index] = newObj;
+      }
+    } else {
+      if (currentSocials) {
+        currentSocials.push(newObj);
+      }
+    }
+  });
+
+  return currentSocials;
 };
 
 export { getUser, getAllUsers, deleteUser, updateUser };
