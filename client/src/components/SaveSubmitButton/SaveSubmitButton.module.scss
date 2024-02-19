@@ -1,0 +1,44 @@
+@use 'variables';
+
+.save-submit-button {
+  background-color: variables.$accent-color;
+  color: variables.$secondary-color;
+  padding: 0.5rem 0;
+  min-width: 6rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.save-submit-button.submitting {
+  background-color: variables.$accent-tertiary;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.save-submit-button:hover {
+  cursor: pointer;
+  background-color: variables.$accent-tertiary;
+  transition: all 0.2s ease-in-out;
+}
+
+.loader-spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid variables.$secondary-color;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
