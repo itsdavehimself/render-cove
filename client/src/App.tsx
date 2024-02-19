@@ -11,9 +11,6 @@ import WithoutNav from './components/WithoutNav/WithoutNav';
 import EditProfile from './containers/EditProfile/EditProfile';
 import ChooseUsername from './containers/ChooseUsername/ChooseUsername';
 
-const API_BASE_URL: string =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
-
 function App() {
   const { user } = useAuthContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
