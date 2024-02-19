@@ -75,10 +75,10 @@ const updateUser = async (req: AuthRequest, res: Response) => {
     ?.bannerFile?.[0];
 
   const parsedSoftwareList =
-    typeof software === 'string' ? JSON.parse(software) : software || [];
+    typeof software === 'string' ? JSON.parse(software) : software;
 
   const parsedGeneratorsList =
-    typeof generators === 'string' ? JSON.parse(generators) : generators || [];
+    typeof generators === 'string' ? JSON.parse(generators) : generators;
 
   try {
     if (!userId || userId.toString() !== id) {
@@ -100,13 +100,21 @@ const updateUser = async (req: AuthRequest, res: Response) => {
       ? await uploadImagesToS3(bannerFile)
       : null;
 
-    const updatedUser = await updateUserInDatabase(id, {
+    const updateObject: any = {
       ...req.body,
-      software: parsedSoftwareList,
-      generators: parsedGeneratorsList,
       avatarUrl: updatedAvatarUrl || currentAvatarUrl,
       bannerUrl: updatedBannerUrl || currentBannerUrl,
-    });
+    };
+
+    if (parsedSoftwareList !== undefined) {
+      updateObject.software = parsedSoftwareList;
+    }
+
+    if (parsedGeneratorsList !== undefined) {
+      updateObject.generators = parsedGeneratorsList;
+    }
+
+    const updatedUser = await updateUserInDatabase(id, updateObject);
 
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found.' });
