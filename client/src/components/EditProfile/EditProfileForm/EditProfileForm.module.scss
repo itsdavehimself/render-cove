@@ -1,6 +1,7 @@
 @use '../EditProfileGeneralForm/EditProfileGeneralForm.module.scss' as
   editProfile;
 @use 'variables';
+@use '../EditProfileMixins.module.scss' as profile;
 
 .profile-form {
   padding: 2rem 0;
@@ -129,7 +130,5 @@
 }
 
 .save-button-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: start;
+  @include profile.save-button-container;
 }

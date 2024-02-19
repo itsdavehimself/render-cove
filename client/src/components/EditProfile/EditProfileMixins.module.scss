@@ -17,3 +17,9 @@
     row-gap: 0.25rem;
   }
 }
+
+@mixin save-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
+}

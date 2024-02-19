@@ -24,7 +24,5 @@
 }
 
 .save-button-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: start;
+  @include profile.save-button-container;
 }
