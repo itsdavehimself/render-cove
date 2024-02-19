@@ -1,9 +1,7 @@
 import styles from './SocialInput.module.scss';
-import { ChangeEvent } from 'react';
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 interface SocialInputProps {
   htmlFor: string;
@@ -11,10 +9,8 @@ interface SocialInputProps {
   label: string;
   id: string;
   name: string;
-  value: string;
+  initialValue: string;
   placeholder?: string;
-  clientError?: string;
-  serverError?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -24,15 +20,20 @@ const SocialInput: React.FC<SocialInputProps> = ({
   icon,
   id,
   name,
-  value,
+  initialValue,
   placeholder,
-  clientError,
-  serverError,
-  onChange,
 }) => {
   const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>(initialValue);
+
   const xMark: React.ReactNode = <FontAwesomeIcon icon={faXmark} />;
   const plus: React.ReactNode = <FontAwesomeIcon icon={faPlus} />;
+
+  useEffect(() => {
+    const usernameNotValid = inputValue.length > 30;
+    setError(usernameNotValid);
+  }, [inputValue]);
 
   return (
     <div className={styles['social-input-container']}>
@@ -46,34 +47,42 @@ const SocialInput: React.FC<SocialInputProps> = ({
       <div className={styles['social-input-controls']}>
         {isAdding ? (
           <>
-            <input
-              type="text"
-              id={id}
-              name={name}
-              value={value}
-              placeholder={placeholder}
-              onChange={onChange}
-              className={styles['social-link-input']}
-            ></input>
-            {clientError && (
-              <div className={styles['input-error-message']}>{clientError}</div>
-            )}
-            {!clientError && serverError && (
-              <div className={styles['input-error-message']}>{serverError}</div>
-            )}
+            <div className={styles['input-container']}>
+              <input
+                type="text"
+                id={id}
+                name={name}
+                value={inputValue}
+                placeholder={placeholder}
+                onChange={(e) => setInputValue(e.target.value)}
+                className={`${styles['social-link-input']} ${error ? styles['error'] : ''}`}
+              />
+              {error && (
+                <div className={styles['input-error-message']}>
+                  Username must be less than 30 characters.
+                </div>
+              )}
+            </div>
             <button
               className={styles['cancel-social-button']}
-              onClick={() => setIsAdding(false)}
+              onClick={() => {
+                setIsAdding(false);
+                setInputValue(initialValue);
+              }}
+              type="button"
             >
               {xMark}
             </button>
           </>
         ) : (
           <>
-            <div>{value}</div>
+            <div className={styles['social-display']}>
+              {inputValue && <>@{inputValue}</>}
+            </div>
             <button
               className={styles['add-social-button']}
               onClick={() => setIsAdding(true)}
+              type="button"
             >
               {plus}
             </button>
