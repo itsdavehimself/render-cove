@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import formImage from '../../assets/images/jungle-cyberpunk-city.png';
 import useOAuthSignUp from '../../hooks/useOAuthSignUp';
+import SaveSubmitButton from '../../components/SaveSubmitButton/SaveSubmitButton';
 
 const ChooseUsername: React.FC = () => {
   const userString = localStorage.getItem('google-signup');
@@ -62,12 +63,7 @@ const ChooseUsername: React.FC = () => {
                 {!usernameError && errorOAuth && <>{errorOAuth.toString()}</>}
               </div>
             </div>
-            <button
-              className={styles['signup-button']}
-              disabled={isLoadingOAuth}
-            >
-              Sign Up
-            </button>
+            <SaveSubmitButton label="Sign Up" isLoading={isLoadingOAuth} />
           </form>
           <div className={styles.divider}>
             <div className={styles['divider-line']}></div>
@@ -77,7 +73,7 @@ const ChooseUsername: React.FC = () => {
 
           <div className={styles['members-container']}>
             Already a member?{' '}
-            <Link className={styles.link} to="/signin">
+            <Link className={styles.link} to="/login">
               Sign In
             </Link>
           </div>
