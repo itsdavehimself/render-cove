@@ -1,0 +1,19 @@
+@use 'variables';
+@use '../EditProfileInput/EditProfileInput.module.scss';
+@use '../EditProfileMixins.module.scss' as profile;
+
+.edit-profile-form {
+  @include profile.edit-profile-form;
+}
+
+.edit-profile-description {
+  @include profile.edit-profile-description;
+}
+
+.save-button-container {
+  @include profile.save-button-container;
+}
+
+.social-form {
+  margin-top: 2rem;
+}
