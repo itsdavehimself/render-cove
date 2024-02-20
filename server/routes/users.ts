@@ -4,6 +4,7 @@ import {
   getAllUsers,
   deleteUser,
   updateUser,
+  updateUserEmail,
 } from '../controllers/usersController.js';
 import requireAuth from '../middleware/requireAuth.js';
 import multer from 'multer';
@@ -28,5 +29,7 @@ usersRouter.patch(
   ]),
   updateUser
 );
+
+usersRouter.patch('/updateEmail/:id', requireAuth, updateUserEmail);
 
 export default usersRouter;
