@@ -28,13 +28,16 @@ const SocialInput: React.FC<SocialInputProps> = ({
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(initialValue);
+  const [filteredInputValue, setFilteredInputValue] = useState('');
 
   const xMark: React.ReactNode = <FontAwesomeIcon icon={faXmark} />;
   const plus: React.ReactNode = <FontAwesomeIcon icon={faPlus} />;
 
   useEffect(() => {
-    const usernameNotValid = inputValue.length > 30;
+    const filteredValue = inputValue.replace(/[^a-zA-Z0-9_\-.]/g, '');
+    const usernameNotValid = filteredValue.length > 30;
     setError(usernameNotValid);
+    setFilteredInputValue(filteredValue);
   }, [inputValue]);
 
   useEffect(() => {
@@ -60,7 +63,7 @@ const SocialInput: React.FC<SocialInputProps> = ({
                 type="text"
                 id={id}
                 name={name}
-                value={inputValue}
+                value={filteredInputValue}
                 placeholder={placeholder}
                 onChange={(e) => setInputValue(e.target.value)}
                 className={`${styles['social-link-input']} ${error ? styles['error'] : ''}`}
