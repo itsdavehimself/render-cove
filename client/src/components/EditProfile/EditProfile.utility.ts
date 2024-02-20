@@ -4,7 +4,7 @@ const handleAlert = (
   isSuccess: boolean,
   alertInfo: AlertInfo,
   setAlertInfo: React.Dispatch<React.SetStateAction<AlertInfo>>,
-) => {
+): void => {
   setAlertInfo({ isSuccess, isShowing: true });
 
   setTimeout(() => {
