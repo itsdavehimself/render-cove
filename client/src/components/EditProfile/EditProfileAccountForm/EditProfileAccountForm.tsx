@@ -147,7 +147,7 @@ const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
         </form>
         <div className={styles['danger-zone']}>
           <div className={styles['danger-zone-text']}>
-            <h3>Area of Hazardous Actions</h3>
+            <h3>Danger Zone</h3>
             <p>
               This action is irreversible! Please make sure you want to do this.
               All of your account information, artworks, and data, will be
