@@ -260,4 +260,59 @@ const updateUserEmail = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export { getUser, getAllUsers, deleteUser, updateUser, updateUserEmail };
+const updateUserPassword = async (req: AuthRequest, res: Response) => {
+  const { id } = req.params;
+  const userId = req.user?._id;
+  const enteredPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+
+  try {
+    if (!userId || userId.toString() !== id) {
+      return res.status(403).json({ error: 'Forbidden - Unauthorized User' });
+    }
+    if (!Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid user ID.' });
+    }
+
+    const user: UserDocument | null = await User.findOne({ _id: id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    const storedHashedPassword = user.password;
+
+    const isPasswordMatch = await bcrypt.compare(
+      enteredPassword,
+      storedHashedPassword
+    );
+
+    if (!isPasswordMatch) {
+      return res
+        .status(401)
+        .json({ error: { type: 'password', message: 'Incorrect password.' } });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const newHashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const newPasswordObject = {
+      password: newHashedPassword,
+    };
+
+    const updatedUser = await updateUserInDatabase(userId, newPasswordObject);
+
+    res.status(200).json(updatedUser);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export {
+  getUser,
+  getAllUsers,
+  deleteUser,
+  updateUser,
+  updateUserEmail,
+  updateUserPassword,
+};
