@@ -1,0 +1,85 @@
+@use 'variables';
+
+.delete-account-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  height: 100vh;
+  width: 100%;
+  z-index: 1000;
+}
+
+.delete-account-alert {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.5rem;
+  width: 30rem;
+  background-color: variables.$primary-alt;
+  border-radius: 0.25rem;
+  row-gap: 2rem;
+
+  button {
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+}
+
+.exit-modal-button {
+  height: 2rem;
+  width: 2rem;
+  color: variables.$secondary-color;
+  background-color: transparent;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.exit-modal-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 2rem;
+}
+
+.delete-account-button {
+  background-color: variables.$error-color;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.delete-account-button:hover {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: variables.$error-color-hover;
+}
+
+.cancel-button {
+  transition: all 0.2s ease-in-out;
+  background-color: variables.$secondary-color;
+}
+
+.cancel-button:hover {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: variables.$secondary-darker;
+}
