@@ -32,7 +32,7 @@ const EditProfileInput: React.FC<EditProfileInputProps> = ({
         {label}
       </label>
       <input
-        className={`${styles['edit-profile-input']} ${clientError ? styles.error : ''}`}
+        className={`${styles['edit-profile-input']} ${clientError || serverError ? styles.error : ''}`}
         type={type}
         id={id}
         name={name}
