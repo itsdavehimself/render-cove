@@ -15,8 +15,18 @@ import {
   compressAndSetPreview,
 } from './EditProfileForm.utility';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
+import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
+import { handleAlert } from '../EditProfile.utility';
 
-const EditProfileForm: React.FC = () => {
+interface EditProfileFormProps {
+  alertInfo: AlertInfo;
+  setAlertInfo: React.Dispatch<React.SetStateAction<AlertInfo>>;
+}
+
+const EditProfileForm: React.FC<EditProfileFormProps> = ({
+  alertInfo,
+  setAlertInfo,
+}) => {
   const { user } = useAuthContext();
   const { updateUser, error, isLoading } = useUpdateUser();
 
@@ -195,7 +205,12 @@ const EditProfileForm: React.FC = () => {
     formData.append('software', JSON.stringify(softwareList));
     formData.append('generators', JSON.stringify(generatorsList));
 
-    await updateUser(formData);
+    try {
+      await updateUser(formData);
+      handleAlert(true, alertInfo, setAlertInfo);
+    } catch (error) {
+      handleAlert(false, alertInfo, setAlertInfo);
+    }
   };
 
   return (

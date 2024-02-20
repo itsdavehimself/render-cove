@@ -4,8 +4,18 @@ import { useState } from 'react';
 import useUpdateUser from '../../../hooks/useUserUpdate';
 import EditProfileInput from '../EditProfileInput/EditProfileInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
+import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
+import { handleAlert } from '../EditProfile.utility';
 
-const EditProfileGeneralForm: React.FC = () => {
+interface EditProfileGeneralFormProps {
+  alertInfo: AlertInfo;
+  setAlertInfo: React.Dispatch<React.SetStateAction<AlertInfo>>;
+}
+
+const EditProfileGeneralForm: React.FC<EditProfileGeneralFormProps> = ({
+  alertInfo,
+  setAlertInfo,
+}) => {
   const { user } = useAuthContext();
   const { updateUser, error, isLoading } = useUpdateUser();
   const [displayName, setDisplayName] = useState<string>(user.displayName);
@@ -38,7 +48,12 @@ const EditProfileGeneralForm: React.FC = () => {
     setUsernameError(false);
     setDisplayNameError(false);
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    updateUser(formData);
+    try {
+      await updateUser(formData);
+      handleAlert(true, alertInfo, setAlertInfo);
+    } catch (error) {
+      handleAlert(false, alertInfo, setAlertInfo);
+    }
   };
 
   return (

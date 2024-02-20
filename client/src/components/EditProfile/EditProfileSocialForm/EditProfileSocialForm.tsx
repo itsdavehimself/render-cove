@@ -15,8 +15,18 @@ import {
 import useUpdateUser from '../../../hooks/useUserUpdate';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { UserType, SocialEntry } from '../../../context/AuthContext';
+import { handleAlert } from '../EditProfile.utility';
+import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
 
-const EditProfileSocialForm: React.FC = () => {
+interface EditProfileSocialFormProps {
+  alertInfo: AlertInfo;
+  setAlertInfo: React.Dispatch<React.SetStateAction<AlertInfo>>;
+}
+
+const EditProfileSocialForm: React.FC<EditProfileSocialFormProps> = ({
+  alertInfo,
+  setAlertInfo,
+}) => {
   const { updateUser, isLoading, error } = useUpdateUser();
   const { user } = useAuthContext();
 
@@ -88,12 +98,9 @@ const EditProfileSocialForm: React.FC = () => {
     try {
       await updateUser(socialsFormData);
       setServerResponse(true);
+      handleAlert(true, alertInfo, setAlertInfo);
     } catch (updateError) {
-      if (updateError instanceof Error) {
-        setIsError(updateError);
-      } else {
-        console.error('Unexpected error type:', updateError);
-      }
+      handleAlert(false, alertInfo, setAlertInfo);
     }
   };
 
