@@ -17,7 +17,7 @@ usersRouter.get('/', getAllUsers);
 
 usersRouter.get('/:id', getUser);
 
-usersRouter.delete('/:id', deleteUser);
+usersRouter.delete('/:id', requireAuth, deleteUser);
 
 usersRouter.patch(
   '/:id',
