@@ -1,0 +1,68 @@
+@use 'variables';
+@use '../EditProfileInput/EditProfileInput.module.scss';
+@use '../EditProfileMixins.module.scss' as profile;
+
+.edit-profile-form {
+  @include profile.edit-profile-form;
+}
+
+.edit-profile-description {
+  @include profile.edit-profile-description;
+}
+
+.account-form {
+  display: grid;
+  grid-template-rows: 1fr 5rem;
+  padding: 2rem 0;
+}
+
+.form-inputs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  padding-bottom: 1rem;
+}
+
+.save-button-container {
+  @include profile.save-button-container;
+}
+
+.danger-zone {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid variables.$primary-light;
+  padding-top: 2rem;
+  row-gap: 3rem;
+}
+
+.danger-zone-text {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: variables.$secondary-darker;
+  }
+}
+
+.delete-account-button {
+  background-color: variables.$error-color;
+  color: variables.$secondary-color;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in-out;
+  max-width: 12rem;
+}
+
+.delete-account-button:hover {
+  cursor: pointer;
+  background-color: variables.$error-color-hover;
+  transition: all 0.2s ease-in-out;
+}
