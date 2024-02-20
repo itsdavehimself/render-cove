@@ -50,9 +50,14 @@ const getAllUsers = async (req: Request, res: Response) => {
   res.status(200).json(allUsers);
 };
 
-const deleteUser = async (req: Request, res: Response) => {
+const deleteUser = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
+  const userId = req.user?._id;
+
   try {
+    if (!userId || userId.toString() !== id) {
+      return res.status(403).json({ error: 'Forbidden - Unauthorized User' });
+    }
     if (!Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid user ID.' });
     }
