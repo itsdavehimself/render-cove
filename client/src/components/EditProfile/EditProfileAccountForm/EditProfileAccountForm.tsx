@@ -5,32 +5,88 @@ import { useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import DeleteAccountModal from '../DeleteAccountModal/DeleteAccountModal';
 import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
+import { handleAlert } from '../EditProfile.utility';
 
 interface EditProfileAccountFormProps {
   alertInfo: AlertInfo;
   setAlertInfo: React.Dispatch<React.SetStateAction<AlertInfo>>;
 }
 
+const API_BASE_URL: string =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
+
 const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
   alertInfo,
   setAlertInfo,
 }) => {
-  const { user } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
   const [email, setEmail] = useState<string>(user.email);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [incorrectPasswordError, setIncorrectPasswordError] =
+    useState<boolean>(false);
   const [isConfirmModalShowing, setIsConfirmModalShowing] =
     useState<boolean>(false);
+  const [serverError, setServerError] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleFormSubmit = (e: React.FormEvent): void => {
+  const handleFormSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    const emailCheckFailed = !validateEmail(email);
-    if (emailCheckFailed) {
-      setEmailError(emailCheckFailed);
+    setPasswordError(false);
+    setEmailError(false);
+    setIsLoading(true);
+
+    if (password === '') {
+      setPasswordError(true);
+      setIsLoading(false);
       return;
     }
-    console.log('submitted');
+
+    const emailCheckFailed = !validateEmail(email);
+
+    if (emailCheckFailed) {
+      setEmailError(emailCheckFailed);
+      setIsLoading(false);
+      return;
+    }
+
+    const emailUpdateResponse = await fetch(
+      `${API_BASE_URL}/users/updateEmail/${user.userId}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          password: password,
+          email: email,
+        }),
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    const emailUpdateJSON = await emailUpdateResponse.json();
+
+    if (!emailUpdateResponse.ok) {
+      if (emailUpdateJSON.error.type !== 'password') {
+        setServerError(emailUpdateJSON.error.message);
+        setIsLoading(false);
+      }
+
+      if (emailUpdateJSON.error.type === 'password') {
+        setIncorrectPasswordError(true);
+        setIsLoading(false);
+      }
+      handleAlert(false, alertInfo, setAlertInfo);
+    }
+
+    if (emailUpdateResponse.ok) {
+      setIsLoading(false);
+      const mergedUser = { ...user, ...emailUpdateJSON };
+      dispatch({ type: 'UPDATE_USER', payload: mergedUser });
+      handleAlert(true, alertInfo, setAlertInfo);
+    }
   };
 
   const validateEmail = (email: string): boolean => {
@@ -74,16 +130,19 @@ const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
                 id="password"
                 name="password"
                 value={password}
-                clientError={
-                  emailError ? 'Please enter a valid email address.' : ''
+                clientError={passwordError ? 'Please enter your password' : ''}
+                serverError={
+                  incorrectPasswordError ? 'Incorrect password.' : ''
                 }
-                serverError=""
                 onChange={(e) => setPassword(e.target.value)}
               />
             )}
           </div>
           <div className={styles['save-button-container']}>
-            <SaveSubmitButton label="Save" isLoading={false} />
+            <SaveSubmitButton label="Save" isLoading={isLoading} />
+          </div>
+          <div className={styles['error-message']}>
+            {serverError && serverError.toString()}
           </div>
         </form>
         <div className={styles['danger-zone']}>
