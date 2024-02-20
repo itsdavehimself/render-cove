@@ -7,6 +7,7 @@ import {
   faShareNodes,
   faGear,
   faBell,
+  faLock,
 } from '@fortawesome/free-solid-svg-icons';
 import EditProfileNavButton from '../../components/EditProfile/EditProfileNavButton/EditProfileNavButton';
 import { FC } from 'react';
@@ -43,6 +44,7 @@ const EditProfile: React.FC = () => {
   const generalIcon: React.ReactNode = <FontAwesomeIcon icon={faIdCard} />;
   const socialIcon: React.ReactNode = <FontAwesomeIcon icon={faShareNodes} />;
   const accountIcon: React.ReactNode = <FontAwesomeIcon icon={faGear} />;
+  const passwordIcon: React.ReactNode = <FontAwesomeIcon icon={faLock} />;
   const notificationIcon: React.ReactNode = <FontAwesomeIcon icon={faBell} />;
 
   const formComponents: Record<
@@ -56,6 +58,7 @@ const EditProfile: React.FC = () => {
     Profile: EditProfileForm,
     Social: EditProfileSocialForm,
     // Account: EditProfileAccountForm,
+    // Password: EditProfilePasswordForm,
     // Notifications: EditProfileNotificationsForm,
   };
 
@@ -88,6 +91,12 @@ const EditProfile: React.FC = () => {
               icon={accountIcon}
               label="Account"
               onClick={() => setCurrentView(AllowedViews.Account)}
+              currentView={currentView}
+            />
+            <EditProfileNavButton
+              icon={passwordIcon}
+              label="Password"
+              onClick={() => setCurrentView(AllowedViews.Password)}
               currentView={currentView}
             />
             <EditProfileNavButton
