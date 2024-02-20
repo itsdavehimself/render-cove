@@ -15,11 +15,23 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { format, parseISO } from 'date-fns';
 import EditProfileGeneralForm from '../../components/EditProfile/EditProfileGeneralForm/EditProfileGeneralForm';
 import EditProfileForm from '../../components/EditProfile/EditProfileForm/EditProfileForm';
+import EditProfileSocialForm from '../../components/EditProfile/EditProfileSocialForm/EditProfileSocialForm';
+import EditProfileAlert from '../../components/EditProfile/EditProfileAlert/EditProfileAlert';
+
+export interface AlertInfo {
+  isShowing: boolean;
+  isSuccess: boolean;
+}
 
 const EditProfile: React.FC = () => {
   const [currentView, setCurrentView] = useState<AllowedViews>(
     AllowedViews.General,
   );
+
+  const [alertInfo, setAlertInfo] = useState<AlertInfo>({
+    isShowing: false,
+    isSuccess: false,
+  });
 
   const { user } = useAuthContext();
 
@@ -33,10 +45,16 @@ const EditProfile: React.FC = () => {
   const accountIcon: React.ReactNode = <FontAwesomeIcon icon={faGear} />;
   const notificationIcon: React.ReactNode = <FontAwesomeIcon icon={faBell} />;
 
-  const formComponents: Record<AllowedViews, FC<object>> = {
+  const formComponents: Record<
+    AllowedViews,
+    FC<{
+      alertInfo: AlertInfo;
+      setAlertInfo: React.Dispatch<React.SetStateAction<AlertInfo>>;
+    }>
+  > = {
     General: EditProfileGeneralForm,
     Profile: EditProfileForm,
-    // Social: EditProfileSocialForm,
+    Social: EditProfileSocialForm,
     // Account: EditProfileAccountForm,
     // Notifications: EditProfileNotificationsForm,
   };
@@ -94,8 +112,15 @@ const EditProfile: React.FC = () => {
           </div>
         </div>
         <div className={styles['edit-profile-forms']}>
-          {FormComponent && <FormComponent />}
+          {FormComponent && (
+            <FormComponent alertInfo={alertInfo} setAlertInfo={setAlertInfo} />
+          )}
         </div>
+      </div>
+      <div className={styles['edit-profile-alert-container']}>
+        {alertInfo.isShowing && (
+          <EditProfileAlert isSuccess={alertInfo.isSuccess} />
+        )}
       </div>
     </div>
   );
