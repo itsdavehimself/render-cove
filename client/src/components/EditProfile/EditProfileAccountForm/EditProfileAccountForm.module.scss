@@ -66,3 +66,7 @@
   background-color: variables.$error-color-hover;
   transition: all 0.2s ease-in-out;
 }
+
+.error-message {
+  color: variables.$error-color;
+}
