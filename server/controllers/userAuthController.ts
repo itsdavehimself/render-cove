@@ -35,6 +35,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       location,
       tagline,
       socials,
+      oauthUsed,
       _id: userId,
     } = user;
 
@@ -53,6 +54,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       location,
       tagline,
       socials,
+      oauthUsed,
       token,
     });
   } catch (error: any) {
@@ -83,6 +85,7 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       location,
       tagline,
       socials,
+      oauthUsed,
       _id: userId,
     } = user;
 
@@ -102,6 +105,7 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       tagline,
       socials,
       token,
+      oauthUsed,
     });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
@@ -136,6 +140,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         tagline,
         socials,
         _id: userId,
+        oauthUsed,
       } = existingUser;
 
       res.status(200).json({
@@ -154,6 +159,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         socials,
         userId,
         token,
+        oauthUsed,
       });
     }
 
@@ -196,6 +202,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         tagline,
         socials,
         _id: userId,
+        oauthUsed,
       } = newUser;
 
       res.status(200).json({
@@ -214,6 +221,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         socials,
         createdAt,
         token,
+        oauthUsed,
       });
     }
   } catch (error: any) {
