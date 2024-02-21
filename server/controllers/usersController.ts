@@ -10,7 +10,7 @@ import {
   s3,
 } from '../utility/s3Utils.js';
 import bcrypt from 'bcrypt';
-import { EmailNotifications } from '../types/EmailNotifications.js';}
+import { EmailNotifications } from '../types/EmailNotifications.js';
 
 export interface SocialEntry {
   network: string;
@@ -25,7 +25,7 @@ interface AuthRequest extends Request {
     bannerUrl: string;
     socials: SocialEntry[];
     userSetPassword: boolean;
-    emailNotifications: EmailNotifications
+    emailNotifications: EmailNotifications;
   };
 }
 
@@ -92,7 +92,10 @@ const updateUser = async (req: AuthRequest, res: Response) => {
     ?.bannerFile?.[0];
   const newSocials = req.body.socials;
   const emailNotifications = req.body?.emailNotifications;
-  const parsedEmailNotifications = emailNotifications === undefined ? currentEmailNotifications : JSON.parse(emailNotifications)
+  const parsedEmailNotifications =
+    emailNotifications === undefined
+      ? currentEmailNotifications
+      : JSON.parse(emailNotifications);
 
   const updatedSocials = updateSocials(currentSocials, newSocials);
 
