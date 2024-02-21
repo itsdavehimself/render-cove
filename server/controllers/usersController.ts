@@ -23,6 +23,7 @@ interface AuthRequest extends Request {
     avatarUrl: string;
     bannerUrl: string;
     socials: SocialEntry[];
+    userSetPassword: boolean;
   };
 }
 
@@ -273,6 +274,7 @@ const updateUserEmail = async (req: AuthRequest, res: Response) => {
 const updateUserPassword = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
   const userId = req.user?._id;
+  const isSetPassword = req.user?.userSetPassword;
   const enteredPassword = req.body.currentPassword;
   const newPassword = req.body.newPassword;
 
@@ -290,29 +292,43 @@ const updateUserPassword = async (req: AuthRequest, res: Response) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    const storedHashedPassword = user.password;
+    if (isSetPassword) {
+      const storedHashedPassword = user.password;
 
-    const isPasswordMatch = await bcrypt.compare(
-      enteredPassword,
-      storedHashedPassword
-    );
+      const isPasswordMatch = await bcrypt.compare(
+        enteredPassword,
+        storedHashedPassword
+      );
 
-    if (!isPasswordMatch) {
-      return res
-        .status(401)
-        .json({ error: { type: 'password', message: 'Incorrect password.' } });
+      if (!isPasswordMatch) {
+        return res.status(401).json({
+          error: { type: 'password', message: 'Incorrect password.' },
+        });
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      const newHashedPassword = await bcrypt.hash(newPassword, salt);
+
+      const newPasswordObject = {
+        password: newHashedPassword,
+      };
+
+      const updatedUser = await updateUserInDatabase(userId, newPasswordObject);
+
+      res.status(200).json(updatedUser);
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      const newHashedPassword = await bcrypt.hash(newPassword, salt);
+
+      const newPasswordObject = {
+        password: newHashedPassword,
+        userSetPassword: true,
+      };
+
+      const updatedUser = await updateUserInDatabase(userId, newPasswordObject);
+
+      res.status(200).json(updatedUser);
     }
-
-    const salt = await bcrypt.genSalt(10);
-    const newHashedPassword = await bcrypt.hash(newPassword, salt);
-
-    const newPasswordObject = {
-      password: newHashedPassword,
-    };
-
-    const updatedUser = await updateUserInDatabase(userId, newPasswordObject);
-
-    res.status(200).json(updatedUser);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
