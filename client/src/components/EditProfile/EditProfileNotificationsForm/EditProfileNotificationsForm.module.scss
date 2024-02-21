@@ -10,10 +10,23 @@
   @include profile.edit-profile-description;
 }
 
-.general-form {
+.notification-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notifications-form {
   display: grid;
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: auto 1fr 1fr;
   padding: 2rem 0;
+  row-gap: 2rem;
+
+  h3 {
+    color: variables.$secondary-color;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
 }
 
 .form-inputs {
