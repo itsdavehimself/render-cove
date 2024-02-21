@@ -1,5 +1,5 @@
 import styles from './SocialInput.module.scss';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -33,12 +33,18 @@ const SocialInput: React.FC<SocialInputProps> = ({
   const xMark: React.ReactNode = <FontAwesomeIcon icon={faXmark} />;
   const plus: React.ReactNode = <FontAwesomeIcon icon={faPlus} />;
 
+  const input = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
+    if (isAdding) {
+      input.current?.focus();
+    }
+
     const filteredValue = inputValue.replace(/[^a-zA-Z0-9_\-.]/g, '');
     const usernameNotValid = filteredValue.length > 30;
     setError(usernameNotValid);
     setFilteredInputValue(filteredValue);
-  }, [inputValue]);
+  }, [inputValue, isAdding]);
 
   useEffect(() => {
     if (serverResponse) {
@@ -67,6 +73,7 @@ const SocialInput: React.FC<SocialInputProps> = ({
                 placeholder={placeholder}
                 onChange={(e) => setInputValue(e.target.value)}
                 className={`${styles['social-link-input']} ${error ? styles['error'] : ''}`}
+                ref={input}
               />
               {error && (
                 <div className={styles['input-error-message']}>
