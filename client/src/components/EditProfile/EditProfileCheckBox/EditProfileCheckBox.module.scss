@@ -1,0 +1,33 @@
+@use 'variables';
+
+.notifications-checkbox-container {
+  display: flex;
+  flex-direction: column;
+  color: variables.$secondary-color;
+  row-gap: 1rem;
+}
+
+.checkbox-container-text {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: variables.$secondary-darker;
+  }
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  column-gap: 0.5rem;
+  color: variables.$secondary-darker;
+}
