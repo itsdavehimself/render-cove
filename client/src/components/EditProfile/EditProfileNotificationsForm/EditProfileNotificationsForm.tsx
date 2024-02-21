@@ -1,16 +1,59 @@
 import styles from './EditProfileNotificationsForm.module.scss';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import EditProfileCheckBox from '../EditProfileCheckBox/EditProfileCheckBox';
 import ToggleSwitch from '../../ToggleSwitch/ToggleSwitch';
+import { handleAlert } from '../EditProfile.utility';
+import useUpdateUser from '../../../hooks/useUserUpdate';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
+import { EmailNotifications } from '../../../../../server/types/EmailNotifications';
 
-const EditProfileNotificationsForm: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
+interface EditProfileNotificationsFormProps {
+  alertInfo: AlertInfo;
+  setAlertInfo: React.Dispatch<React.SetStateAction<AlertInfo>>;
+}
+
+const EditProfileNotificationsForm: React.FC<
+  EditProfileNotificationsFormProps
+> = ({ alertInfo, setAlertInfo }) => {
+  const { updateUser, isLoading, error } = useUpdateUser();
+  const { user } = useAuthContext();
   const [emailCheckedBoxes, setEmailCheckedBoxes] = useState<string[]>([]);
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const emailBoxes: string[] = ['newsletter', 'announcements'];
+  const handleEmailFormSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    console.log('submitted');
+
+    const emailNotifications: { [key: string]: boolean } = {};
+
+    emailBoxes.forEach((box) => {
+      emailNotifications[box] = emailCheckedBoxes.includes(box);
+    });
+
+    const emailFormData = new FormData();
+    emailFormData.append(
+      'emailNotifications',
+      JSON.stringify(emailNotifications),
+    );
+
+    try {
+      await updateUser(emailFormData);
+      handleAlert(true, alertInfo, setAlertInfo);
+    } catch (updateError) {
+      handleAlert(false, alertInfo, setAlertInfo);
+    }
   };
+
+  useEffect(() => {
+    if (user && user.emailNotifications) {
+      const checkedBoxes = Object.keys(user.emailNotifications).filter(
+        (key) =>
+          user.emailNotifications[key as keyof EmailNotifications] === true,
+      );
+
+      setEmailCheckedBoxes(checkedBoxes);
+    }
+  }, [user]);
 
   return (
     <div className={styles['edit-profile-form']}>
@@ -21,8 +64,8 @@ const EditProfileNotificationsForm: React.FC = () => {
         </p>
       </header>
       <form
-        className={styles['notifications-form']}
-        onSubmit={handleFormSubmit}
+        className={styles['email-notifications-form']}
+        onSubmit={handleEmailFormSubmit}
         noValidate
       >
         <div className={styles['notification-section-header']}>
@@ -30,7 +73,7 @@ const EditProfileNotificationsForm: React.FC = () => {
           <ToggleSwitch
             setSectionCheckedBoxes={setEmailCheckedBoxes}
             sectionCheckedBoxes={emailCheckedBoxes}
-            boxesIdArray={['newsletter', 'announcements']}
+            boxesIdArray={emailBoxes}
           />
         </div>
 
@@ -59,6 +102,9 @@ const EditProfileNotificationsForm: React.FC = () => {
         <div className={styles['save-button-container']}>
           <SaveSubmitButton label="Save" isLoading={isLoading} />
         </div>
+        {error && (
+          <div className={styles['error-message']}>{error.toString()}</div>
+        )}
       </form>
     </div>
   );
