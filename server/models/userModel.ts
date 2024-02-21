@@ -94,6 +94,16 @@ const userSchema = new Schema<UserDocument>(
     },
     oauthUsed: { type: Boolean, required: true },
     userSetPassword: { type: Boolean, required: true },
+    emailNotifications: {
+      newsletter: {
+        type: Boolean,
+        default: false,
+      },
+      announcements: {
+        type: Boolean,
+        default: false,
+      },
+    },
   },
   { timestamps: true }
 );
@@ -103,8 +113,7 @@ userSchema.statics.signup = async function (
   password,
   username,
   displayName,
-  oauthUsed,
-  userSetPassword
+  oauthUsed
 ): Promise<UserDocument> {
   if (!email || !password || !username) {
     throw Error('All fields are required.');

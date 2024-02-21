@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { EmailNotifications } from './EmailNotifications';
 
 interface UserDocument {
   email: string;
@@ -16,6 +17,7 @@ interface UserDocument {
   website?: string[];
   oauthUsed: boolean;
   userSetPassword: boolean;
+  emailNotifications: EmailNotifications;
   _id: string;
   createdAt: Date;
 }
