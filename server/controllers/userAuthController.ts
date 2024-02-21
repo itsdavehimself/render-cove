@@ -36,6 +36,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       tagline,
       socials,
       oauthUsed,
+      userSetPassword,
       _id: userId,
     } = user;
 
@@ -55,6 +56,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       tagline,
       socials,
       oauthUsed,
+      userSetPassword,
       token,
     });
   } catch (error: any) {
@@ -71,7 +73,8 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       password,
       username,
       displayName,
-      false
+      false,
+      true
     );
     const token: string = createToken(user._id);
     const {
@@ -86,6 +89,7 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       tagline,
       socials,
       oauthUsed,
+      userSetPassword,
       _id: userId,
     } = user;
 
@@ -106,6 +110,7 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       socials,
       token,
       oauthUsed,
+      userSetPassword,
     });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
@@ -141,6 +146,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         socials,
         _id: userId,
         oauthUsed,
+        userSetPassword,
       } = existingUser;
 
       res.status(200).json({
@@ -160,6 +166,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         userId,
         token,
         oauthUsed,
+        userSetPassword,
       });
     }
 
@@ -187,6 +194,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         displayName,
         avatarUrl: userAvatar,
         oauthUsed: true,
+        userSetPassword: false,
       });
 
       const token = createToken(newUser._id);
@@ -203,6 +211,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         socials,
         _id: userId,
         oauthUsed,
+        userSetPassword,
       } = newUser;
 
       res.status(200).json({
@@ -222,6 +231,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         createdAt,
         token,
         oauthUsed,
+        userSetPassword,
       });
     }
   } catch (error: any) {
