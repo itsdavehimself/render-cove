@@ -89,6 +89,8 @@ const updateUser = async (req: AuthRequest, res: Response) => {
     ?.bannerFile?.[0];
   const newSocials = req.body.socials;
 
+  const emailNotifications = JSON.parse(req.body.emailNotifications);
+
   const updatedSocials = updateSocials(currentSocials, newSocials);
 
   const parsedSoftwareList =
@@ -119,6 +121,7 @@ const updateUser = async (req: AuthRequest, res: Response) => {
 
     const updateObject: any = {
       ...req.body,
+      emailNotifications,
       socials: updatedSocials,
       avatarUrl: updatedAvatarUrl || currentAvatarUrl,
       bannerUrl: updatedBannerUrl || currentBannerUrl,
