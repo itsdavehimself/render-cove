@@ -8,7 +8,6 @@ interface EditProfileCheckBoxProps {
   name: string;
   id: string;
   isChecked: boolean;
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
   setSectionCheckedBoxes: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
