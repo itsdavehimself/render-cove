@@ -229,6 +229,16 @@ const updateUserEmail = async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ message: 'Invalid user ID.' });
     }
 
+    const emailExists: UserDocument | null = await User.findOne({
+      email: newEmail,
+    });
+
+    if (emailExists) {
+      return res
+        .status(400)
+        .json({ error: { message: 'Email already in use.' } });
+    }
+
     const user: UserDocument | null = await User.findOne({ _id: id });
 
     if (!user) {
