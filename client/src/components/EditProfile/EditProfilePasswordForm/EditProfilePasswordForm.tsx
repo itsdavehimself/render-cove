@@ -19,6 +19,7 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
   alertInfo,
   setAlertInfo,
 }) => {
+  const { user, dispatch } = useAuthContext();
   const [currentPassword, setCurrentPassword] = useState<string>('');
   const [currentPasswordError, setCurrentPasswordError] =
     useState<boolean>(false);
@@ -30,8 +31,9 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
   const [serverError, setServerError] = useState<string>('');
   const [incorrectPasswordError, setIncorrectPasswordError] =
     useState<boolean>(false);
-
-  const { user } = useAuthContext();
+  const [isPasswordSet, setIsPasswordSet] = useState<boolean>(
+    user.userSetPassword,
+  );
 
   const handleFormSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
     setServerError('');
 
     if (
-      currentPassword.length < 1 ||
+      (isPasswordSet && currentPassword.length < 1) ||
       !isPasswordValid(newPassword) ||
       newPassword !== confirmPassword
     ) {
@@ -87,6 +89,9 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
     if (passwordUpdateResponse.ok) {
       setIsLoading(false);
       handleAlert(true, alertInfo, setAlertInfo);
+      setIsPasswordSet(true);
+      const mergedUser = { ...user, ...passwordUpdateJSON };
+      dispatch({ type: 'UPDATE_USER', payload: mergedUser });
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
@@ -121,20 +126,22 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
         noValidate
       >
         <div className={styles['form-inputs']}>
-          <EditProfileInput
-            htmlFor="currentPassword"
-            label="Current password"
-            type="password"
-            id="currentPassword"
-            name="currentPassword"
-            value={currentPassword}
-            placeholder="Enter your current password"
-            clientError={
-              currentPasswordError ? 'Please enter your password' : ''
-            }
-            serverError={incorrectPasswordError ? 'Incorrect password.' : ''}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />
+          {isPasswordSet && (
+            <EditProfileInput
+              htmlFor="currentPassword"
+              label="Current password"
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              value={currentPassword}
+              placeholder="Enter your current password"
+              clientError={
+                currentPasswordError ? 'Please enter your password' : ''
+              }
+              serverError={incorrectPasswordError ? 'Incorrect password.' : ''}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            />
+          )}
           <EditProfileInput
             htmlFor="newPassword"
             label="New password"
