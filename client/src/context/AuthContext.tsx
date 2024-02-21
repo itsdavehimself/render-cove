@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { authReducer } from '../reducers/authReducer';
 import { AuthAction } from '../types/ActionTypes';
+import { EmailNotifications } from '../../../server/types/EmailNotifications';
 
 export interface SocialEntry {
   network: string;
@@ -30,6 +31,7 @@ export interface UserType {
   location: string;
   token: string;
   userSetPassword: boolean;
+  emailNotifications: EmailNotifications;
 }
 
 interface AuthContextType {
