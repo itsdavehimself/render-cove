@@ -10,6 +10,7 @@ import {
   s3,
 } from '../utility/s3Utils.js';
 import bcrypt from 'bcrypt';
+import { EmailNotifications } from '../types/EmailNotifications.js';}
 
 export interface SocialEntry {
   network: string;
@@ -24,6 +25,7 @@ interface AuthRequest extends Request {
     bannerUrl: string;
     socials: SocialEntry[];
     userSetPassword: boolean;
+    emailNotifications: EmailNotifications
   };
 }
 
@@ -82,14 +84,15 @@ const updateUser = async (req: AuthRequest, res: Response) => {
   const currentAvatarUrl = req.user?.avatarUrl;
   const currentBannerUrl = req.user?.bannerUrl;
   const currentSocials = req.user?.socials;
+  const currentEmailNotifications = req.user?.emailNotifications;
   const { software, generators } = req.body;
   const avatarFile = (req.files as { avatarFile?: Express.Multer.File[] })
     ?.avatarFile?.[0];
   const bannerFile = (req.files as { bannerFile?: Express.Multer.File[] })
     ?.bannerFile?.[0];
   const newSocials = req.body.socials;
-
-  const emailNotifications = JSON.parse(req.body.emailNotifications);
+  const emailNotifications = req.body?.emailNotifications;
+  const parsedEmailNotifications = emailNotifications === undefined ? currentEmailNotifications : JSON.parse(emailNotifications)
 
   const updatedSocials = updateSocials(currentSocials, newSocials);
 
@@ -121,7 +124,7 @@ const updateUser = async (req: AuthRequest, res: Response) => {
 
     const updateObject: any = {
       ...req.body,
-      emailNotifications,
+      emailNotifications: parsedEmailNotifications,
       socials: updatedSocials,
       avatarUrl: updatedAvatarUrl || currentAvatarUrl,
       bannerUrl: updatedBannerUrl || currentBannerUrl,
