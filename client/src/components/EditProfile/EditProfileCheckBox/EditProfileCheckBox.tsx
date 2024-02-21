@@ -1,4 +1,6 @@
 import styles from './EditProfileCheckBox.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 interface EditProfileCheckBoxProps {
   title: string;
@@ -21,6 +23,8 @@ const EditProfileCheckBox: React.FC<EditProfileCheckBoxProps> = ({
   isChecked,
   setSectionCheckedBoxes,
 }) => {
+  const checkIcon: React.ReactNode = <FontAwesomeIcon icon={faCheck} />;
+
   const handleCheckboxChange = () => {
     setSectionCheckedBoxes((prevCheckedBoxes) => {
       if (prevCheckedBoxes.includes(id)) {
@@ -45,6 +49,12 @@ const EditProfileCheckBox: React.FC<EditProfileCheckBoxProps> = ({
           checked={isChecked}
           onChange={handleCheckboxChange}
         ></input>
+        <span
+          onClick={handleCheckboxChange}
+          className={`${styles['custom-checkbox']} ${isChecked ? styles['checked'] : ''}`}
+        >
+          {isChecked && checkIcon}
+        </span>
         <label htmlFor={htmlFor}>{label}</label>
       </div>
     </div>
