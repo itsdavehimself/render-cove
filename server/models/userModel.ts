@@ -103,7 +103,8 @@ userSchema.statics.signup = async function (
   password,
   username,
   displayName,
-  oauthUsed
+  oauthUsed,
+  userSetPassword
 ): Promise<UserDocument> {
   if (!email || !password || !username) {
     throw Error('All fields are required.');
@@ -138,6 +139,7 @@ userSchema.statics.signup = async function (
     username,
     displayName,
     oauthUsed,
+    userSetPassword: true,
   });
 
   return user;
