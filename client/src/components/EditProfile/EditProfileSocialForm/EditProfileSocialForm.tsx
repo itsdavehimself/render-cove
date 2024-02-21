@@ -84,6 +84,7 @@ const EditProfileSocialForm: React.FC<EditProfileSocialFormProps> = ({
   ): Promise<void> => {
     e.preventDefault();
     setServerResponse(false);
+    setIsError(null);
 
     const formData = new FormData(e.currentTarget);
 
@@ -98,8 +99,10 @@ const EditProfileSocialForm: React.FC<EditProfileSocialFormProps> = ({
     try {
       await updateUser(socialsFormData);
       setServerResponse(true);
+      setIsError(null);
       handleAlert(true, alertInfo, setAlertInfo);
     } catch (updateError) {
+      setIsError(null);
       handleAlert(false, alertInfo, setAlertInfo);
     }
   };
