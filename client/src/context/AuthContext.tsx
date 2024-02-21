@@ -29,6 +29,7 @@ export interface UserType {
   tagline: string;
   location: string;
   token: string;
+  userSetPassword: boolean;
 }
 
 interface AuthContextType {
