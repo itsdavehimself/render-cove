@@ -93,6 +93,7 @@ const userSchema = new Schema<UserDocument>(
       default: '',
     },
     oauthUsed: { type: Boolean, required: true },
+    userSetPassword: { type: Boolean, required: true },
   },
   { timestamps: true }
 );

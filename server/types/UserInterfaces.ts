@@ -15,6 +15,7 @@ interface UserDocument {
   tagline?: string[];
   website?: string[];
   oauthUsed: boolean;
+  userSetPassword: boolean;
   _id: string;
   createdAt: Date;
 }
@@ -25,7 +26,8 @@ interface UserModel extends mongoose.Model<UserDocument> {
     password: string,
     displayName: string,
     username: string,
-    oauthUsed: boolean
+    oauthUsed: boolean,
+    userSetPassword: boolean
   ): Promise<UserDocument>;
   login(email: string, password: string): Promise<UserDocument>;
 }
