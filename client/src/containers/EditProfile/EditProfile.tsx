@@ -17,6 +17,9 @@ import { format, parseISO } from 'date-fns';
 import EditProfileGeneralForm from '../../components/EditProfile/EditProfileGeneralForm/EditProfileGeneralForm';
 import EditProfileForm from '../../components/EditProfile/EditProfileForm/EditProfileForm';
 import EditProfileSocialForm from '../../components/EditProfile/EditProfileSocialForm/EditProfileSocialForm';
+import EditProfileAccountForm from '../../components/EditProfile/EditProfileAccountForm/EditProfileAccountForm';
+import EditProfilePasswordForm from '../../components/EditProfile/EditProfilePasswordForm/EditProfilePasswordForm';
+import EditProfileNotificationsForm from '../../components/EditProfile/EditProfileNotificationsForm/EditProfileNotificationsForm';
 import EditProfileAlert from '../../components/EditProfile/EditProfileAlert/EditProfileAlert';
 
 export interface AlertInfo {
@@ -57,9 +60,9 @@ const EditProfile: React.FC = () => {
     General: EditProfileGeneralForm,
     Profile: EditProfileForm,
     Social: EditProfileSocialForm,
-    // Account: EditProfileAccountForm,
-    // Password: EditProfilePasswordForm,
-    // Notifications: EditProfileNotificationsForm,
+    Account: EditProfileAccountForm,
+    Password: EditProfilePasswordForm,
+    Notifications: EditProfileNotificationsForm,
   };
 
   const FormComponent = formComponents[currentView];
