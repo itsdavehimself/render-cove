@@ -1,0 +1,114 @@
+@use 'variables';
+
+.public-profile-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26rem 1fr;
+}
+
+.profile-sidebar-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 5rem);
+  width: 26rem;
+  padding: 1.2rem;
+}
+
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-alt;
+  height: 100%;
+  width: 100%;
+  border-radius: 0.25rem;
+  padding: 2.5rem 1rem;
+  row-gap: 1.5rem;
+}
+
+.user-overview {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.8rem;
+}
+
+.user-avatar-container {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    height: 10rem;
+    width: 10rem;
+  }
+}
+
+.user-basic-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.25rem;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+}
+
+.user-tagline {
+  text-align: center;
+  color: variables.$secondary-darker;
+  font-weight: 400;
+}
+
+.user-location-website {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: variables.$secondary-darker;
+  font-weight: 400;
+  row-gap: 0.5rem;
+}
+
+.location-details {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  column-gap: 0.5rem;
+  align-items: center;
+}
+
+.location-icon {
+  justify-self: center;
+}
+
+.user-bio,
+.user-joined-info {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: variables.$secondary-darker;
+}
+
+.user-social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.5rem;
+}
+
+.social-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 3rem;
+  font-size: 1.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.social-icon:hover {
+  cursor: pointer;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
