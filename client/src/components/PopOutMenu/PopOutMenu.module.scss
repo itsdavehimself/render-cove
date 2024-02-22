@@ -7,8 +7,9 @@
   background-color: variables.$primary-alt;
   padding: 0.5rem;
   border-radius: 0.15rem;
-  top: 4rem;
+  top: 5rem;
   right: 2rem;
+  row-gap: 0.5rem;
 }
 
 .popout-button {
@@ -22,7 +23,7 @@
   border-radius: 0.15rem;
   padding: 0.25rem 1rem;
   transition: all 0.2s ease-in-out;
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .popout-button > :nth-child(2) {
