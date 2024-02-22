@@ -96,7 +96,10 @@ const SignUp: React.FC = () => {
     const userObject: OAuthPayload = jwtDecode(response.credential);
     const email = userObject.email;
     const displayName = userObject.name;
-    const userAvatar = userObject.picture;
+    const userPictureRawUrl = userObject.picture;
+    const fullResPictureUrl = userPictureRawUrl?.replace('=s96-c', '=c');
+    const userAvatar = fullResPictureUrl;
+
     if (email && displayName && userAvatar) {
       await checkEmailOAuth(email, displayName, userAvatar);
     }
