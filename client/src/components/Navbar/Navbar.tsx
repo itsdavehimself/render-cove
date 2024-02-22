@@ -5,13 +5,18 @@ import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import PopOutMenu from '../PopOutMenu/PopOutMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { faUserPen } from '@fortawesome/free-solid-svg-icons';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowRightFromBracket,
+  faUserPen,
+  faBell,
+  faEnvelope,
+  faArrowUpFromBracket,
+  faArrowRightToBracket,
+  faPenToSquare,
+  faEye,
+  faBookmark,
+  faHeart,
+} from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,24 +35,27 @@ const Navbar: React.FC = () => {
     navigate('/profile/edit');
   };
 
+  const handleViewProfile = (): void => {
+    navigate(`/user/${user.username}`);
+  };
+
   const logOutSymbol: React.ReactNode = (
     <FontAwesomeIcon icon={faArrowRightFromBracket} />
   );
-
   const notificationBell: React.ReactNode = <FontAwesomeIcon icon={faBell} />;
-
   const envelopeIcon: React.ReactNode = <FontAwesomeIcon icon={faEnvelope} />;
-
   const userEdit: React.ReactNode = <FontAwesomeIcon icon={faUserPen} />;
-
+  const viewProfileIcon: React.ReactNode = <FontAwesomeIcon icon={faEye} />;
+  const myCollectionsIcon: React.ReactNode = (
+    <FontAwesomeIcon icon={faBookmark} />
+  );
+  const myLikesIcon: React.ReactNode = <FontAwesomeIcon icon={faHeart} />;
   const uploadIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faArrowUpFromBracket} />
   );
-
   const loginIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faArrowRightToBracket} />
   );
-
   const signupIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
 
   return (
@@ -140,9 +148,24 @@ const Navbar: React.FC = () => {
                 <PopOutMenu
                   buttons={[
                     {
+                      icon: viewProfileIcon,
+                      label: 'View profile',
+                      onClick: handleViewProfile,
+                    },
+                    {
                       icon: userEdit,
                       label: 'Edit profile',
                       onClick: handleEditProfile,
+                    },
+                    {
+                      icon: myCollectionsIcon,
+                      label: 'My Collections',
+                      onClick: () => navigate(`/user/${user.username}`),
+                    },
+                    {
+                      icon: myLikesIcon,
+                      label: 'My Likes',
+                      onClick: () => navigate(`/user/${user.username}`),
                     },
                     {
                       icon: logOutSymbol,
