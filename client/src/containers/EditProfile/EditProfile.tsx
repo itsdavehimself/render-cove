@@ -13,7 +13,6 @@ import EditProfileNavButton from '../../components/EditProfile/EditProfileNavBut
 import { FC } from 'react';
 import { AllowedViews } from './EditProfile.types';
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { format, parseISO } from 'date-fns';
 import EditProfileGeneralForm from '../../components/EditProfile/EditProfileGeneralForm/EditProfileGeneralForm';
 import EditProfileForm from '../../components/EditProfile/EditProfileForm/EditProfileForm';
 import EditProfileSocialForm from '../../components/EditProfile/EditProfileSocialForm/EditProfileSocialForm';
@@ -21,6 +20,7 @@ import EditProfileAccountForm from '../../components/EditProfile/EditProfileAcco
 import EditProfilePasswordForm from '../../components/EditProfile/EditProfilePasswordForm/EditProfilePasswordForm';
 import EditProfileNotificationsForm from '../../components/EditProfile/EditProfileNotificationsForm/EditProfileNotificationsForm';
 import EditProfileAlert from '../../components/EditProfile/EditProfileAlert/EditProfileAlert';
+import { formatDate } from '../../utility/FormatDate';
 
 export interface AlertInfo {
   isShowing: boolean;
@@ -38,10 +38,6 @@ const EditProfile: React.FC = () => {
   });
 
   const { user } = useAuthContext();
-
-  const isoDateString = user.createdAt.toString();
-  const dateObject = parseISO(isoDateString);
-  const formattedDate = format(dateObject, 'MMMM dd, yyyy');
 
   const userIcon: React.ReactNode = <FontAwesomeIcon icon={faUser} />;
   const generalIcon: React.ReactNode = <FontAwesomeIcon icon={faIdCard} />;
@@ -118,7 +114,7 @@ const EditProfile: React.FC = () => {
                 {user.displayName}
               </div>
               <div className={styles['member-since']}>
-                Member since {formattedDate}
+                Member since {formatDate(user.createdAt)}
               </div>
             </div>
           </div>
