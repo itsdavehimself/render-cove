@@ -9,7 +9,6 @@ import {
   faXTwitter,
   faYoutube,
   faGithub,
-  faDiscord,
   faBehance,
 } from '@fortawesome/free-brands-svg-icons';
 import useUpdateUser from '../../../hooks/useUserUpdate';
@@ -53,9 +52,7 @@ const EditProfileSocialForm: React.FC<EditProfileSocialFormProps> = ({
   const [githubLink, setGithubLink] = useState<string>(
     findUsernameByNetwork(user, 'github'),
   );
-  const [discordLink, setDiscordLink] = useState<string>(
-    findUsernameByNetwork(user, 'discord'),
-  );
+
   const [behanceLink, setBehanceLink] = useState<string>(
     findUsernameByNetwork(user, 'behance'),
   );
@@ -65,7 +62,6 @@ const EditProfileSocialForm: React.FC<EditProfileSocialFormProps> = ({
   const xIcon: React.ReactNode = <FontAwesomeIcon icon={faXTwitter} />;
   const youtubeIcon: React.ReactNode = <FontAwesomeIcon icon={faYoutube} />;
   const githubIcon: React.ReactNode = <FontAwesomeIcon icon={faGithub} />;
-  const discordIcon: React.ReactNode = <FontAwesomeIcon icon={faDiscord} />;
   const behanceIcon: React.ReactNode = <FontAwesomeIcon icon={faBehance} />;
 
   const convertToSocialEntryArray = (formData: FormData): SocialEntry[] => {
@@ -173,17 +169,6 @@ const EditProfileSocialForm: React.FC<EditProfileSocialFormProps> = ({
           initialValue={githubLink}
           placeholder="Username"
           onChange={(e) => setGithubLink(e.target.value)}
-          serverResponse={serverResponse}
-        />
-        <SocialInput
-          htmlFor="discord"
-          label="Discord"
-          icon={discordIcon}
-          id="discord"
-          name="discord"
-          initialValue={discordLink}
-          placeholder="Username"
-          onChange={(e) => setDiscordLink(e.target.value)}
           serverResponse={serverResponse}
         />
         <SocialInput
