@@ -30,20 +30,49 @@ interface AuthRequest extends Request {
 }
 
 const getUser = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { username } = req.params;
 
   try {
-    if (!Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: 'Invalid user ID.' });
-    }
-
-    const user: UserDocument | null = await User.findById(id);
+    const user: UserDocument | null = await User.findOne({
+      username: username,
+    });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    res.status(200).json(user);
+    const {
+      email,
+      displayName,
+      avatarUrl,
+      bannerUrl,
+      summary,
+      generators,
+      software,
+      socials,
+      location,
+      tagline,
+      website,
+      createdAt,
+    } = user;
+
+    const userResponseObject = {
+      email,
+      username,
+      displayName,
+      avatarUrl,
+      bannerUrl,
+      summary,
+      generators,
+      software,
+      socials,
+      location,
+      tagline,
+      website,
+      createdAt,
+    };
+
+    res.status(200).json(userResponseObject);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
