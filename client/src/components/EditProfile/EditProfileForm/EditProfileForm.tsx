@@ -393,7 +393,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           />
           <TagInput
             htmlFor="generators"
-            label="AI Generators"
+            label="AI Generators & UI"
             id="generators"
             name=""
             onClick={() => handleInputClick(generatorsInputRef)}
