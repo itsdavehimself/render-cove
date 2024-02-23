@@ -30,12 +30,12 @@ const UserProfileNavbar: React.FC<UserProfileNavbarProps> = () => {
         <div className={styles['user-nav-number']}>0</div>
       </div>
       <div className={styles['user-nav-item']}>
-        <div className={styles['user-nav-icon']}>{collectionsIcon}</div>
-        Collections
+        <div className={styles['user-nav-icon']}>{tutorialsIcon}</div>Tutorials
         <div className={styles['user-nav-number']}>0</div>
       </div>
       <div className={styles['user-nav-item']}>
-        <div className={styles['user-nav-icon']}>{tutorialsIcon}</div>Tutorials
+        <div className={styles['user-nav-icon']}>{collectionsIcon}</div>
+        Collections
         <div className={styles['user-nav-number']}>0</div>
       </div>
     </nav>
