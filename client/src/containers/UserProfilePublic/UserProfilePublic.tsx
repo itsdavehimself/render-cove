@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import UserProfileSidebar from '../../components/UserProfile/UserProfileSidebar/UserProfileSidebar';
 import UserInfo from '../../types/UserInfo';
+import UserProfileBanner from '../../components/UserProfile/UserProfileBanner/UserProfileBanner';
+import UserProfileNavbar from '../../components/UserProfile/UserProfileNavbar/UserProfileNavbar';
 
 interface UserProfilePublicProps {}
 
@@ -41,7 +43,12 @@ const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
   return (
     <div className={styles['public-profile-container']}>
       <UserProfileSidebar userInfo={userInfo} />
-      <section className={styles['profile-main-content']}></section>
+      <section className={styles['profile-main-content']}>
+        {userInfo?.bannerUrl && (
+          <UserProfileBanner bannerUrl={userInfo.bannerUrl} />
+        )}
+        <UserProfileNavbar />
+      </section>
     </div>
   );
 };
