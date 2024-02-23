@@ -42,13 +42,13 @@ const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
 
   return (
     <div className={styles['public-profile-container']}>
-      <UserProfileSidebar userInfo={userInfo} />
       <section className={styles['profile-main-content']}>
         {userInfo?.bannerUrl && (
           <UserProfileBanner bannerUrl={userInfo.bannerUrl} />
         )}
         <UserProfileNavbar />
       </section>
+      <UserProfileSidebar userInfo={userInfo} />
     </div>
   );
 };
