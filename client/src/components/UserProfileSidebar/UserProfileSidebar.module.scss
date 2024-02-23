@@ -1,0 +1,226 @@
+@use 'variables';
+
+.user-section-header {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: variables.$secondary-darker;
+}
+
+.public-profile-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26rem 1fr;
+}
+
+.profile-sidebar-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 5rem);
+  width: 26rem;
+  padding: 0 1.2rem 1.2rem 1.2rem;
+}
+
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-alt;
+  height: 100%;
+  width: 100%;
+  border-radius: 0.25rem;
+  padding: 2.5rem 1.5rem;
+  row-gap: 1.5rem;
+  overflow-y: scroll;
+}
+
+.user-overview {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  column-gap: 1rem;
+  overflow-x: hidden;
+}
+
+.user-avatar-container {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    height: 8rem;
+    width: 8rem;
+  }
+}
+
+.user-basic-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  row-gap: 0.25rem;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+}
+
+.user-tagline {
+  text-align: center;
+  color: variables.$secondary-darker;
+  font-weight: 400;
+}
+
+.user-location-website {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: variables.$secondary-darker;
+  font-weight: 400;
+  row-gap: 0.5rem;
+}
+
+.location-details {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  column-gap: 0.5rem;
+  align-items: center;
+}
+
+.location-icon {
+  justify-self: center;
+}
+
+.user-website {
+  color: variables.$accent-color;
+  text-decoration: none;
+}
+
+.user-bio,
+.user-joined-info {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: variables.$secondary-darker;
+}
+
+.user-contact-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  column-gap: 1.5rem;
+
+  button {
+    padding: 0.5rem 0;
+    border-radius: 0.25rem;
+    border: none;
+  }
+}
+
+.follower-user-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: variables.$accent-color;
+  transition: all 0.2s ease-in-out;
+  column-gap: 0.5rem;
+}
+
+.follower-user-button:hover {
+  cursor: pointer;
+  background-color: variables.$accent-tertiary;
+  transition: all 0.2s ease-in-out;
+}
+
+.message-user-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+  background-color: variables.$primary-light;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.message-user-button:hover {
+  cursor: pointer;
+  background-color: variables.$primary-lighter;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-social-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  color: variables.$secondary-darker;
+  padding: 1rem 0;
+}
+
+.user-social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.5rem;
+}
+
+.social-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 3rem;
+  font-size: 1.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.social-icon:hover {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-tools-software {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.software-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+
+.software-item {
+  padding: 0.15rem 0.35rem;
+  background-color: variables.$primary-light;
+  border-radius: 3px;
+}
+
+.user-stats-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  // border-top: 0.5px solid variables.$primary-light;
+  padding-top: 2rem;
+  color: variables.$secondary-darker;
+}
+
+.user-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-stats-number {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.user-stats-label {
+  font-size: 0.7rem;
+  font-weight: 400;
+}
