@@ -6,20 +6,13 @@
   color: variables.$secondary-darker;
 }
 
-.public-profile-container {
-  position: relative;
-  display: grid;
-  grid-template-columns: 26rem 1fr;
-}
-
 .profile-sidebar-container {
-  position: fixed;
+  position: sticky;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 5rem);
+  height: calc(100vh - 6.5rem);
   width: 26rem;
-  padding: 0 1.2rem 1.2rem 1.2rem;
 }
 
 .profile-sidebar {
