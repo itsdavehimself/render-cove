@@ -152,7 +152,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
     async (acceptedFiles: File[]) => {
       const options = {
         maxSizeKB: 1024,
-        maxWidthOrHeight: 1920,
+        maxWidthOrHeight: 0,
         useWebWorker: true,
       };
 
@@ -304,7 +304,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
                   )}
                 </div>
                 <p className={styles['avatar-size-limit']}>
-                  5MB max size (1920px x 640px)
+                  5MB max size (1920px x 512px)
                 </p>
                 {bannerFileRejections.length > 0 && (
                   <div className={styles['file-input-error']}>
