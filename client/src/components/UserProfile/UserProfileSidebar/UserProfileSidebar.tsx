@@ -137,7 +137,7 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
         )}
         {userInfo?.generators && userInfo?.generators.length > 0 && (
           <div className={styles['user-tools-software']}>
-            <h4 className={styles['user-section-header']}>Generators</h4>
+            <h4 className={styles['user-section-header']}>Generators & UI</h4>
             <div className={styles['software-container']}>
               {userInfo?.generators.map((generatorItem) => (
                 <div className={styles['software-item']}>{generatorItem}</div>
