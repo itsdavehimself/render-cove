@@ -1,0 +1,17 @@
+@use 'variables';
+
+.user-banner-container {
+  display: flex;
+  height: 24rem;
+  width: 100%;
+  background-color: variables.$primary-alt;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  justify-content: center;
+  align-items: start;
+
+  img {
+    width: auto;
+    height: 100%;
+  }
+}
