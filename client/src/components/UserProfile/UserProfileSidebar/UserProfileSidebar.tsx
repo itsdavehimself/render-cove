@@ -1,6 +1,6 @@
 import styles from './UserProfileSidebar.module.scss';
-import UserInfo from '../../types/UserInfo';
-import { formatDate } from '../../utility/FormatDate';
+import UserInfo from '../../../types/UserInfo';
+import { formatDate } from '../../../utility/FormatDate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {

@@ -1,7 +1,7 @@
 import styles from './UserProfilePublic.module.scss';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import UserProfileSidebar from '../../components/UserProfileSidebar/UserProfileSidebar';
+import UserProfileSidebar from '../../components/UserProfile/UserProfileSidebar/UserProfileSidebar';
 import UserInfo from '../../types/UserInfo';
 
 interface UserProfilePublicProps {}
