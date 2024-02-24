@@ -142,6 +142,25 @@
   transition: all 0.2s ease-in-out;
 }
 
+.edit-profile-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  background-color: transparent;
+  border-radius: 3px;
+  border: 1.5px solid variables.$primary-lighter;
+  color: variables.$secondary-color;
+  padding: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.edit-profile-button:hover {
+  cursor: pointer;
+  background-color: variables.$primary-tertiary;
+  transition: all 0.2s ease-in-out;
+}
+
 .user-social-container {
   display: flex;
   flex-direction: column;

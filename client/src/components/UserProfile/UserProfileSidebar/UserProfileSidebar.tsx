@@ -8,6 +8,7 @@ import {
   faGlobe,
   faUserPlus,
   faEnvelope,
+  faUserPen,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebook,
@@ -17,20 +18,28 @@ import {
   faGithub,
   faBehance,
 } from '@fortawesome/free-brands-svg-icons';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface UserProfileSidebarProps {
   userInfo: UserInfo | null;
+  username: string | undefined;
 }
 
 const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
   userInfo,
+  username,
 }) => {
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+
   const locationIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faLocationDot} />
   );
   const websiteIcon: React.ReactNode = <FontAwesomeIcon icon={faGlobe} />;
   const addUserIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPlus} />;
   const messageIcon: React.ReactNode = <FontAwesomeIcon icon={faEnvelope} />;
+  const editProfileIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPen} />;
 
   const networkIcons: Record<string, IconProp> = {
     facebook: faFacebook,
@@ -96,14 +105,23 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
           Joined{' '}
           {userInfo?.createdAt && formatDate(userInfo?.createdAt as Date)}
         </p>
-        <div className={styles['user-contact-buttons']}>
-          <button className={styles['follower-user-button']}>
-            {addUserIcon} Follow
+        {username !== user.username ? (
+          <div className={styles['user-contact-buttons']}>
+            <button className={styles['follower-user-button']}>
+              {addUserIcon} Follow
+            </button>
+            <button className={styles['message-user-button']}>
+              {messageIcon} Message
+            </button>
+          </div>
+        ) : (
+          <button
+            className={styles['edit-profile-button']}
+            onClick={() => navigate('/profile/edit')}
+          >
+            {editProfileIcon} Edit Profile
           </button>
-          <button className={styles['message-user-button']}>
-            {messageIcon} Message
-          </button>
-        </div>
+        )}
         {userInfo?.socials && userInfo.socials.length > 0 && (
           <div className={styles['user-social-container']}>
             <h4 className={styles['user-section-header']}>Social</h4>
