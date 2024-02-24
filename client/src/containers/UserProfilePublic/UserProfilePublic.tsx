@@ -1,6 +1,7 @@
 import styles from './UserProfilePublic.module.scss';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import UserProfileSidebar from '../../components/UserProfile/UserProfileSidebar/UserProfileSidebar';
 import UserInfo from '../../types/UserInfo';
 import UserProfileBanner from '../../components/UserProfile/UserProfileBanner/UserProfileBanner';
@@ -46,7 +47,8 @@ const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
         {userInfo?.bannerUrl && (
           <UserProfileBanner bannerUrl={userInfo.bannerUrl} />
         )}
-        <UserProfileNavbar />
+        <UserProfileNavbar username={username} />
+        <Outlet />
       </section>
       <UserProfileSidebar userInfo={userInfo} />
     </div>
