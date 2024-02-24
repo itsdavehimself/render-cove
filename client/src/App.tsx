@@ -11,6 +11,7 @@ import WithoutNav from './components/WithoutNav/WithoutNav';
 import EditProfile from './containers/EditProfile/EditProfile';
 import ChooseUsername from './containers/ChooseUsername/ChooseUsername';
 import UserProfilePublic from './containers/UserProfilePublic/UserProfilePublic';
+import UserProfileProjects from './components/UserProfile/UserProfileProjects/UserProfileProjects';
 
 function App() {
   const { user } = useAuthContext();
@@ -49,7 +50,24 @@ function App() {
                     user ? <CreateProjectForm /> : <Navigate to="/login" />
                   }
                 />
-                <Route path="/user/:username" element={<UserProfilePublic />} />
+                <Route path="/user/:username" element={<UserProfilePublic />}>
+                  <Route
+                    path="/user/:username/projects"
+                    element={<UserProfileProjects />}
+                  />
+                  <Route
+                    path="/user/:username/case-studies"
+                    element={<UserProfileProjects />}
+                  />
+                  <Route
+                    path="/user/:username/tutorials"
+                    element={<UserProfileProjects />}
+                  />
+                  <Route
+                    path="/user/:username/collections"
+                    element={<UserProfileProjects />}
+                  />
+                </Route>
               </Route>
             </Routes>
           </>
