@@ -147,8 +147,10 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
           <div className={styles['user-tools-software']}>
             <h4 className={styles['user-section-header']}>Tools & Software</h4>
             <div className={styles['software-container']}>
-              {userInfo.software.map((softwareItem) => (
-                <div className={styles['software-item']}>{softwareItem}</div>
+              {userInfo.software.map((softwareItem, index) => (
+                <div key={index} className={styles['software-item']}>
+                  {softwareItem}
+                </div>
               ))}
             </div>
           </div>
@@ -157,8 +159,10 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
           <div className={styles['user-tools-software']}>
             <h4 className={styles['user-section-header']}>Generators & UI</h4>
             <div className={styles['software-container']}>
-              {userInfo?.generators.map((generatorItem) => (
-                <div className={styles['software-item']}>{generatorItem}</div>
+              {userInfo?.generators.map((generatorItem, index) => (
+                <div key={index} className={styles['software-item']}>
+                  {generatorItem}
+                </div>
               ))}
             </div>
           </div>
