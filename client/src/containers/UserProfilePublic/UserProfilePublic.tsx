@@ -12,9 +12,18 @@ interface UserProfilePublicProps {}
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
+enum Views {
+  Latest = 'latest',
+  Projects = 'projects',
+  CaseStudies = 'case studies',
+  Tutorials = 'tutorials',
+  Collections = 'collections',
+}
+
 const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
   const { username } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentView, setCurrentView] = useState<Views>(Views.Latest);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
@@ -50,7 +59,7 @@ const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
         <UserProfileNavbar username={username} />
         <Outlet />
       </section>
-      <UserProfileSidebar userInfo={userInfo} />
+      <UserProfileSidebar userInfo={userInfo} username={username} />
     </div>
   );
 };
