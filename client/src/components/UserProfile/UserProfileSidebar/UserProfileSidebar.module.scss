@@ -126,7 +126,8 @@
   transition: all 0.2s ease-in-out;
 }
 
-.message-user-button {
+.message-user-button,
+.follower-user-button-unfollow {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,7 +137,8 @@
   transition: all 0.2s ease-in-out;
 }
 
-.message-user-button:hover {
+.message-user-button:hover,
+.follower-user-button-unfollow:hover {
   cursor: pointer;
   background-color: variables.$primary-lighter;
   transition: all 0.2s ease-in-out;
