@@ -15,6 +15,8 @@ interface UserInfo {
   tagline: string;
   website: string;
   createdAt: Date;
+  following: string[];
+  followers: string[];
 }
 
 export default UserInfo;

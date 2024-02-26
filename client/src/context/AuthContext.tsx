@@ -32,6 +32,8 @@ export interface UserType {
   token: string;
   userSetPassword: boolean;
   emailNotifications: EmailNotifications;
+  following: string[];
+  followers: string[];
 }
 
 interface AuthContextType {
