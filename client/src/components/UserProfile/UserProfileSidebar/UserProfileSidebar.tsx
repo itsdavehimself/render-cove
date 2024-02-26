@@ -192,7 +192,7 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
                 onClick={
                   !user
                     ? () => navigate('/login')
-                    : () => handleFollowClick(FollowAction.Unfollow)
+                    : () => handleFollowClick(FollowAction.Follow)
                 }
                 disabled={isLoading}
               >
