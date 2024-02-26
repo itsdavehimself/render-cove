@@ -104,6 +104,8 @@ const userSchema = new Schema<UserDocument>(
         default: false,
       },
     },
+    following: [{ type: String }],
+    followers: [{ type: String }],
   },
   { timestamps: true }
 );

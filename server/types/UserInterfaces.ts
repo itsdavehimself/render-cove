@@ -20,6 +20,8 @@ interface UserDocument {
   emailNotifications: EmailNotifications;
   _id: string;
   createdAt: Date;
+  following: string[];
+  followers: string[];
 }
 
 interface UserModel extends mongoose.Model<UserDocument> {

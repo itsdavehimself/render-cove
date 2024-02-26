@@ -38,6 +38,8 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       oauthUsed,
       userSetPassword,
       emailNotifications,
+      following,
+      followers,
       _id: userId,
     } = user;
 
@@ -59,6 +61,8 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       oauthUsed,
       userSetPassword,
       emailNotifications,
+      following,
+      followers,
       token,
     });
   } catch (error: any) {
@@ -93,6 +97,8 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       oauthUsed,
       userSetPassword,
       emailNotifications,
+      following,
+      followers,
       _id: userId,
     } = user;
 
@@ -115,6 +121,8 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       oauthUsed,
       userSetPassword,
       emailNotifications,
+      following,
+      followers,
     });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
@@ -152,6 +160,8 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         oauthUsed,
         userSetPassword,
         emailNotifications,
+        following,
+        followers,
       } = existingUser;
 
       res.status(200).json({
@@ -173,6 +183,8 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         oauthUsed,
         userSetPassword,
         emailNotifications,
+        following,
+        followers,
       });
     }
 
@@ -219,6 +231,8 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         oauthUsed,
         userSetPassword,
         emailNotifications,
+        following,
+        followers,
       } = newUser;
 
       res.status(200).json({
@@ -240,6 +254,8 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         oauthUsed,
         userSetPassword,
         emailNotifications,
+        following,
+        followers,
       });
     }
   } catch (error: any) {

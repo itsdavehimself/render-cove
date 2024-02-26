@@ -54,6 +54,8 @@ const getUser = async (req: Request, res: Response) => {
       tagline,
       website,
       createdAt,
+      following,
+      followers,
     } = user;
 
     const userResponseObject = {
@@ -70,6 +72,8 @@ const getUser = async (req: Request, res: Response) => {
       tagline,
       website,
       createdAt,
+      following,
+      followers,
     };
 
     res.status(200).json(userResponseObject);
