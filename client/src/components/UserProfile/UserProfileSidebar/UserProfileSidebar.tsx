@@ -7,6 +7,7 @@ import {
   faLocationDot,
   faGlobe,
   faUserPlus,
+  faUserMinus,
   faEnvelope,
   faUserPen,
 } from '@fortawesome/free-solid-svg-icons';
@@ -20,24 +21,46 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 interface UserProfileSidebarProps {
   userInfo: UserInfo | null;
   username: string | undefined;
+  API_BASE_URL: string;
+  isFollowing: boolean;
+  setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+enum FollowAction {
+  Follow = 'follow',
+  Unfollow = 'unfollow',
 }
 
 const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
   userInfo,
   username,
+  API_BASE_URL,
+  isFollowing,
+  setIsFollowing,
 }) => {
-  const { user } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
+
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [followers, setFollowers] = useState<number | undefined>(
+    userInfo?.followers.length || 0,
+  );
+  const [following, setFollowing] = useState<number | undefined>(
+    userInfo?.following.length || 0,
+  );
 
   const locationIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faLocationDot} />
   );
   const websiteIcon: React.ReactNode = <FontAwesomeIcon icon={faGlobe} />;
-  const addUserIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPlus} />;
+  const followIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPlus} />;
+  const unfollowIcon: React.ReactNode = <FontAwesomeIcon icon={faUserMinus} />;
   const messageIcon: React.ReactNode = <FontAwesomeIcon icon={faEnvelope} />;
   const editProfileIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPen} />;
 
@@ -58,6 +81,50 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
     github: 'https://www.github.com/',
     behance: 'https://www.behance.net/',
   };
+
+  const handleFollowClick = async (action: FollowAction): Promise<void> => {
+    setError(null);
+    setIsLoading(true);
+    const toggleFollowStatusResponse = await fetch(
+      `${API_BASE_URL}/users/toggleFollowStatus/${userInfo?._id}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          followAction: action,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      },
+    );
+
+    const toggleFollowStatusJSON = await toggleFollowStatusResponse.json();
+
+    if (!toggleFollowStatusResponse.ok) {
+      setError(toggleFollowStatusJSON);
+      setIsLoading(false);
+    }
+
+    if (toggleFollowStatusResponse.ok) {
+      setError(null);
+      setIsLoading(false);
+
+      const mergedUser = { ...user, ...toggleFollowStatusJSON.updatedUser };
+
+      setFollowers(toggleFollowStatusJSON.toggledUser.followers.length);
+      setIsFollowing(!isFollowing);
+      dispatch({ type: 'UPDATE_USER', payload: mergedUser });
+      localStorage.setItem('user', JSON.stringify(mergedUser));
+    }
+  };
+
+  useEffect(() => {
+    if (userInfo) {
+      setFollowers(userInfo.followers.length);
+      setFollowing(userInfo.following.length);
+    }
+  }, [userInfo]);
 
   return (
     <aside className={styles['profile-sidebar-container']}>
@@ -107,9 +174,24 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
         </p>
         {username !== user.username ? (
           <div className={styles['user-contact-buttons']}>
-            <button className={styles['follower-user-button']}>
-              {addUserIcon} Follow
-            </button>
+            {isFollowing ? (
+              <button
+                className={styles['follower-user-button-unfollow']}
+                onClick={() => handleFollowClick(FollowAction.Unfollow)}
+                disabled={isLoading}
+              >
+                {unfollowIcon} Unfollow
+              </button>
+            ) : (
+              <button
+                className={styles['follower-user-button']}
+                onClick={() => handleFollowClick(FollowAction.Follow)}
+                disabled={isLoading}
+              >
+                {followIcon} Follow
+              </button>
+            )}
+
             <button className={styles['message-user-button']}>
               {messageIcon} Message
             </button>
@@ -173,15 +255,11 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
             <p className={styles['user-stats-label']}>LIKES</p>
           </div>
           <div className={styles['user-stats']}>
-            <p className={styles['user-stats-number']}>
-              {userInfo?.followers.length}
-            </p>
+            <p className={styles['user-stats-number']}>{followers}</p>
             <p className={styles['user-stats-label']}>FOLLOWERS</p>
           </div>
           <div className={styles['user-stats']}>
-            <p className={styles['user-stats-number']}>
-              {userInfo?.following.length}
-            </p>
+            <p className={styles['user-stats-number']}>{following}</p>
             <p className={styles['user-stats-label']}>FOLLOWING</p>
           </div>
         </div>
