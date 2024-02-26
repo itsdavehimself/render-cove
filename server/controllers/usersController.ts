@@ -57,6 +57,7 @@ const getUser = async (req: Request, res: Response) => {
       createdAt,
       following,
       followers,
+      _id,
     } = user;
 
     const userResponseObject = {
@@ -75,6 +76,7 @@ const getUser = async (req: Request, res: Response) => {
       createdAt,
       following,
       followers,
+      _id,
     };
 
     res.status(200).json(userResponseObject);
@@ -366,6 +368,60 @@ const updateUserPassword = async (req: AuthRequest, res: Response) => {
   }
 };
 
+const toggleFollowStatus = async (req: AuthRequest, res: Response) => {
+  const { id: userToToggleId } = req.params;
+  const userId = req.user?._id;
+  const action = req.body.followAction;
+
+  try {
+    if (!Types.ObjectId.isValid(userToToggleId)) {
+      return res.status(400).json({ message: 'Invalid user ID.' });
+    }
+
+    const userToToggle: UserDocument | null = await User.findOne({
+      _id: userToToggleId,
+    });
+
+    if (!userToToggle) {
+      return res.status(404).json({
+        error: { message: 'User not found' },
+      });
+    }
+
+    const updateActionToggledUser =
+      action === 'follow'
+        ? { $addToSet: { followers: userId } }
+        : { $pull: { followers: userId } };
+
+    const updateActionUser =
+      action === 'follow'
+        ? { $addToSet: { following: userToToggleId } }
+        : { $pull: { following: userToToggleId } };
+
+    const toggledUser = await User.findOneAndUpdate(
+      { _id: userToToggleId },
+      updateActionToggledUser,
+      { new: true }
+    );
+
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userId },
+      updateActionUser,
+      { new: true }
+    );
+
+    const usersObject = {
+      toggledUser,
+      updatedUser,
+    };
+
+    res.status(200).json(usersObject);
+  } catch (error: any) {
+    console.error('Error in updateUser:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
   getUser,
   getAllUsers,
@@ -373,4 +429,5 @@ export {
   updateUser,
   updateUserEmail,
   updateUserPassword,
+  toggleFollowStatus,
 };
