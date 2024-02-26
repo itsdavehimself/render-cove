@@ -3,11 +3,11 @@ const GoogleSVG: React.FC = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 326667 333333"
-      shape-rendering="geometricPrecision"
-      text-rendering="geometricPrecision"
-      image-rendering="optimizeQuality"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      shapeRendering="geometricPrecision"
+      textRendering="geometricPrecision"
+      imageRendering="optimizeQuality"
+      fillRule="evenodd"
+      clipRule="evenodd"
       height="1.2rem"
       width="1.2rem"
     >
