@@ -34,6 +34,7 @@ export interface UserType {
   emailNotifications: EmailNotifications;
   following: string[];
   followers: string[];
+  _id: string;
 }
 
 interface AuthContextType {

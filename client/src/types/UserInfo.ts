@@ -17,6 +17,7 @@ interface UserInfo {
   createdAt: Date;
   following: string[];
   followers: string[];
+  _id: string;
 }
 
 export default UserInfo;
