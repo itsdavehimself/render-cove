@@ -172,12 +172,16 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
           Joined{' '}
           {userInfo?.createdAt && formatDate(userInfo?.createdAt as Date)}
         </p>
-        {username !== user.username ? (
+        {!user || username !== user.username ? (
           <div className={styles['user-contact-buttons']}>
             {isFollowing ? (
               <button
                 className={styles['follower-user-button-unfollow']}
-                onClick={() => handleFollowClick(FollowAction.Unfollow)}
+                onClick={
+                  !user
+                    ? () => navigate('/login')
+                    : () => handleFollowClick(FollowAction.Unfollow)
+                }
                 disabled={isLoading}
               >
                 {unfollowIcon} Unfollow
@@ -185,7 +189,11 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
             ) : (
               <button
                 className={styles['follower-user-button']}
-                onClick={() => handleFollowClick(FollowAction.Follow)}
+                onClick={
+                  !user
+                    ? () => navigate('/login')
+                    : () => handleFollowClick(FollowAction.Unfollow)
+                }
                 disabled={isLoading}
               >
                 {followIcon} Follow
