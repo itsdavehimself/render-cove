@@ -6,6 +6,7 @@ import {
   updateUser,
   updateUserEmail,
   updateUserPassword,
+  toggleFollowStatus,
 } from '../controllers/usersController.js';
 import requireAuth from '../middleware/requireAuth.js';
 import multer from 'multer';
@@ -34,5 +35,7 @@ usersRouter.patch(
 usersRouter.patch('/updateEmail/:id', requireAuth, updateUserEmail);
 
 usersRouter.patch('/updatePassword/:id', requireAuth, updateUserPassword);
+
+usersRouter.patch('/toggleFollowStatus/:id', requireAuth, toggleFollowStatus);
 
 export default usersRouter;
