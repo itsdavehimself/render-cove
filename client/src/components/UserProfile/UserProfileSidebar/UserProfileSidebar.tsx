@@ -199,10 +199,12 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
                 {followIcon} Follow
               </button>
             )}
-
             <button className={styles['message-user-button']}>
               {messageIcon} Message
             </button>
+            {error && (
+              <div className={styles['error-message']}>{error.message}</div>
+            )}
           </div>
         ) : (
           <button
