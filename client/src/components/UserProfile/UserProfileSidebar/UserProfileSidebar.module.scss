@@ -118,6 +118,7 @@
   background-color: variables.$accent-color;
   transition: all 0.2s ease-in-out;
   column-gap: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .follower-user-button:hover {
@@ -135,6 +136,7 @@
   background-color: variables.$primary-light;
   color: variables.$secondary-color;
   transition: all 0.2s ease-in-out;
+  font-size: 0.9rem;
 }
 
 .message-user-button:hover,
