@@ -7,7 +7,7 @@
   border-radius: 0.25rem;
   color: variables.$secondary-color;
   padding: 0.35rem 1rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.2s ease-in-out;
   column-gap: 0.5rem;
@@ -17,6 +17,10 @@
   background-color: variables.$accent-tertiary;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+}
+
+button {
+  border: none;
 }
 
 .navbar {
@@ -44,19 +48,19 @@
   align-items: center;
   column-gap: 2rem;
   font-weight: 500;
+}
 
-  button {
-    background-color: transparent;
-    border: none;
-    color: variables.$primary-lighter;
-    transition: all 0.2s ease-in-out;
-  }
+.navbar-nav-button {
+  background-color: transparent;
+  border: none;
+  color: variables.$primary-lighter;
+  transition: all 0.2s ease-in-out;
+}
 
-  button:hover {
-    color: variables.$primary-lightest;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-  }
+.navbar-nav-button:hover {
+  color: variables.$primary-lightest;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .logo {
@@ -83,14 +87,50 @@
   text-decoration: none;
 }
 
-.login-button,
-.create-project-button {
+.login-button {
   @include colored-button();
 }
 
-.login-button:hover,
+.login-button:hover {
+  @include colored-button-hover();
+}
+
+.create-button-container {
+  display: flex;
+}
+
+.create-project-button {
+  @include colored-button();
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 8px;
+}
+
 .create-project-button:hover {
   @include colored-button-hover();
+}
+
+.create-drop-down-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include colored-button();
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-right: 10px;
+  padding-left: 8px;
+  border-left: 0.5px solid variables.$accent-dark;
+}
+
+.create-drop-down-button:hover {
+  @include colored-button-hover();
+}
+
+.create-popout-container {
+  position: absolute;
+  top: 4.5rem;
+  right: 0rem;
+  width: 27rem;
 }
 
 .signup-button {
@@ -142,4 +182,11 @@
 .user-avatar {
   height: 38px;
   width: auto;
+}
+
+.avatar-popout-container {
+  position: absolute;
+  top: 4.5rem;
+  right: -2rem;
+  width: 16rem;
 }

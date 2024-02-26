@@ -16,6 +16,9 @@ import {
   faEye,
   faBookmark,
   faHeart,
+  faAngleDown,
+  faFlask,
+  faBookOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +26,9 @@ import { useNavigate } from 'react-router-dom';
 const Navbar: React.FC = () => {
   const [isUserPopOutShowing, setIsUserPopOutShowing] =
     useState<boolean>(false);
+  const [isCreatePopOutShowing, setIsCreatePopOutShowing] =
+    useState<boolean>(false);
+
   const { logOut } = useLogOut();
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -57,6 +63,9 @@ const Navbar: React.FC = () => {
     <FontAwesomeIcon icon={faArrowRightToBracket} />
   );
   const signupIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
+  const caretDown: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
+  const caseStudyIcon: React.ReactNode = <FontAwesomeIcon icon={faFlask} />;
+  const tutorialsIcon: React.ReactNode = <FontAwesomeIcon icon={faBookOpen} />;
 
   return (
     <nav className={styles.navbar}>
@@ -68,13 +77,13 @@ const Navbar: React.FC = () => {
             </Link>
             <div className={styles['nav-links']}>
               <Link className={styles['nav-link']} to="">
-                <button>Explore</button>
+                <button className={styles['navbar-nav-button']}>Explore</button>
               </Link>
               <Link className={styles['nav-link']} to="">
-                <button>About</button>
+                <button className={styles['navbar-nav-button']}>About</button>
               </Link>
               <Link className={styles['nav-link']} to="">
-                <button>Donate</button>
+                <button className={styles['navbar-nav-button']}>Donate</button>
               </Link>
             </div>
           </div>
@@ -105,24 +114,49 @@ const Navbar: React.FC = () => {
             </Link>
             <div className={styles['nav-links']}>
               <Link className={styles['nav-link']} to="">
-                <button>Explore</button>
+                <button className={styles['navbar-nav-button']}>Explore</button>
               </Link>
               <Link className={styles['nav-link']} to="">
-                <button>About</button>
+                <button className={styles['navbar-nav-button']}>About</button>
               </Link>
               <Link className={styles['nav-link']} to="">
-                <button>Donate</button>
+                <button className={styles['navbar-nav-button']}>Donate</button>
               </Link>
             </div>
           </div>{' '}
           <SearchBar />
           <div className={styles['right-third-nav']}>
-            <Link className={styles['nav-link']} to="/create">
-              <button className={styles['create-project-button']}>
-                <div>{uploadIcon}</div> Upload Project
+            <div className={styles['create-button-container']}>
+              <Link className={styles['nav-link']} to="/create">
+                <button className={styles['create-project-button']}>
+                  <div>{uploadIcon}</div> Upload Project
+                </button>
+              </Link>
+              <button
+                className={styles['create-drop-down-button']}
+                onClick={() => setIsCreatePopOutShowing(!isCreatePopOutShowing)}
+              >
+                {caretDown}
               </button>
-            </Link>
-
+              {isCreatePopOutShowing && (
+                <div className={styles['create-popout-container']}>
+                  <PopOutMenu
+                    buttons={[
+                      {
+                        icon: caseStudyIcon,
+                        label: 'Create Case Study',
+                        onClick: () => console.log('create case study'),
+                      },
+                      {
+                        icon: tutorialsIcon,
+                        label: 'Create Tutorial',
+                        onClick: () => console.log('create tutorial'),
+                      },
+                    ]}
+                  />
+                </div>
+              )}
+            </div>
             <div className={styles['notification-icons']}>
               <div className={styles['notification-bell']}>
                 {notificationBell}
@@ -145,35 +179,37 @@ const Navbar: React.FC = () => {
                 loading="lazy"
               />
               {isUserPopOutShowing && (
-                <PopOutMenu
-                  buttons={[
-                    {
-                      icon: viewProfileIcon,
-                      label: 'View profile',
-                      onClick: handleViewProfile,
-                    },
-                    {
-                      icon: userEdit,
-                      label: 'Edit profile',
-                      onClick: handleEditProfile,
-                    },
-                    {
-                      icon: myCollectionsIcon,
-                      label: 'My Collections',
-                      onClick: () => navigate(`/user/${user.username}`),
-                    },
-                    {
-                      icon: myLikesIcon,
-                      label: 'My Likes',
-                      onClick: () => navigate(`/user/${user.username}`),
-                    },
-                    {
-                      icon: logOutSymbol,
-                      label: 'Log out',
-                      onClick: handleLogout,
-                    },
-                  ]}
-                />
+                <div className={styles['avatar-popout-container']}>
+                  <PopOutMenu
+                    buttons={[
+                      {
+                        icon: viewProfileIcon,
+                        label: 'View profile',
+                        onClick: handleViewProfile,
+                      },
+                      {
+                        icon: userEdit,
+                        label: 'Edit profile',
+                        onClick: handleEditProfile,
+                      },
+                      {
+                        icon: myCollectionsIcon,
+                        label: 'My Collections',
+                        onClick: () => navigate(`/user/${user.username}`),
+                      },
+                      {
+                        icon: myLikesIcon,
+                        label: 'My Likes',
+                        onClick: () => navigate(`/user/${user.username}`),
+                      },
+                      {
+                        icon: logOutSymbol,
+                        label: 'Log out',
+                        onClick: handleLogout,
+                      },
+                    ]}
+                  />
+                </div>
               )}
             </div>
           </div>
