@@ -8,6 +8,7 @@ import {
   faGlobe,
   faUserPlus,
   faUserMinus,
+  faCheck,
   faEnvelope,
   faUserPen,
 } from '@fortawesome/free-solid-svg-icons';
@@ -54,12 +55,15 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
   const [following, setFollowing] = useState<number | undefined>(
     userInfo?.following.length || 0,
   );
+  const [isHoveringFollowButton, setIsHoveringFollowButton] =
+    useState<boolean>(false);
 
   const locationIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faLocationDot} />
   );
   const websiteIcon: React.ReactNode = <FontAwesomeIcon icon={faGlobe} />;
   const followIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPlus} />;
+  const checkIcon: React.ReactNode = <FontAwesomeIcon icon={faCheck} />;
   const unfollowIcon: React.ReactNode = <FontAwesomeIcon icon={faUserMinus} />;
   const messageIcon: React.ReactNode = <FontAwesomeIcon icon={faEnvelope} />;
   const editProfileIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPen} />;
@@ -183,8 +187,14 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
                     : () => handleFollowClick(FollowAction.Unfollow)
                 }
                 disabled={isLoading}
+                onMouseEnter={() => setIsHoveringFollowButton(true)}
+                onMouseLeave={() => setIsHoveringFollowButton(false)}
               >
-                {unfollowIcon} Unfollow
+                {!isHoveringFollowButton ? (
+                  <>{checkIcon} Following</>
+                ) : (
+                  <>{unfollowIcon} Unfollow</>
+                )}
               </button>
             ) : (
               <button
