@@ -11,6 +11,7 @@ import {
 } from '../utility/s3Utils.js';
 import bcrypt from 'bcrypt';
 import { EmailNotifications } from '../types/EmailNotifications.js';
+import { validateUsername } from '../utility/validateUsernameUtil.js';
 
 export interface SocialEntry {
   network: string;
@@ -184,17 +185,6 @@ const updateUser = async (req: AuthRequest, res: Response) => {
   } catch (error: any) {
     console.error('Error in updateUser:', error);
     res.status(500).json({ error: error.message });
-  }
-};
-
-const validateUsername = async (newUsername: string, res: Response) => {
-  const usernameExists = await User.findOne({ username: newUsername });
-
-  if (usernameExists && newUsername !== usernameExists.username) {
-    res
-      .status(400)
-      .json({ error: 'Username exists. Please try another username.' });
-    throw new Error('Username already exists. Please try another username.');
   }
 };
 
