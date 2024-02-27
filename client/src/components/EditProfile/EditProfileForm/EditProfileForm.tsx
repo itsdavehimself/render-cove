@@ -19,7 +19,7 @@ import {
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
 import { handleAlert } from '../EditProfile.utility';
-import ImageInput from '../../ImageInput/ImageInput';
+import SingleImageInput from '../../SingleImageInput/SingleImageInput';
 
 interface EditProfileFormProps {
   alertInfo: AlertInfo;
@@ -237,7 +237,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           <label className={styles['edit-profile-label']} htmlFor="bannerInput">
             Banner
           </label>
-          <ImageInput
+          <SingleImageInput
             getRootProps={getAvatarRootProps}
             getInputProps={getAvatarInputProps}
             isDragActive={isAvatarDragActive}
@@ -247,7 +247,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             imagePreviewClassName="avatar-circle"
             imageContainerClassName="avatar-preview"
           />
-          <ImageInput
+          <SingleImageInput
             getRootProps={getBannerRootProps}
             getInputProps={getBannerInputProps}
             isDragActive={isBannerDragActive}
