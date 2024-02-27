@@ -6,14 +6,16 @@ import { useDropzone } from 'react-dropzone';
 import FormInput from '../../FormInput/FormInput';
 import TagInput from '../../TagInput/TagInput';
 import {
+  customFileValidation,
+  compressAndSetPreview,
+} from './EditProfileForm.utility';
+import {
   addTag,
   removeTag,
   handleInputChange,
   handleInputClick,
   preventEnterKeySubmission,
-  customFileValidation,
-  compressAndSetPreview,
-} from './EditProfileForm.utility';
+} from '../../TagInput/TagInput.utiility';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
 import { handleAlert } from '../EditProfile.utility';
