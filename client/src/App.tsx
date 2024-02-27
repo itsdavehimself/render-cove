@@ -45,7 +45,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route
-                  path="/create"
+                  path="/create/project"
                   element={
                     user ? <CreateProjectForm /> : <Navigate to="/login" />
                   }
