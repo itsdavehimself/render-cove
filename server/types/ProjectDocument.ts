@@ -20,6 +20,7 @@ interface ProjectDocument {
   challenges: string;
   likes: number;
   comments: Comment[];
+  views: number;
   images: Image[];
   createdAt: Date;
   updatedAt: Date;

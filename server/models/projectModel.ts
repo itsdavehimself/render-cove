@@ -95,6 +95,7 @@ const projectSchema = new Schema<ProjectDocument>(
         likes: Number,
       },
     ],
+    views: { type: Number, default: 0 },
     images: [
       {
         url: { type: String, required: true },
