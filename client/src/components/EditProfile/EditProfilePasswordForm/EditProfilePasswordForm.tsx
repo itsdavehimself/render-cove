@@ -1,6 +1,6 @@
 import styles from './EditProfilePasswordForm.module.scss';
 import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
-import EditProfileInput from '../../FormInput/FormInput';
+import FormInput from '../../FormInput/FormInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { useState, useEffect } from 'react';
 import { isPasswordValid } from './EditProfilePasswordForm.utility';
@@ -127,7 +127,7 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
       >
         <div className={styles['form-inputs']}>
           {isPasswordSet && (
-            <EditProfileInput
+            <FormInput
               htmlFor="currentPassword"
               label="Current password"
               type="password"
@@ -142,7 +142,7 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
               onChange={(e) => setCurrentPassword(e.target.value)}
             />
           )}
-          <EditProfileInput
+          <FormInput
             htmlFor="newPassword"
             label="New password"
             type="password"
@@ -158,7 +158,7 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
             serverError=""
             onChange={(e) => setNewPassword(e.target.value)}
           />
-          <EditProfileInput
+          <FormInput
             htmlFor="confirmPassword"
             label="Confirm new password"
             type="password"

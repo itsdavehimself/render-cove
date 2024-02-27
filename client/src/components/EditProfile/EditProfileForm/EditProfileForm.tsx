@@ -3,7 +3,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import useUpdateUser from '../../../hooks/useUserUpdate';
 import { useState, useRef, useEffect, useCallback, FormEvent } from 'react';
 import { useDropzone } from 'react-dropzone';
-import EditProfileInput from '../../FormInput/FormInput';
+import FormInput from '../../FormInput/FormInput';
 import TagInput from '../../TagInput/TagInput';
 import {
   addTag,
@@ -318,7 +318,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           </div>
         </div>
         <div className={styles['edit-profile-info-form']}>
-          <EditProfileInput
+          <FormInput
             htmlFor="website"
             label="Website"
             type="text"
@@ -346,7 +346,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
               value={bio}
             ></textarea>
           </div>
-          <EditProfileInput
+          <FormInput
             htmlFor="tagline"
             label="Tagline"
             type="text"
@@ -358,7 +358,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             }
             onChange={(e) => setTagline(e.target.value)}
           />
-          <EditProfileInput
+          <FormInput
             htmlFor="location"
             label="Location"
             type="text"

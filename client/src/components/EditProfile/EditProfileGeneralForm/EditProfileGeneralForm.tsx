@@ -2,7 +2,7 @@ import styles from './EditProfileGeneralForm.module.scss';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useState } from 'react';
 import useUpdateUser from '../../../hooks/useUserUpdate';
-import EditProfileInput from '../../FormInput/FormInput';
+import FormInput from '../../FormInput/FormInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
 import { handleAlert } from '../EditProfile.utility';
@@ -70,7 +70,7 @@ const EditProfileGeneralForm: React.FC<EditProfileGeneralFormProps> = ({
         noValidate
       >
         <div className={styles['form-inputs']}>
-          <EditProfileInput
+          <FormInput
             htmlFor="displayName"
             label="Display Name"
             type="text"
@@ -84,7 +84,7 @@ const EditProfileGeneralForm: React.FC<EditProfileGeneralFormProps> = ({
             }
             onChange={(e) => setDisplayName(e.target.value)}
           />
-          <EditProfileInput
+          <FormInput
             htmlFor="username"
             label="Username"
             type="text"

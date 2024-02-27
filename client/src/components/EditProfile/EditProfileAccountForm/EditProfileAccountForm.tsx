@@ -1,6 +1,6 @@
 import styles from './EditProfileAccountForm.module.scss';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
-import EditProfileInput from '../../FormInput/FormInput';
+import FormInput from '../../FormInput/FormInput';
 import { useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import DeleteAccountModal from '../DeleteAccountModal/DeleteAccountModal';
@@ -109,7 +109,7 @@ const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
           noValidate
         >
           <div className={styles['form-inputs']}>
-            <EditProfileInput
+            <FormInput
               htmlFor="email"
               label="Email"
               type="email"
@@ -123,7 +123,7 @@ const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
               onChange={(e) => setEmail(e.target.value)}
             />
             {email !== user.email && (
-              <EditProfileInput
+              <FormInput
                 htmlFor="password"
                 label="Enter your password to change email"
                 type="password"
