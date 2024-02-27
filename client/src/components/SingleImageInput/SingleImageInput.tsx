@@ -1,11 +1,11 @@
-import styles from './ImageInput.module.scss';
+import styles from './SingleImageInput.module.scss';
 import {
   FileRejection,
   DropzoneRootProps,
   DropzoneInputProps,
 } from 'react-dropzone';
 
-interface ImageInputProps {
+interface SingleImageInputProps {
   getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
   getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
   isDragActive: boolean;
@@ -16,7 +16,7 @@ interface ImageInputProps {
   imageContainerClassName?: string;
 }
 
-const ImageInput: React.FC<ImageInputProps> = ({
+const SingleImageInput: React.FC<SingleImageInputProps> = ({
   getRootProps,
   getInputProps,
   isDragActive,
@@ -71,4 +71,4 @@ const ImageInput: React.FC<ImageInputProps> = ({
   );
 };
 
-export default ImageInput;
+export default SingleImageInput;
