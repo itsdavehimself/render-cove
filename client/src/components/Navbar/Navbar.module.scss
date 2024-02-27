@@ -38,16 +38,16 @@ button {
 
 .left-third-nav {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  column-gap: 2rem;
 }
 
 .nav-links {
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  column-gap: 2rem;
   font-weight: 500;
+  flex: 1;
+  padding: 0 3rem;
 }
 
 .navbar-nav-button {
