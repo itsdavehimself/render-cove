@@ -127,7 +127,7 @@ const Navbar: React.FC = () => {
           <SearchBar />
           <div className={styles['right-third-nav']}>
             <div className={styles['create-button-container']}>
-              <Link className={styles['nav-link']} to="/create">
+              <Link className={styles['nav-link']} to="/create/project">
                 <button className={styles['create-project-button']}>
                   <div>{uploadIcon}</div> Upload Project
                 </button>
