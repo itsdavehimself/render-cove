@@ -1,0 +1,53 @@
+@use 'variables';
+@use '../EditProfile/EditProfileForm/EditProfileForm.module.scss';
+
+.image-upload-box {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  border: 1px solid variables.$primary-lighter;
+  border-radius: 4px;
+  background-color: variables.$primary-tertiary;
+  transition: all 0.2s ease-in-out;
+  font-weight: 400;
+  flex: 1;
+  padding: 2rem 2rem 0;
+  height: 14rem;
+}
+
+.image-upload-box.dragging {
+  background-color: variables.$primary-tertiary-hover;
+  transition: all 0.2s ease-in-out;
+}
+
+.image-upload-box:hover {
+  cursor: pointer;
+  background-color: variables.$primary-tertiary-hover;
+  transition: all 0.2s ease-in-out;
+}
+
+.image-container {
+  justify-self: center;
+  align-self: center;
+}
+
+.image-container {
+  justify-self: center;
+  align-self: center;
+}
+
+.image-upload-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.image-upload-main {
+  color: variables.$secondary-color;
+}
+
+.image-size-limit {
+  font-size: 0.8rem;
+  color: variables.$secondary-darker;
+}
