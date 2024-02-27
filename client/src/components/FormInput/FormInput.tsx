@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
-import styles from './EditProfileInput.module.scss';
+import styles from './FormInput.module.scss';
 
-interface EditProfileInputProps {
+interface FormInputProps {
   htmlFor: string;
   label: string;
   type: string;
@@ -14,7 +14,7 @@ interface EditProfileInputProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const EditProfileInput: React.FC<EditProfileInputProps> = ({
+const FormInput: React.FC<FormInputProps> = ({
   htmlFor,
   label,
   type,
@@ -50,4 +50,4 @@ const EditProfileInput: React.FC<EditProfileInputProps> = ({
   );
 };
 
-export default EditProfileInput;
+export default FormInput;
