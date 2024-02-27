@@ -23,63 +23,6 @@
   row-gap: 0.5rem;
 }
 
-.edit-avatar-box,
-.edit-banner-box {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  border: 1px solid variables.$primary-lighter;
-  border-radius: 4px;
-  background-color: variables.$primary-tertiary;
-  transition: all 0.2s ease-in-out;
-  font-weight: 400;
-  flex: 1;
-  padding: 2rem 2rem 0;
-  height: 14rem;
-}
-
-.edit-avatar-box.dragging,
-.edit-banner-box.dragging {
-  background-color: variables.$primary-tertiary-hover;
-  transition: all 0.2s ease-in-out;
-}
-
-.edit-avatar-box:hover,
-.edit-banner-box:hover {
-  cursor: pointer;
-  background-color: variables.$primary-tertiary-hover;
-  transition: all 0.2s ease-in-out;
-}
-
-.avatar-circle {
-  justify-self: center;
-  align-self: center;
-  overflow: hidden;
-  border-radius: 50%;
-  width: fit-content;
-}
-
-.avatar-preview {
-  height: 100px;
-  width: 100px;
-}
-
-.avatar-upload-description {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.9rem;
-}
-
-.avatar-upload-main {
-  color: variables.$secondary-color;
-}
-
-.avatar-size-limit {
-  font-size: 0.8rem;
-  color: variables.$secondary-darker;
-}
-
 .banner-image-container {
   display: flex;
   justify-content: center;
@@ -95,6 +38,17 @@
 .banner-image-preview {
   width: 100%;
   height: auto;
+}
+
+.avatar-circle {
+  overflow: hidden;
+  border-radius: 50%;
+  width: fit-content;
+}
+
+.avatar-preview {
+  height: 100px;
+  width: 100px;
 }
 
 .edit-profile-info-form {

@@ -19,6 +19,7 @@ import {
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
 import { handleAlert } from '../EditProfile.utility';
+import ImageInput from '../../ImageInput/ImageInput';
 
 interface EditProfileFormProps {
   alertInfo: AlertInfo;
@@ -236,88 +237,26 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           <label className={styles['edit-profile-label']} htmlFor="bannerInput">
             Banner
           </label>
-          <div {...getAvatarRootProps()}>
-            <input {...getAvatarInputProps()} />
-            <div
-              className={`${styles['edit-avatar-box']} ${isAvatarDragActive ? styles['dragging'] : ''}`}
-            >
-              <div className={styles['avatar-circle']}>
-                <img
-                  className={styles['avatar-preview']}
-                  src={
-                    typeof avatarPreview === 'string'
-                      ? avatarPreview
-                      : avatarPreview instanceof ArrayBuffer
-                        ? 'data:image/jpeg;base64,' +
-                          Buffer.from(avatarPreview).toString('base64')
-                        : ''
-                  }
-                ></img>
-              </div>
-              <div className={styles['avatar-upload-description']}>
-                <div className={styles['avatar-upload-main']}>
-                  {isAvatarDragActive ? (
-                    <p>Drop it like it's hot 🔥</p>
-                  ) : (
-                    <p className={styles['avatar-upload-main']}>
-                      Drag image here or click to upload
-                    </p>
-                  )}
-                </div>
-                <p className={styles['avatar-size-limit']}>
-                  5MB max size (JPEG, JPG, PNG)
-                </p>
-                {avatarFileRejections.length > 0 && (
-                  <div className={styles['file-input-error']}>
-                    {avatarFileRejections.map(({ errors }) =>
-                      errors.map((e) => <>{e.message}</>),
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <div {...getBannerRootProps()}>
-            <input {...getBannerInputProps()} />
-            <div
-              className={`${styles['edit-banner-box']} ${isBannerDragActive ? styles['dragging'] : ''}`}
-            >
-              <div className={styles['banner-image-container']}>
-                <img
-                  className={styles['banner-image-preview']}
-                  src={
-                    typeof bannerPreview === 'string'
-                      ? bannerPreview
-                      : bannerPreview instanceof ArrayBuffer
-                        ? 'data:image/jpeg;base64,' +
-                          Buffer.from(bannerPreview).toString('base64')
-                        : ''
-                  }
-                ></img>
-              </div>
-              <div className={styles['avatar-upload-description']}>
-                <div className={styles['avatar-upload-main']}>
-                  {isBannerDragActive ? (
-                    <p>Drop it like it's hot 🔥</p>
-                  ) : (
-                    <p className={styles['avatar-upload-main']}>
-                      Drag image here or click to upload
-                    </p>
-                  )}
-                </div>
-                <p className={styles['avatar-size-limit']}>
-                  5MB max size (1920px x 512px)
-                </p>
-                {bannerFileRejections.length > 0 && (
-                  <div className={styles['file-input-error']}>
-                    {bannerFileRejections.map(({ errors }) =>
-                      errors.map((e) => <>{e.message}</>),
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <ImageInput
+            getRootProps={getAvatarRootProps}
+            getInputProps={getAvatarInputProps}
+            isDragActive={isAvatarDragActive}
+            imagePreview={avatarPreview}
+            fileRejections={avatarFileRejections}
+            fileSizeLimit="5MB max size (JPEG, JPG, PNG)"
+            imagePreviewClassName="avatar-circle"
+            imageContainerClassName="avatar-preview"
+          />
+          <ImageInput
+            getRootProps={getBannerRootProps}
+            getInputProps={getBannerInputProps}
+            isDragActive={isBannerDragActive}
+            imagePreview={bannerPreview}
+            fileRejections={bannerFileRejections}
+            fileSizeLimit="5MB max size (1920px x 512px)"
+            imagePreviewClassName="banner-image-preview"
+            imageContainerClassName="banner-image-container"
+          />
         </div>
         <div className={styles['edit-profile-info-form']}>
           <FormInput
