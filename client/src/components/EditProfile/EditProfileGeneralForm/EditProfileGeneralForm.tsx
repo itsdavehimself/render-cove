@@ -2,7 +2,7 @@ import styles from './EditProfileGeneralForm.module.scss';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useState } from 'react';
 import useUpdateUser from '../../../hooks/useUserUpdate';
-import EditProfileInput from '../EditProfileInput/EditProfileInput';
+import EditProfileInput from '../../FormInput/FormInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
 import { handleAlert } from '../EditProfile.utility';

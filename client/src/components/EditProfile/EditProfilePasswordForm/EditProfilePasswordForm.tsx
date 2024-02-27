@@ -1,6 +1,6 @@
 import styles from './EditProfilePasswordForm.module.scss';
 import { AlertInfo } from '../../../containers/EditProfile/EditProfile';
-import EditProfileInput from '../EditProfileInput/EditProfileInput';
+import EditProfileInput from '../../FormInput/FormInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { useState, useEffect } from 'react';
 import { isPasswordValid } from './EditProfilePasswordForm.utility';

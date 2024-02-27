@@ -1,6 +1,6 @@
 import styles from './EditProfileAccountForm.module.scss';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
-import EditProfileInput from '../EditProfileInput/EditProfileInput';
+import EditProfileInput from '../../FormInput/FormInput';
 import { useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import DeleteAccountModal from '../DeleteAccountModal/DeleteAccountModal';

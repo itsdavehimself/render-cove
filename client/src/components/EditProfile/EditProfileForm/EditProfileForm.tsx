@@ -3,7 +3,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import useUpdateUser from '../../../hooks/useUserUpdate';
 import { useState, useRef, useEffect, useCallback, FormEvent } from 'react';
 import { useDropzone } from 'react-dropzone';
-import EditProfileInput from '../EditProfileInput/EditProfileInput';
+import EditProfileInput from '../../FormInput/FormInput';
 import TagInput from '../../TagInput/TagInput';
 import {
   addTag,
