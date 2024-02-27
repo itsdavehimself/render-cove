@@ -5,6 +5,7 @@ interface Image {
   fileName: string;
   mimeType: string;
   size: number;
+  caption: string;
   userId: Schema.Types.ObjectId | string;
   createdAt: Date;
 }
