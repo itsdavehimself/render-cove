@@ -12,8 +12,8 @@ interface SingleImageInputProps {
   imagePreview: string | ArrayBuffer | null;
   fileRejections: FileRejection[];
   fileSizeLimit: string;
-  imagePreviewClassName?: string;
   imageContainerClassName?: string;
+  imagePreviewClassName?: string;
 }
 
 const SingleImageInput: React.FC<SingleImageInputProps> = ({
@@ -23,8 +23,8 @@ const SingleImageInput: React.FC<SingleImageInputProps> = ({
   imagePreview,
   fileRejections,
   fileSizeLimit,
-  imagePreviewClassName,
   imageContainerClassName,
+  imagePreviewClassName,
 }) => {
   return (
     <div {...getRootProps()}>
