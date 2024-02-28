@@ -1,0 +1,12 @@
+@use 'variables';
+@use '../FormInput/FormInput.module.scss';
+
+.remaining-characters {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: variables.$primary-lighter;
+}
+
+.remaining-characters.error {
+  color: variables.$error-color;
+}
