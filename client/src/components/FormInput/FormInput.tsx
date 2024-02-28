@@ -28,11 +28,11 @@ const FormInput: React.FC<FormInputProps> = ({
 }) => {
   return (
     <div className={styles['input-container']}>
-      <label className={styles['edit-profile-label']} htmlFor={htmlFor}>
+      <label className={styles['input-label']} htmlFor={htmlFor}>
         {label}
       </label>
       <input
-        className={`${styles['edit-profile-input']} ${clientError || serverError ? styles.error : ''}`}
+        className={`${styles['form-input']} ${clientError || serverError ? styles.error : ''}`}
         type={type}
         id={id}
         name={name}

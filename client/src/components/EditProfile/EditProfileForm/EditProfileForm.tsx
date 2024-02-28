@@ -155,7 +155,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
     async (acceptedFiles: File[]) => {
       const options = {
         maxSizeKB: 1024,
-        maxWidthOrHeight: 0,
+        maxWidthOrHeight: 1920,
         useWebWorker: true,
       };
 
@@ -231,10 +231,10 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
         onKeyDown={preventEnterKeySubmission}
       >
         <div className={styles['edit-image-container']}>
-          <label className={styles['edit-profile-label']} htmlFor="avatarInput">
+          <label className={styles['input-label']} htmlFor="avatarInput">
             Avatar
           </label>
-          <label className={styles['edit-profile-label']} htmlFor="bannerInput">
+          <label className={styles['input-label']} htmlFor="bannerInput">
             Banner
           </label>
           <SingleImageInput
@@ -244,8 +244,8 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             imagePreview={avatarPreview}
             fileRejections={avatarFileRejections}
             fileSizeLimit="5MB max size (JPEG, JPG, PNG)"
-            imagePreviewClassName="avatar-circle"
-            imageContainerClassName="avatar-preview"
+            imageContainerClassName="avatar-circle"
+            imagePreviewClassName="avatar-preview"
           />
           <SingleImageInput
             getRootProps={getBannerRootProps}
@@ -254,8 +254,8 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             imagePreview={bannerPreview}
             fileRejections={bannerFileRejections}
             fileSizeLimit="5MB max size (1920px x 512px)"
-            imagePreviewClassName="banner-image-preview"
             imageContainerClassName="banner-image-container"
+            imagePreviewClassName="banner-image-preview"
           />
         </div>
         <div className={styles['edit-profile-info-form']}>
@@ -281,7 +281,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             </label>
             <textarea
               rows={3}
-              className={`${styles['edit-profile-input']} ${styles['textarea']}`}
+              className={`${styles['form-input']} ${styles['textarea']}`}
               onChange={(e) => setBio(e.target.value)}
               name="summary"
               value={bio}
