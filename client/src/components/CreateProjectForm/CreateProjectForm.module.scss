@@ -1,0 +1,95 @@
+@use 'variables';
+
+.create-project-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.2rem;
+  margin: 4rem 18rem;
+}
+
+.page-navigation-title {
+  font-size: 0.9rem;
+  color: variables.$secondary-darker;
+  font-weight: 400;
+}
+
+.project-title {
+  font-size: 2.5rem;
+  color: variables.$secondary-color;
+  font-weight: 400;
+}
+
+.create-project-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 2rem;
+}
+
+.form-left-column {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+.form-right-column {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  background-color: variables.$primary-alt;
+  padding: 1.5rem 1.25rem;
+  border-radius: 0.25rem;
+}
+
+.form-section-header {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: variables.$secondary-color;
+}
+
+.textarea {
+  resize: none;
+}
+
+.bio-remaining-characters {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: variables.$primary-lighter;
+}
+
+.bio-remaining-characters.error {
+  color: variables.$error-color;
+}
+
+.input-with-title {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.section-title {
+  color: variables.$secondary-color;
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.prompts-section {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-alt;
+  padding: 1.5rem 1.25rem;
+  border-radius: 0.25rem;
+  row-gap: 1rem;
+}
+
+.prompts-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 2rem;
+}
