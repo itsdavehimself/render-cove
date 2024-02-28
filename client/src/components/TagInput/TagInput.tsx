@@ -25,6 +25,7 @@ interface TagInputProps {
     e: React.KeyboardEvent<HTMLInputElement>,
   ) => void;
   addTag: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  optionalClass?: boolean;
 }
 
 const TagInput: React.FC<TagInputProps> = ({
@@ -43,16 +44,20 @@ const TagInput: React.FC<TagInputProps> = ({
   handleInputChange,
   handleKeyDown,
   addTag,
+  optionalClass,
 }) => {
   const xMark: React.ReactNode = <FontAwesomeIcon icon={faXmark} />;
 
   return (
     <div onClick={onClick} className={styles['input-container']}>
-      <label className={styles['edit-profile-label']} htmlFor={htmlFor}>
+      <label
+        className={`${styles['input-label']} ${optionalClass && styles['label-secondary']}`}
+        htmlFor={htmlFor}
+      >
         {label}
       </label>
       <div
-        className={`${styles['edit-profile-input']} ${
+        className={`${styles['form-input']} ${
           isFocusedInput ? styles['focused'] : ''
         }`}
       >

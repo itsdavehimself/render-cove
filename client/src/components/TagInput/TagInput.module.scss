@@ -64,6 +64,10 @@
   outline: none;
 }
 
-.edit-profile-input.focused {
+.form-input.focused {
   border: 1px solid variables.$accent-color;
+}
+
+.label-secondary {
+  color: variables.$secondary-darker;
 }
