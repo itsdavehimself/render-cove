@@ -30,32 +30,6 @@ const projectSchema = new Schema<ProjectDocument>(
       ],
       validate: [arrayLimit, '{PATH} cannot exceed 15 items'],
     },
-    models: {
-      type: [
-        {
-          type: String,
-        },
-      ],
-      validate: [arrayLimit, '{PATH} cannot exceed 15 items'],
-    },
-    lora: {
-      type: [
-        {
-          type: String,
-        },
-      ],
-      validate: [arrayLimit, '{PATH} cannot exceed 15 items'],
-    },
-    prompt: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    negativePrompt: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     workflow: {
       type: String,
       required: true,

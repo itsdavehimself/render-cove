@@ -9,10 +9,6 @@ interface ProjectDocument {
   description?: string;
   tags: string[];
   softwareList: string[];
-  models: string[];
-  lora: string[];
-  prompt: string;
-  negativePrompt: string;
   workflow: string;
   workflowUrl: string;
   postProcessing: string;
