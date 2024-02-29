@@ -1,22 +1,22 @@
 import styles from './CreateProjectForm.module.scss';
 import { useState, FormEvent, useRef, useEffect, useCallback } from 'react';
-import FormInput from '../FormInput/FormInput';
-import TagInput from '../TagInput/TagInput';
-import MultiImageInput from '../MultiImageInput/MultiImageInput';
+import FormInput from '../../components/FormInput/FormInput';
+import TagInput from '../../components/TagInput/TagInput';
+import MultiImageInput from '../../components/MultiImageInput/MultiImageInput';
 import {
   addTag,
   removeTag,
   handleInputChange,
   handleInputClick,
   preventEnterKeySubmission,
-} from '../TagInput/TagInput.utiility';
-import SaveSubmitButton from '../SaveSubmitButton/SaveSubmitButton';
+} from '../../components/TagInput/TagInput.utiility';
+import SaveSubmitButton from '../../components/SaveSubmitButton/SaveSubmitButton';
 import { useDropzone } from 'react-dropzone';
-import { customFileValidation } from '../EditProfile/EditProfileForm/EditProfileForm.utility';
+import { customFileValidation } from '../../components/EditProfile/EditProfileForm/EditProfileForm.utility';
 import { compressAndSetPreviewMultiple } from './CreateProjectForm.utility';
-import TextAreaInput from '../TextAreaInput/TextAreaInput';
-import GenerationDataModal from '../GenerationDataModal/GenerationDataModal';
-import PreviewUploadCards from '../PreviewUploadCards/PreviewUploadCards';
+import TextAreaInput from '../../components/TextAreaInput/TextAreaInput';
+import GenerationDataModal from '../../components/GenerationDataModal/GenerationDataModal';
+import PreviewUploadCards from '../../components/PreviewUploadCards/PreviewUploadCards';
 import ImageData from '../../types/ImageData';
 
 const CreateProjectForm: React.FC = () => {
