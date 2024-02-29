@@ -56,16 +56,6 @@
   resize: none;
 }
 
-.bio-remaining-characters {
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: variables.$primary-lighter;
-}
-
-.bio-remaining-characters.error {
-  color: variables.$error-color;
-}
-
 .input-with-title {
   display: flex;
   flex-direction: column;
