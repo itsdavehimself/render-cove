@@ -18,6 +18,8 @@ import TextAreaInput from '../../components/TextAreaInput/TextAreaInput';
 import GenerationDataModal from '../../components/GenerationDataModal/GenerationDataModal';
 import PreviewUploadCards from '../../components/PreviewUploadCards/PreviewUploadCards';
 import ImageData from '../../types/ImageData';
+import WorkflowInput from '../../components/WorkflowInput/WorkflowInput';
+import Tiptap from '../../components/Tiptap';
 
 const CreateProjectForm: React.FC = () => {
   const [title, setTitle] = useState<string>('');
@@ -223,6 +225,17 @@ const CreateProjectForm: React.FC = () => {
               setIsDataShowing={setIsGenerationDataShowing}
               getImageIndex={getImageIndex}
             />
+            <section className={styles['form-section']}>
+              <div className={styles['workflow-header']}>
+                <h3 className={styles['section-title']}>Workflow</h3>
+                <p className={styles['section-subtitle']}>
+                  Give us a look into your workflow, processes, and
+                  methodologies of your project
+                </p>
+              </div>
+              <Tiptap />
+              <WorkflowInput />
+            </section>
             <section className={styles['form-section']}>
               <div className={styles['input-with-title']}>
                 <h3 className={styles['section-title']}>Software used</h3>

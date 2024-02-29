@@ -62,11 +62,24 @@
   row-gap: 0.5rem;
 }
 
+.workflow-header {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+}
+
 .section-title {
   color: variables.$secondary-color;
   margin: 0;
   font-weight: 500;
   font-size: 1.5rem;
+}
+
+.section-subtitle {
+  color: variables.$secondary-darker;
+  margin: 0;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .prompts-section {
