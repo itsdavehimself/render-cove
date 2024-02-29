@@ -1,19 +1,22 @@
 import styles from './TextAreaInput.module.scss';
+import { ChangeEvent } from 'react';
 
 interface TextAreaInputProps {
   remainingCharacters?: number;
-  text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   label: string;
   name: string;
+  id: string;
 }
 
 const TextAreaInput: React.FC<TextAreaInputProps> = ({
   remainingCharacters,
-  text,
-  setText,
+  value,
+  onChange,
   label,
   name,
+  id,
 }) => {
   return (
     <div className={styles['input-container']}>
@@ -31,9 +34,10 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
       <textarea
         rows={3}
         className={`${styles['form-input']} ${styles['textarea']}`}
-        onChange={(e) => setText(e.target.value)}
+        onChange={onChange}
+        id={id}
         name={name}
-        value={text}
+        value={value}
       ></textarea>
     </div>
   );
