@@ -7,7 +7,7 @@ interface FormInputProps {
   type: string;
   id: string;
   name: string;
-  value: string;
+  value: string | number | undefined;
   placeholder?: string;
   clientError?: string;
   serverError?: string;
