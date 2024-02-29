@@ -6,25 +6,19 @@ import UserProfileSidebar from '../../components/UserProfile/UserProfileSidebar/
 import UserInfo from '../../types/UserInfo';
 import UserProfileBanner from '../../components/UserProfile/UserProfileBanner/UserProfileBanner';
 import UserProfileNavbar from '../../components/UserProfile/UserProfileNavbar/UserProfileNavbar';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 interface UserProfilePublicProps {}
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
-enum Views {
-  Latest = 'latest',
-  Projects = 'projects',
-  CaseStudies = 'case studies',
-  Tutorials = 'tutorials',
-  Collections = 'collections',
-}
-
 const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
+  const { user } = useAuthContext();
   const { username } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [currentView, setCurrentView] = useState<Views>(Views.Latest);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserInfo = async (): Promise<void> => {
@@ -39,6 +33,12 @@ const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
         if (userInfoResponse.ok) {
           const userInfo = await userInfoResponse.json();
           setUserInfo(userInfo);
+
+          if (user && userInfo.followers.includes(user.userId)) {
+            setIsFollowing(true);
+          } else {
+            setIsFollowing(false);
+          }
         } else {
           console.error(userInfoResponse.json());
         }
@@ -48,7 +48,7 @@ const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
     };
 
     fetchUserInfo();
-  }, [username]);
+  }, [username, user]);
 
   return (
     <div className={styles['public-profile-container']}>
@@ -59,7 +59,13 @@ const UserProfilePublic: React.FC<UserProfilePublicProps> = () => {
         <UserProfileNavbar username={username} />
         <Outlet />
       </section>
-      <UserProfileSidebar userInfo={userInfo} username={username} />
+      <UserProfileSidebar
+        userInfo={userInfo}
+        username={username}
+        API_BASE_URL={API_BASE_URL}
+        isFollowing={isFollowing}
+        setIsFollowing={setIsFollowing}
+      />
     </div>
   );
 };
