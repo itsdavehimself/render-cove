@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './containers/Home/Home';
 import SignUp from './containers/SignUp/SignUp';
 import Login from './containers/Login/Login';
-import CreateProjectForm from './components/CreateProjectForm/CreateProjectForm';
+import CreateProjectForm from './containers/CreateProjectForm/CreateProjectForm';
 import { useAuthContext } from './hooks/useAuthContext';
 import { useEffect, useState } from 'react';
 import WithNav from './components/WithNav/WithNav';
