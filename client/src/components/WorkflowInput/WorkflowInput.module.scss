@@ -1,5 +1,21 @@
 @use 'variables';
 
 .workflow-container {
-  color: variables.$secondary-color;
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-color;
+  border-radius: 0.25rem;
+  border: 1px solid variables.$primary-tertiary;
+  transition: all 0.2s ease-in-out;
+}
+
+.workflow-container:hover {
+  cursor: text;
+  border: 1px solid variables.$primary-light;
+  transition: all 0.2s ease-in-out;
+}
+
+.workflow-container.editor-focused {
+  border: 1px solid variables.$accent-color;
+  transition: all 0.2s ease-in-out;
 }
