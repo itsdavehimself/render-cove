@@ -53,10 +53,6 @@ const projectSchema = new Schema<ProjectDocument>(
         trim: true,
       },
     },
-    challenges: {
-      type: String,
-      trim: true,
-    },
     likes: { type: Number, default: 0 },
     comments: [
       {

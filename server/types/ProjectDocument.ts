@@ -12,7 +12,6 @@ interface ProjectDocument {
   workflow: string;
   workflowUrl: string;
   hardware: Hardware;
-  challenges: string;
   likes: number;
   comments: Comment[];
   views: number;
