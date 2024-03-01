@@ -39,10 +39,6 @@ const projectSchema = new Schema<ProjectDocument>(
       type: String,
       trim: true,
     },
-    postProcessing: {
-      type: String,
-      trim: true,
-    },
     hardware: {
       cpu: {
         type: String,

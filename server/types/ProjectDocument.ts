@@ -11,7 +11,6 @@ interface ProjectDocument {
   softwareList: string[];
   workflow: string;
   workflowUrl: string;
-  postProcessing: string;
   hardware: Hardware;
   challenges: string;
   likes: number;
