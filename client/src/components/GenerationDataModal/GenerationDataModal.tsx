@@ -174,7 +174,7 @@ const GenerationDataModal: React.FC<GenerationDataModalProps> = ({
               Close
             </button>
             <div onClick={handleSaveGenerationData}>
-              <SaveSubmitButton label="Save" isLoading={false} />
+              <SaveSubmitButton label="Save" isLoading={false} color="blue" />
             </div>
           </div>
         </div>
