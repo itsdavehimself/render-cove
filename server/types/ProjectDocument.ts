@@ -16,6 +16,7 @@ interface ProjectDocument {
   comments: Comment[];
   views: number;
   images: Image[];
+  published: Boolean;
   createdAt: Date;
   updatedAt: Date;
   _id: string;

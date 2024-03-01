@@ -79,6 +79,7 @@ const projectSchema = new Schema<ProjectDocument>(
         author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
       },
     ],
+    published: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
