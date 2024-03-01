@@ -64,6 +64,10 @@
   outline: none;
 }
 
+.form-input:hover {
+  cursor: text;
+}
+
 .form-input.focused {
   border: 1px solid variables.$accent-color;
 }
