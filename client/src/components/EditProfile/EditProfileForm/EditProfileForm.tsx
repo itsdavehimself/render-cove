@@ -360,7 +360,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           />
         </div>
         <div className={styles['save-button-container']}>
-          <SaveSubmitButton label="Save" isLoading={isLoading} />
+          <SaveSubmitButton label="Save" isLoading={isLoading} color="blue" />
         </div>
         {error && <div>{error.toString()}</div>}
       </form>

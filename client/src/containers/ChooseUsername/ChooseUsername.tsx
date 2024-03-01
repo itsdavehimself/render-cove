@@ -63,7 +63,11 @@ const ChooseUsername: React.FC = () => {
                 {!usernameError && errorOAuth && <>{errorOAuth.toString()}</>}
               </div>
             </div>
-            <SaveSubmitButton label="Sign Up" isLoading={isLoadingOAuth} />
+            <SaveSubmitButton
+              label="Sign Up"
+              isLoading={isLoadingOAuth}
+              color="blue"
+            />
           </form>
           <div className={styles.divider}>
             <div className={styles['divider-line']}></div>

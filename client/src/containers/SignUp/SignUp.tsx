@@ -231,7 +231,11 @@ const SignUp: React.FC = () => {
                 </div>
               </div>
             </div>
-            <SaveSubmitButton label="Sign Up" isLoading={isLoading} />
+            <SaveSubmitButton
+              label="Sign Up"
+              isLoading={isLoading}
+              color="blue"
+            />
             {error && (
               <div className={styles['submit-error']}>{error?.toString()}</div>
             )}

@@ -123,7 +123,11 @@ const Login: React.FC = () => {
                 {passwordError ? 'Please enter your password' : ''}
               </div>
             </div>
-            <SaveSubmitButton label="Log In" isLoading={isLoading} />
+            <SaveSubmitButton
+              label="Log In"
+              isLoading={isLoading}
+              color="blue"
+            />
             {error && (
               <div className={styles['submit-error']}>{error.toString()}</div>
             )}

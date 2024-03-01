@@ -100,7 +100,7 @@ const EditProfileNotificationsForm: React.FC<
           />
         </div>
         <div className={styles['save-button-container']}>
-          <SaveSubmitButton label="Save" isLoading={isLoading} />
+          <SaveSubmitButton label="Save" isLoading={isLoading} color="blue" />
         </div>
         {error && (
           <div className={styles['error-message']}>{error.toString()}</div>

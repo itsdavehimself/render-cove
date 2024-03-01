@@ -186,7 +186,7 @@ const EditProfileSocialForm: React.FC<EditProfileSocialFormProps> = ({
           <div className={styles['error-message']}>{isError.toString()}</div>
         )}
         <div className={styles['save-button-container']}>
-          <SaveSubmitButton label="Save" isLoading={isLoading} />
+          <SaveSubmitButton label="Save" isLoading={isLoading} color="blue" />
         </div>
       </form>
     </div>

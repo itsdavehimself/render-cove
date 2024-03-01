@@ -101,7 +101,7 @@ const EditProfileGeneralForm: React.FC<EditProfileGeneralFormProps> = ({
           />
         </div>
         <div className={styles['save-button-container']}>
-          <SaveSubmitButton label="Save" isLoading={isLoading} />
+          <SaveSubmitButton label="Save" isLoading={isLoading} color="blue" />
         </div>
       </form>
     </div>
