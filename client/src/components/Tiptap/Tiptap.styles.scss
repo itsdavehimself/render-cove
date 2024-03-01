@@ -1,0 +1,40 @@
+@use 'variables';
+
+.tiptap {
+  background-color: variables.$primary-color;
+  border-radius: 0.25rem;
+  color: variables.$secondary-color;
+  padding: 2rem;
+
+  h1 {
+    font-size: 2rem;
+    margin: 1rem 0;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    margin: 0.75rem 0;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+  }
+
+  pre {
+    background-color: variables.$primary-alt;
+    border-radius: 0.25rem;
+    padding: 1rem;
+  }
+}
+
+.tiptap:focus {
+  outline: none;
+}
+
+.tiptap.ProseMirror {
+  min-height: 20rem;
+  max-height: 40rem;
+  overflow-y: scroll;
+}
