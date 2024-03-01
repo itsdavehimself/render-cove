@@ -1,0 +1,11 @@
+@use 'variables';
+
+.hoverStyles:hover {
+  fill: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.hoverStyles:hover {
+  fill: variables.$accent-tertiary;
+  transition: all 0.2s ease-in-out;
+}
