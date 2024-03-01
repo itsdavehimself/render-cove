@@ -1,10 +1,10 @@
 @use 'variables';
 
-.save-submit-button {
+@mixin save-submit-button($background-color, $hover-color) {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: variables.$accent-color;
+  background-color: $background-color;
   color: variables.$secondary-color;
   padding: 0.5rem 0;
   min-width: 6rem;
@@ -13,18 +13,28 @@
   border: none;
   border-radius: 0.2rem;
   transition: all 0.2s ease-in-out;
+
+  &.submitting {
+    background-color: $hover-color;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $hover-color;
+    transition: all 0.2s ease-in-out;
+  }
 }
 
-.save-submit-button.submitting {
-  background-color: variables.$accent-tertiary;
-  color: variables.$secondary-color;
-  transition: all 0.2s ease-in-out;
+.save-submit-button-blue {
+  @include save-submit-button(
+    variables.$accent-color,
+    variables.$accent-tertiary
+  );
 }
 
-.save-submit-button:hover {
-  cursor: pointer;
-  background-color: variables.$accent-tertiary;
-  transition: all 0.2s ease-in-out;
+.save-submit-button-green {
+  @include save-submit-button(variables.$green-color, variables.$green-hover);
 }
 
 .loader-spinner {
