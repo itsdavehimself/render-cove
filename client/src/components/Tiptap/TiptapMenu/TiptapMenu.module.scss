@@ -1,0 +1,42 @@
+@use 'variables';
+
+.tiptap-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  background-color: variables.$primary-color;
+  border-radius: 0.25rem;
+  border-bottom: 2px solid variables.$primary-alt;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: variables.$secondary-darker;
+    height: 3rem;
+    width: 3rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  button:hover {
+    cursor: pointer;
+    color: variables.$accent-tertiary;
+    transition: all 0.2s ease-in-out;
+  }
+
+  button.is-active {
+    color: variables.$accent-color;
+  }
+}
+
+.bold-icon {
+  margin-bottom: -1px;
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.format-icon {
+  font-weight: 500;
+  font-size: 1rem;
+}
