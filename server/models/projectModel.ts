@@ -61,6 +61,7 @@ const projectSchema = new Schema<ProjectDocument>(
         likes: Number,
       },
     ],
+    commentsAllowed: { type: Boolean, default: false },
     views: { type: Number, default: 0 },
     images: [
       {

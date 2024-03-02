@@ -14,6 +14,7 @@ interface ProjectDocument {
   hardware: Hardware;
   likes: number;
   comments: Comment[];
+  commentsAllowed: boolean;
   views: number;
   images: Image[];
   published: Boolean;
