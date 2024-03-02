@@ -25,11 +25,6 @@ const CreateProjectForm: React.FC = () => {
   const [description, setDescription] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [softwareList, setSoftwareList] = useState<string[]>([]);
-  const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isGenerationDataShowing, setIsGenerationDataShowing] =
-    useState<boolean>(false);
-  const [imageIndex, setImageIndex] = useState<number>(0);
   const [isProjectPublished, setIsProjectPublished] = useState<boolean>(false);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
@@ -44,14 +39,20 @@ const CreateProjectForm: React.FC = () => {
   const [descriptionCharsRemaining, setDescriptionCharsRemaining] =
     useState<number>(250);
 
-  const MAX_IMAGE_SIZE: number = 5 * 1024 * 1024;
-  const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-
+  const [imageIndex, setImageIndex] = useState<number>(0);
   const [imageData, setImageData] = useState<ImageData[]>([]);
-
   const [compressedImages, setCompressedImages] = useState<File[] | undefined>(
     [],
   );
+
+  const [isGenerationDataShowing, setIsGenerationDataShowing] =
+    useState<boolean>(false);
+
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const MAX_IMAGE_SIZE: number = 5 * 1024 * 1024;
+  const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
   const onImageDrop = useCallback(
     async (acceptedFiles: File[]) => {
