@@ -9,11 +9,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
-interface PublishSidebarProps {}
+interface PublishSidebarProps {
+  isProjectPublished: boolean;
+  setIsProjectPublished: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const PublishSidebar: React.FC<PublishSidebarProps> = () => {
+const PublishSidebar: React.FC<PublishSidebarProps> = ({
+  isProjectPublished,
+  setIsProjectPublished,
+}) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
-  const [publishedStatus, setPublishedStatus] = useState<boolean>(false);
   const downArrowIcon: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
   const upArrowIcon: React.ReactNode = <FontAwesomeIcon icon={faAngleUp} />;
   const saveIcon: React.ReactNode = <FontAwesomeIcon icon={faFloppyDisk} />;
@@ -22,7 +27,7 @@ const PublishSidebar: React.FC<PublishSidebarProps> = () => {
   );
 
   const handlePublishOptionClick = (published: boolean): void => {
-    setPublishedStatus(published);
+    setIsProjectPublished(published);
     setIsDropDownOpen(false);
   };
 
@@ -35,7 +40,7 @@ const PublishSidebar: React.FC<PublishSidebarProps> = () => {
           onClick={() => setIsDropDownOpen(!isDropDownOpen)}
         >
           <p className={styles['publish-selected']}>
-            {publishedStatus ? 'Published' : 'Not published'}
+            {isProjectPublished ? 'Published' : 'Not published'}
           </p>
           <span className={styles['dropdown-arrow']}>
             {isDropDownOpen ? upArrowIcon : downArrowIcon}
@@ -45,13 +50,13 @@ const PublishSidebar: React.FC<PublishSidebarProps> = () => {
           <ul className={styles['publish-options']}>
             <li
               onClick={() => handlePublishOptionClick(false)}
-              className={`${styles['publish-option']} ${!publishedStatus ? styles['not-published'] : ''}`}
+              className={`${styles['publish-option']} ${!isProjectPublished ? styles['not-published'] : ''}`}
             >
               Not published
             </li>
             <li
               onClick={() => handlePublishOptionClick(true)}
-              className={`${styles['publish-option']} ${publishedStatus ? styles['published'] : ''}`}
+              className={`${styles['publish-option']} ${isProjectPublished ? styles['published'] : ''}`}
             >
               Published
             </li>

@@ -10,7 +10,6 @@ import {
   handleInputClick,
   preventEnterKeySubmission,
 } from '../../components/TagInput/TagInput.utiility';
-import SaveSubmitButton from '../../components/SaveSubmitButton/SaveSubmitButton';
 import { useDropzone } from 'react-dropzone';
 import { customFileValidation } from '../../components/EditProfile/EditProfileForm/EditProfileForm.utility';
 import { compressAndSetPreviewMultiple } from './CreateProjectForm.utility';
@@ -19,7 +18,7 @@ import GenerationDataModal from '../../components/GenerationDataModal/Generation
 import PreviewUploadCards from '../../components/PreviewUploadCards/PreviewUploadCards';
 import ImageData from '../../types/ImageData';
 import WorkflowInput from '../../components/WorkflowInput/WorkflowInput';
-import Tiptap from '../../components/Tiptap';
+import PublishSidebar from '../../components/PublishSidebar/PublishSidebar';
 
 const CreateProjectForm: React.FC = () => {
   const [title, setTitle] = useState<string>('');
@@ -31,6 +30,7 @@ const CreateProjectForm: React.FC = () => {
   const [isGenerationDataShowing, setIsGenerationDataShowing] =
     useState<boolean>(false);
   const [imageIndex, setImageIndex] = useState<number>(0);
+  const [isProjectPublished, setIsProjectPublished] = useState<boolean>(false);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [tagInputWidth, setTagInputWidth] = useState<number>(23);
@@ -233,7 +233,6 @@ const CreateProjectForm: React.FC = () => {
                   methodologies of your project
                 </p>
               </div>
-              <Tiptap />
               <WorkflowInput />
             </section>
             <section className={styles['form-section']}>
@@ -294,7 +293,10 @@ const CreateProjectForm: React.FC = () => {
             {error && <div>{error.message}</div>}
           </div>
           <div className={styles['form-right-column']}>
-            <SaveSubmitButton label="Publish" isLoading={false} />
+            <PublishSidebar
+              isProjectPublished={isProjectPublished}
+              setIsProjectPublished={setIsProjectPublished}
+            />
           </div>
         </form>
       </div>
