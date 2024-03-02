@@ -115,7 +115,7 @@ const GenerationDataModal: React.FC<GenerationDataModalProps> = ({
               type="text"
               id="seed"
               name="seed"
-              value={imageDataObject.seed}
+              value={imageDataObject.seed === 0 ? '' : imageDataObject.seed}
               onChange={(e) =>
                 setImageDataObject({
                   ...imageDataObject,
@@ -143,7 +143,7 @@ const GenerationDataModal: React.FC<GenerationDataModalProps> = ({
               type="text"
               id="steps"
               name="steps"
-              value={imageDataObject.steps}
+              value={imageDataObject.steps === 0 ? '' : imageDataObject.steps}
               onChange={(e) =>
                 setImageDataObject({
                   ...imageDataObject,
@@ -157,7 +157,9 @@ const GenerationDataModal: React.FC<GenerationDataModalProps> = ({
               type="text"
               id="cfgScale"
               name="cfgScale"
-              value={imageDataObject.cfgScale}
+              value={
+                imageDataObject.cfgScale === 0 ? '' : imageDataObject.cfgScale
+              }
               onChange={(e) =>
                 setImageDataObject({
                   ...imageDataObject,
