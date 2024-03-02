@@ -316,7 +316,7 @@ const CreateProjectForm: React.FC = () => {
                 id="gpu"
                 name="gpu"
                 value={GPU}
-                placeholder="NVIDIA GeForce RTX 3090"
+                placeholder="NVIDIA GeForce RTX 4090"
                 onChange={(e) => setGPU(e.target.value)}
               />
               <FormInput
