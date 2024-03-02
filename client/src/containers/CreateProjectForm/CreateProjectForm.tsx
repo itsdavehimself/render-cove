@@ -26,6 +26,9 @@ const CreateProjectForm: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [softwareList, setSoftwareList] = useState<string[]>([]);
   const [isProjectPublished, setIsProjectPublished] = useState<boolean>(false);
+  const [CPU, setCPU] = useState<string>('');
+  const [GPU, setGPU] = useState<string>('');
+  const [RAM, setRAM] = useState<number>(0);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [tagInputWidth, setTagInputWidth] = useState<number>(23);
@@ -294,6 +297,39 @@ const CreateProjectForm: React.FC = () => {
             {error && <div>{error.message}</div>}
           </div>
           <aside className={styles['form-right-column']}>
+            <section className={styles['hardware-section']}>
+              <h3 className={styles['hardware-header']}>Hardware used</h3>
+              <FormInput
+                htmlFor="cpu"
+                label="CPU"
+                type="text"
+                id="cpu"
+                name="cpu"
+                value={CPU}
+                placeholder="Intel i7-13700K Processor"
+                onChange={(e) => setCPU(e.target.value)}
+              />
+              <FormInput
+                htmlFor="gpu"
+                label="GPU"
+                type="text"
+                id="gpu"
+                name="gpu"
+                value={GPU}
+                placeholder="NVIDIA GeForce RTX 3090"
+                onChange={(e) => setGPU(e.target.value)}
+              />
+              <FormInput
+                htmlFor="ram"
+                label="RAM"
+                type="number"
+                id="ram"
+                name="ram"
+                value={RAM === 0 ? '' : RAM}
+                placeholder="64"
+                onChange={(e) => setRAM(parseInt(e.target.value))}
+              />
+            </section>
             <PublishSidebar
               isProjectPublished={isProjectPublished}
               setIsProjectPublished={setIsProjectPublished}

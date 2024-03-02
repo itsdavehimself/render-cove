@@ -35,6 +35,7 @@
   display: flex;
   flex-direction: column;
   width: 20rem;
+  row-gap: 2rem;
 }
 
 .form-section {
@@ -95,4 +96,19 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 2rem;
+}
+
+.hardware-section {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-alt;
+  color: variables.$secondary-color;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  row-gap: 1rem;
+}
+
+.hardware-header {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
