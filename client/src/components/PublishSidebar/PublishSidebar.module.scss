@@ -75,6 +75,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.4);
 }
 
 .publish-option {
@@ -85,7 +86,6 @@
   font-weight: 400;
   background-color: variables.$primary-color;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 0.4);
 }
 
 .publish-option:hover {
