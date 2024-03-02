@@ -32,7 +32,7 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
   };
 
   return (
-    <aside className={styles['publish-container']}>
+    <div className={styles['publish-container']}>
       <h3 className={styles['publish-header']}>Publishing Details</h3>
       <div className={styles['dropdown-container']}>
         <div
@@ -78,7 +78,7 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
           color="green"
         />
       </div>
-    </aside>
+    </div>
   );
 };
 

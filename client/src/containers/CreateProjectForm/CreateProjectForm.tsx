@@ -293,12 +293,12 @@ const CreateProjectForm: React.FC = () => {
             </section>
             {error && <div>{error.message}</div>}
           </div>
-          <div className={styles['form-right-column']}>
+          <aside className={styles['form-right-column']}>
             <PublishSidebar
               isProjectPublished={isProjectPublished}
               setIsProjectPublished={setIsProjectPublished}
             />
-          </div>
+          </aside>
         </form>
       </div>
     </>
