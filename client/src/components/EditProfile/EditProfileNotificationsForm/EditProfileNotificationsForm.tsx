@@ -1,7 +1,7 @@
 import styles from './EditProfileNotificationsForm.module.scss';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { useState, useEffect } from 'react';
-import EditProfileCheckBox from '../EditProfileCheckBox/EditProfileCheckBox';
+import CheckboxInput from '../../CheckboxInput/CheckboxInput';
 import ToggleSwitch from '../../ToggleSwitch/ToggleSwitch';
 import { handleAlert } from '../EditProfile.utility';
 import useUpdateUser from '../../../hooks/useUserUpdate';
@@ -78,7 +78,7 @@ const EditProfileNotificationsForm: React.FC<
         </div>
 
         <div className={styles['form-inputs']}>
-          <EditProfileCheckBox
+          <CheckboxInput
             title="RenderCove Newsletter"
             description="Get the latest news regarding AI art, image generation workflows, community insights, and more"
             label="Subscribe to the newsletter"
@@ -88,7 +88,7 @@ const EditProfileNotificationsForm: React.FC<
             isChecked={emailCheckedBoxes.includes('newsletter')}
             setSectionCheckedBoxes={setEmailCheckedBoxes}
           />
-          <EditProfileCheckBox
+          <CheckboxInput
             title="RenderCove Announcements"
             description="Get notified of updates, changes, and other stuff happening with the RenderCove platform"
             label="Subscribe to the announcements"
