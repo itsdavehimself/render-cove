@@ -1,10 +1,10 @@
-import styles from './EditProfileCheckBox.module.scss';
+import styles from './CheckboxInput.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
-interface EditProfileCheckBoxProps {
-  title: string;
-  description: string;
+interface CheckboxInputProps {
+  title?: string;
+  description?: string;
   label: string;
   htmlFor: string;
   name: string;
@@ -13,7 +13,7 @@ interface EditProfileCheckBoxProps {
   setSectionCheckedBoxes: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const EditProfileCheckBox: React.FC<EditProfileCheckBoxProps> = ({
+const CheckboxInputProps: React.FC<CheckboxInputProps> = ({
   title,
   description,
   label,
@@ -36,11 +36,13 @@ const EditProfileCheckBox: React.FC<EditProfileCheckBoxProps> = ({
   };
 
   return (
-    <div className={styles['notifications-checkbox-container']}>
-      <div className={styles['checkbox-container-text']}>
-        <h4>{title}</h4>
-        <p>{description}</p>
-      </div>
+    <div className={styles['checkbox-container']}>
+      {title && description && (
+        <div className={styles['checkbox-container-text']}>
+          <h4>{title}</h4>
+          <p>{description}</p>
+        </div>
+      )}
       <div className={styles['input-container']}>
         <input
           type="checkbox"
@@ -61,4 +63,4 @@ const EditProfileCheckBox: React.FC<EditProfileCheckBoxProps> = ({
   );
 };
 
-export default EditProfileCheckBox;
+export default CheckboxInputProps;
