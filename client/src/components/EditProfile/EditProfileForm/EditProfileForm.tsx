@@ -5,10 +5,8 @@ import { useState, useRef, useEffect, useCallback, FormEvent } from 'react';
 import { useDropzone } from 'react-dropzone';
 import FormInput from '../../FormInput/FormInput';
 import TagInput from '../../TagInput/TagInput';
-import {
-  customFileValidation,
-  compressAndSetPreview,
-} from './EditProfileForm.utility';
+import { compressAndSetPreview } from './EditProfileForm.utility';
+import { customFileValidation } from '../../../utility/FileValidation';
 import {
   addTag,
   removeTag,
