@@ -20,6 +20,7 @@ import ImageData from '../../types/ImageData';
 import WorkflowInput from '../../components/WorkflowInput/WorkflowInput';
 import PublishSidebar from '../../components/PublishSidebar/PublishSidebar';
 import CheckboxInput from '../../components/CheckboxInput/CheckboxInput';
+import WorkflowImageInput from '../../components/WorkflowImageInput/WorkflowImageInput';
 
 const CreateProjectForm: React.FC = () => {
   const [title, setTitle] = useState<string>('');
@@ -51,6 +52,8 @@ const CreateProjectForm: React.FC = () => {
   const [compressedImages, setCompressedImages] = useState<File[] | undefined>(
     [],
   );
+
+  const [workflowImage, setWorkflowImage] = useState<File | null>(null);
 
   const [isGenerationDataShowing, setIsGenerationDataShowing] =
     useState<boolean>(false);
@@ -242,6 +245,15 @@ const CreateProjectForm: React.FC = () => {
                 </p>
               </div>
               <WorkflowInput />
+              <div className={styles['workflow-image-container']}>
+                <p className={styles['section-subtitle']}>
+                  You can also upload an image of your workflow:
+                </p>
+                <WorkflowImageInput
+                  workflowImage={workflowImage}
+                  setWorkflowImage={setWorkflowImage}
+                />
+              </div>
             </section>
             <section className={styles['form-section']}>
               <div className={styles['input-with-title']}>
