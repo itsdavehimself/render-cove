@@ -6,6 +6,7 @@ import {
 } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
 
 interface MultiImageInputProps {
   getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
@@ -13,6 +14,7 @@ interface MultiImageInputProps {
   isDragActive: boolean;
   fileRejections: FileRejection[];
   fileSizeLimit: string;
+  maxFileCount: number;
 }
 
 const MultiImageInput: React.FC<MultiImageInputProps> = ({
@@ -21,19 +23,39 @@ const MultiImageInput: React.FC<MultiImageInputProps> = ({
   isDragActive,
   fileRejections,
   fileSizeLimit,
+  maxFileCount,
 }) => {
   const imageIcon: React.ReactNode = <FontAwesomeIcon icon={faImage} />;
+  const [tooManyFilesError, setTooManyFilesError] = useState<string | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (fileRejections.length > maxFileCount) {
+      setTooManyFilesError(
+        `Too many files. Maximum number of images allowed is ${maxFileCount}.`,
+      );
+    }
+
+    if (fileRejections.length < maxFileCount) {
+      setTooManyFilesError('');
+    }
+  }, [fileRejections, maxFileCount]);
 
   return (
     <div className={styles['image-upload-container']}>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         <div
-          className={`${styles['image-upload-box']} ${isDragActive ? styles['dragging'] : ''}`}
+          className={`${styles['image-upload-box']} ${
+            isDragActive ? styles['dragging'] : ''
+          }`}
         >
           <div className={styles['image-upload-description']}>
             <div
-              className={`${styles['upload-icon']} ${isDragActive ? styles['dragging'] : ''}`}
+              className={`${styles['upload-icon']} ${
+                isDragActive ? styles['dragging'] : ''
+              }`}
             >
               {imageIcon}
             </div>
@@ -47,10 +69,15 @@ const MultiImageInput: React.FC<MultiImageInputProps> = ({
               )}
             </div>
             <p className={styles['image-size-limit']}>{fileSizeLimit}</p>
-            {fileRejections.length > 0 && (
+            {tooManyFilesError && (
+              <div className={styles['file-input-error']}>
+                {tooManyFilesError}
+              </div>
+            )}
+            {fileRejections.length > 0 && !tooManyFilesError && (
               <div className={styles['file-input-error']}>
                 {fileRejections.map(({ errors }) =>
-                  errors.map((e) => <>{e.message}</>),
+                  errors.map((e) => <div key={e.code}>{e.message}</div>),
                 )}
               </div>
             )}
