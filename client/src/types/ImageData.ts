@@ -1,6 +1,4 @@
 interface ImageData {
-  image: string | ArrayBuffer | null;
-  compressedImage: File;
   caption: string;
   model: string;
   prompt: string;
