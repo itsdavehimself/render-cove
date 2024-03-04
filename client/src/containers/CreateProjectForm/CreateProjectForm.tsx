@@ -19,6 +19,7 @@ import PreviewUploadCards from '../../components/PreviewUploadCards/PreviewUploa
 import ImageData from '../../types/ImageData';
 import WorkflowInput from '../../components/WorkflowInput/WorkflowInput';
 import PublishSidebar from '../../components/PublishSidebar/PublishSidebar';
+import CheckboxInput from '../../components/CheckboxInput/CheckboxInput';
 
 const CreateProjectForm: React.FC = () => {
   const [title, setTitle] = useState<string>('');
@@ -29,6 +30,9 @@ const CreateProjectForm: React.FC = () => {
   const [CPU, setCPU] = useState<string>('');
   const [GPU, setGPU] = useState<string>('');
   const [RAM, setRAM] = useState<number>(0);
+  const [commentAllowedArr, setCommentAllowedArr] = useState<string[]>([
+    'comments',
+  ]);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [tagInputWidth, setTagInputWidth] = useState<number>(23);
@@ -297,8 +301,8 @@ const CreateProjectForm: React.FC = () => {
             {error && <div>{error.message}</div>}
           </div>
           <aside className={styles['form-right-column']}>
-            <section className={styles['hardware-section']}>
-              <h3 className={styles['hardware-header']}>Hardware used</h3>
+            <section className={styles['aside-section']}>
+              <h3 className={styles['aside-header']}>Hardware used</h3>
               <FormInput
                 htmlFor="cpu"
                 label="CPU"
@@ -328,6 +332,17 @@ const CreateProjectForm: React.FC = () => {
                 value={RAM === 0 ? '' : RAM}
                 placeholder="64"
                 onChange={(e) => setRAM(parseInt(e.target.value))}
+              />
+            </section>
+            <section className={styles['aside-section']}>
+              <h3 className={styles['aside-header']}>Comments</h3>
+              <CheckboxInput
+                label="Allow users to comment on this post"
+                htmlFor="comments"
+                name="comments"
+                id="comments"
+                isChecked={commentAllowedArr.includes('comments')}
+                setSectionCheckedBoxes={setCommentAllowedArr}
               />
             </section>
             <PublishSidebar
