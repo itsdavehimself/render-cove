@@ -13,7 +13,7 @@ interface CheckboxInputProps {
   setSectionCheckedBoxes: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const CheckboxInputProps: React.FC<CheckboxInputProps> = ({
+const CheckboxInput: React.FC<CheckboxInputProps> = ({
   title,
   description,
   label,
@@ -63,4 +63,4 @@ const CheckboxInputProps: React.FC<CheckboxInputProps> = ({
   );
 };
 
-export default CheckboxInputProps;
+export default CheckboxInput;
