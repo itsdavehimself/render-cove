@@ -11,7 +11,7 @@ import {
   preventEnterKeySubmission,
 } from '../../components/TagInput/TagInput.utiility';
 import { useDropzone } from 'react-dropzone';
-import { customFileValidation } from '../../components/EditProfile/EditProfileForm/EditProfileForm.utility';
+import { customFileValidation } from '../../utility/FileValidation';
 import { compressAndSetPreviewMultiple } from './CreateProjectForm.utility';
 import TextAreaInput from '../../components/TextAreaInput/TextAreaInput';
 import GenerationDataModal from '../../components/GenerationDataModal/GenerationDataModal';
@@ -89,7 +89,7 @@ const CreateProjectForm: React.FC = () => {
     fileRejections: imageFileRejections,
   } = useDropzone({
     onDrop: onImageDrop,
-    maxFiles: 5,
+    maxFiles: 6,
     validator: (file) =>
       customFileValidation(file, allowedFileTypes, MAX_IMAGE_SIZE),
   });
@@ -228,6 +228,7 @@ const CreateProjectForm: React.FC = () => {
               isDragActive={isImageDragActive}
               fileRejections={imageFileRejections}
               fileSizeLimit="5MB max size (JPEG, JPG, PNG)"
+              maxFileCount={6}
             />
             <PreviewUploadCards
               imageData={imageData}
