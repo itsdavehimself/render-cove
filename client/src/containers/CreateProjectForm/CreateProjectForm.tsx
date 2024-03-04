@@ -34,6 +34,7 @@ const CreateProjectForm: React.FC = () => {
   const [commentAllowedArr, setCommentAllowedArr] = useState<string[]>([
     'comments',
   ]);
+  const [workflowText, setWorkflowText] = useState<object | null>(null);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [tagInputWidth, setTagInputWidth] = useState<number>(23);
@@ -103,10 +104,11 @@ const CreateProjectForm: React.FC = () => {
     formData.append('tags', JSON.stringify(tags));
     formData.append('softwareList', JSON.stringify(softwareList));
     formData.append('images', JSON.stringify(imageData));
+    formData.append('workflow', JSON.stringify(workflowText));
 
-    // for (const entry of formData.entries()) {
-    //   console.log(entry);
-    // }
+    for (const entry of formData.entries()) {
+      console.log(entry);
+    }
 
     // const projectCreateResponse = await fetch(
     //   `${import.meta.env.VITE_API_BASE_URL}/projects`,
@@ -245,7 +247,7 @@ const CreateProjectForm: React.FC = () => {
                   methodologies of your project
                 </p>
               </div>
-              <WorkflowInput />
+              <WorkflowInput setWorkflowText={setWorkflowText} />
               <div className={styles['workflow-image-container']}>
                 <p className={styles['section-subtitle']}>
                   You can also upload an image of your workflow:
