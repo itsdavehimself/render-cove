@@ -2,8 +2,10 @@ import styles from './PreviewUploadCards.module.scss';
 import ImageData from '../../types/ImageData';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect } from 'react';
 
 interface PreviewUploadCardsProps {
+  compressedImages: File[] | undefined;
   imageData: ImageData[];
   setImageData: React.Dispatch<React.SetStateAction<ImageData[]>>;
   isDataShowing: boolean;
@@ -12,12 +14,14 @@ interface PreviewUploadCardsProps {
 }
 
 const PreviewUploadCards: React.FC<PreviewUploadCardsProps> = ({
+  compressedImages,
   imageData,
   setImageData,
   isDataShowing,
   setIsDataShowing,
   getImageIndex,
 }) => {
+  const [imageSrcArray, setImageSrcArray] = useState<string[]>([]);
   const deleteIcon: React.ReactNode = <FontAwesomeIcon icon={faTrash} />;
 
   const handleDeleteImage = (indexToRemove: number): void => {
@@ -39,23 +43,41 @@ const PreviewUploadCards: React.FC<PreviewUploadCardsProps> = ({
     getImageIndex(index);
   };
 
+  useEffect(() => {
+    if (compressedImages) {
+      const loadImages = async () => {
+        const promises = compressedImages.map((image) => {
+          return new Promise<string>((resolve) => {
+            const fileReader = new FileReader();
+            fileReader.onload = (e) => {
+              resolve(e.target?.result as string);
+            };
+            fileReader.readAsDataURL(image);
+          });
+        });
+
+        const dataURLs = await Promise.all(promises);
+        setImageSrcArray((prevImageSrcArray) => [
+          ...prevImageSrcArray,
+          ...dataURLs,
+        ]);
+      };
+
+      loadImages();
+    }
+  }, [compressedImages]);
+
   return (
     <>
       {imageData.length > 0 && (
         <div className={styles['preview-cards-container']}>
-          {imageData.map((data, index) => (
+          {imageData.map((_, index) => (
             <div className={styles['preview-card']} key={index}>
               <div className={styles['image-container']}>
                 <img
                   className={`${styles['image-preview']}`}
-                  src={
-                    typeof data.image === 'string'
-                      ? data.image
-                      : data.image instanceof ArrayBuffer
-                        ? 'data:image/jpeg;base64,' +
-                          Buffer.from(data.image).toString('base64')
-                        : ''
-                  }
+                  src={imageSrcArray[index]}
+                  alt={`Preview ${index}`}
                 />
               </div>
               <div className={styles['card-caption-container']}>
