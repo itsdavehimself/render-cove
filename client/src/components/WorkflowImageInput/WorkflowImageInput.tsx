@@ -47,6 +47,8 @@ const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
   return (
     <div className={styles['workflow-image-input']}>
       <input
+        name="workflowImage"
+        id="workflowImage"
         type="file"
         accept="image/png, image/jpeg, image/jpg"
         style={{ display: 'none' }}
