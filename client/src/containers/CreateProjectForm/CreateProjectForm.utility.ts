@@ -81,54 +81,34 @@ const compressAndSetPreviewMultiple = async (
   },
   setCompressedImages: React.Dispatch<React.SetStateAction<File[] | undefined>>,
 ) => {
-  const metadata = await getImageMetadata(acceptedFiles);
-
   try {
-    const processFileAtIndex = async (index: number) => {
-      const compressedFiles = await Promise.all(
-        acceptedFiles.map(async (file) => {
-          try {
-            return await imageCompression(file, options);
-          } catch (error) {
-            console.error('Image compression failed:', error);
-            return file;
-          }
-        }),
-      );
+    const metadata = await getImageMetadata(acceptedFiles);
 
-      setCompressedImages((prevCompressedImages) => [
-        ...(prevCompressedImages || []),
-        ...compressedFiles,
-      ]);
+    const compressedFiles = await Promise.all(
+      acceptedFiles.map(async (file) => {
+        try {
+          return await imageCompression(file, options);
+        } catch (error) {
+          console.error('Image compression failed:', error);
+          return file;
+        }
+      }),
+    );
 
-      if (index < compressedFiles.length) {
-        const compressedFile = compressedFiles[index];
-        const fileReader = new FileReader();
+    setCompressedImages(compressedFiles);
 
-        fileReader.onload = function () {
-          setImageData((prevImageData) => [
-            ...prevImageData,
-            {
-              image: fileReader.result,
-              compressedImage: compressedFile,
-              caption: '',
-              model: metadata[index].model,
-              prompt: metadata[index].prompt,
-              negativePrompt: metadata[index].negativePrompt,
-              cfgScale: metadata[index].cfgScale,
-              steps: metadata[index].steps,
-              sampler: metadata[index].sampler,
-              seed: metadata[index].seed,
-            },
-          ]);
-          processFileAtIndex(index + 1);
-        };
+    const imageMetadata = compressedFiles.map((_, index) => ({
+      caption: '',
+      model: metadata[index].model,
+      prompt: metadata[index].prompt,
+      negativePrompt: metadata[index].negativePrompt,
+      cfgScale: metadata[index].cfgScale,
+      steps: metadata[index].steps,
+      sampler: metadata[index].sampler,
+      seed: metadata[index].seed,
+    }));
 
-        fileReader.readAsDataURL(compressedFile);
-      }
-    };
-
-    processFileAtIndex(0);
+    setImageData((prevImageData) => [...prevImageData, ...imageMetadata]);
   } catch (error) {
     console.error('Error compressing files:', error);
   }
