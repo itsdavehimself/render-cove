@@ -1,0 +1,57 @@
+@use 'variables';
+
+.workflow-image-input {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.workflow-select-button {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  background-color: variables.$primary-alt;
+  color: variables.$secondary-darker;
+  border: 1px solid variables.$primary-light;
+  border-radius: 3px;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.workflow-select-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  background-color: variables.$primary-tertiary;
+  border: 1px solid variables.$accent-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.image-icon {
+  color: variables.$accent-color;
+}
+
+.selected-image-name {
+  color: variables.$secondary-darker;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.error-message {
+  color: variables.$error-color;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.trash-icon {
+  background-color: variables.$primary-alt;
+  color: variables.$error-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.trash-icon:hover {
+  cursor: pointer;
+  color: variables.$error-color-hover;
+  transition: all 0.2s ease-in-out;
+}
