@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 
 interface PreviewUploadCardsProps {
   compressedImages: File[] | undefined;
+  setCompressedImages: React.Dispatch<React.SetStateAction<File[] | undefined>>;
   imageData: ImageData[];
   setImageData: React.Dispatch<React.SetStateAction<ImageData[]>>;
   isDataShowing: boolean;
@@ -15,6 +16,7 @@ interface PreviewUploadCardsProps {
 
 const PreviewUploadCards: React.FC<PreviewUploadCardsProps> = ({
   compressedImages,
+  setCompressedImages,
   imageData,
   setImageData,
   isDataShowing,
@@ -27,6 +29,12 @@ const PreviewUploadCards: React.FC<PreviewUploadCardsProps> = ({
   const handleDeleteImage = (indexToRemove: number): void => {
     setImageData((prevImageData) =>
       prevImageData.filter((_, index) => index !== indexToRemove),
+    );
+
+    setCompressedImages(
+      (prevCompressedImages) =>
+        prevCompressedImages &&
+        prevCompressedImages.filter((_, index) => index !== indexToRemove),
     );
   };
 
