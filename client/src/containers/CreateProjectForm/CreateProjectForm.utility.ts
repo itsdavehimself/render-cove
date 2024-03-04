@@ -134,28 +134,4 @@ const compressAndSetPreviewMultiple = async (
   }
 };
 
-const setCPUHandler = (
-  value: string,
-  setHardware: React.Dispatch<React.SetStateAction<string>>,
-) => {
-  setHardware((prevHardware) => ({
-    ...prevHardware,
-    CPU: value,
-  }));
-};
-
-const setGPUHandler = (value: string) => {
-  setHardware((prevHardware) => ({
-    ...prevHardware,
-    GPU: value,
-  }));
-};
-
-const setRAMHandler = (value: string) => {
-  setHardware((prevHardware) => ({
-    ...prevHardware,
-    RAM: parseInt(value) || 0,
-  }));
-};
-
 export { compressAndSetPreviewMultiple };
