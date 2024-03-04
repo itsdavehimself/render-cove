@@ -14,13 +14,23 @@ const extensions = [
   }),
 ];
 
-const content = '<p>Write about your workflow here...</p>';
+interface TiptapProps {
+  onUpdate: (content: object) => void;
+  currentContent?: object;
+}
 
-const Tiptap = () => {
+const Tiptap: React.FC<TiptapProps> = ({ onUpdate, currentContent }) => {
   return (
     <EditorProvider
       extensions={extensions}
-      content={content}
+      content={
+        currentContent
+          ? currentContent
+          : '<p>Write about your workflow here...</p>'
+      }
+      onUpdate={({ editor }) => {
+        onUpdate(editor.getJSON());
+      }}
       slotBefore={<TiptapMenu />}
     >
       <span></span>
