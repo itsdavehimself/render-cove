@@ -15,6 +15,7 @@ interface MultiImageInputProps {
   fileRejections: FileRejection[];
   fileSizeLimit: string;
   maxFileCount: number;
+  serverError?: string;
 }
 
 const MultiImageInput: React.FC<MultiImageInputProps> = ({
@@ -24,6 +25,7 @@ const MultiImageInput: React.FC<MultiImageInputProps> = ({
   fileRejections,
   fileSizeLimit,
   maxFileCount,
+  serverError,
 }) => {
   const imageIcon: React.ReactNode = <FontAwesomeIcon icon={faImage} />;
   const [tooManyFilesError, setTooManyFilesError] = useState<string | null>(
@@ -49,7 +51,7 @@ const MultiImageInput: React.FC<MultiImageInputProps> = ({
         <div
           className={`${styles['image-upload-box']} ${
             isDragActive ? styles['dragging'] : ''
-          }`}
+          } ${serverError ? styles.error : ''}`}
         >
           <div className={styles['image-upload-description']}>
             <div
@@ -84,6 +86,9 @@ const MultiImageInput: React.FC<MultiImageInputProps> = ({
           </div>
         </div>
       </div>
+      {serverError && (
+        <div className={styles['input-error-message']}>{serverError}</div>
+      )}
     </div>
   );
 };

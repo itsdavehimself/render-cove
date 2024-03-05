@@ -26,6 +26,7 @@ interface TagInputProps {
   ) => void;
   addTag: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   optionalClass?: boolean;
+  serverError?: string;
 }
 
 const TagInput: React.FC<TagInputProps> = ({
@@ -45,6 +46,7 @@ const TagInput: React.FC<TagInputProps> = ({
   handleKeyDown,
   addTag,
   optionalClass,
+  serverError,
 }) => {
   const xMark: React.ReactNode = <FontAwesomeIcon icon={faXmark} />;
 
@@ -59,7 +61,7 @@ const TagInput: React.FC<TagInputProps> = ({
       <div
         className={`${styles['form-input']} ${
           isFocusedInput ? styles['focused'] : ''
-        }`}
+        }  ${serverError ? styles.error : ''}`}
       >
         <ul className={styles['tag-list']}>
           {tagList.map((tag, index) => (
@@ -93,6 +95,9 @@ const TagInput: React.FC<TagInputProps> = ({
           ></input>
         </ul>
       </div>
+      {serverError && (
+        <div className={styles['input-error-message']}>{serverError}</div>
+      )}
     </div>
   );
 };

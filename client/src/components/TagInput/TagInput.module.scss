@@ -72,6 +72,16 @@
   border: 1px solid variables.$accent-color;
 }
 
+.form-input.error {
+  border: 1px solid variables.$error-color;
+}
+
 .label-secondary {
   color: variables.$secondary-darker;
+}
+
+.input-error-message {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: variables.$error-color;
 }

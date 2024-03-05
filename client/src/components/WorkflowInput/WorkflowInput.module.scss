@@ -19,3 +19,13 @@
   border: 1px solid variables.$accent-color;
   transition: all 0.2s ease-in-out;
 }
+
+.workflow-container.error {
+  border: 1px solid variables.$error-color;
+}
+
+.input-error-message {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: variables.$error-color;
+}

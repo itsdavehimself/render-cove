@@ -8,6 +8,7 @@ interface TextAreaInputProps {
   label: string;
   name: string;
   id: string;
+  serverError?: string;
 }
 
 const TextAreaInput: React.FC<TextAreaInputProps> = ({
@@ -17,6 +18,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
   label,
   name,
   id,
+  serverError,
 }) => {
   return (
     <div className={styles['input-container']}>
@@ -33,12 +35,15 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
       </label>
       <textarea
         rows={3}
-        className={`${styles['form-input']} ${styles['textarea']}`}
+        className={`${styles['form-input']} ${styles['textarea']} ${serverError ? styles.error : ''}`}
         onChange={onChange}
         id={id}
         name={name}
         value={value}
       ></textarea>
+      {serverError && (
+        <div className={styles['input-error-message']}>{serverError}</div>
+      )}
     </div>
   );
 };
