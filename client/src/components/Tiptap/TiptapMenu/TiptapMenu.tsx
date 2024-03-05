@@ -34,6 +34,7 @@ const TiptapMenu = () => {
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={editor.isActive('bold') ? `${styles['is-active']}` : ''}
+        type="button"
       >
         <span className={styles['bold-icon']}>B</span>
       </button>
@@ -41,6 +42,7 @@ const TiptapMenu = () => {
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
         className={editor.isActive('italic') ? `${styles['is-active']}` : ''}
+        type="button"
       >
         {italicIcon}
       </button>
@@ -48,6 +50,7 @@ const TiptapMenu = () => {
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editor.can().chain().focus().toggleStrike().run()}
         className={editor.isActive('strike') ? `${styles['is-active']}` : ''}
+        type="button"
       >
         {strikethroughIcon}
       </button>
@@ -55,13 +58,20 @@ const TiptapMenu = () => {
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={!editor.can().chain().focus().toggleCode().run()}
         className={editor.isActive('code') ? `${styles['is-active']}` : ''}
+        type="button"
       >
         {codeIcon}
       </button>
-      <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
+      <button
+        onClick={() => editor.chain().focus().unsetAllMarks().run()}
+        type="button"
+      >
         <RemoveStyleSVG />
       </button>
-      <button onClick={() => editor.chain().focus().clearNodes().run()}>
+      <button
+        onClick={() => editor.chain().focus().clearNodes().run()}
+        type="button"
+      >
         <RemoveListSVG />
       </button>
       <button
@@ -71,6 +81,7 @@ const TiptapMenu = () => {
             ? `${styles['is-active']}`
             : ''
         }
+        type="button"
       >
         <span className={styles['format-icon']}>
           H<sub>1</sub>
@@ -83,6 +94,7 @@ const TiptapMenu = () => {
             ? `${styles['is-active']}`
             : ''
         }
+        type="button"
       >
         <span className={styles['format-icon']}>
           H<sub>2</sub>
@@ -95,6 +107,7 @@ const TiptapMenu = () => {
             ? `${styles['is-active']}`
             : ''
         }
+        type="button"
       >
         <span className={styles['format-icon']}>
           H<sub>3</sub>
@@ -105,6 +118,7 @@ const TiptapMenu = () => {
         className={
           editor.isActive('bulletList') ? `${styles['is-active']}` : ''
         }
+        type="button"
       >
         {ulIcon}
       </button>
@@ -113,12 +127,14 @@ const TiptapMenu = () => {
         className={
           editor.isActive('orderedList') ? `${styles['is-active']}` : ''
         }
+        type="button"
       >
         {olIcon}
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive('codeBlock') ? `${styles['is-active']}` : ''}
+        type="button"
       >
         <CodeBlockSVG />
       </button>
