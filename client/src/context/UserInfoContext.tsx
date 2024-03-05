@@ -28,6 +28,7 @@ interface UserInfoType {
   following: string[];
   followers: string[];
   _id: string;
+  projects: string[];
 }
 
 interface UserInfoContextType {
