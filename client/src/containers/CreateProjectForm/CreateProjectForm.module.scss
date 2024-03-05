@@ -104,3 +104,7 @@
   font-weight: 500;
   padding-bottom: 0.5rem;
 }
+
+.error-message {
+  color: variables.$error-color;
+}
