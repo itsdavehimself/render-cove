@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 import { S3Client } from '@aws-sdk/client-s3';
+import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 dotenv.config();
 
@@ -21,6 +22,29 @@ const s3 = new S3Client({
   },
 });
 
+const uploadImagesToS3 = async (file: Express.Multer.File | undefined) => {
+  if (!file) return;
+
+  const imageName = randomImageName();
+
+  const params = {
+    Bucket: bucketName,
+    Key: imageName,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+  };
+
+  const command = new PutObjectCommand(params);
+
+  try {
+    await s3.send(command);
+    return `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${imageName}`;
+  } catch (error) {
+    console.error('Error uploading to S3:', error);
+    throw new Error('Failed to upload to S3');
+  }
+};
+
 export {
   bucketName,
   bucketRegion,
@@ -28,4 +52,5 @@ export {
   secretAccessKey,
   randomImageName,
   s3,
+  uploadImagesToS3,
 };
