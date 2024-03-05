@@ -1,3 +1,5 @@
+import { SocialEntry } from '../context/AuthContext';
+
 interface UserInfo {
   email: string;
   displayName: string;
@@ -6,11 +8,7 @@ interface UserInfo {
   summary: string;
   generators: string[];
   software: string[];
-  socials: {
-    network: string;
-    username: string;
-    _id: string;
-  }[];
+  socials: SocialEntry[];
   location: string;
   tagline: string;
   website: string;
