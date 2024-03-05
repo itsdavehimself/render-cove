@@ -3,12 +3,8 @@ import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import ProjectDocument from '../types/ProjectDocument.js';
-import {
-  bucketName,
-  bucketRegion,
-  randomImageName,
-  s3,
-} from '../utility/s3Utils.js';
+import { uploadImagesToS3 } from '../utility/s3Utils.js';
+import ProjectImageData from '../types/ProjectImage.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -52,64 +48,112 @@ const getUsersProjects = async (req: AuthRequest, res: Response) => {
 };
 
 const createProject = async (req: AuthRequest, res: Response) => {
-  const imageName = randomImageName();
-
-  const params = {
-    Bucket: bucketName,
-    Key: imageName,
-    Body: req.file?.buffer,
-    ContentType: req.file?.mimetype,
-  };
-
-  const command = new PutObjectCommand(params);
-
-  const s3Url = `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${imageName}`;
-
-  const { title, description, tags, softwareList } = req.body;
-
-  let emptyFields = [];
-
-  if (!title) {
-    emptyFields.push('title');
-  }
-
-  if (!req.file) {
-    emptyFields.push('image');
-  }
-
-  if (emptyFields.length > 0) {
-    return res.status(400).json({
-      error: `Make sure you give your masterpiece a title and add an image to show off your work!`,
-      emptyFields,
-    });
-  }
-
+  const userId = req.user?._id;
+  const {
+    title,
+    description,
+    cpu,
+    gpu,
+    ram,
+    commentsAllowed,
+    tags,
+    softwareList,
+    published,
+    imageData,
+    workflow,
+  } = req.body;
+  let areCommentsAllowed = true;
+  const isPublished = JSON.parse(published);
+  const parsedWorkflow = JSON.parse(workflow);
+  const workflowImage = (req.files as { workflowImage?: Express.Multer.File[] })
+    ?.workflowImage?.[0];
+  const projectImages = (req.files as { images?: Express.Multer.File[] })
+    ?.images;
+  const parsedImageData = JSON.parse(imageData);
   const parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags || [];
   const parsedSoftwareList =
     typeof softwareList === 'string'
       ? JSON.parse(softwareList)
       : softwareList || [];
 
+  const hardware = {
+    cpu,
+    gpu,
+    ram,
+  };
+
+  if (!commentsAllowed) {
+    areCommentsAllowed = false;
+  }
+
+  const uploadProjectImagesToS3 = async (
+    files: Express.Multer.File[] | undefined
+  ) => {
+    if (!files || !files.length) return [];
+
+    const uploadPromises = files.map(async (file) => {
+      return await uploadImagesToS3(file);
+    });
+
+    return Promise.all(uploadPromises);
+  };
+
+  const projectImageUrls = await uploadProjectImagesToS3(projectImages);
+
+  const workflowImageUrl = await uploadImagesToS3(workflowImage);
+
+  const imageObject = parsedImageData.map(
+    (imageData: ProjectImageData, index: number) => ({
+      url: projectImageUrls[index],
+      mimeType:
+        projectImages && projectImages[index]
+          ? projectImages[index].mimetype
+          : '',
+      size:
+        projectImages && projectImages[index] ? projectImages[index].size : 0,
+      caption: imageData.caption,
+      prompt: imageData.prompt,
+      negativePrompt: imageData.negativePrompt,
+      seed: imageData.seed,
+      steps: imageData.steps,
+      model: imageData.model,
+      cfgScale: imageData.cfgScale,
+      createdAt: new Date(),
+      author: userId,
+    })
+  );
+
+  // let emptyFields = [];
+
+  // if (!title) {
+  //   emptyFields.push('title');
+  // }
+
+  // if (!projectImages) {
+  //   emptyFields.push('project images');
+  // }
+
+  // if (emptyFields.length > 0) {
+  //   return res.status(400).json({
+  //     error: `Make sure you give your masterpiece a title and add an image to show off your work!`,
+  //     emptyFields,
+  //   });
+  // }
+
   try {
-    const user_id = req.user?._id;
     const project: ProjectDocument = await Project.create({
-      author: user_id,
+      author: userId,
       title,
       description,
       tags: parsedTags,
       softwareList: parsedSoftwareList,
-      images: [
-        {
-          url: s3Url,
-          fileName: imageName,
-          mimeType: req.file?.mimetype || '',
-          size: req.file?.size || 0,
-          createdAt: Date.now(),
-          author: user_id,
-        },
-      ],
+      workflow: parsedWorkflow,
+      workflowUrl: workflowImageUrl,
+      hardware,
+      commentsAllowed: areCommentsAllowed,
+      images: imageObject,
+      published: isPublished,
     });
-    await s3.send(command);
     res.status(200).json(project);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
