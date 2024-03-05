@@ -5,6 +5,7 @@ import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import ProjectDocument from '../types/ProjectDocument.js';
 import { uploadImagesToS3 } from '../utility/s3Utils.js';
 import ProjectImageData from '../types/ProjectImage.js';
+import { checkEmptyProjectFields } from '../utility/validation.utility.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -123,22 +124,22 @@ const createProject = async (req: AuthRequest, res: Response) => {
     })
   );
 
-  // let emptyFields = [];
+  const emptyFields = checkEmptyProjectFields(
+    title,
+    description,
+    projectImages,
+    parsedWorkflow,
+    workflowImage,
+    parsedSoftwareList,
+    parsedTags
+  );
 
-  // if (!title) {
-  //   emptyFields.push('title');
-  // }
-
-  // if (!projectImages) {
-  //   emptyFields.push('project images');
-  // }
-
-  // if (emptyFields.length > 0) {
-  //   return res.status(400).json({
-  //     error: `Make sure you give your masterpiece a title and add an image to show off your work!`,
-  //     emptyFields,
-  //   });
-  // }
+  if (emptyFields.length > 0) {
+    return res.status(400).json({
+      error: `Please fill out the missing fields.`,
+      emptyFields,
+    });
+  }
 
   try {
     const project: ProjectDocument = await Project.create({
