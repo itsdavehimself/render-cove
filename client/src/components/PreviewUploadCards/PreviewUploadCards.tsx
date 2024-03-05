@@ -46,7 +46,11 @@ const PreviewUploadCards: React.FC<PreviewUploadCardsProps> = ({
     );
   };
 
-  const handleClickGenerationData = (index: number): void => {
+  const handleClickGenerationData = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    index: number,
+  ): void => {
+    e.preventDefault();
     setIsDataShowing(!isDataShowing);
     getImageIndex(index);
   };
@@ -98,7 +102,7 @@ const PreviewUploadCards: React.FC<PreviewUploadCardsProps> = ({
                 <div className={styles['card-buttons']}>
                   <button
                     className={styles['generation-button']}
-                    onClick={() => handleClickGenerationData(index)}
+                    onClick={(e) => handleClickGenerationData(e, index)}
                   >
                     Generation Data
                   </button>
