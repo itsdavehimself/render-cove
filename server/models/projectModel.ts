@@ -31,7 +31,7 @@ const projectSchema = new Schema<ProjectDocument>(
       validate: [arrayLimit, '{PATH} cannot exceed 15 items'],
     },
     workflow: {
-      type: String,
+      type: Schema.Types.Mixed,
       required: true,
       trim: true,
     },
@@ -66,7 +66,6 @@ const projectSchema = new Schema<ProjectDocument>(
     images: [
       {
         url: { type: String, required: true },
-        fileName: { type: String, required: true },
         mimeType: { type: String, required: true },
         size: { type: Number, required: true },
         caption: { type: String, trim: true },
