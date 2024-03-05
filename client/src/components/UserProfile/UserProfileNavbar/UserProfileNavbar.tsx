@@ -12,6 +12,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 interface UserProfileNavbarProps {
   username: string | undefined;
+  numberOfProjects: number;
 }
 
 enum Views {
@@ -22,7 +23,10 @@ enum Views {
   Collections = 'collections',
 }
 
-const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({ username }) => {
+const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({
+  username,
+  numberOfProjects,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -77,7 +81,7 @@ const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({ username }) => {
       >
         <div className={styles['user-nav-icon']}>{projectsIcon}</div>
         Projects
-        <div className={styles['user-nav-number']}>0</div>
+        <div className={styles['user-nav-number']}>{numberOfProjects}</div>
       </div>
       <div
         className={`${styles['user-nav-item']} ${currentView === Views.CaseStudies ? styles['current-item'] : ''}`}
