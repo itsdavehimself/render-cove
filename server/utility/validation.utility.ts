@@ -17,6 +17,7 @@ const checkEmptyProjectFields = (
   description: string,
   projectImages: Express.Multer.File[] | undefined,
   parsedWorkflow: object,
+  workflowImage: Express.Multer.File | undefined,
   parsedSoftwareList: string[],
   parsedTags: string[]
 ): string[] => {
@@ -34,7 +35,7 @@ const checkEmptyProjectFields = (
     emptyFields.push('project images');
   }
 
-  if (!parsedWorkflow) {
+  if (!parsedWorkflow && !workflowImage) {
     emptyFields.push('workflow');
   }
 
