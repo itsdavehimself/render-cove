@@ -1,5 +1,6 @@
 import styles from './CreateProjectForm.module.scss';
 import { useState, FormEvent, useRef, useEffect, useCallback } from 'react';
+import { useAuthContext } from '../../hooks/useAuthContext';
 import FormInput from '../../components/FormInput/FormInput';
 import TagInput from '../../components/TagInput/TagInput';
 import MultiImageInput from '../../components/MultiImageInput/MultiImageInput';
@@ -23,6 +24,7 @@ import CheckboxInput from '../../components/CheckboxInput/CheckboxInput';
 import WorkflowImageInput from '../../components/WorkflowImageInput/WorkflowImageInput';
 
 const CreateProjectForm: React.FC = () => {
+  const { user } = useAuthContext();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
@@ -35,6 +37,7 @@ const CreateProjectForm: React.FC = () => {
     'comments',
   ]);
   const [workflowText, setWorkflowText] = useState<object | null>(null);
+  const [acceptedImages, setAcceptedImages] = useState<File[] | undefined>([]);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [tagInputWidth, setTagInputWidth] = useState<number>(23);
@@ -68,7 +71,7 @@ const CreateProjectForm: React.FC = () => {
   const onImageDrop = useCallback(
     async (acceptedFiles: File[]) => {
       const options = {
-        maxSizeKB: 512,
+        maxSizeMB: 0.5,
         maxWidthOrHeight: 1920,
         useWebWorker: true,
       };
@@ -79,6 +82,8 @@ const CreateProjectForm: React.FC = () => {
         options,
         setCompressedImages,
       );
+
+      setAcceptedImages(acceptedFiles);
     },
     [setImageData],
   );
@@ -103,35 +108,51 @@ const CreateProjectForm: React.FC = () => {
     const formData = new FormData(e.currentTarget);
     formData.append('tags', JSON.stringify(tags));
     formData.append('softwareList', JSON.stringify(softwareList));
-    formData.append('images', JSON.stringify(imageData));
+    formData.append('published', JSON.stringify(isProjectPublished));
+    formData.append('imageData', JSON.stringify(imageData));
     formData.append('workflow', JSON.stringify(workflowText));
-
-    for (const entry of formData.entries()) {
-      console.log(entry);
+    formData.append('workflowImage', JSON.stringify(workflowImage));
+    {
+      compressedImages &&
+        compressedImages.forEach((image) => {
+          formData.append(`images`, image);
+        });
     }
 
-    // const projectCreateResponse = await fetch(
-    //   `${import.meta.env.VITE_API_BASE_URL}/projects`,
-    //   {
-    //     method: 'POST',
-    //     body: formData,
-    //   },
-    // );
+    const projectCreateResponse = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/projects`,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      },
+    );
 
-    // const projectJSON = await projectCreateResponse.json();
+    const projectJSON = await projectCreateResponse.json();
 
-    // if (!projectCreateResponse.ok) {
-    //   setError(new Error(projectJSON.error));
-    //   setIsLoading(false);
-    // }
-    // if (projectCreateResponse.ok) {
-    //   setError(null);
-    //   setIsLoading(false);
-    //   setTitle('');
-    //   setDescription('');
-    //   setTags([]);
-    //   setSoftwareList([]);
-    // }
+    if (!projectCreateResponse.ok) {
+      setError(new Error(projectJSON.error));
+      console.log(projectJSON.error);
+      setIsLoading(false);
+    }
+    if (projectCreateResponse.ok) {
+      setError(null);
+      setIsLoading(false);
+      setTitle('');
+      setDescription('');
+      setTags([]);
+      setSoftwareList([]);
+      setCompressedImages([]);
+      setImageData([]);
+      setCPU('');
+      setGPU('');
+      setRAM(0);
+      setWorkflowText(null);
+      setWorkflowImage(null);
+      setAcceptedImages([]);
+    }
   };
 
   const handleKeydownTags = (
@@ -233,6 +254,8 @@ const CreateProjectForm: React.FC = () => {
               maxFileCount={6}
             />
             <PreviewUploadCards
+              compressedImages={compressedImages}
+              setCompressedImages={setCompressedImages}
               imageData={imageData}
               setImageData={setImageData}
               isDataShowing={isGenerationDataShowing}
@@ -353,10 +376,10 @@ const CreateProjectForm: React.FC = () => {
               <h3 className={styles['aside-header']}>Comments</h3>
               <CheckboxInput
                 label="Allow users to comment on this post"
-                htmlFor="comments"
-                name="comments"
-                id="comments"
-                isChecked={commentAllowedArr.includes('comments')}
+                htmlFor="commentsAllowed"
+                name="commentsAllowed"
+                id="commentsAllowed"
+                isChecked={commentAllowedArr.includes('commentsAllowed')}
                 setSectionCheckedBoxes={setCommentAllowedArr}
               />
             </section>
