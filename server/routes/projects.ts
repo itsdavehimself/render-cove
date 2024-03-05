@@ -21,7 +21,15 @@ projectsRouter.get('/:id', getProject);
 
 projectsRouter.get('/', requireAuth, getUsersProjects);
 
-projectsRouter.post('/', requireAuth, upload.single('image'), createProject);
+projectsRouter.post(
+  '/',
+  requireAuth,
+  upload.fields([
+    { name: 'images', maxCount: 6 },
+    { name: 'workflowImage', maxCount: 1 },
+  ]),
+  createProject
+);
 
 projectsRouter.delete('/:id', requireAuth, deleteProject);
 
