@@ -177,6 +177,8 @@ const createProject = async (req: AuthRequest, res: Response) => {
       images: imageObject,
       published: isPublished,
     });
+
+    await User.findByIdAndUpdate(userId, { $push: { projects: project._id } });
     res.status(200).json(project);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
