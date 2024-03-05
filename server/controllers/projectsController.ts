@@ -6,6 +6,7 @@ import ProjectDocument from '../types/ProjectDocument.js';
 import { uploadImagesToS3 } from '../utility/s3Utils.js';
 import ProjectImageData from '../types/ProjectImage.js';
 import { checkEmptyProjectFields } from '../utility/validation.utility.js';
+import User from '../models/userModel.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -38,7 +39,28 @@ const getAllProjects = async (req: Request, res: Response) => {
   res.status(200).json(allProjects);
 };
 
-const getUsersProjects = async (req: AuthRequest, res: Response) => {
+const getUsersProjects = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const allProjects: ProjectDocument[] = await Project.find({
+      author: id,
+    }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(allProjects);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getAuthUsersProjects = async (req: AuthRequest, res: Response) => {
   const user_id = req.user?._id;
   const allProjects: ProjectDocument[] = await Project.find({
     author: user_id,
@@ -217,6 +239,7 @@ export {
   getProject,
   getAllProjects,
   getUsersProjects,
+  getAuthUsersProjects,
   createProject,
   deleteProject,
   updateProject,
