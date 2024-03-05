@@ -27,18 +27,15 @@ const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
         return;
       }
 
-      const maxSizeMB = 0.5;
-      const maxSizeKB = maxSizeMB * 1024;
-      const maxSizeBytes = maxSizeKB * 1024;
-
-      if (file.size > maxSizeBytes) {
-        setError(`File size should be up to ${maxSizeKB} KB.`);
+      const maxSizeMB = 5;
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        setError(`File size should be up to ${maxSizeMB} MB.`);
         return;
       }
 
       await compressImage(
         [file],
-        { maxSizeKB: 1024, maxWidthOrHeight: 1920, useWebWorker: true },
+        { maxSizeMB: 0.5, maxWidthOrHeight: 1920, useWebWorker: true },
         setWorkflowImage,
       );
     }
