@@ -2,13 +2,7 @@ import User from '../models/userModel.js';
 import { UserDocument } from '../types/UserInterfaces';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
-import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import {
-  bucketName,
-  bucketRegion,
-  randomImageName,
-  s3,
-} from '../utility/s3Utils.js';
+import { uploadImagesToS3 } from '../utility/s3Utils.js';
 import bcrypt from 'bcrypt';
 import { EmailNotifications } from '../types/EmailNotifications.js';
 import { validateUsername } from '../utility/validateUsernameUtil.js';
@@ -187,29 +181,6 @@ const updateUser = async (req: AuthRequest, res: Response) => {
   } catch (error: any) {
     console.error('Error in updateUser:', error);
     res.status(500).json({ error: error.message });
-  }
-};
-
-const uploadImagesToS3 = async (file: Express.Multer.File | undefined) => {
-  if (!file) return;
-
-  const imageName = randomImageName();
-
-  const params = {
-    Bucket: bucketName,
-    Key: imageName,
-    Body: file.buffer,
-    ContentType: file.mimetype,
-  };
-
-  const command = new PutObjectCommand(params);
-
-  try {
-    await s3.send(command);
-    return `https://${bucketName}.s3.${bucketRegion}.amazonaws.com/${imageName}`;
-  } catch (error) {
-    console.error('Error uploading to S3:', error);
-    throw new Error('Failed to upload to S3');
   }
 };
 
