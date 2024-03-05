@@ -51,6 +51,7 @@ const getUser = async (req: Request, res: Response) => {
       createdAt,
       following,
       followers,
+      projects,
       _id,
     } = user;
 
@@ -70,6 +71,7 @@ const getUser = async (req: Request, res: Response) => {
       createdAt,
       following,
       followers,
+      projects,
       _id,
     };
 
