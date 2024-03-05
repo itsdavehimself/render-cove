@@ -41,6 +41,20 @@ const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
     }
   };
 
+  const handleFileSelect = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ): void => {
+    e.preventDefault();
+    workflowImageRef.current && workflowImageRef.current.click();
+  };
+
+  const handleDeleteImage = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ): void => {
+    e.preventDefault();
+    setWorkflowImage(null);
+  };
+
   const imageIcon: React.ReactNode = <FontAwesomeIcon icon={faImage} />;
   const trashIcon: React.ReactNode = <FontAwesomeIcon icon={faTrash} />;
 
@@ -57,9 +71,7 @@ const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
       />
       <button
         className={styles['workflow-select-button']}
-        onClick={() =>
-          workflowImageRef.current && workflowImageRef.current.click()
-        }
+        onClick={handleFileSelect}
       >
         <span className={styles['image-icon']}>{imageIcon}</span> Choose Image
       </button>
@@ -67,10 +79,7 @@ const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
         {workflowImage ? workflowImage.name : 'No file selected'}
       </span>
       {workflowImage && (
-        <button
-          className={styles['trash-icon']}
-          onClick={() => setWorkflowImage(null)}
-        >
+        <button className={styles['trash-icon']} onClick={handleDeleteImage}>
           {trashIcon}
         </button>
       )}
