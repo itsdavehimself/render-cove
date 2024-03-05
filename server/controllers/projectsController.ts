@@ -87,6 +87,23 @@ const createProject = async (req: AuthRequest, res: Response) => {
     areCommentsAllowed = false;
   }
 
+  const emptyFields = checkEmptyProjectFields(
+    title,
+    description,
+    projectImages,
+    parsedWorkflow,
+    workflowImage,
+    parsedSoftwareList,
+    parsedTags
+  );
+
+  if (emptyFields.length > 0) {
+    return res.status(400).json({
+      error: `Please fill out the missing fields.`,
+      emptyFields,
+    });
+  }
+
   const uploadProjectImagesToS3 = async (
     files: Express.Multer.File[] | undefined
   ) => {
@@ -123,23 +140,6 @@ const createProject = async (req: AuthRequest, res: Response) => {
       author: userId,
     })
   );
-
-  const emptyFields = checkEmptyProjectFields(
-    title,
-    description,
-    projectImages,
-    parsedWorkflow,
-    workflowImage,
-    parsedSoftwareList,
-    parsedTags
-  );
-
-  if (emptyFields.length > 0) {
-    return res.status(400).json({
-      error: `Please fill out the missing fields.`,
-      emptyFields,
-    });
-  }
 
   try {
     const project: ProjectDocument = await Project.create({
