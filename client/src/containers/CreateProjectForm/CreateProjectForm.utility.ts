@@ -75,7 +75,7 @@ const compressAndSetPreviewMultiple = async (
   acceptedFiles: File[],
   setImageData: React.Dispatch<React.SetStateAction<ImageData[]>>,
   options: {
-    maxSizeKB: number;
+    maxSizeMB: number;
     maxWidthOrHeight: number;
     useWebWorker: boolean;
   },
