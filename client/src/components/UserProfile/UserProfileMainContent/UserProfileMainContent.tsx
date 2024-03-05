@@ -11,7 +11,12 @@ const UserProfileMainContent: React.FC = () => {
       {userInfo?.bannerUrl && (
         <UserProfileBanner bannerUrl={userInfo.bannerUrl} />
       )}
-      <UserProfileNavbar username={userInfo && userInfo.username} />
+      <UserProfileNavbar
+        username={userInfo && userInfo.username}
+        numberOfProjects={
+          userInfo && userInfo.projects && userInfo.projects.length
+        }
+      />
       <Outlet />
     </section>
   );
