@@ -69,7 +69,6 @@ const UserInfoContextProvider = ({ children }: { children: ReactNode }) => {
 
     fetchUserInfo();
   }, [username]);
-  console.log('userInfo', state);
   return (
     <UserInfoContext.Provider value={{ ...state, dispatchUserInfo }}>
       {children}
