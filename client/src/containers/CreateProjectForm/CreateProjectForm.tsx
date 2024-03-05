@@ -134,7 +134,6 @@ const CreateProjectForm: React.FC = () => {
 
     if (!projectCreateResponse.ok) {
       setError(new Error(projectJSON.error));
-      console.log(projectJSON.error);
       setIsLoading(false);
     }
     if (projectCreateResponse.ok) {
@@ -215,6 +214,9 @@ const CreateProjectForm: React.FC = () => {
         />
       )}
       <div className={styles['create-project-container']}>
+        {error && (
+          <div className={styles['error-message']}>{error.message}</div>
+        )}
         <p className={styles['page-navigation-title']}>Upload a New Project</p>
         <form
           onSubmit={handleSubmitProject}
@@ -336,7 +338,6 @@ const CreateProjectForm: React.FC = () => {
                 />
               </div>
             </section>
-            {error && <div>{error.message}</div>}
           </div>
           <aside className={styles['form-right-column']}>
             <section className={styles['aside-section']}>
@@ -386,6 +387,7 @@ const CreateProjectForm: React.FC = () => {
             <PublishSidebar
               isProjectPublished={isProjectPublished}
               setIsProjectPublished={setIsProjectPublished}
+              isLoading={isLoading}
             />
           </aside>
         </form>
