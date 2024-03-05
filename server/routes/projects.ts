@@ -3,6 +3,7 @@ import {
   getAllProjects,
   getProject,
   getUsersProjects,
+  getAuthUsersProjects,
   createProject,
   deleteProject,
   updateProject,
@@ -19,7 +20,9 @@ projectsRouter.get('/all', getAllProjects);
 
 projectsRouter.get('/:id', getProject);
 
-projectsRouter.get('/', requireAuth, getUsersProjects);
+projectsRouter.get('/user/:id', getUsersProjects);
+
+projectsRouter.get('/', requireAuth, getAuthUsersProjects);
 
 projectsRouter.post(
   '/',
