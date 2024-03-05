@@ -23,13 +23,10 @@ import {
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useUserInfoContext } from '../../../hooks/useUserInfoContext';
 
 interface UserProfileSidebarProps {
-  userInfo: UserInfo | null;
-  username: string | undefined;
   API_BASE_URL: string;
-  isFollowing: boolean;
-  setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 enum FollowAction {
@@ -38,13 +35,10 @@ enum FollowAction {
 }
 
 const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
-  userInfo,
-  username,
   API_BASE_URL,
-  isFollowing,
-  setIsFollowing,
 }) => {
   const { user, dispatch } = useAuthContext();
+  const { userInfo, dispatchUserInfo } = useUserInfoContext();
   const navigate = useNavigate();
 
   const [error, setError] = useState<Error | null>(null);
@@ -57,6 +51,7 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
   );
   const [isHoveringFollowButton, setIsHoveringFollowButton] =
     useState<boolean>(false);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const locationIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faLocationDot} />
@@ -117,7 +112,11 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
       const mergedUser = { ...user, ...toggleFollowStatusJSON.updatedUser };
 
       setFollowers(toggleFollowStatusJSON.toggledUser.followers.length);
-      setIsFollowing(!isFollowing);
+      dispatchUserInfo({
+        type: 'UPDATE_INFO',
+        payload: toggleFollowStatusJSON.toggledUser,
+      });
+      setIsFollowing(userInfo.followers.includes(user.userId));
       dispatch({ type: 'UPDATE_USER', payload: mergedUser });
       localStorage.setItem('user', JSON.stringify(mergedUser));
     }
@@ -129,6 +128,12 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
       setFollowing(userInfo.following.length);
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (user && userInfo && userInfo.followers) {
+      setIsFollowing(userInfo.followers.includes(user.userId));
+    }
+  }, [user, userInfo]);
 
   return (
     <aside className={styles['profile-sidebar-container']}>
@@ -176,62 +181,67 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
           Joined{' '}
           {userInfo?.createdAt && formatDate(userInfo?.createdAt as Date)}
         </p>
-        {!user || username !== user.username ? (
-          <div className={styles['user-contact-buttons']}>
-            {isFollowing ? (
-              <button
-                className={styles['follower-user-button-unfollow']}
-                onClick={
-                  !user
-                    ? () => navigate('/login')
-                    : () => handleFollowClick(FollowAction.Unfollow)
-                }
-                disabled={isLoading}
-                onMouseEnter={() => setIsHoveringFollowButton(true)}
-                onMouseLeave={() => setIsHoveringFollowButton(false)}
-              >
-                {!isHoveringFollowButton ? (
-                  <>{checkIcon} Following</>
+        {userInfo && (
+          <>
+            {!user || userInfo.username !== user.username ? (
+              <div className={styles['user-contact-buttons']}>
+                {isFollowing ? (
+                  <button
+                    className={styles['follower-user-button-unfollow']}
+                    onClick={
+                      !user
+                        ? () => navigate('/login')
+                        : () => handleFollowClick(FollowAction.Unfollow)
+                    }
+                    disabled={isLoading}
+                    onMouseEnter={() => setIsHoveringFollowButton(true)}
+                    onMouseLeave={() => setIsHoveringFollowButton(false)}
+                  >
+                    {!isHoveringFollowButton ? (
+                      <>{checkIcon} Following</>
+                    ) : (
+                      <>{unfollowIcon} Unfollow</>
+                    )}
+                  </button>
                 ) : (
-                  <>{unfollowIcon} Unfollow</>
+                  <button
+                    className={styles['follower-user-button']}
+                    onClick={
+                      !user
+                        ? () => navigate('/login')
+                        : () => handleFollowClick(FollowAction.Follow)
+                    }
+                    disabled={isLoading}
+                  >
+                    {followIcon} Follow
+                  </button>
                 )}
-              </button>
+                <button className={styles['message-user-button']}>
+                  {messageIcon} Message
+                </button>
+                {error && (
+                  <div className={styles['error-message']}>{error.message}</div>
+                )}
+              </div>
             ) : (
               <button
-                className={styles['follower-user-button']}
-                onClick={
-                  !user
-                    ? () => navigate('/login')
-                    : () => handleFollowClick(FollowAction.Follow)
-                }
-                disabled={isLoading}
+                className={styles['edit-profile-button']}
+                onClick={() => navigate('/profile/edit')}
               >
-                {followIcon} Follow
+                {editProfileIcon} Edit Profile
               </button>
             )}
-            <button className={styles['message-user-button']}>
-              {messageIcon} Message
-            </button>
-            {error && (
-              <div className={styles['error-message']}>{error.message}</div>
-            )}
-          </div>
-        ) : (
-          <button
-            className={styles['edit-profile-button']}
-            onClick={() => navigate('/profile/edit')}
-          >
-            {editProfileIcon} Edit Profile
-          </button>
+          </>
         )}
+
         {userInfo?.socials && userInfo.socials.length > 0 && (
           <div className={styles['user-social-container']}>
             <h4 className={styles['user-section-header']}>Social</h4>
             <div className={styles['user-social-icons']}>
               {userInfo.socials.map(
-                (social) =>
+                (social, index) =>
                   social.username && (
-                    <div className={styles['social-icon']} key={social._id}>
+                    <div className={styles['social-icon']} key={index}>
                       <a
                         href={`${networkUrls[social.network]}${social.username}`}
                         target="_blank"
