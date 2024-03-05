@@ -22,6 +22,7 @@ import WorkflowInput from '../../components/WorkflowInput/WorkflowInput';
 import PublishSidebar from '../../components/PublishSidebar/PublishSidebar';
 import CheckboxInput from '../../components/CheckboxInput/CheckboxInput';
 import WorkflowImageInput from '../../components/WorkflowImageInput/WorkflowImageInput';
+import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
 
 const CreateProjectForm: React.FC = () => {
   const { user } = useAuthContext();
@@ -34,7 +35,7 @@ const CreateProjectForm: React.FC = () => {
   const [GPU, setGPU] = useState<string>('');
   const [RAM, setRAM] = useState<number>(0);
   const [commentAllowedArr, setCommentAllowedArr] = useState<string[]>([
-    'comments',
+    'commentsAllowed',
   ]);
   const [workflowText, setWorkflowText] = useState<object | null>(null);
   const [acceptedImages, setAcceptedImages] = useState<File[] | undefined>([]);
@@ -63,7 +64,10 @@ const CreateProjectForm: React.FC = () => {
     useState<boolean>(false);
 
   const [error, setError] = useState<Error | null>(null);
+  const [isShowingErrorAlert, setIsShowingErrorAlert] =
+    useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [emptyFields, setEmptyFields] = useState<string[]>([]);
 
   const MAX_IMAGE_SIZE: number = 5 * 1024 * 1024;
   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -112,11 +116,15 @@ const CreateProjectForm: React.FC = () => {
     formData.append('imageData', JSON.stringify(imageData));
     formData.append('workflow', JSON.stringify(workflowText));
     formData.append('workflowImage', JSON.stringify(workflowImage));
-    {
-      compressedImages &&
-        compressedImages.forEach((image) => {
-          formData.append(`images`, image);
-        });
+
+    if (!workflowImage) {
+      formData.delete('workflowImage');
+    }
+
+    if (compressedImages) {
+      compressedImages.forEach((image) => {
+        formData.append(`images`, image);
+      });
     }
 
     const projectCreateResponse = await fetch(
@@ -134,7 +142,13 @@ const CreateProjectForm: React.FC = () => {
 
     if (!projectCreateResponse.ok) {
       setError(new Error(projectJSON.error));
+      setEmptyFields(projectJSON.emptyFields);
       setIsLoading(false);
+      setIsShowingErrorAlert(true);
+
+      setTimeout(() => {
+        setIsShowingErrorAlert(false);
+      }, 4000);
     }
     if (projectCreateResponse.ok) {
       setError(null);
@@ -203,6 +217,7 @@ const CreateProjectForm: React.FC = () => {
 
   return (
     <>
+      {error && isShowingErrorAlert && <ErrorAlert />}
       {isGenerationDataShowing && (
         <GenerationDataModal
           isDataShowing={isGenerationDataShowing}
@@ -214,9 +229,6 @@ const CreateProjectForm: React.FC = () => {
         />
       )}
       <div className={styles['create-project-container']}>
-        {error && (
-          <div className={styles['error-message']}>{error.message}</div>
-        )}
         <p className={styles['page-navigation-title']}>Upload a New Project</p>
         <form
           onSubmit={handleSubmitProject}
@@ -237,6 +249,11 @@ const CreateProjectForm: React.FC = () => {
                 value={title}
                 placeholder="Give your project a name"
                 onChange={(e) => setTitle(e.target.value)}
+                serverError={
+                  emptyFields.includes('title')
+                    ? 'Please enter a title for your project.'
+                    : ''
+                }
               />
               <TextAreaInput
                 remainingCharacters={descriptionCharsRemaining}
@@ -245,6 +262,11 @@ const CreateProjectForm: React.FC = () => {
                 label="Project description"
                 name="description"
                 id="description"
+                serverError={
+                  emptyFields.includes('description')
+                    ? 'Please enter a description for your project.'
+                    : ''
+                }
               />
             </section>
             <MultiImageInput
@@ -254,6 +276,11 @@ const CreateProjectForm: React.FC = () => {
               fileRejections={imageFileRejections}
               fileSizeLimit="5MB max size (JPEG, JPG, PNG)"
               maxFileCount={6}
+              serverError={
+                emptyFields.includes('project images')
+                  ? 'Please upload at least one image for your project.'
+                  : ''
+              }
             />
             <PreviewUploadCards
               compressedImages={compressedImages}
@@ -272,7 +299,14 @@ const CreateProjectForm: React.FC = () => {
                   methodologies of your project
                 </p>
               </div>
-              <WorkflowInput setWorkflowText={setWorkflowText} />
+              <WorkflowInput
+                setWorkflowText={setWorkflowText}
+                serverError={
+                  emptyFields.includes('workflow')
+                    ? 'Please write about or upload a photo of your workflow.'
+                    : ''
+                }
+              />
               <div className={styles['workflow-image-container']}>
                 <p className={styles['section-subtitle']}>
                   You can also upload an image of your workflow:
@@ -312,6 +346,11 @@ const CreateProjectForm: React.FC = () => {
                     )
                   }
                   optionalClass={true}
+                  serverError={
+                    emptyFields.includes('software')
+                      ? 'Please include at least one software you used in your project.'
+                      : ''
+                  }
                 />
               </div>
               <div className={styles['input-with-title']}>
@@ -335,6 +374,11 @@ const CreateProjectForm: React.FC = () => {
                   handleKeyDown={handleKeydownTags}
                   addTag={(e) => addTag(e, setTags, tags, setTagInputWidth)}
                   optionalClass={true}
+                  serverError={
+                    emptyFields.includes('tags')
+                      ? 'Please include at least one tag for your project.'
+                      : ''
+                  }
                 />
               </div>
             </section>
