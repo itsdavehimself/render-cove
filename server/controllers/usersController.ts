@@ -5,7 +5,7 @@ import { Types } from 'mongoose';
 import { uploadImagesToS3 } from '../utility/s3Utils.js';
 import bcrypt from 'bcrypt';
 import { EmailNotifications } from '../types/EmailNotifications.js';
-import { validateUsername } from '../utility/validateUsernameUtil.js';
+import { validateUsername } from '../utility/validation.utility.js';
 
 export interface SocialEntry {
   network: string;
