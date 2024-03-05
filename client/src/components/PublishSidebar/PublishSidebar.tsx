@@ -12,11 +12,13 @@ import { useState } from 'react';
 interface PublishSidebarProps {
   isProjectPublished: boolean;
   setIsProjectPublished: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
 }
 
 const PublishSidebar: React.FC<PublishSidebarProps> = ({
   isProjectPublished,
   setIsProjectPublished,
+  isLoading,
 }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const downArrowIcon: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
@@ -68,13 +70,13 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
         <SaveSubmitButton
           icon={saveIcon}
           label="Save"
-          isLoading={false}
+          isLoading={isLoading}
           color="blue"
         />
         <SaveSubmitButton
           icon={publishIcon}
           label="Publish"
-          isLoading={false}
+          isLoading={isLoading}
           color="green"
         />
       </div>
