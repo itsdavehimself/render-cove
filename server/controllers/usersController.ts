@@ -25,12 +25,16 @@ interface AuthRequest extends Request {
 }
 
 const getUser = async (req: Request, res: Response) => {
-  const { username } = req.params;
+  const { identifier } = req.params;
 
   try {
-    const user: UserDocument | null = await User.findOne({
-      username: username,
-    });
+    let user: UserDocument | null;
+
+    if (Types.ObjectId.isValid(identifier)) {
+      user = await User.findById(identifier);
+    } else {
+      user = await User.findOne({ username: identifier });
+    }
 
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
@@ -38,6 +42,7 @@ const getUser = async (req: Request, res: Response) => {
 
     const {
       email,
+      username,
       displayName,
       avatarUrl,
       bannerUrl,
