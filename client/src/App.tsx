@@ -12,6 +12,7 @@ import EditProfile from './containers/EditProfile/EditProfile';
 import ChooseUsername from './containers/ChooseUsername/ChooseUsername';
 import UserProfilePublic from './containers/UserProfilePublic/UserProfilePublic';
 import UserProfileProjects from './components/UserProfile/UserProfileProjects/UserProfileProjects';
+import ProjectPage from './containers/ProjectPage/ProjectPage';
 
 function App() {
   const { user } = useAuthContext();
@@ -68,6 +69,7 @@ function App() {
                     element={<UserProfileProjects />}
                   />
                 </Route>
+                <Route path="project/:id" element={<ProjectPage />}></Route>
               </Route>
             </Routes>
           </>
