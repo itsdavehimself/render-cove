@@ -3,6 +3,7 @@ import { SocialEntry } from '../context/AuthContext';
 interface UserInfo {
   email: string;
   displayName: string;
+  username: string;
   avatarUrl: string;
   bannerUrl: string;
   summary: string;
