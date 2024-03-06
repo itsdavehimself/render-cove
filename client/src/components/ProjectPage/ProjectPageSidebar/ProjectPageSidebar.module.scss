@@ -1,0 +1,198 @@
+@use 'variables';
+
+.project-sidebar-container {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  width: 26rem;
+  row-gap: 2rem;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-alt;
+  height: 100%;
+  width: 100%;
+  border-radius: 0.25rem;
+  padding: 2.5rem 1.5rem;
+  row-gap: 1.5rem;
+}
+
+.artist-info-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  border-bottom: 1px solid variables.$primary-tertiary;
+  padding-bottom: 2rem;
+}
+
+.artist-info {
+  display: grid;
+  grid-template-columns: 3rem auto 1rem;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.user-avatar-container {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    height: 3rem;
+    width: 3rem;
+  }
+}
+
+.artist-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  row-gap: 0.25rem;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+}
+
+.artist-tagline {
+  text-align: center;
+  color: variables.$secondary-darker;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.ellipsis-button {
+  background-color: transparent;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+  font-size: 1.2rem;
+}
+
+.ellipsis-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-contact-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 1rem;
+
+  button {
+    padding: 0.25rem 0;
+    min-width: 7rem;
+    border-radius: 0.25rem;
+    border: none;
+    font-size: 0.8rem;
+  }
+}
+
+.follow-user-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: variables.$accent-color;
+  transition: all 0.2s ease-in-out;
+  column-gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.follow-user-button:hover {
+  cursor: pointer;
+  background-color: variables.$accent-tertiary;
+  transition: all 0.2s ease-in-out;
+}
+
+.message-user-button,
+.follow-user-button-unfollow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+  background-color: variables.$primary-light;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.9rem;
+}
+
+.message-user-button:hover,
+.follow-user-button-unfollow:hover {
+  cursor: pointer;
+  background-color: variables.$primary-lighter;
+  transition: all 0.2s ease-in-out;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+}
+
+.overview-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+}
+
+.title {
+  font-size: 1.7rem;
+}
+
+.date {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: variables.$primary-lighter;
+  font-style: italic;
+}
+
+.description {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: variables.$secondary-darker;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: variables.$secondary-darker;
+  font-weight: 300;
+}
+
+.stat {
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-alt;
+  height: 100%;
+  width: 100%;
+  border-radius: 0.25rem;
+  padding: 2.5rem 1.5rem;
+  row-gap: 1.5rem;
+}
+
+.comments-header {
+  color: variables.$secondary-color;
+}
+
+.comment-button {
+  display: flex;
+  justify-content: flex-end;
+}
