@@ -10,6 +10,7 @@ const API_BASE_URL: string =
 const UserProfileProjects: React.FC = () => {
   const { userInfo } = useUserInfoContext();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (userInfo) {
@@ -23,7 +24,7 @@ const UserProfileProjects: React.FC = () => {
           if (projectsResponse.ok) {
             const allProjects = await projectsResponse.json();
             setProjects(allProjects);
-            console.log(allProjects);
+            setIsLoading(false);
           } else {
             console.error(projectsResponse.json());
           }
@@ -37,17 +38,24 @@ const UserProfileProjects: React.FC = () => {
   return (
     <>
       <section className={styles['user-profile-projects']}>
-        {projects && (
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
           <>
-            {projects.map((project) => (
-              <ProjectCard
-                title={project.title}
-                author={userInfo.username}
-                imageUrl={project.images[0].url}
-                avatarUrl={userInfo.avatarUrl}
-                projectId={project._id}
-              />
-            ))}
+            {projects && (
+              <>
+                {projects.map((project) => (
+                  <ProjectCard
+                    title={project.title}
+                    author={userInfo.username}
+                    imageUrl={project.images[0].url}
+                    avatarUrl={userInfo.avatarUrl}
+                    projectId={project._id}
+                    key={project._id}
+                  />
+                ))}
+              </>
+            )}
           </>
         )}
       </section>
