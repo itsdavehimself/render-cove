@@ -40,7 +40,13 @@ const UserProfileProjects: React.FC = () => {
         {projects && (
           <>
             {projects.map((project) => (
-              <ProjectCard imageUrl={project.images[0].url} />
+              <ProjectCard
+                title={project.title}
+                author={userInfo.username}
+                imageUrl={project.images[0].url}
+                avatarUrl={userInfo.avatarUrl}
+                projectId={project._id}
+              />
             ))}
           </>
         )}
