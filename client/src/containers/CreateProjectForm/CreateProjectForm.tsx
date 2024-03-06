@@ -23,6 +23,7 @@ import PublishSidebar from '../../components/PublishSidebar/PublishSidebar';
 import CheckboxInput from '../../components/CheckboxInput/CheckboxInput';
 import WorkflowImageInput from '../../components/WorkflowImageInput/WorkflowImageInput';
 import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
+import { useNavigate } from 'react-router-dom';
 
 const CreateProjectForm: React.FC = () => {
   const { user } = useAuthContext();
@@ -71,6 +72,7 @@ const CreateProjectForm: React.FC = () => {
 
   const MAX_IMAGE_SIZE: number = 5 * 1024 * 1024;
   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+  const navigate = useNavigate();
 
   const onImageDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -165,6 +167,7 @@ const CreateProjectForm: React.FC = () => {
       setWorkflowText(null);
       setWorkflowImage(null);
       setAcceptedImages([]);
+      navigate(`/user/${user.username}`);
     }
   };
 
