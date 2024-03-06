@@ -24,18 +24,15 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useUserInfoContext } from '../../../hooks/useUserInfoContext';
 
-interface UserProfileSidebarProps {
-  API_BASE_URL: string;
-}
-
 enum FollowAction {
   Follow = 'follow',
   Unfollow = 'unfollow',
 }
 
-const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
-  API_BASE_URL,
-}) => {
+const API_BASE_URL: string =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
+
+const UserProfileSidebar: React.FC = () => {
   const { user, dispatch } = useAuthContext();
   const { userInfo, dispatchUserInfo } = useUserInfoContext();
   const navigate = useNavigate();
