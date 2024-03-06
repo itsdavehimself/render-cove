@@ -1,0 +1,27 @@
+@use 'variables';
+
+.tag-header {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: variables.$secondary-darker;
+}
+
+.tag-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+
+.tag {
+  padding: 0.15rem 0.35rem;
+  background-color: variables.$primary-light;
+  border-radius: 3px;
+}
