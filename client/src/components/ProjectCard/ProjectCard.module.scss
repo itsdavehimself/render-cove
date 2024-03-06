@@ -1,3 +1,5 @@
+@use 'variables';
+
 .project-card {
   position: relative;
   height: 18rem;
@@ -12,6 +14,13 @@
     transform: scale(1.1);
     transition: all 0.3s ease-in-out;
   }
+}
+
+.popout-menu-container {
+  position: absolute;
+  top: 5%;
+  left: 25%;
+  width: 100%;
 }
 
 .project-image {
@@ -34,6 +43,26 @@
     rgba(255, 255, 255, 0) 30%
   );
   z-index: 2;
+}
+
+.card-options {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  z-index: 3;
+  font-size: 1.25rem;
+}
+
+.options-button {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.options-button:hover {
+  color: variables.$secondary-darker;
 }
 
 .info {
