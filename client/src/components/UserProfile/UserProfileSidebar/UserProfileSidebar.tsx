@@ -23,6 +23,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useUserInfoContext } from '../../../hooks/useUserInfoContext';
+import TagDisplay from '../../TagDisplay/TagDisplay';
 
 enum FollowAction {
   Follow = 'follow',
@@ -251,30 +252,8 @@ const UserProfileSidebar: React.FC = () => {
             </div>
           </div>
         )}
-        {userInfo?.software && userInfo.software.length > 0 && (
-          <div className={styles['user-tools-software']}>
-            <h4 className={styles['user-section-header']}>Tools & Software</h4>
-            <div className={styles['software-container']}>
-              {userInfo.software.map((softwareItem, index) => (
-                <div key={index} className={styles['software-item']}>
-                  {softwareItem}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        {userInfo?.generators && userInfo?.generators.length > 0 && (
-          <div className={styles['user-tools-software']}>
-            <h4 className={styles['user-section-header']}>Generators & UI</h4>
-            <div className={styles['software-container']}>
-              {userInfo?.generators.map((generatorItem, index) => (
-                <div key={index} className={styles['software-item']}>
-                  {generatorItem}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <TagDisplay header="Tools & Software" tagList={userInfo?.software} />
+        <TagDisplay header="Generators & UI" tagList={userInfo?.generators} />
         <div className={styles['user-stats-container']}>
           <div className={styles['user-stats']}>
             <p className={styles['user-stats-number']}>0</p>

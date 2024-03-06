@@ -196,26 +196,6 @@
   transition: all 0.2s ease-in-out;
 }
 
-.user-tools-software {
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.5rem;
-}
-
-.software-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  font-weight: 300;
-}
-
-.software-item {
-  padding: 0.15rem 0.35rem;
-  background-color: variables.$primary-light;
-  border-radius: 3px;
-}
-
 .user-stats-container {
   display: flex;
   align-items: center;
