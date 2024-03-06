@@ -69,7 +69,10 @@ function App() {
                     element={<UserProfileProjects />}
                   />
                 </Route>
-                <Route path="project/:id" element={<ProjectPage />}></Route>
+                <Route
+                  path="project/:projectId"
+                  element={<ProjectPage />}
+                ></Route>
               </Route>
             </Routes>
           </>
