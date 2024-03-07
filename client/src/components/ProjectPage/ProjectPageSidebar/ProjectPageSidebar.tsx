@@ -21,15 +21,18 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import TagDisplay from '../../TagDisplay/TagDisplay';
 import TextAreaInput from '../../TextAreaInput/TextAreaInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
+import { GenerationData } from '../../../types/Project';
 
 interface ProjectPageSidebarProps {
   projectInfo: Project | undefined;
   artistInfo: UserInfo | undefined;
+  generationData: GenerationData;
 }
 
 const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   projectInfo,
   artistInfo,
+  generationData,
 }) => {
   const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
@@ -168,21 +171,56 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
               {projectInfo?.comments.length} comments
             </div>
           </div>
-          <TagDisplay header="Tags" tagList={projectInfo?.tags} />
-          <TagDisplay
-            header="Software used"
-            tagList={projectInfo?.softwareList}
-          />
-          <TagDisplay
-            header="Hardware used"
-            tagList={Object.values(projectInfo?.hardware || {})}
-          />
+          {user._id === artistInfo?._id && (
+            <button className={styles['edit-project-button']}>
+              <span>{editIcon}</span> Edit project
+            </button>
+          )}
         </section>
-        {user._id === artistInfo?._id && (
-          <button className={styles['edit-project-button']}>
-            <span>{editIcon}</span> Edit project
-          </button>
-        )}
+        <section className={styles['generation-data']}>
+          <h4 className={styles['generation-header']}>Generation Data</h4>
+          <div className={styles.prompts}>
+            <div className={styles['data-container']}>
+              <h5>Prompt</h5>
+              <div className={styles['data-box']}>{generationData.prompt}</div>
+            </div>
+            <div className={styles['data-container']}>
+              <h5>Negative Prompt</h5>
+              <div className={styles['data-box']}>
+                {generationData.negativePrompt}
+              </div>
+            </div>
+          </div>
+          <div className={styles.configurations}>
+            <div className={styles['data-container']}>
+              <h5>Seed</h5>
+              <div className={styles['data-box']}>{generationData.seed}</div>
+            </div>
+            <div className={styles['data-container']}>
+              <h5>Model</h5>
+              <div className={styles['data-box']}>{generationData.model}</div>
+            </div>
+            <div className={styles['data-container']}>
+              <h5>Steps</h5>
+              <div className={styles['data-box']}>{generationData.steps}</div>
+            </div>
+            <div className={styles['data-container']}>
+              <h5>CFG Scale</h5>
+              <div className={styles['data-box']}>
+                {generationData.cfgScale}
+              </div>
+            </div>
+          </div>
+        </section>
+        <TagDisplay header="Tags" tagList={projectInfo?.tags} />
+        <TagDisplay
+          header="Software used"
+          tagList={projectInfo?.softwareList}
+        />
+        <TagDisplay
+          header="Hardware used"
+          tagList={Object.values(projectInfo?.hardware || {})}
+        />
       </section>
       <section className={styles.comments}>
         <form>
