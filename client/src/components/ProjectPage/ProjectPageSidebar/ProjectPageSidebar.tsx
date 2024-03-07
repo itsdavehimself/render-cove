@@ -159,7 +159,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
             </div>
             <div className={styles.stat}>
               <span>{likeIcon}</span>
-              {projectInfo?.likes} likes
+              {projectInfo?.likes.length} likes
             </div>
             <div className={styles.stat}>
               <span>{commentIcon}</span>
