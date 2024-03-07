@@ -56,6 +56,36 @@
   row-gap: 0.5rem;
 }
 
+.generation-data-container {
+  position: absolute;
+  right: 1%;
+  bottom: 9%;
+  background-color: variables.$primary-alt;
+  border-radius: 0.25rem;
+  height: 48%;
+  width: 60%;
+  z-index: 2;
+  padding: 1rem;
+  font-size: 0.8rem;
+}
+
+.prompts {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+
+  h4 {
+    font-weight: 600;
+  }
+}
+
+.data-container {
+  background-color: variables.$primary-color;
+  border: 1px solid variables.$primary-light;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+
 .image {
   position: relative;
   display: flex;
@@ -91,6 +121,10 @@
   cursor: pointer;
   color: variables.$accent-color;
   transition: all 0.2s ease-in-out;
+}
+
+.generation-button.visible {
+  opacity: 1;
 }
 
 .caption-container {

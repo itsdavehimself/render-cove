@@ -22,13 +22,18 @@ import { common, createLowlight } from 'lowlight';
 import { generateHTML } from '@tiptap/react';
 import { useState, useEffect } from 'react';
 import { Content } from '@tiptap/react';
+import { GenerationData } from '../../../types/Project';
 
 interface ProjectPageMainContentProps {
   projectInfo: Project | undefined;
+  generationData: GenerationData;
+  setGenerationData: React.Dispatch<React.SetStateAction<GenerationData>>;
 }
 
 const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
   projectInfo,
+  generationData,
+  setGenerationData,
 }) => {
   const lowlight = createLowlight(common);
   const likeIcon: React.ReactNode = <FontAwesomeIcon icon={faThumbsUp} />;
@@ -39,8 +44,6 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
     undefined,
   );
   const [editorInitialized, setEditorInitialized] = useState(false);
-  const [isGenerationDataShowing, setIsGenerationDataShowing] =
-    useState<boolean>(false);
 
   useEffect(() => {
     const htmlContent =
@@ -98,7 +101,15 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
                 <button
                   className={styles['generation-button']}
                   onClick={() =>
-                    setIsGenerationDataShowing(!isGenerationDataShowing)
+                    setGenerationData({
+                      ...generationData,
+                      prompt: image.prompt,
+                      negativePrompt: image.negativePrompt,
+                      model: image.model,
+                      seed: image.seed,
+                      cfgScale: image.cfgScale,
+                      steps: image.steps,
+                    })
                   }
                 >
                   <span>{infoIcon}</span> Generation Data
