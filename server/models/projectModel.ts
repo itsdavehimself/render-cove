@@ -53,7 +53,12 @@ const projectSchema = new Schema<ProjectDocument>(
         trim: true,
       },
     },
-    likes: { type: Number, default: 0 },
+    likes: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: 'User' },
+        timestamp: { type: Date, default: Date.now },
+      },
+    ],
     comments: [
       {
         author: Schema.Types.ObjectId,
