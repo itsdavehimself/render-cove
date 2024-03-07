@@ -2,6 +2,7 @@ import { Schema } from 'mongoose';
 import Image from './Image';
 import Comment from './Comment';
 import Hardware from './Hardware';
+import Like from './Like';
 
 interface ProjectDocument {
   author: Schema.Types.ObjectId;
@@ -12,7 +13,7 @@ interface ProjectDocument {
   workflow: string;
   workflowUrl: string;
   hardware: Hardware;
-  likes: number;
+  likes: Like[];
   comments: Comment[];
   commentsAllowed: boolean;
   views: number;
