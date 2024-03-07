@@ -14,6 +14,11 @@ interface Image {
   createdAt: Date;
 }
 
+interface Like {
+  userId: string;
+  timestamp: Date;
+}
+
 interface Project {
   author: string;
   title: string;
@@ -23,7 +28,7 @@ interface Project {
   workflow: string;
   workflowUrl: string;
   hardware: Hardware;
-  likes: number;
+  likes: Like[];
   comments: Comment[];
   commentsAllowed: boolean;
   views: number;
