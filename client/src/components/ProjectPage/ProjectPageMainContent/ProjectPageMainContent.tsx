@@ -1,6 +1,5 @@
 import styles from './ProjectPageMainContent.module.scss';
 import Project from '../../../types/Project';
-import UserInfo from '../../../types/UserInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faThumbsUp,
@@ -23,18 +22,14 @@ import { common, createLowlight } from 'lowlight';
 import { generateHTML } from '@tiptap/react';
 import { useState, useEffect } from 'react';
 import { Content } from '@tiptap/react';
-import { useAuthContext } from '../../../hooks/useAuthContext';
 
 interface ProjectPageMainContentProps {
   projectInfo: Project | undefined;
-  artistInfo: UserInfo | undefined;
 }
 
 const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
   projectInfo,
-  artistInfo,
 }) => {
-  const { user } = useAuthContext();
   const lowlight = createLowlight(common);
   const likeIcon: React.ReactNode = <FontAwesomeIcon icon={faThumbsUp} />;
   const bookmarkIcon: React.ReactNode = <FontAwesomeIcon icon={faBookmark} />;
