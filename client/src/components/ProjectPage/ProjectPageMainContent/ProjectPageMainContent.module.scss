@@ -1,0 +1,132 @@
+@use 'variables';
+
+@mixin button-styling {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(14, 16, 17, 0.5);
+  color: variables.$secondary-darker;
+  border: 1px solid variables.$primary-tertiary;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  height: 2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+@mixin button-styling-hover {
+  cursor: pointer;
+  color: variables.$accent-color;
+  border: 1px solid variables.$primary-lighter;
+  transition: all 0.2s ease-in-out;
+}
+
+.main-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+.button-container {
+  position: sticky;
+  top: 5rem;
+  right: 30rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 0.5rem;
+  z-index: 5;
+}
+
+.edit-project-button {
+  @include button-styling();
+  padding: 0.25rem 0.75rem;
+  column-gap: 0.5rem;
+}
+
+.edit-project-button:hover {
+  @include button-styling-hover();
+}
+
+.social-button {
+  @include button-styling();
+  width: 2rem;
+  padding: 0.25rem;
+}
+
+.social-button:hover {
+  @include button-styling-hover();
+}
+
+.project {
+  display: flex;
+  flex-direction: column;
+  row-gap: 6rem;
+  margin-bottom: 4rem;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 0.5rem;
+}
+
+.image {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.image:hover {
+  .generation-button {
+    opacity: 1;
+  }
+}
+
+.generation-button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 2%;
+  right: 1%;
+  background-color: variables.$primary-alt;
+  color: variables.$secondary-darker;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+  column-gap: 0.5rem;
+}
+
+.generation-button:hover {
+  cursor: pointer;
+  color: variables.$accent-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.caption-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40rem;
+}
+
+.caption {
+  color: variables.$secondary-darker;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.workflow {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10rem;
+}
