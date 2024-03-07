@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Project from '../../types/Project';
 import UserInfo from '../../types/UserInfo';
+import ProjectPageMainContent from '../../components/ProjectPage/ProjectPageMainContent/ProjectPageMainContent';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -53,7 +54,10 @@ const ProjectPage: React.FC = () => {
 
   return (
     <div className={styles['project-container']}>
-      <div>Main Content</div>
+      <ProjectPageMainContent
+        projectInfo={projectInfo}
+        artistInfo={artistInfo}
+      />
       <ProjectPageSidebar projectInfo={projectInfo} artistInfo={artistInfo} />
     </div>
   );
