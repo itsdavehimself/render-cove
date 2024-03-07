@@ -102,7 +102,7 @@ const createProject = async (req: AuthRequest, res: Response) => {
   const hardware = {
     cpu,
     gpu,
-    ram,
+    ram: ram + 'GB RAM',
   };
 
   if (!commentsAllowed) {
