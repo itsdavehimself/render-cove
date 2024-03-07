@@ -1,4 +1,6 @@
-interface Hardware {
+import { JSONContent } from '@tiptap/react';
+
+export interface Hardware {
   cpu: string;
   gpu: string;
   ram: number;
@@ -31,7 +33,7 @@ interface Project {
   description?: string;
   tags: string[];
   softwareList: string[];
-  workflow: string;
+  workflow: JSONContent;
   workflowUrl: string;
   hardware: Hardware;
   likes: Like[];
