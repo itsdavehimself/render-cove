@@ -12,6 +12,12 @@ interface Image {
   caption: string;
   userId: string;
   createdAt: Date;
+  prompt: string;
+  negativePrompt: string;
+  model: string;
+  seed: number;
+  cfgScale: number;
+  steps: number;
 }
 
 interface Like {
