@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Project from '../../types/Project';
 import UserInfo from '../../types/UserInfo';
 import ProjectPageMainContent from '../../components/ProjectPage/ProjectPageMainContent/ProjectPageMainContent';
+import { GenerationData } from '../../types/Project';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -13,6 +14,14 @@ const ProjectPage: React.FC = () => {
   const { projectId } = useParams();
   const [projectInfo, setProjectInfo] = useState<Project | undefined>();
   const [artistInfo, setArtistInfo] = useState<UserInfo | undefined>();
+  const [generationData, setGenerationData] = useState<GenerationData>({
+    prompt: '',
+    negativePrompt: '',
+    model: '',
+    seed: 0,
+    cfgScale: 0,
+    steps: 0,
+  });
 
   useEffect(() => {
     const fetchProjectInfo = async (): Promise<void> => {
@@ -54,8 +63,16 @@ const ProjectPage: React.FC = () => {
 
   return (
     <div className={styles['project-container']}>
-      <ProjectPageMainContent projectInfo={projectInfo} />
-      <ProjectPageSidebar projectInfo={projectInfo} artistInfo={artistInfo} />
+      <ProjectPageMainContent
+        projectInfo={projectInfo}
+        generationData={generationData}
+        setGenerationData={setGenerationData}
+      />
+      <ProjectPageSidebar
+        projectInfo={projectInfo}
+        artistInfo={artistInfo}
+        generationData={generationData}
+      />
     </div>
   );
 };
