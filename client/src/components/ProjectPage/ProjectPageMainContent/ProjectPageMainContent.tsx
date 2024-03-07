@@ -7,7 +7,6 @@ import {
   faShare,
   faBookmark,
   faInfoCircle,
-  faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -37,7 +36,6 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
 }) => {
   const { user } = useAuthContext();
   const lowlight = createLowlight(common);
-  const editIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
   const likeIcon: React.ReactNode = <FontAwesomeIcon icon={faThumbsUp} />;
   const bookmarkIcon: React.ReactNode = <FontAwesomeIcon icon={faBookmark} />;
   const shareIcon: React.ReactNode = <FontAwesomeIcon icon={faShare} />;
@@ -93,11 +91,6 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
   return (
     <main className={styles['main-container']}>
       <div className={styles['button-container']}>
-        {user._id === artistInfo?._id && (
-          <button className={styles['edit-project-button']}>
-            <span>{editIcon}</span> Edit project
-          </button>
-        )}
         <button className={styles['social-button']}>{likeIcon}</button>
         <button className={styles['social-button']}>{bookmarkIcon}</button>
         <button className={styles['social-button']}>{shareIcon}</button>

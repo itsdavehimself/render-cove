@@ -1,26 +1,5 @@
 @use 'variables';
 
-@mixin button-styling {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(14, 16, 17, 0.5);
-  color: variables.$secondary-darker;
-  border: 1px solid variables.$primary-tertiary;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  font-weight: 400;
-  height: 2rem;
-  transition: all 0.2s ease-in-out;
-}
-
-@mixin button-styling-hover {
-  cursor: pointer;
-  color: variables.$accent-color;
-  border: 1px solid variables.$primary-lighter;
-  transition: all 0.2s ease-in-out;
-}
-
 .main-container {
   position: relative;
   display: flex;
@@ -39,24 +18,27 @@
   z-index: 5;
 }
 
-.edit-project-button {
-  @include button-styling();
-  padding: 0.25rem 0.75rem;
-  column-gap: 0.5rem;
-}
-
-.edit-project-button:hover {
-  @include button-styling-hover();
-}
-
 .social-button {
-  @include button-styling();
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(14, 16, 17, 0.5);
+  color: variables.$secondary-darker;
+  border: 1px solid variables.$primary-tertiary;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  height: 2rem;
+  transition: all 0.2s ease-in-out;
   width: 2rem;
   padding: 0.25rem;
 }
 
 .social-button:hover {
-  @include button-styling-hover();
+  cursor: pointer;
+  color: variables.$accent-color;
+  border: 1px solid variables.$primary-lighter;
+  transition: all 0.2s ease-in-out;
 }
 
 .project {
