@@ -171,6 +171,10 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
             header="Software used"
             tagList={projectInfo?.softwareList}
           />
+          <TagDisplay
+            header="Hardware used"
+            tagList={Object.values(projectInfo?.hardware || {})}
+          />
         </section>
       </section>
       <section className={styles.comments}>
