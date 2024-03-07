@@ -54,10 +54,7 @@ const ProjectPage: React.FC = () => {
 
   return (
     <div className={styles['project-container']}>
-      <ProjectPageMainContent
-        projectInfo={projectInfo}
-        artistInfo={artistInfo}
-      />
+      <ProjectPageMainContent projectInfo={projectInfo} />
       <ProjectPageSidebar projectInfo={projectInfo} artistInfo={artistInfo} />
     </div>
   );
