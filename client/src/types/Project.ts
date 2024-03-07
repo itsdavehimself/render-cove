@@ -22,6 +22,15 @@ interface Image {
   steps: number;
 }
 
+export interface GenerationData {
+  prompt: string;
+  negativePrompt: string;
+  model: string;
+  seed: number;
+  cfgScale: number;
+  steps: number;
+}
+
 interface Like {
   userId: string;
   timestamp: Date;
