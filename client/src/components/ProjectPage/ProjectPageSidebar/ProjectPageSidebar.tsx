@@ -12,6 +12,7 @@ import {
   faEye,
   faThumbsUp,
   faComment,
+  faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -49,6 +50,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   const viewIcon: React.ReactNode = <FontAwesomeIcon icon={faEye} />;
   const likeIcon: React.ReactNode = <FontAwesomeIcon icon={faThumbsUp} />;
   const commentIcon: React.ReactNode = <FontAwesomeIcon icon={faComment} />;
+  const editIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
 
   useEffect(() => {
     if (user && artistInfo && artistInfo.followers) {
@@ -176,6 +178,11 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
             tagList={Object.values(projectInfo?.hardware || {})}
           />
         </section>
+        {user._id === artistInfo?._id && (
+          <button className={styles['edit-project-button']}>
+            <span>{editIcon}</span> Edit project
+          </button>
+        )}
       </section>
       <section className={styles.comments}>
         <form>
