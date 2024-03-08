@@ -14,6 +14,11 @@ export interface SocialEntry {
   username: string;
 }
 
+interface UserLike {
+  projectId: string;
+  timestamp: Date;
+}
+
 export interface UserType {
   email: string;
   username: string;
@@ -34,6 +39,7 @@ export interface UserType {
   emailNotifications: EmailNotifications;
   following: string[];
   followers: string[];
+  likes: UserLike[];
   _id: string;
 }
 
