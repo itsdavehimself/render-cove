@@ -7,6 +7,7 @@ import { uploadImagesToS3 } from '../utility/s3Utils.js';
 import ProjectImageData from '../types/ProjectImage.js';
 import { checkEmptyProjectFields } from '../utility/validation.utility.js';
 import User from '../models/userModel.js';
+import Like from '../types/Like.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -257,6 +258,61 @@ const incrementViews = async (req: Request, res: Response) => {
   }
 };
 
+const toggleLikeProject = async (req: AuthRequest, res: Response) => {
+  const { projectId } = req.params;
+  const userId = req.user?._id;
+
+  try {
+    const project: ProjectDocument | null = await Project.findById({
+      _id: projectId,
+    });
+
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    if (project.likes.some((like) => like.userId.equals(userId))) {
+      const project = await Project.findOneAndUpdate(
+        { _id: projectId },
+        { $pull: { likes: { userId: userId } } },
+        { new: true }
+      );
+
+      const user = await User.findOneAndUpdate(
+        { _id: userId },
+        { $pull: { likes: { projectId: projectId } } },
+        { new: true }
+      );
+
+      const removeLikeObject = {
+        project,
+        user,
+      };
+      res.status(200).json(removeLikeObject);
+    } else {
+      const project = await Project.findOneAndUpdate(
+        { _id: projectId },
+        { $addToSet: { likes: { userId: userId } } },
+        { new: true }
+      );
+
+      const user = await User.findOneAndUpdate(
+        { _id: userId },
+        { $addToSet: { likes: { projectId: projectId } } },
+        { new: true }
+      );
+
+      const likeObject = {
+        project,
+        user,
+      };
+      res.status(200).json(likeObject);
+    }
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
   getProject,
   getAllProjects,
@@ -266,4 +322,5 @@ export {
   deleteProject,
   updateProject,
   incrementViews,
+  toggleLikeProject,
 };
