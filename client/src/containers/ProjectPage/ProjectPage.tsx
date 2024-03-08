@@ -63,16 +63,20 @@ const ProjectPage: React.FC = () => {
 
   return (
     <div className={styles['project-container']}>
-      <ProjectPageMainContent
-        projectInfo={projectInfo}
-        generationData={generationData}
-        setGenerationData={setGenerationData}
-      />
-      <ProjectPageSidebar
-        projectInfo={projectInfo}
-        artistInfo={artistInfo}
-        generationData={generationData}
-      />
+      <main className={styles.main}>
+        <ProjectPageMainContent
+          projectInfo={projectInfo}
+          generationData={generationData}
+          setGenerationData={setGenerationData}
+        />
+      </main>
+      <aside className={styles.sidebar}>
+        <ProjectPageSidebar
+          projectInfo={projectInfo}
+          artistInfo={artistInfo}
+          generationData={generationData}
+        />
+      </aside>
     </div>
   );
 };

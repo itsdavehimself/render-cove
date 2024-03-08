@@ -1,16 +1,44 @@
+@use 'variables';
+
 .project-container {
   display: grid;
   grid-template-columns: 1fr 26rem;
   padding: 0 1.5rem;
   column-gap: 1.5rem;
-  overflow: hidden;
-  height: calc(100vh - 5rem);
-}
-
-.main {
-  overflow-y: scroll;
 }
 
 .sidebar {
+  position: fixed;
+  right: 2rem;
   overflow-y: scroll;
+  height: calc(100vh - 5rem);
+  padding-right: 10px;
+  mask-image: linear-gradient(to top, transparent, black),
+    linear-gradient(to left, transparent 17px, black 17px);
+  mask-size: 100% 20000px;
+  mask-position: left bottom;
+  -webkit-mask-image: linear-gradient(to top, transparent, black),
+    linear-gradient(to left, transparent 17px, black 17px);
+  -webkit-mask-size: 100% 20000px;
+  -webkit-mask-position: left bottom;
+  transition:
+    mask-position 0.3s,
+    -webkit-mask-position 0.3s;
+}
+
+.sidebar:hover {
+  -webkit-mask-position: left top;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: variables.$primary-light;
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: variables.$primary-alt;
 }
