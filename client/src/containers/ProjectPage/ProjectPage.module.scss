@@ -3,4 +3,14 @@
   grid-template-columns: 1fr 26rem;
   padding: 0 1.5rem;
   column-gap: 1.5rem;
+  overflow: hidden;
+  height: calc(100vh - 5rem);
+}
+
+.main {
+  overflow-y: scroll;
+}
+
+.sidebar {
+  overflow-y: scroll;
 }
