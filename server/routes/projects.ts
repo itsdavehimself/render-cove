@@ -8,6 +8,7 @@ import {
   deleteProject,
   updateProject,
   incrementViews,
+  toggleLikeProject,
 } from '../controllers/projectsController.js';
 import multer from 'multer';
 import requireAuth from '../middleware/requireAuth.js';
@@ -40,5 +41,7 @@ projectsRouter.delete('/:id', requireAuth, deleteProject);
 projectsRouter.patch('/:id', requireAuth, updateProject);
 
 projectsRouter.patch('/views/:projectId', incrementViews);
+
+projectsRouter.patch('/like/:projectId', requireAuth, toggleLikeProject);
 
 export default projectsRouter;
