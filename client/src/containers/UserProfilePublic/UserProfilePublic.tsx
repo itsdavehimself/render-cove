@@ -7,8 +7,12 @@ const UserProfilePublic: React.FC = () => {
   return (
     <UserInfoContextProvider>
       <div className={styles['public-profile-container']}>
-        <UserProfileMainContent />
-        <UserProfileSidebar />
+        <main className={styles.main}>
+          <UserProfileMainContent />
+        </main>
+        <aside className={styles.sidebar}>
+          <UserProfileSidebar />
+        </aside>
       </div>
     </UserInfoContextProvider>
   );
