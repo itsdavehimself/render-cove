@@ -61,6 +61,29 @@ const ProjectPage: React.FC = () => {
     fetchProjectInfo();
   }, [projectId]);
 
+  useEffect(() => {
+    const incrementViews = async (): Promise<void> => {
+      try {
+        const viewsResponse = await fetch(
+          `${API_BASE_URL}/projects/views/${projectId}`,
+          {
+            method: 'PATCH',
+          },
+        );
+
+        if (!viewsResponse.ok) {
+          console.error(
+            `Failed to increment views. Status: ${viewsResponse.status}`,
+          );
+        }
+      } catch (error) {
+        console.error('An error occurred while incrementing views:', error);
+      }
+    };
+
+    incrementViews();
+  }, [projectId]);
+
   return (
     <div className={styles['project-container']}>
       <main className={styles.main}>
