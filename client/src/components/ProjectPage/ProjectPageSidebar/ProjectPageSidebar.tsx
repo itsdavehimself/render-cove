@@ -178,7 +178,12 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
           )}
         </section>
         <section className={styles['generation-data']}>
-          <h4 className={styles['generation-header']}>Generation Data</h4>
+          <div className={styles['header-with-instructions']}>
+            <h4 className={styles['generation-header']}>Generation Data </h4>
+            <p className={styles.instructions}>
+              Click generation data button on an image to populate
+            </p>
+          </div>
           <div className={styles.prompts}>
             <div className={styles['data-container']}>
               <h5>Prompt</h5>
