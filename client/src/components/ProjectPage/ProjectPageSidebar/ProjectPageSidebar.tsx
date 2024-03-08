@@ -1,6 +1,4 @@
 import styles from './ProjectPageSidebar.module.scss';
-import Project from '../../../types/Project';
-import UserInfo from '../../../types/UserInfo';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -22,19 +20,17 @@ import TagDisplay from '../../TagDisplay/TagDisplay';
 import TextAreaInput from '../../TextAreaInput/TextAreaInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { GenerationData } from '../../../types/Project';
+import { useProjectContext } from '../../../hooks/useProjectContext';
 
 interface ProjectPageSidebarProps {
-  projectInfo: Project | undefined;
-  artistInfo: UserInfo | undefined;
   generationData: GenerationData;
 }
 
 const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
-  projectInfo,
-  artistInfo,
   generationData,
 }) => {
   const { user, dispatch } = useAuthContext();
+  const { project, artist } = useProjectContext();
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [isHoveringFollowButton, setIsHoveringFollowButton] =
@@ -56,10 +52,10 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   const editIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
 
   useEffect(() => {
-    if (user && artistInfo && artistInfo.followers) {
-      setIsFollowing(user.following.includes(artistInfo._id));
+    if (user && artist && artist.followers) {
+      setIsFollowing(user.following.includes(artist._id));
     }
-  }, [user, artistInfo]);
+  }, [user, artist]);
 
   return (
     <aside className={styles['project-sidebar-container']}>
@@ -67,20 +63,20 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
         <section className={styles['artist-info-container']}>
           <div className={styles['artist-info']}>
             <div className={styles['user-avatar-container']}>
-              <img src={artistInfo?.avatarUrl}></img>
+              <img src={artist?.avatarUrl}></img>
             </div>
             <div className={styles['artist-details']}>
-              <h3>{artistInfo?.displayName}</h3>
-              <p className={styles['artist-tagline']}>{artistInfo?.tagline}</p>
+              <h3>{artist?.displayName}</h3>
+              <p className={styles['artist-tagline']}>{artist?.tagline}</p>
             </div>
             <button className={styles['ellipsis-button']}>
               {ellipsisIcon}
             </button>
           </div>
-          {artistInfo && (
+          {artist && (
             <>
               {!user ||
-                (artistInfo.username !== user.username && (
+                (artist.username !== user.username && (
                   <div className={styles['user-contact-buttons']}>
                     {isFollowing ? (
                       <button
@@ -93,7 +89,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
                                   FollowAction.Unfollow,
                                   setError,
                                   setIsLoading,
-                                  artistInfo,
+                                  artist,
                                   user,
                                   isFollowing,
                                   setIsFollowing,
@@ -121,7 +117,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
                                   FollowAction.Follow,
                                   setError,
                                   setIsLoading,
-                                  artistInfo,
+                                  artist,
                                   user,
                                   isFollowing,
                                   setIsFollowing,
@@ -148,30 +144,31 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
         </section>
         <section className={styles['info-container']}>
           <div className={styles['overview-container']}>
-            <h1 className={styles.title}>{projectInfo?.title}</h1>
+            <h1 className={styles.title}>{project?.title}</h1>
             <p className={styles.date}>
               Posted{' '}
-              {projectInfo?.createdAt &&
-                formatDistanceToNowStrict(projectInfo?.createdAt)}{' '}
+              {project?.createdAt &&
+                formatDistanceToNowStrict(project?.createdAt)}{' '}
               ago
             </p>
           </div>
-          <p className={styles.description}>{projectInfo?.description}</p>
+          <p className={styles.description}>{project?.description}</p>
           <div className={styles.stats}>
             <div className={styles.stat}>
               <span>{viewIcon}</span>
-              {projectInfo?.views} views
+              {project?.views} views
             </div>
             <div className={styles.stat}>
               <span>{likeIcon}</span>
-              {projectInfo?.likes.length} likes
+              {project?.likes.length}{' '}
+              {project?.likes.length === 1 ? 'like' : 'likes'}
             </div>
             <div className={styles.stat}>
               <span>{commentIcon}</span>
-              {projectInfo?.comments.length} comments
+              {project?.comments.length} comments
             </div>
           </div>
-          {user._id === artistInfo?._id && (
+          {user._id === artist?._id && (
             <button className={styles['edit-project-button']}>
               <span>{editIcon}</span> Edit project
             </button>
@@ -217,20 +214,17 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
             </div>
           </div>
         </section>
-        <TagDisplay header="Tags" tagList={projectInfo?.tags} />
-        <TagDisplay
-          header="Software used"
-          tagList={projectInfo?.softwareList}
-        />
+        <TagDisplay header="Tags" tagList={project?.tags} />
+        <TagDisplay header="Software used" tagList={project?.softwareList} />
         <TagDisplay
           header="Hardware used"
-          tagList={Object.values(projectInfo?.hardware || {})}
+          tagList={Object.values(project?.hardware || {})}
         />
       </section>
       <section className={styles.comments}>
         <form>
           <h4 className={styles['comments-header']}>
-            {projectInfo?.comments.length} Comments
+            {project?.comments.length} Comments
           </h4>
           <TextAreaInput
             value={comment}
