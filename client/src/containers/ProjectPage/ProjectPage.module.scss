@@ -13,13 +13,17 @@
   overflow-y: scroll;
   height: calc(100vh - 5rem);
   padding-right: 10px;
-  mask-image: linear-gradient(to top, transparent, black),
-    linear-gradient(to left, transparent 17px, black 17px);
+  mask-image: linear-gradient(to top, transparent, variables.$primary-color),
+    linear-gradient(to left, transparent 17px, variables.$primary-color 17px);
   mask-size: 100% 20000px;
   mask-position: left bottom;
-  -webkit-mask-image: linear-gradient(to top, transparent, black),
-    linear-gradient(to left, transparent 17px, black 17px);
-  -webkit-mask-size: 100% 20000px;
+  -webkit-mask-image: linear-gradient(
+      to top,
+      transparent,
+      variables.$primary-color
+    ),
+    linear-gradient(to left, transparent 17px, variables.$primary-color 17px);
+  -webkit-mask-size: 100% 1000000px;
   -webkit-mask-position: left bottom;
   transition:
     mask-position 0.3s,
