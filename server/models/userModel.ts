@@ -107,6 +107,12 @@ const userSchema = new Schema<UserDocument>(
     following: [{ type: String }],
     followers: [{ type: String }],
     projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
+    likes: [
+      {
+        projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
+        timestamp: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );

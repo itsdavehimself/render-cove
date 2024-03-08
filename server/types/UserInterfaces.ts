@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { EmailNotifications } from './EmailNotifications';
+import UserLike from './UserLike';
 import { Types } from 'mongoose';
 
 interface UserDocument {
@@ -24,6 +25,7 @@ interface UserDocument {
   following: string[];
   followers: string[];
   projects: Types.ObjectId[];
+  likes: UserLike[];
 }
 
 interface UserModel extends mongoose.Model<UserDocument> {
