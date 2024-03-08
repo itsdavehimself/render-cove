@@ -237,6 +237,26 @@ const updateProject = async (req: Request, res: Response) => {
   }
 };
 
+const incrementViews = async (req: Request, res: Response) => {
+  const { projectId } = req.params;
+
+  try {
+    const project: ProjectDocument | null = await Project.findOneAndUpdate(
+      { _id: projectId },
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    res.json({ views: project.views });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
   getProject,
   getAllProjects,
@@ -245,4 +265,5 @@ export {
   createProject,
   deleteProject,
   updateProject,
+  incrementViews,
 };

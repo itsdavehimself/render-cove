@@ -7,6 +7,7 @@ import {
   createProject,
   deleteProject,
   updateProject,
+  incrementViews,
 } from '../controllers/projectsController.js';
 import multer from 'multer';
 import requireAuth from '../middleware/requireAuth.js';
@@ -37,5 +38,7 @@ projectsRouter.post(
 projectsRouter.delete('/:id', requireAuth, deleteProject);
 
 projectsRouter.patch('/:id', requireAuth, updateProject);
+
+projectsRouter.patch('/views/:projectId', incrementViews);
 
 export default projectsRouter;
