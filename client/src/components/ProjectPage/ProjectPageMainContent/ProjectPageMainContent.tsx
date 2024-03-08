@@ -1,5 +1,4 @@
 import styles from './ProjectPageMainContent.module.scss';
-import Project from '../../../types/Project';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faThumbsUp,
@@ -23,18 +22,23 @@ import { generateHTML } from '@tiptap/react';
 import { useState, useEffect } from 'react';
 import { Content } from '@tiptap/react';
 import { GenerationData } from '../../../types/Project';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { useProjectContext } from '../../../hooks/useProjectContext';
+
+const API_BASE_URL: string =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
 interface ProjectPageMainContentProps {
-  projectInfo: Project | undefined;
   generationData: GenerationData;
   setGenerationData: React.Dispatch<React.SetStateAction<GenerationData>>;
 }
 
 const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
-  projectInfo,
   generationData,
   setGenerationData,
 }) => {
+  const { user } = useAuthContext();
+  const { project, dispatchProject } = useProjectContext();
   const lowlight = createLowlight(common);
   const likeIcon: React.ReactNode = <FontAwesomeIcon icon={faThumbsUp} />;
   const bookmarkIcon: React.ReactNode = <FontAwesomeIcon icon={faBookmark} />;
@@ -44,11 +48,12 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
     undefined,
   );
   const [editorInitialized, setEditorInitialized] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     const htmlContent =
-      projectInfo &&
-      generateHTML(projectInfo.workflow, [
+      project &&
+      generateHTML(project.workflow, [
         Document,
         Paragraph,
         Text,
@@ -61,7 +66,7 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
       ]);
 
     setEditorContent(htmlContent);
-  }, [projectInfo]);
+  }, [project]);
 
   const editor = useEditor({
     extensions: [
@@ -86,18 +91,59 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
     }
   }, [editorContent, editor]);
 
+  const handleLikeClick = async (): Promise<void> => {
+    try {
+      const likeResponse = await fetch(
+        `${API_BASE_URL}/projects/like/${project?._id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
+      );
+
+      if (!likeResponse.ok) {
+        throw new Error(
+          `Failed to like the project. Status: ${likeResponse.status}`,
+        );
+      }
+
+      const responseData = await likeResponse.json();
+      dispatchProject({
+        type: 'UPDATE_PROJECT',
+        payload: { project: responseData.project },
+      });
+      setIsLiked(project.likes.some((like) => like.userId === user.userId));
+    } catch (error) {
+      console.error('Error liking the project:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (project && user) {
+      setIsLiked(project.likes.some((like) => like.userId === user.userId));
+    }
+    console.log(project);
+  }, [user, project]);
+
   return (
     <main className={styles['main-container']}>
       <div className={styles['button-container']}>
-        <button className={styles['social-button']}>{likeIcon}</button>
+        <button
+          className={`${styles['social-button']} ${isLiked ? styles.liked : ''}`}
+          onClick={handleLikeClick}
+        >
+          {likeIcon}
+        </button>
         <button className={styles['social-button']}>{bookmarkIcon}</button>
         <button className={styles['social-button']}>{shareIcon}</button>
       </div>
-      {projectInfo && (
+      {project && (
         <section className={styles.project}>
-          {projectInfo.images.map((image) => (
-            <div className={styles['image-container']}>
-              <div className={styles.image} key={image.fileName}>
+          {project?.images.map((image, index) => (
+            <div className={styles['image-container']} key={index}>
+              <div className={styles.image}>
                 <button
                   className={styles['generation-button']}
                   onClick={() =>
@@ -123,9 +169,7 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
           ))}
           <section className={styles.workflow}>
             <EditorContent editor={editor} />
-            {projectInfo.workflowUrl && (
-              <img src={projectInfo.workflowUrl}></img>
-            )}
+            {project?.workflowUrl && <img src={project.workflowUrl}></img>}
           </section>
         </section>
       )}

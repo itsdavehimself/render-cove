@@ -41,6 +41,11 @@
   transition: all 0.2s ease-in-out;
 }
 
+.social-button.liked {
+  color: variables.$accent-color;
+  border: 1px solid variables.$primary-lighter;
+}
+
 .project {
   display: flex;
   flex-direction: column;
