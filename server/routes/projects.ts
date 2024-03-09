@@ -9,6 +9,7 @@ import {
   updateProject,
   incrementViews,
   toggleLikeProject,
+  addComment,
 } from '../controllers/projectsController.js';
 import multer from 'multer';
 import requireAuth from '../middleware/requireAuth.js';
@@ -43,5 +44,7 @@ projectsRouter.patch('/:id', requireAuth, updateProject);
 projectsRouter.patch('/views/:projectId', incrementViews);
 
 projectsRouter.patch('/like/:projectId', requireAuth, toggleLikeProject);
+
+projectsRouter.patch('/comment/:projectId', requireAuth, addComment);
 
 export default projectsRouter;
