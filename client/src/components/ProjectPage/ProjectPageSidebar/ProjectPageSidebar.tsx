@@ -274,6 +274,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
                   comment={comment.content}
                   date={comment.timestamp}
                   likes={comment.likes}
+                  id={comment._id}
                   key={comment._id}
                 />
               ))}
