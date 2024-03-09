@@ -313,6 +313,28 @@ const toggleLikeProject = async (req: AuthRequest, res: Response) => {
   }
 };
 
+const addComment = async (req: AuthRequest, res: Response) => {
+  const { projectId } = req.params;
+  const userId = req.user?._id;
+  const comment = req.body.comment;
+
+  const commentObject = {
+    author: userId,
+    content: comment,
+  };
+
+  try {
+    const project: ProjectDocument | null = await Project.findOneAndUpdate(
+      { _id: projectId },
+      { $push: { comments: commentObject } },
+      { new: true }
+    );
+    res.status(200).json(project);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
   getProject,
   getAllProjects,
@@ -323,4 +345,5 @@ export {
   updateProject,
   incrementViews,
   toggleLikeProject,
+  addComment,
 };
