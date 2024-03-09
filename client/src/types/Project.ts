@@ -31,9 +31,17 @@ export interface GenerationData {
   steps: number;
 }
 
-interface Like {
+export interface Like {
   userId: string;
   timestamp: Date;
+}
+
+interface Comment {
+  author: string;
+  content: string;
+  timestamp: Date;
+  likes: Like[];
+  _id: string;
 }
 
 interface Project {
