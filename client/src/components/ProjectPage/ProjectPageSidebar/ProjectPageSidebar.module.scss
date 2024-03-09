@@ -293,9 +293,16 @@
 
 .comments-header {
   color: variables.$secondary-color;
+  padding-bottom: 1.5rem;
 }
 
 .comment-button {
   display: flex;
   justify-content: flex-end;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
 }

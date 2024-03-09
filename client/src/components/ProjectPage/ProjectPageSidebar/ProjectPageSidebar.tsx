@@ -13,7 +13,7 @@ import {
   faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { FollowAction, handleFollowClick } from './ProjectPageSidebar.utility';
 import { formatDistanceToNowStrict } from 'date-fns';
 import TagDisplay from '../../TagDisplay/TagDisplay';
@@ -21,16 +21,19 @@ import TextAreaInput from '../../TextAreaInput/TextAreaInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import { GenerationData } from '../../../types/Project';
 import { useProjectContext } from '../../../hooks/useProjectContext';
+import Comment from '../../Comment/Comment';
 
 interface ProjectPageSidebarProps {
   generationData: GenerationData;
+  API_BASE_URL: string;
 }
 
 const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   generationData,
+  API_BASE_URL,
 }) => {
   const { user, dispatch } = useAuthContext();
-  const { project, artist } = useProjectContext();
+  const { project, artist, dispatchProject } = useProjectContext();
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [isHoveringFollowButton, setIsHoveringFollowButton] =
@@ -56,6 +59,41 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
       setIsFollowing(user.following.includes(artist._id));
     }
   }, [user, artist]);
+
+  const handleCommentSubmit = async (
+    e: FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
+    e.preventDefault();
+    setIsLoading(true);
+    const commentResponse = await fetch(
+      `${API_BASE_URL}/projects/comment/${project._id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ comment }),
+      },
+    );
+
+    const commentJson = await commentResponse.json();
+
+    if (!commentResponse.ok) {
+      setError(new Error(commentJson.error));
+      setIsLoading(false);
+    }
+
+    if (commentResponse.ok) {
+      setError(null);
+      setIsLoading(false);
+      setComment('');
+      dispatchProject({
+        type: 'UPDATE_PROJECT',
+        payload: { project: commentJson },
+      });
+    }
+  };
 
   return (
     <aside className={styles['project-sidebar-container']}>
@@ -165,7 +203,8 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
             </div>
             <div className={styles.stat}>
               <span>{commentIcon}</span>
-              {project?.comments.length} comments
+              {project?.comments.length}{' '}
+              {project?.comments.length === 1 ? 'comment' : 'comments'}
             </div>
           </div>
           {user._id === artist?._id && (
@@ -222,16 +261,35 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
         />
       </section>
       <section className={styles.comments}>
-        <form>
+        <form onSubmit={handleCommentSubmit}>
           <h4 className={styles['comments-header']}>
-            {project?.comments.length} Comments
+            {project?.comments.length}{' '}
+            {project?.comments.length === 1 ? 'Comment' : 'Comments'}
           </h4>
+          {project?.comments.length > 0 && (
+            <div className={styles['comments-list']}>
+              {project?.comments.map((comment) => (
+                <Comment
+                  author={comment.author}
+                  comment={comment.content}
+                  date={comment.timestamp}
+                  likes={comment.likes}
+                  key={comment._id}
+                />
+              ))}
+            </div>
+          )}
           <TextAreaInput
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             label=""
             name="comment"
             id="comment"
+            placeholder={
+              project?.comments.length === 0
+                ? 'Be the first to comment...'
+                : 'Join the conversation...'
+            }
           />
           <div className={styles['comment-button']}>
             <SaveSubmitButton label="Sumbit" isLoading={false} color="blue" />
