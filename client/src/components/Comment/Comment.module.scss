@@ -51,14 +51,18 @@
 }
 
 .comment-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1rem 1rem;
   align-items: center;
-  column-gap: 1rem;
+  column-gap: 2rem;
   color: variables.$secondary-darker;
-  font-size: 0.85rem;
-  font-weight: 400;
+  font-size: 0.8rem;
+  font-weight: 300;
 
   button {
+    display: flex;
+    align-items: center;
+    column-gap: 0.25rem;
     background-color: transparent;
     color: variables.$secondary-darker;
     padding: 0;
@@ -71,4 +75,8 @@
     color: variables.$secondary-color;
     transition: all 0.2s ease-in-out;
   }
+}
+
+.like-action-button.liked {
+  color: variables.$secondary-color;
 }
