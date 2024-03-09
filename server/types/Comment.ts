@@ -6,6 +6,7 @@ interface Comment {
   content: string;
   createdAt: Date;
   likes: Like[];
+  _id: Schema.Types.ObjectId;
 }
 
 export default Comment;
