@@ -8,6 +8,7 @@ import ProjectImageData from '../types/ProjectImage.js';
 import { checkEmptyProjectFields } from '../utility/validation.utility.js';
 import User from '../models/userModel.js';
 import Like from '../types/Like.js';
+import Comment from '../types/Comment.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -335,6 +336,54 @@ const addComment = async (req: AuthRequest, res: Response) => {
   }
 };
 
+const toggleLikeComment = async (req: AuthRequest, res: Response) => {
+  const { projectId } = req.params;
+  const userId = req.user?._id;
+  const commentId = req.body.id;
+
+  try {
+    const project: ProjectDocument | null = await Project.findById({
+      _id: projectId,
+    });
+
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    const comment = project.comments.find(
+      (comment) => comment._id.toString() === commentId
+    );
+
+    if (!comment) {
+      return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    const likedByUser = comment.likes.some((like) =>
+      like.userId.equals(userId)
+    );
+
+    if (likedByUser) {
+      const updatedProject = await Project.findOneAndUpdate(
+        { _id: projectId, 'comments._id': commentId },
+        { $pull: { 'comments.$.likes': { userId: userId } } },
+        { new: true }
+      );
+
+      res.status(200).json(updatedProject);
+    } else {
+      const updatedProject = await Project.findOneAndUpdate(
+        { _id: projectId, 'comments._id': commentId },
+        { $addToSet: { 'comments.$.likes': { userId: userId } } },
+        { new: true }
+      );
+
+      res.status(200).json(updatedProject);
+    }
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
   getProject,
   getAllProjects,
@@ -346,4 +395,5 @@ export {
   incrementViews,
   toggleLikeProject,
   addComment,
+  toggleLikeComment,
 };
