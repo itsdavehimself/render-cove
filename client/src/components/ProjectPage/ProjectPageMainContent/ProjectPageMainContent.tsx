@@ -124,7 +124,6 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
     if (project && user) {
       setIsLiked(project.likes.some((like) => like.userId === user.userId));
     }
-    console.log(project);
   }, [user, project]);
 
   return (
