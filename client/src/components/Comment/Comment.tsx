@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useProjectContext } from '../../hooks/useProjectContext';
+import { useNavigate } from 'react-router-dom';
 
 interface CommentProps {
   author: string;
@@ -29,12 +30,17 @@ const Comment: React.FC<CommentProps> = ({
   const [authorInfo, setAuthorInfo] = useState<UserInfo | undefined>();
   const [error, setError] = useState<Error | null>(null);
   const { user } = useAuthContext();
+  const navigate = useNavigate();
   const { project, dispatchProject } = useProjectContext();
   const [isCommentLiked, setIsCommentLiked] = useState<boolean | undefined>(
     false,
   );
 
   const likeIcon: React.ReactNode = <FontAwesomeIcon icon={faThumbsUp} />;
+
+  const handleProfileClick = (): void => {
+    navigate(`/user/${authorInfo?.username}`);
+  };
 
   useEffect(() => {
     const fetchAuthorInfo = async (): Promise<void> => {
@@ -100,14 +106,26 @@ const Comment: React.FC<CommentProps> = ({
 
   return (
     <div className={styles['comment-container']}>
-      <div className={styles['avatar-container']}>
-        <img src={authorInfo?.avatarUrl}></img>
-      </div>
+      <button
+        type="button"
+        className={styles['avatar-button']}
+        onClick={handleProfileClick}
+      >
+        <div className={styles['avatar-container']}>
+          <img src={authorInfo?.avatarUrl}></img>
+        </div>
+      </button>
       <div className={styles['comment-details']}>
         <div className={styles['comment-header']}>
-          <p className={styles['author-display-name']}>
-            {authorInfo?.displayName}
-          </p>
+          <button
+            type="button"
+            className={styles['display-name-button']}
+            onClick={handleProfileClick}
+          >
+            <p className={styles['author-display-name']}>
+              {authorInfo?.displayName}
+            </p>
+          </button>
           <p className={styles['comment-timestamp']}>
             {formatDistanceToNowStrict(date)} ago
           </p>
