@@ -9,6 +9,7 @@ interface TextAreaInputProps {
   name: string;
   id: string;
   serverError?: string;
+  placeholder?: string;
 }
 
 const TextAreaInput: React.FC<TextAreaInputProps> = ({
@@ -19,6 +20,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
   name,
   id,
   serverError,
+  placeholder,
 }) => {
   return (
     <div className={styles['input-container']}>
@@ -40,6 +42,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
         id={id}
         name={name}
         value={value}
+        placeholder={placeholder}
       ></textarea>
       {serverError && (
         <div className={styles['input-error-message']}>{serverError}</div>
