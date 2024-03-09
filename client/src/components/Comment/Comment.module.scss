@@ -19,6 +19,18 @@
   height: 2rem;
 }
 
+.display-name-button {
+  background-color: transparent;
+  height: fit-content;
+  width: fit-content;
+  padding: 0;
+  margin: 0;
+}
+
+.display-name-button:hover {
+  cursor: pointer;
+}
+
 .comment-timestamp {
   color: variables.$secondary-darker;
   font-size: 0.8rem;
@@ -30,6 +42,18 @@
   border-radius: 50%;
   height: 2rem;
   width: 2rem;
+}
+
+.avatar-button {
+  background-color: transparent;
+  height: 2rem;
+  width: 2rem;
+  padding: 0;
+  margin: 0;
+}
+
+.avatar-button:hover {
+  cursor: pointer;
 }
 
 .author-display-name {
