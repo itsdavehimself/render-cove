@@ -53,7 +53,10 @@ const ProjectPage: React.FC = () => {
           />
         </main>
         <aside className={styles.sidebar}>
-          <ProjectPageSidebar generationData={generationData} />
+          <ProjectPageSidebar
+            generationData={generationData}
+            API_BASE_URL={API_BASE_URL}
+          />
         </aside>
       </div>
     </ProjectContextProvider>
