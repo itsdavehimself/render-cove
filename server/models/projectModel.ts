@@ -63,7 +63,13 @@ const projectSchema = new Schema<ProjectDocument>(
       {
         author: Schema.Types.ObjectId,
         content: String,
-        likes: Number,
+        likes: [
+          {
+            userId: { type: Schema.Types.ObjectId, ref: 'User' },
+            timestamp: { type: Date, default: Date.now },
+          },
+        ],
+        timestamp: { type: Date, default: Date.now },
       },
     ],
     commentsAllowed: { type: Boolean, default: false },
