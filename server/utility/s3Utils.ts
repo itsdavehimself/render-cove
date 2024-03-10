@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import crypto from 'crypto';
 import { S3Client } from '@aws-sdk/client-s3';
 import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import ProjectDocument from '../types/ProjectDocument';
+import Image from '../types/Image';
 
 dotenv.config();
 
@@ -45,6 +47,58 @@ const uploadImagesToS3 = async (file: Express.Multer.File | undefined) => {
   }
 };
 
+const deleteImagesFromS3 = async (project: ProjectDocument) => {
+  const getFileName = (image: Image) => {
+    const url = image.url;
+    const fileName = url.split('.com/')[1];
+    return fileName;
+  };
+
+  let allDeleted = true;
+
+  for (const image of project.images) {
+    const fileName = getFileName(image);
+
+    const params = {
+      Bucket: bucketName,
+      Key: fileName,
+    };
+
+    const command = new DeleteObjectCommand(params);
+
+    try {
+      await s3.send(command);
+      console.log(`Deleted image: ${fileName}`);
+    } catch (error: any) {
+      console.error(`Error deleting image ${fileName}: ${error.message}`);
+      allDeleted = false;
+    }
+  }
+
+  if (project.workflowUrl) {
+    const workflowFileName = project.workflowUrl.split('.com/')[1];
+
+    const workflowParams = {
+      Bucket: bucketName,
+      Key: workflowFileName,
+    };
+
+    const workflowCommand = new DeleteObjectCommand(workflowParams);
+
+    try {
+      await s3.send(workflowCommand);
+      console.log(`Deleted workflowUrl: ${workflowFileName}`);
+    } catch (error: any) {
+      console.error(
+        `Error deleting workflowUrl ${workflowFileName}: ${error.message}`
+      );
+      allDeleted = false;
+    }
+  }
+
+  return allDeleted;
+};
+
 export {
   bucketName,
   bucketRegion,
@@ -53,4 +107,5 @@ export {
   randomImageName,
   s3,
   uploadImagesToS3,
+  deleteImagesFromS3,
 };
