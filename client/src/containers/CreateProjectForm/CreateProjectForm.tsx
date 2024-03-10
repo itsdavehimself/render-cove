@@ -1,5 +1,12 @@
 import styles from './CreateProjectForm.module.scss';
-import { useState, FormEvent, useRef, useEffect, useCallback } from 'react';
+import {
+  useState,
+  FormEvent,
+  useRef,
+  useEffect,
+  useCallback,
+  ChangeEvent,
+} from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import FormInput from '../../components/FormInput/FormInput';
 import TagInput from '../../components/TagInput/TagInput';
@@ -218,6 +225,16 @@ const CreateProjectForm: React.FC = () => {
     setImageIndex(index);
   };
 
+  const handleRAMInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    if (Object.keys(inputValue).length === 0) {
+      setRAM(0);
+    } else {
+      setRAM(parseInt(inputValue));
+    }
+  };
+
   return (
     <>
       {error && isShowingErrorAlert && <ErrorAlert />}
@@ -417,7 +434,7 @@ const CreateProjectForm: React.FC = () => {
                 name="ram"
                 value={RAM === 0 ? '' : RAM}
                 placeholder="64"
-                onChange={(e) => setRAM(parseInt(e.target.value))}
+                onChange={handleRAMInputChange}
               />
             </section>
             <section className={styles['aside-section']}>
@@ -435,6 +452,7 @@ const CreateProjectForm: React.FC = () => {
               isProjectPublished={isProjectPublished}
               setIsProjectPublished={setIsProjectPublished}
               isLoading={isLoading}
+              isEditing={false}
             />
           </aside>
         </form>
