@@ -3,12 +3,11 @@ import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import ProjectDocument from '../types/ProjectDocument.js';
-import { uploadImagesToS3 } from '../utility/s3Utils.js';
+import { deleteImagesFromS3, uploadImagesToS3 } from '../utility/s3Utils.js';
 import ProjectImageData from '../types/ProjectImage.js';
 import { checkEmptyProjectFields } from '../utility/validation.utility.js';
 import User from '../models/userModel.js';
-import Like from '../types/Like.js';
-import Comment from '../types/Comment.js';
+import { UserDocument } from '../types/UserInterfaces.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -188,8 +187,10 @@ const createProject = async (req: AuthRequest, res: Response) => {
   }
 };
 
-const deleteProject = async (req: Request, res: Response) => {
+const deleteProject = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
+  const user_id = req.user?._id;
+
   try {
     if (!Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid project ID.' });
@@ -203,13 +204,15 @@ const deleteProject = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Project not found.' });
     }
 
-    const params = {
-      Bucket: bucketName,
-      Key: project.images[0].fileName,
-    };
+    const success = await deleteImagesFromS3(project);
 
-    const command = new DeleteObjectCommand(params);
-    await s3.send(command);
+    if (success) {
+      const user: UserDocument | null = await User.findOneAndUpdate(
+        { _id: user_id },
+        { $pull: { projects: id } },
+        { new: true }
+      );
+    }
 
     res.status(200).json(project);
   } catch (error: any) {
