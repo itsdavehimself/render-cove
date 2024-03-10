@@ -26,12 +26,19 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
     <div className={styles['input-container']}>
       <label className={styles['input-label']}>
         {label}
-        {remainingCharacters && (
+        {remainingCharacters ? (
           <span
-            className={`${styles['remaining-characters']} ${remainingCharacters < 1 ? styles['error'] : ''}`}
+            className={`${styles['remaining-characters']} ${remainingCharacters < 0 ? styles['error'] : ''}`}
           >
             {' '}
             ({remainingCharacters} characters remaining)
+          </span>
+        ) : (
+          <span
+            className={`${styles['remaining-characters']} ${styles['error']}`}
+          >
+            {' '}
+            (0 characters remaining)
           </span>
         )}
       </label>
