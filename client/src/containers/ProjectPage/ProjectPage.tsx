@@ -18,6 +18,7 @@ const ProjectPage: React.FC = () => {
     seed: 0,
     cfgScale: 0,
     steps: 0,
+    sampler: '',
   });
 
   useEffect(() => {
