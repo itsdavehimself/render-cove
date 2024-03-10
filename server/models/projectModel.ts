@@ -49,7 +49,7 @@ const projectSchema = new Schema<ProjectDocument>(
         trim: true,
       },
       ram: {
-        type: String,
+        type: Number,
         trim: true,
       },
     },
