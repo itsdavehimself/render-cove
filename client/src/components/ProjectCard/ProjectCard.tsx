@@ -5,9 +5,11 @@ import {
   faEllipsisVertical,
   faFlag,
   faEye,
+  faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import PopOutMenu from '../PopOutMenu/PopOutMenu';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 interface ProjectCardProps {
   title: string;
@@ -25,9 +27,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   projectId,
 }) => {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-  const handleProjectClick = (): void => {
+  const handleProjectClick = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
+  ): void => {
+    e.preventDefault();
     navigate(`/project/${projectId}`);
   };
 
@@ -41,22 +47,43 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   );
   const reportIcon: React.ReactNode = <FontAwesomeIcon icon={faFlag} />;
   const viewIcon: React.ReactNode = <FontAwesomeIcon icon={faEye} />;
+  const editIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
+
+  const handleEditProjectClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
+    e.stopPropagation();
+    navigate(`/project/edit/${projectId}`);
+  };
+
+  const reportProjectClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+    console.log('project reported');
+  };
 
   return (
-    <div className={styles['project-card']} onClick={handleProjectClick}>
+    <div
+      className={styles['project-card']}
+      onClick={(e) => handleProjectClick(e)}
+    >
       {isMenuOpen && (
         <div className={styles['popout-menu-container']}>
           <PopOutMenu
             buttons={[
               {
-                icon: reportIcon,
-                label: 'Report Project',
-                onClick: () => console.log('project reported'),
+                icon: user.username === author ? editIcon : reportIcon,
+                label:
+                  user.username === author ? 'Edit Project' : 'Report Project',
+                onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
+                  user.username === author
+                    ? handleEditProjectClick(e)
+                    : reportProjectClick(e),
               },
               {
                 icon: viewIcon,
                 label: 'View Project',
-                onClick: () => handleProjectClick,
+                onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
+                  handleProjectClick(e),
               },
             ]}
           />
