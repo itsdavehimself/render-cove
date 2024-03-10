@@ -13,6 +13,7 @@ import ChooseUsername from './containers/ChooseUsername/ChooseUsername';
 import UserProfilePublic from './containers/UserProfilePublic/UserProfilePublic';
 import UserProfileProjects from './components/UserProfile/UserProfileProjects/UserProfileProjects';
 import ProjectPage from './containers/ProjectPage/ProjectPage';
+import EditProjectForm from './containers/EditProjectForm/EditProjectForm';
 
 function App() {
   const { user } = useAuthContext();
@@ -73,6 +74,12 @@ function App() {
                   path="project/:projectId"
                   element={<ProjectPage />}
                 ></Route>
+                <Route
+                  path="project/edit/:projectId"
+                  element={
+                    user ? <EditProjectForm /> : <Navigate to="/login" />
+                  }
+                />
               </Route>
             </Routes>
           </>
