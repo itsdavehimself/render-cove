@@ -9,6 +9,8 @@ import {
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Bold from '@tiptap/extension-bold';
+import Italic from '@tiptap/extension-italic';
+import Strike from '@tiptap/extension-strike';
 import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
@@ -58,6 +60,8 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
         Paragraph,
         Text,
         Bold,
+        Italic,
+        Strike,
         Heading,
         ListItem,
         BulletList,
