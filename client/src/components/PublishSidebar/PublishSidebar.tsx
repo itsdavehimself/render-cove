@@ -6,6 +6,7 @@ import {
   faAngleUp,
   faFloppyDisk,
   faCloudArrowUp,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
@@ -13,12 +14,18 @@ interface PublishSidebarProps {
   isProjectPublished: boolean;
   setIsProjectPublished: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
+  isEditing: boolean;
+  isDeleteModalOpen?: boolean;
+  setIsDeleteModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PublishSidebar: React.FC<PublishSidebarProps> = ({
   isProjectPublished,
   setIsProjectPublished,
   isLoading,
+  isEditing,
+  isDeleteModalOpen,
+  setIsDeleteModalOpen,
 }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const downArrowIcon: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
@@ -27,6 +34,7 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
   const publishIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faCloudArrowUp} />
   );
+  const deleteIcon: React.ReactNode = <FontAwesomeIcon icon={faTrash} />;
 
   const handlePublishOptionClick = (published: boolean): void => {
     setIsProjectPublished(published);
@@ -79,6 +87,15 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
           isLoading={isLoading}
           color="green"
         />
+        {isEditing && setIsDeleteModalOpen && (
+          <button
+            className={styles['delete-button']}
+            type="button"
+            onClick={() => setIsDeleteModalOpen(!isDeleteModalOpen)}
+          >
+            <span>{deleteIcon}</span>Delete
+          </button>
+        )}
       </div>
     </section>
   );
