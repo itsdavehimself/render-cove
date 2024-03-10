@@ -42,6 +42,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   const [error, setError] = useState<Error | null>(null);
   const [comment, setComment] = useState<string>('');
   const [commentsToShow, setCommentsToShow] = useState<number>(5);
+  const [hardwareArray, setHardwareArray] = useState<string[]>([]);
 
   const followIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPlus} />;
   const checkIcon: React.ReactNode = <FontAwesomeIcon icon={faCheck} />;
@@ -95,6 +96,21 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
       });
     }
   };
+
+  useEffect(() => {
+    if (project) {
+      const hardwareArray = Object.entries(project?.hardware).map(
+        ([key, value]) => {
+          if (key === 'ram' && value !== null) {
+            return `${value}GB RAM`;
+          } else {
+            return value;
+          }
+        },
+      );
+      setHardwareArray(hardwareArray);
+    }
+  }, [project]);
 
   return (
     <aside className={styles['project-sidebar-container']}>
@@ -263,10 +279,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
         </section>
         <TagDisplay header="Tags" tagList={project?.tags} />
         <TagDisplay header="Software used" tagList={project?.softwareList} />
-        <TagDisplay
-          header="Hardware used"
-          tagList={Object.values(project?.hardware || {})}
-        />
+        <TagDisplay header="Hardware used" tagList={hardwareArray || {}} />
       </section>
       <section className={styles.comments}>
         <form onSubmit={handleCommentSubmit}>
