@@ -48,11 +48,13 @@ const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
 
     if (!deleteProjectResponse.ok) {
       setIsModalOpen(false);
+      setIsLoading(false);
       setError(deleteJson.error);
     }
 
     if (deleteProjectResponse.ok) {
       setIsModalOpen(false);
+      setIsLoading(false);
       navigate('/');
     }
   };
