@@ -1,7 +1,11 @@
 import styles from './PopOutMenu.module.scss';
 
 interface PopOutMenuProps {
-  buttons: { icon: React.ReactNode; label: string; onClick: () => void }[];
+  buttons: {
+    icon: React.ReactNode;
+    label: string;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  }[];
 }
 
 const PopOutMenu: React.FC<PopOutMenuProps> = ({ buttons }) => {
