@@ -29,6 +29,7 @@ export interface GenerationData {
   seed: number;
   cfgScale: number;
   steps: number;
+  sampler: string;
 }
 
 export interface Like {
