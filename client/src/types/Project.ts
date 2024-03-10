@@ -20,6 +20,7 @@ interface Image {
   seed: number;
   cfgScale: number;
   steps: number;
+  sampler: string;
 }
 
 export interface GenerationData {

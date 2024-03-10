@@ -84,6 +84,7 @@ const projectSchema = new Schema<ProjectDocument>(
         negativePrompt: { type: String, trim: true },
         seed: { type: Number, trim: true, default: undefined },
         steps: { type: Number, trim: true, default: undefined },
+        sampler: { type: String, trim: true, default: undefined },
         model: { type: String, trim: true },
         cfgScale: { type: Number, trim: true, default: undefined },
         createdAt: { type: Date, required: true },
