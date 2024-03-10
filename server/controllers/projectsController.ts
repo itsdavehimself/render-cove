@@ -319,6 +319,12 @@ const addComment = async (req: AuthRequest, res: Response) => {
   const userId = req.user?._id;
   const comment = req.body.comment;
 
+  if (!comment) {
+    return res
+      .status(500)
+      .json({ error: 'Please type a comment before submitting.' });
+  }
+
   const commentObject = {
     author: userId,
     content: comment,
