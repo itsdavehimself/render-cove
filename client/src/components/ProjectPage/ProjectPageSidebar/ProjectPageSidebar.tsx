@@ -208,7 +208,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
               {project?.comments.length === 1 ? 'comment' : 'comments'}
             </div>
           </div>
-          {user._id === artist?._id && (
+          {user.userId === artist?._id && (
             <button className={styles['edit-project-button']}>
               <span>{editIcon}</span> Edit project
             </button>
