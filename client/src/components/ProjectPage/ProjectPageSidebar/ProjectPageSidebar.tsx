@@ -235,6 +235,10 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
                 {generationData.negativePrompt}
               </div>
             </div>
+            <div className={styles['data-container']}>
+              <h5>Model</h5>
+              <div className={styles['data-box']}>{generationData.model}</div>
+            </div>
           </div>
           <div className={styles.configurations}>
             <div className={styles['data-container']}>
@@ -242,8 +246,8 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
               <div className={styles['data-box']}>{generationData.seed}</div>
             </div>
             <div className={styles['data-container']}>
-              <h5>Model</h5>
-              <div className={styles['data-box']}>{generationData.model}</div>
+              <h5>Sampler</h5>
+              <div className={styles['data-box']}>{generationData.sampler}</div>
             </div>
             <div className={styles['data-container']}>
               <h5>Steps</h5>
