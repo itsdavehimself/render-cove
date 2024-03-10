@@ -306,3 +306,18 @@
   flex-direction: column;
   row-gap: 2rem;
 }
+
+.load-comments-button {
+  background-color: transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: variables.$secondary-darker;
+  padding: 0.25rem 0.75rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.load-comments-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}

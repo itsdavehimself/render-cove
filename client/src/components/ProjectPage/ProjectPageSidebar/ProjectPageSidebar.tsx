@@ -41,6 +41,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [comment, setComment] = useState<string>('');
+  const [commentsToShow, setCommentsToShow] = useState<number>(5);
 
   const followIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPlus} />;
   const checkIcon: React.ReactNode = <FontAwesomeIcon icon={faCheck} />;
@@ -268,16 +269,27 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
           </h4>
           {project?.comments.length > 0 && (
             <div className={styles['comments-list']}>
-              {project?.comments.map((comment) => (
-                <Comment
-                  author={comment.author}
-                  comment={comment.content}
-                  date={comment.timestamp}
-                  likes={comment.likes}
-                  id={comment._id}
-                  key={comment._id}
-                />
-              ))}
+              {project?.comments
+                .slice(0, commentsToShow)
+                .map((comment) => (
+                  <Comment
+                    author={comment.author}
+                    comment={comment.content}
+                    date={comment.timestamp}
+                    likes={comment.likes}
+                    id={comment._id}
+                    key={comment._id}
+                  />
+                ))}
+              {commentsToShow < project?.comments.length && (
+                <button
+                  className={styles['load-comments-button']}
+                  type="button"
+                  onClick={() => setCommentsToShow(commentsToShow + 5)}
+                >
+                  Load More Comments
+                </button>
+              )}
             </div>
           )}
           <TextAreaInput
@@ -291,6 +303,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
                 ? 'Be the first to comment...'
                 : 'Join the conversation...'
             }
+            serverError={error ? error.message : ''}
           />
           <div className={styles['comment-button']}>
             <SaveSubmitButton label="Sumbit" isLoading={false} color="blue" />
