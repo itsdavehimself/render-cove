@@ -158,6 +158,7 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
                       seed: image.seed,
                       cfgScale: image.cfgScale,
                       steps: image.steps,
+                      sampler: image.sampler,
                     })
                   }
                 >
