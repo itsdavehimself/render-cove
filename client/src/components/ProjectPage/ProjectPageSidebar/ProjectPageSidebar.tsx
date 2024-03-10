@@ -209,7 +209,10 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
             </div>
           </div>
           {user.userId === artist?._id && (
-            <button className={styles['edit-project-button']}>
+            <button
+              className={styles['edit-project-button']}
+              onClick={() => navigate(`/project/edit/${project._id}`)}
+            >
               <span>{editIcon}</span> Edit project
             </button>
           )}
