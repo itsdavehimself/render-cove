@@ -95,7 +95,13 @@ const compressAndSetPreviewMultiple = async (
       }),
     );
 
-    setCompressedImages(compressedFiles);
+    setCompressedImages((prevCompressedImages) => {
+      if (prevCompressedImages === undefined) {
+        return compressedFiles;
+      } else {
+        return [...prevCompressedImages, ...compressedFiles];
+      }
+    });
 
     const imageMetadata = compressedFiles.map((_, index) => ({
       caption: '',
