@@ -1,7 +1,6 @@
 import Project from '../models/projectModel.js';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
-import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import ProjectDocument from '../types/ProjectDocument.js';
 import { deleteImagesFromS3, uploadImagesToS3 } from '../utility/s3Utils.js';
 import ProjectImageData from '../types/ProjectImage.js';
