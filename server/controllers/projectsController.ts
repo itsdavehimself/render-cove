@@ -158,6 +158,7 @@ const createProject = async (req: AuthRequest, res: Response) => {
       negativePrompt: imageData.negativePrompt,
       seed: imageData.seed,
       steps: imageData.steps,
+      sampler: imageData.sampler,
       model: imageData.model,
       cfgScale: imageData.cfgScale,
       createdAt: new Date(),
