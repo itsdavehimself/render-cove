@@ -3,6 +3,7 @@ import Image from './Image';
 import Comment from './Comment';
 import Hardware from './Hardware';
 import Like from './Like';
+import WorkflowImage from './WorkflowImage';
 
 interface ProjectDocument {
   author: Schema.Types.ObjectId;
@@ -11,7 +12,7 @@ interface ProjectDocument {
   tags: string[];
   softwareList: string[];
   workflow: string;
-  workflowUrl: string;
+  workflowImage: WorkflowImage;
   hardware: Hardware;
   likes: Like[];
   comments: Comment[];

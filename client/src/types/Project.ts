@@ -46,6 +46,11 @@ interface Comment {
   _id: string;
 }
 
+interface WorkflowImage {
+  url: string;
+  originalFileName: string;
+}
+
 interface Project {
   author: string;
   title: string;
@@ -53,7 +58,7 @@ interface Project {
   tags: string[];
   softwareList: string[];
   workflow: JSONContent;
-  workflowUrl: string;
+  workflowImage: WorkflowImage;
   hardware: Hardware;
   likes: Like[];
   comments: Comment[];

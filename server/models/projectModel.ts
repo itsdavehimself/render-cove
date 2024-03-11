@@ -35,9 +35,15 @@ const projectSchema = new Schema<ProjectDocument>(
       required: true,
       trim: true,
     },
-    workflowUrl: {
-      type: String,
-      trim: true,
+    workflowImage: {
+      url: {
+        type: String,
+        trim: true,
+      },
+      originalFileName: {
+        type: String,
+        trim: true,
+      },
     },
     hardware: {
       cpu: {
