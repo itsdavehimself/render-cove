@@ -12,6 +12,10 @@ interface GenerationDataModalProps {
   imageData: ImageData[];
   setImageData: React.Dispatch<React.SetStateAction<ImageData[]>>;
   imageIndex: number;
+  singleExistingImageData?: ImageData | undefined;
+  existingImageData?: ImageData[] | undefined;
+  setExistingImageData?: React.Dispatch<React.SetStateAction<ImageData[]>>;
+  isImageNew: boolean;
 }
 
 const GenerationDataModal: React.FC<GenerationDataModalProps> = ({
@@ -21,32 +25,57 @@ const GenerationDataModal: React.FC<GenerationDataModalProps> = ({
   imageData,
   setImageData,
   imageIndex,
+  singleExistingImageData,
+  existingImageData,
+  setExistingImageData,
+  isImageNew,
 }) => {
   const [imageDataObject, setImageDataObject] = useState({
-    prompt: singleImageData.prompt,
-    negativePrompt: singleImageData.negativePrompt,
-    sampler: singleImageData.sampler,
-    seed: singleImageData.seed,
-    steps: singleImageData.steps,
-    model: singleImageData.model,
-    cfgScale: singleImageData.cfgScale,
+    prompt: isImageNew
+      ? singleImageData.prompt
+      : singleExistingImageData?.prompt,
+    negativePrompt: isImageNew
+      ? singleImageData.negativePrompt
+      : singleExistingImageData?.negativePrompt,
+    sampler: isImageNew
+      ? singleImageData.sampler
+      : singleExistingImageData?.sampler,
+    seed: isImageNew ? singleImageData.seed : singleExistingImageData?.seed,
+    steps: isImageNew ? singleImageData.steps : singleExistingImageData?.steps,
+    model: isImageNew ? singleImageData.model : singleExistingImageData?.model,
+    cfgScale: isImageNew
+      ? singleImageData.cfgScale
+      : singleExistingImageData?.cfgScale,
   });
 
   const handleSaveGenerationData = (): void => {
-    const updatedImageData = [...imageData];
+    const updatedImageData = isImageNew
+      ? [...(imageData || [])]
+      : [...(existingImageData || [])];
 
     updatedImageData[imageIndex] = {
       ...updatedImageData[imageIndex],
-      prompt: imageDataObject.prompt,
-      negativePrompt: imageDataObject.negativePrompt,
-      sampler: imageDataObject.sampler,
-      seed: imageDataObject.seed,
-      steps: imageDataObject.steps,
-      model: imageDataObject.model,
-      cfgScale: imageDataObject.cfgScale,
+      prompt:
+        imageDataObject.prompt !== undefined ? imageDataObject.prompt : '',
+      negativePrompt:
+        imageDataObject.negativePrompt !== undefined
+          ? imageDataObject.negativePrompt
+          : '',
+      sampler:
+        imageDataObject.sampler !== undefined ? imageDataObject.sampler : '',
+      seed: imageDataObject.seed !== undefined ? imageDataObject.seed : 0,
+      steps: imageDataObject.steps !== undefined ? imageDataObject.steps : 0,
+      model: imageDataObject.model !== undefined ? imageDataObject.model : '',
+      cfgScale:
+        imageDataObject.cfgScale !== undefined ? imageDataObject.cfgScale : 0,
     };
 
-    setImageData(updatedImageData);
+    if (isImageNew && setImageData) {
+      setImageData(updatedImageData);
+    } else if (setExistingImageData) {
+      setExistingImageData(updatedImageData);
+    }
+
     setIsDataShowing(false);
   };
 
