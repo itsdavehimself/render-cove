@@ -41,7 +41,15 @@ projectsRouter.post(
 
 projectsRouter.delete('/:id', requireAuth, deleteProject);
 
-projectsRouter.patch('/:id', requireAuth, updateProject);
+projectsRouter.patch(
+  '/:projectId',
+  requireAuth,
+  upload.fields([
+    { name: 'images', maxCount: 6 },
+    { name: 'workflowImage', maxCount: 1 },
+  ]),
+  updateProject
+);
 
 projectsRouter.patch('/views/:projectId', incrementViews);
 
