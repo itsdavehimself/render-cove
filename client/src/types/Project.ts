@@ -6,7 +6,7 @@ export interface Hardware {
   ram: number;
 }
 
-interface Image {
+export interface Image {
   url: string;
   fileName: string;
   mimeType: string;
