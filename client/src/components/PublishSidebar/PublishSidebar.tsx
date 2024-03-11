@@ -17,6 +17,7 @@ interface PublishSidebarProps {
   isEditing: boolean;
   isDeleteModalOpen?: boolean;
   setIsDeleteModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  previouslyPublished?: boolean;
 }
 
 const PublishSidebar: React.FC<PublishSidebarProps> = ({
@@ -26,6 +27,7 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
   isEditing,
   isDeleteModalOpen,
   setIsDeleteModalOpen,
+  previouslyPublished,
 }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const downArrowIcon: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
@@ -81,12 +83,14 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
           isLoading={isLoading}
           color="blue"
         />
-        <SaveSubmitButton
-          icon={publishIcon}
-          label="Publish"
-          isLoading={isLoading}
-          color="green"
-        />
+        {!previouslyPublished && (
+          <SaveSubmitButton
+            icon={publishIcon}
+            label="Publish"
+            isLoading={isLoading}
+            color="green"
+          />
+        )}
         {isEditing && setIsDeleteModalOpen && (
           <button
             className={styles['delete-button']}
