@@ -353,6 +353,45 @@ const addComment = async (req: AuthRequest, res: Response) => {
   }
 };
 
+const deleteComment = async (req: AuthRequest, res: Response) => {
+  const { projectId } = req.params;
+  const userId = req.user?._id;
+  const commentId = req.body.id;
+
+  try {
+    const project: ProjectDocument | null = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    const commentToDelete = project.comments.find(
+      (comment) => comment._id.toString() === commentId
+    );
+
+    if (!commentToDelete) {
+      return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    if (commentToDelete.author.toString() !== userId?.toString()) {
+      return res.status(403).json({
+        error:
+          'Unauthorized: You do not have permission to delete this comment',
+      });
+    }
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      { $pull: { comments: { _id: commentId } } },
+      { new: true }
+    );
+
+    res.status(200).json(updatedProject);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const toggleLikeComment = async (req: AuthRequest, res: Response) => {
   const { projectId } = req.params;
   const userId = req.user?._id;
@@ -412,5 +451,6 @@ export {
   incrementViews,
   toggleLikeProject,
   addComment,
+  deleteComment,
   toggleLikeComment,
 };
