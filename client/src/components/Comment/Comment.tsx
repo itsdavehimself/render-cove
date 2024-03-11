@@ -35,6 +35,14 @@ const Comment: React.FC<CommentProps> = ({
   const [isCommentLiked, setIsCommentLiked] = useState<boolean | undefined>(
     false,
   );
+  const [isShowingFullComment, setIsShowingFullComment] =
+    useState<boolean>(false);
+
+  const MAX_COMMENT_LENGTH = 250;
+  const truncatedComment =
+    comment.length > MAX_COMMENT_LENGTH
+      ? comment.slice(0, MAX_COMMENT_LENGTH) + '...'
+      : comment;
 
   const likeIcon: React.ReactNode = <FontAwesomeIcon icon={faThumbsUp} />;
 
@@ -131,7 +139,19 @@ const Comment: React.FC<CommentProps> = ({
           </p>
         </div>
         <div className={styles['comment-bottom']}>
-          <p className={styles['comment-content']}>{comment}</p>
+          <p className={styles['comment-content']}>
+            {isShowingFullComment ? comment : truncatedComment}{' '}
+            {comment.length > MAX_COMMENT_LENGTH && (
+              <button
+                onClick={() => setIsShowingFullComment(!isShowingFullComment)}
+                type="button"
+                className={styles['expand-comment-button']}
+              >
+                {isShowingFullComment ? 'show less' : 'show more'}
+              </button>
+            )}
+          </p>
+
           <div className={styles['comment-actions']}>
             <button
               type="button"
