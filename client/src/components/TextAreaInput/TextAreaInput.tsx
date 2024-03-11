@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 
 interface TextAreaInputProps {
   remainingCharacters?: number;
-  value: string;
+  value: string | undefined;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   label: string;
   name: string;
