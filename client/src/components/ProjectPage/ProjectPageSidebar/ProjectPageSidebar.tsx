@@ -42,8 +42,6 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   const [error, setError] = useState<Error | null>(null);
   const [comment, setComment] = useState<string>('');
   const [commentsToShow, setCommentsToShow] = useState<number>(5);
-  const [remainingCharsComment, setRemainingCharsComment] =
-    useState<number>(1000);
   const [hardwareArray, setHardwareArray] = useState<string[]>([]);
 
   const followIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPlus} />;
@@ -58,8 +56,6 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   const commentIcon: React.ReactNode = <FontAwesomeIcon icon={faComment} />;
   const editIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
 
-  const MAX_CHARACTERS_COMMENT = 500;
-
   useEffect(() => {
     if (user && artist && artist.followers) {
       setIsFollowing(user.following.includes(artist._id));
@@ -71,15 +67,6 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
   ): Promise<void> => {
     e.preventDefault();
     setIsLoading(true);
-    if (remainingCharsComment < 0) {
-      setIsLoading(false);
-      setError(
-        new Error(
-          `Comments must be under ${MAX_CHARACTERS_COMMENT} characters long.`,
-        ),
-      );
-      return;
-    }
     const commentResponse = await fetch(
       `${API_BASE_URL}/projects/comment/${project._id}`,
       {
@@ -124,11 +111,6 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
       setHardwareArray(hardwareArray);
     }
   }, [project]);
-
-  useEffect(() => {
-    const remainingCharacters = MAX_CHARACTERS_COMMENT - comment.length;
-    setRemainingCharsComment(remainingCharacters);
-  }, [comment.length]);
 
   return (
     <aside className={styles['project-sidebar-container']}>
