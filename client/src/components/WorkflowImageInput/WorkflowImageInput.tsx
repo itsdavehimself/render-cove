@@ -7,11 +7,15 @@ import { compressImage } from './WorkflowImageInput.utility';
 interface WorkflowImageInputProps {
   workflowImage: File | null;
   setWorkflowImage: React.Dispatch<React.SetStateAction<File | null>>;
+  existingWorkflowImage?: string | undefined;
+  setExistingWorkflowImage?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
   workflowImage,
   setWorkflowImage,
+  existingWorkflowImage,
+  setExistingWorkflowImage,
 }) => {
   const [error, setError] = useState<string>('');
   const workflowImageRef = useRef<HTMLInputElement>(null);
@@ -38,6 +42,10 @@ const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
         { maxSizeMB: 0.5, maxWidthOrHeight: 1920, useWebWorker: true },
         setWorkflowImage,
       );
+
+      if (setExistingWorkflowImage) {
+        setExistingWorkflowImage('');
+      }
     }
   };
 
@@ -53,6 +61,9 @@ const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
   ): void => {
     e.preventDefault();
     setWorkflowImage(null);
+    if (setExistingWorkflowImage) {
+      setExistingWorkflowImage('');
+    }
   };
 
   const imageIcon: React.ReactNode = <FontAwesomeIcon icon={faImage} />;
@@ -76,9 +87,13 @@ const WorkflowImageInput: React.FC<WorkflowImageInputProps> = ({
         <span className={styles['image-icon']}>{imageIcon}</span> Choose Image
       </button>
       <span className={styles['selected-image-name']}>
-        {workflowImage ? workflowImage.name : 'No file selected'}
+        {existingWorkflowImage ? (
+          existingWorkflowImage
+        ) : (
+          <> {workflowImage ? workflowImage.name : 'No file selected'}</>
+        )}
       </span>
-      {workflowImage && (
+      {(workflowImage || existingWorkflowImage) && (
         <button className={styles['trash-icon']} onClick={handleDeleteImage}>
           {trashIcon}
         </button>
