@@ -99,6 +99,42 @@ const deleteImagesFromS3 = async (project: ProjectDocument) => {
   return allDeleted;
 };
 
+const deleteExistingImageFromS3 = async (
+  imageUrls: string[]
+): Promise<boolean> => {
+  let allDeleted = true;
+
+  if (imageUrls && imageUrls.length > 0) {
+    const getFileName = (imageUrl: string) => {
+      const fileName = imageUrl.split('.com/')[1];
+      return fileName;
+    };
+
+    for (const url of imageUrls) {
+      const fileName = getFileName(url);
+
+      const params = {
+        Bucket: bucketName,
+        Key: fileName,
+      };
+
+      const command = new DeleteObjectCommand(params);
+
+      try {
+        await s3.send(command);
+        console.log(`Deleted image: ${fileName}`);
+      } catch (error: any) {
+        console.error(`Error deleting image ${fileName}: ${error.message}`);
+        allDeleted = false;
+      }
+    }
+  } else {
+    allDeleted = false;
+  }
+
+  return allDeleted;
+};
+
 export {
   bucketName,
   bucketRegion,
@@ -108,4 +144,5 @@ export {
   s3,
   uploadImagesToS3,
   deleteImagesFromS3,
+  deleteExistingImageFromS3,
 };
