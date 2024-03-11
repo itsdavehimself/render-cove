@@ -3,7 +3,7 @@ import Tiptap from '../Tiptap/Tiptap.tsx';
 import { useState } from 'react';
 
 interface WorkflowInputProps {
-  currentContent: object | null;
+  currentContent?: object | null;
   setWorkflowText: React.Dispatch<React.SetStateAction<object>>;
   serverError?: string;
 }
