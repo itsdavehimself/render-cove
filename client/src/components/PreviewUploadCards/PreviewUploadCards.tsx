@@ -93,7 +93,9 @@ const PreviewUploadCards: React.FC<PreviewUploadCardsProps> = ({
     e.preventDefault();
     setIsDataShowing(!isDataShowing);
     getImageIndex(index);
-    getIsImageNew(isNewImage);
+    if (getIsImageNew) {
+      getIsImageNew(isNewImage);
+    }
   };
 
   useEffect(() => {
