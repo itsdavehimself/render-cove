@@ -279,7 +279,13 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
         </section>
         <TagDisplay header="Tags" tagList={project?.tags} />
         <TagDisplay header="Software used" tagList={project?.softwareList} />
-        <TagDisplay header="Hardware used" tagList={hardwareArray || {}} />
+        {!(
+          hardwareArray[0] === '' &&
+          hardwareArray[1] === '' &&
+          hardwareArray[2] === null
+        ) && (
+          <TagDisplay header="Hardware used" tagList={hardwareArray || {}} />
+        )}
       </section>
       <section className={styles.comments}>
         <form onSubmit={handleCommentSubmit}>
