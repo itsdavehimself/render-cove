@@ -270,7 +270,7 @@ const CreateProjectForm: React.FC = () => {
                 placeholder="Give your project a name"
                 onChange={(e) => setTitle(e.target.value)}
                 serverError={
-                  emptyFields.includes('title')
+                  emptyFields?.includes('title')
                     ? 'Please enter a title for your project.'
                     : ''
                 }
@@ -283,7 +283,7 @@ const CreateProjectForm: React.FC = () => {
                 name="description"
                 id="description"
                 serverError={
-                  emptyFields.includes('description')
+                  emptyFields?.includes('description')
                     ? 'Please enter a description for your project.'
                     : ''
                 }
@@ -297,7 +297,7 @@ const CreateProjectForm: React.FC = () => {
               fileSizeLimit="5MB max size (JPEG, JPG, PNG)"
               maxFileCount={6}
               serverError={
-                emptyFields.includes('project images')
+                emptyFields?.includes('project images')
                   ? 'Please upload at least one image for your project.'
                   : ''
               }
@@ -322,7 +322,7 @@ const CreateProjectForm: React.FC = () => {
               <WorkflowInput
                 setWorkflowText={setWorkflowText}
                 serverError={
-                  emptyFields.includes('workflow')
+                  emptyFields?.includes('workflow')
                     ? 'Please write about or upload a photo of your workflow.'
                     : ''
                 }
@@ -367,7 +367,7 @@ const CreateProjectForm: React.FC = () => {
                   }
                   optionalClass={true}
                   serverError={
-                    emptyFields.includes('software')
+                    emptyFields?.includes('software')
                       ? 'Please include at least one software you used in your project.'
                       : ''
                   }
@@ -395,7 +395,7 @@ const CreateProjectForm: React.FC = () => {
                   addTag={(e) => addTag(e, setTags, tags, setTagInputWidth)}
                   optionalClass={true}
                   serverError={
-                    emptyFields.includes('tags')
+                    emptyFields?.includes('tags')
                       ? 'Please include at least one tag for your project.'
                       : ''
                   }
