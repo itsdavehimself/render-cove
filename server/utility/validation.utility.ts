@@ -53,7 +53,7 @@ const checkEmptyProjectFields = (
 const checkEmptyProjectFieldsEditing = (
   title: string,
   description: string,
-  existingImages: string[],
+  parsedExistingImages: string[],
   projectImages: Express.Multer.File[] | undefined,
   parsedWorkflow: object,
   workflowImage: Express.Multer.File | undefined,
@@ -62,18 +62,28 @@ const checkEmptyProjectFieldsEditing = (
 ): string[] => {
   let emptyFields: string[] = [];
 
-  emptyFields = checkEmptyProjectFields(
-    title,
-    description,
-    projectImages,
-    parsedWorkflow,
-    workflowImage,
-    parsedSoftwareList,
-    parsedTags
-  );
+  if (!title) {
+    emptyFields.push('title');
+  }
 
-  if (!existingImages) {
+  if (!description) {
+    emptyFields.push('description');
+  }
+
+  if (parsedExistingImages.length === 0 && !projectImages) {
     emptyFields.push('project images');
+  }
+
+  if (!parsedWorkflow && !workflowImage) {
+    emptyFields.push('workflow');
+  }
+
+  if (parsedSoftwareList.length < 1) {
+    emptyFields.push('software');
+  }
+
+  if (parsedTags.length < 1) {
+    emptyFields.push('tags');
   }
 
   return emptyFields;
