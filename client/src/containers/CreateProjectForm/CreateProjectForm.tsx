@@ -246,6 +246,7 @@ const CreateProjectForm: React.FC = () => {
           imageData={imageData}
           setImageData={setImageData}
           imageIndex={imageIndex}
+          isImageNew={true}
         />
       )}
       <div className={styles['create-project-container']}>
