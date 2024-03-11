@@ -13,6 +13,7 @@ const PopOutMenu: React.FC<PopOutMenuProps> = ({ buttons }) => {
     <div className={styles['popout-menu']}>
       {buttons.map((button, index) => (
         <button
+          type="button"
           className={styles['popout-button']}
           onClick={button.onClick}
           key={index}
