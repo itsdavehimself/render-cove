@@ -328,6 +328,14 @@ const addComment = async (req: AuthRequest, res: Response) => {
       .json({ error: 'Please type a comment before submitting.' });
   }
 
+  const MAX_COMMENT_LENGTH = 500;
+
+  if (comment.length > MAX_COMMENT_LENGTH) {
+    return res
+      .status(500)
+      .json({ error: 'Comments must be less than 500 characters.' });
+  }
+
   const commentObject = {
     author: userId,
     content: comment,
