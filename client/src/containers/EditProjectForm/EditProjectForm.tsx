@@ -4,7 +4,6 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import FormInput from '../../components/FormInput/FormInput';
 import TagInput from '../../components/TagInput/TagInput';
 import MultiImageInput from '../../components/MultiImageInput/MultiImageInput';
-import EditPreviewUploadCards from '../../components/EditPreviewUploadCards/EditPreviewUploadCards';
 import {
   addTag,
   removeTag,
@@ -27,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import DeleteProjectModal from '../../components/DeleteProjectModal/DeleteProjectModal';
 import { Image } from '../../types/Project';
+import PreviewUploadCards from '../../components/PreviewUploadCards/PreviewUploadCards';
 
 const CreateProjectForm: React.FC = () => {
   const { user } = useAuthContext();
@@ -74,6 +74,7 @@ const CreateProjectForm: React.FC = () => {
   const [isGenerationDataShowing, setIsGenerationDataShowing] =
     useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [isImageNew, setIsImageNew] = useState<boolean>(false);
 
   const [error, setError] = useState<Error | null>(null);
   const [isShowingErrorAlert, setIsShowingErrorAlert] =
@@ -233,6 +234,10 @@ const CreateProjectForm: React.FC = () => {
     setImageIndex(index);
   };
 
+  const getIsImageNew = (isImageNew: boolean): void => {
+    setIsImageNew(isImageNew);
+  };
+
   useEffect(() => {
     const fetchProjectInfo = async (): Promise<void> => {
       setIsLoading(true);
@@ -298,6 +303,10 @@ const CreateProjectForm: React.FC = () => {
           imageData={imageData}
           setImageData={setImageData}
           imageIndex={imageIndex}
+          singleExistingImageData={existingImageData[imageIndex]}
+          existingImageData={existingImageData}
+          setExistingImageData={setExistingImageData}
+          isImageNew={isImageNew}
         />
       )}
       {isDeleteModalOpen && (
@@ -363,7 +372,7 @@ const CreateProjectForm: React.FC = () => {
                   : ''
               }
             />
-            <EditPreviewUploadCards
+            <PreviewUploadCards
               existingImageArr={existingImagesArr}
               setExistingImageArr={setExistingImagesArr}
               existingImageData={existingImageData}
@@ -375,6 +384,7 @@ const CreateProjectForm: React.FC = () => {
               isDataShowing={isGenerationDataShowing}
               setIsDataShowing={setIsGenerationDataShowing}
               getImageIndex={getImageIndex}
+              getIsImageNew={getIsImageNew}
             />
             <section className={styles['form-section']}>
               <div className={styles['workflow-header']}>
