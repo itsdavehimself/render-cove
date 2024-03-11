@@ -50,4 +50,37 @@ const checkEmptyProjectFields = (
   return emptyFields;
 };
 
-export { validateUsername, checkEmptyProjectFields };
+const checkEmptyProjectFieldsEditing = (
+  title: string,
+  description: string,
+  existingImages: string[],
+  projectImages: Express.Multer.File[] | undefined,
+  parsedWorkflow: object,
+  workflowImage: Express.Multer.File | undefined,
+  parsedSoftwareList: string[],
+  parsedTags: string[]
+): string[] => {
+  let emptyFields: string[] = [];
+
+  emptyFields = checkEmptyProjectFields(
+    title,
+    description,
+    projectImages,
+    parsedWorkflow,
+    workflowImage,
+    parsedSoftwareList,
+    parsedTags
+  );
+
+  if (!existingImages) {
+    emptyFields.push('project images');
+  }
+
+  return emptyFields;
+};
+
+export {
+  validateUsername,
+  checkEmptyProjectFields,
+  checkEmptyProjectFieldsEditing,
+};
