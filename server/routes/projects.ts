@@ -10,6 +10,7 @@ import {
   incrementViews,
   toggleLikeProject,
   addComment,
+  deleteComment,
   toggleLikeComment,
 } from '../controllers/projectsController.js';
 import multer from 'multer';
@@ -47,6 +48,8 @@ projectsRouter.patch('/views/:projectId', incrementViews);
 projectsRouter.patch('/like/:projectId', requireAuth, toggleLikeProject);
 
 projectsRouter.patch('/comment/:projectId', requireAuth, addComment);
+
+projectsRouter.delete('/comment/:projectId', requireAuth, deleteComment);
 
 projectsRouter.patch(
   '/comment/like/:projectId',
