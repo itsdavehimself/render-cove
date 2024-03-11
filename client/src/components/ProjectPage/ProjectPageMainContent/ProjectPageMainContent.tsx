@@ -173,7 +173,9 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
           ))}
           <section className={styles.workflow}>
             <EditorContent editor={editor} />
-            {project?.workflowUrl && <img src={project.workflowUrl}></img>}
+            {project?.workflowImage.url && (
+              <img src={project.workflowImage.url}></img>
+            )}
           </section>
         </section>
       )}
