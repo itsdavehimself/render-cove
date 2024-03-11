@@ -4,10 +4,16 @@ import { useState, useEffect } from 'react';
 import UserInfo from '../../types/UserInfo';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import {
+  faThumbsUp,
+  faEllipsis,
+  faTrash,
+  faFlag,
+} from '@fortawesome/free-solid-svg-icons';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useProjectContext } from '../../hooks/useProjectContext';
 import { useNavigate } from 'react-router-dom';
+import PopOutMenu from '../PopOutMenu/PopOutMenu';
 
 interface CommentProps {
   author: string;
@@ -37,6 +43,8 @@ const Comment: React.FC<CommentProps> = ({
   );
   const [isShowingFullComment, setIsShowingFullComment] =
     useState<boolean>(false);
+  const [isCommentOptionsOpen, setIsCommentOptionsOpen] =
+    useState<boolean>(false);
 
   const MAX_COMMENT_LENGTH = 250;
   const truncatedComment =
@@ -45,6 +53,9 @@ const Comment: React.FC<CommentProps> = ({
       : comment;
 
   const likeIcon: React.ReactNode = <FontAwesomeIcon icon={faThumbsUp} />;
+  const moreIcon: React.ReactNode = <FontAwesomeIcon icon={faEllipsis} />;
+  const deleteIcon: React.ReactNode = <FontAwesomeIcon icon={faTrash} />;
+  const reportIcon: React.ReactNode = <FontAwesomeIcon icon={faFlag} />;
 
   const handleProfileClick = (): void => {
     navigate(`/user/${authorInfo?.username}`);
@@ -70,6 +81,41 @@ const Comment: React.FC<CommentProps> = ({
     fetchAuthorInfo();
   }, [author]);
 
+  const handleDeleteComment = async (): Promise<void> => {
+    try {
+      const deleteResponse = await fetch(
+        `${API_BASE_URL}/projects/comment/${project?._id}`,
+        {
+          method: 'DELETE',
+          body: JSON.stringify({ id }),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
+      );
+
+      if (!deleteResponse.ok) {
+        setError(
+          new Error(
+            `Failed to delete the comment. Status: ${deleteResponse.status}`,
+          ),
+        );
+      }
+
+      const deleteJson = await deleteResponse.json();
+
+      if (deleteResponse.ok) {
+        dispatchProject({
+          type: 'UPDATE_PROJECT',
+          payload: { project: deleteJson },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleLikeCommentClick = async (): Promise<void> => {
     try {
       const likeResponse = await fetch(
@@ -84,8 +130,10 @@ const Comment: React.FC<CommentProps> = ({
         },
       );
       if (!likeResponse.ok) {
-        throw new Error(
-          `Failed to like the comment. Status: ${likeResponse.status}`,
+        setError(
+          new Error(
+            `Failed to like the comment. Status: ${likeResponse.status}`,
+          ),
         );
       }
       const responseData = await likeResponse.json();
@@ -114,6 +162,25 @@ const Comment: React.FC<CommentProps> = ({
 
   return (
     <div className={styles['comment-container']}>
+      {isCommentOptionsOpen && (
+        <div className={styles['comment-options-container']}>
+          <PopOutMenu
+            buttons={[
+              {
+                icon: user.userId === authorInfo?._id ? deleteIcon : reportIcon,
+                label:
+                  user.userId === authorInfo?._id
+                    ? 'Delete comment'
+                    : 'Report comment',
+                onClick:
+                  user.userId === authorInfo?._id
+                    ? handleDeleteComment
+                    : () => console.log('report comment'),
+              },
+            ]}
+          />
+        </div>
+      )}
       <button
         type="button"
         className={styles['avatar-button']}
@@ -166,6 +233,13 @@ const Comment: React.FC<CommentProps> = ({
           </div>
         </div>
       </div>
+      <button
+        type="button"
+        className={styles['options-button']}
+        onClick={() => setIsCommentOptionsOpen(!isCommentOptionsOpen)}
+      >
+        {moreIcon}
+      </button>
     </div>
   );
 };

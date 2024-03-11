@@ -1,8 +1,9 @@
 @use 'variables';
 
 .comment-container {
+  position: relative;
   display: grid;
-  grid-template-columns: 2rem 1fr;
+  grid-template-columns: 2rem 1fr 2rem;
   column-gap: 0.8rem;
 }
 
@@ -118,4 +119,28 @@
   cursor: pointer;
   color: variables.$secondary-color;
   transition: all 0.2s ease-in-out;
+}
+
+.options-button {
+  display: flex;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
+
+.options-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-light;
+  transition: all 0.2s ease-in-out;
+}
+
+.comment-options-container {
+  position: absolute;
+  width: 14rem;
+  right: 0rem;
+  top: 1.5rem;
 }
