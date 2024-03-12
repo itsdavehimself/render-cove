@@ -25,7 +25,7 @@ projectsRouter.get('/all', getAllProjects);
 
 projectsRouter.get('/:id', getProject);
 
-projectsRouter.get('/user/:id', getUsersProjects);
+projectsRouter.get('/user/:identifier', getUsersProjects);
 
 projectsRouter.get('/', requireAuth, getAuthUsersProjects);
 

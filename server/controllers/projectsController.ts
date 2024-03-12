@@ -16,6 +16,7 @@ import {
 import User from '../models/userModel.js';
 import Image from '../types/Image.js';
 import { ramValue } from '../utility/value.utility.js';
+import { UserDocument } from '../types/UserInterfaces.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -49,17 +50,23 @@ const getAllProjects = async (req: Request, res: Response) => {
 };
 
 const getUsersProjects = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { identifier } = req.params;
 
   try {
-    const user = await User.findById(id);
+    let user: UserDocument | null;
+
+    if (Types.ObjectId.isValid(identifier)) {
+      user = await User.findById(identifier);
+    } else {
+      user = await User.findOne({ username: identifier });
+    }
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     const allProjects: ProjectDocument[] = await Project.find({
-      author: id,
+      author: user._id,
     }).sort({
       createdAt: -1,
     });
