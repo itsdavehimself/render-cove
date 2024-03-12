@@ -6,17 +6,13 @@ import { useUserInfoContext } from '../../../hooks/useUserInfoContext';
 
 const UserProfileMainContent: React.FC = () => {
   const { userInfo } = useUserInfoContext();
+
   return (
     <section className={styles['profile-main-content']}>
       {userInfo?.bannerUrl && (
         <UserProfileBanner bannerUrl={userInfo.bannerUrl} />
       )}
-      <UserProfileNavbar
-        username={userInfo && userInfo.username}
-        numberOfProjects={
-          userInfo && userInfo.projects && userInfo.projects.length
-        }
-      />
+      <UserProfileNavbar userInfo={userInfo} />
       <Outlet />
     </section>
   );
