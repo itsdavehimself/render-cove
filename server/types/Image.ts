@@ -8,6 +8,13 @@ interface Image {
   caption: string;
   userId: Schema.Types.ObjectId | string;
   createdAt: Date;
+  model: string;
+  prompt: string;
+  negativePrompt: string;
+  cfgScale: number;
+  steps: number;
+  sampler: string;
+  seed: number;
 }
 
 export default Image;
