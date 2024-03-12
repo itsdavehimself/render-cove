@@ -117,11 +117,16 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
       <section className={styles['project-info']}>
         <section className={styles['artist-info-container']}>
           <div className={styles['artist-info']}>
-            <div className={styles['user-avatar-container']}>
+            <div
+              className={styles['user-avatar-container']}
+              onClick={() => navigate(`/user/${artist?.username}`)}
+            >
               <img src={artist?.avatarUrl}></img>
             </div>
             <div className={styles['artist-details']}>
-              <h3>{artist?.displayName}</h3>
+              <h3 onClick={() => navigate(`/user/${artist?.username}`)}>
+                {artist?.displayName}
+              </h3>
               <p className={styles['artist-tagline']}>{artist?.tagline}</p>
             </div>
             <button className={styles['ellipsis-button']}>
