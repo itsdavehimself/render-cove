@@ -135,6 +135,34 @@ const deleteExistingImageFromS3 = async (
   return allDeleted;
 };
 
+const deleteWorkflowImageFromS3 = async (
+  project: ProjectDocument
+): Promise<boolean> => {
+  let allDeleted = true;
+  if (project.workflowImage.url) {
+    const workflowFileName = project.workflowImage.url.split('.com/')[1];
+
+    const workflowParams = {
+      Bucket: bucketName,
+      Key: workflowFileName,
+    };
+
+    const workflowCommand = new DeleteObjectCommand(workflowParams);
+
+    try {
+      await s3.send(workflowCommand);
+      console.log(`Deleted workflowUrl: ${workflowFileName}`);
+    } catch (error: any) {
+      console.error(
+        `Error deleting workflowUrl ${workflowFileName}: ${error.message}`
+      );
+      allDeleted = false;
+    }
+  }
+
+  return allDeleted;
+};
+
 export {
   bucketName,
   bucketRegion,
@@ -145,4 +173,5 @@ export {
   uploadImagesToS3,
   deleteImagesFromS3,
   deleteExistingImageFromS3,
+  deleteWorkflowImageFromS3,
 };
