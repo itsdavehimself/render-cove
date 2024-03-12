@@ -19,7 +19,7 @@ import EditProfileSocialForm from '../../components/EditProfile/EditProfileSocia
 import EditProfileAccountForm from '../../components/EditProfile/EditProfileAccountForm/EditProfileAccountForm';
 import EditProfilePasswordForm from '../../components/EditProfile/EditProfilePasswordForm/EditProfilePasswordForm';
 import EditProfileNotificationsForm from '../../components/EditProfile/EditProfileNotificationsForm/EditProfileNotificationsForm';
-import EditProfileAlert from '../../components/EditProfile/EditProfileAlert/EditProfileAlert';
+import EditAlert from '../../components/EditAlert/EditAlert';
 import { formatDate } from '../../utility/FormatDate';
 
 export interface AlertInfo {
@@ -127,7 +127,7 @@ const EditProfile: React.FC = () => {
       </div>
       <div className={styles['edit-profile-alert-container']}>
         {alertInfo.isShowing && (
-          <EditProfileAlert isSuccess={alertInfo.isSuccess} />
+          <EditAlert isSuccess={alertInfo.isSuccess} itemToUpdate="Account" />
         )}
       </div>
     </div>
