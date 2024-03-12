@@ -9,10 +9,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import UserInfo from '../../../types/UserInfo';
+import Project from '../../../types/Project';
 
 interface UserProfileNavbarProps {
-  username: string | undefined;
-  numberOfProjects: number;
+  userInfo: UserInfo;
+  allProjects: Project[];
 }
 
 enum Views {
@@ -24,11 +27,12 @@ enum Views {
 }
 
 const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({
-  username,
-  numberOfProjects,
+  userInfo,
+  allProjects,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuthContext();
 
   const [currentView, setCurrentView] = useState<Views>(Views.Latest);
 
@@ -40,10 +44,13 @@ const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({
   );
   const tutorialsIcon: React.ReactNode = <FontAwesomeIcon icon={faBookOpen} />;
 
-  const baseUrlParams: string = `/user/${username}`;
+  const baseUrlParams: string = `/user/${userInfo?.username}`;
 
   useEffect(() => {
-    const currentLocation = location.pathname.replace(`/user/${username}/`, '');
+    const currentLocation = location.pathname.replace(
+      `/user/${userInfo?.username}/`,
+      '',
+    );
 
     const mapLocationToView = (location: string): Views => {
       switch (location) {
@@ -64,7 +71,7 @@ const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({
 
     const mappedView = mapLocationToView(currentLocation);
     setCurrentView(mappedView);
-  }, [location.pathname, username]);
+  }, [location.pathname, userInfo?.username]);
 
   return (
     <nav className={styles['user-profile-navbar']}>
@@ -81,7 +88,11 @@ const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({
       >
         <div className={styles['user-nav-icon']}>{projectsIcon}</div>
         Projects
-        <div className={styles['user-nav-number']}>{numberOfProjects}</div>
+        <div className={styles['user-nav-number']}>
+          {user?.userId === userInfo?._id
+            ? allProjects?.length
+            : allProjects?.filter((project) => project?.published).length}
+        </div>
       </div>
       <div
         className={`${styles['user-nav-item']} ${currentView === Views.CaseStudies ? styles['current-item'] : ''}`}
