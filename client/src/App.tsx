@@ -14,6 +14,7 @@ import UserProfilePublic from './containers/UserProfilePublic/UserProfilePublic'
 import UserProfileProjects from './components/UserProfile/UserProfileProjects/UserProfileProjects';
 import ProjectPage from './containers/ProjectPage/ProjectPage';
 import EditProjectForm from './containers/EditProjectForm/EditProjectForm';
+import { ProjectContextProvider } from './context/ProjectContext';
 
 function App() {
   const { user } = useAuthContext();
@@ -72,7 +73,13 @@ function App() {
                 </Route>
                 <Route
                   path="project/:projectId"
-                  element={<ProjectPage />}
+                  element={
+                    <>
+                      <ProjectContextProvider>
+                        <ProjectPage />
+                      </ProjectContextProvider>
+                    </>
+                  }
                 ></Route>
                 <Route
                   path="project/edit/:projectId"
