@@ -22,7 +22,6 @@ import PublishSidebar from '../../components/PublishSidebar/PublishSidebar';
 import CheckboxInput from '../../components/CheckboxInput/CheckboxInput';
 import WorkflowImageInput from '../../components/WorkflowImageInput/WorkflowImageInput';
 import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
-import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import DeleteProjectModal from '../../components/DeleteProjectModal/DeleteProjectModal';
 import { Image } from '../../types/Project';
@@ -45,6 +44,8 @@ const CreateProjectForm: React.FC = () => {
     'commentsAllowed',
   ]);
   const [workflowText, setWorkflowText] = useState<object | null>(null);
+  const [existingWorkflowImage, setExistingWorkflowImage] =
+    useState<string>('');
   const [acceptedImages, setAcceptedImages] = useState<File[] | undefined>([]);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
@@ -84,7 +85,6 @@ const CreateProjectForm: React.FC = () => {
 
   const MAX_IMAGE_SIZE: number = 5 * 1024 * 1024;
   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-  const navigate = useNavigate();
 
   const onImageDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -122,7 +122,7 @@ const CreateProjectForm: React.FC = () => {
     e: FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
-    // setIsLoading(true);
+    setIsLoading(true);
     const formData = new FormData(e.currentTarget);
     formData.append('tags', JSON.stringify(tags));
     formData.append('softwareList', JSON.stringify(softwareList));
@@ -132,6 +132,10 @@ const CreateProjectForm: React.FC = () => {
     formData.append('workflowImage', JSON.stringify(workflowImage));
     formData.append('existingImages', JSON.stringify(existingImagesArr));
     formData.append('existingImageData', JSON.stringify(existingImageData));
+    formData.append(
+      'existingWorkflowImage',
+      JSON.stringify(existingWorkflowImage),
+    );
 
     if (!workflowImage) {
       formData.delete('workflowImage');
@@ -143,9 +147,7 @@ const CreateProjectForm: React.FC = () => {
       });
     }
 
-    console.log([...formData.entries()]);
-
-    const projectCreateResponse = await fetch(
+    const editProjectResponse = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}/projects/${projectId}`,
       {
         method: 'PATCH',
@@ -156,9 +158,9 @@ const CreateProjectForm: React.FC = () => {
       },
     );
 
-    const projectJson = await projectCreateResponse.json();
+    const projectJson = await editProjectResponse.json();
 
-    if (!projectCreateResponse.ok) {
+    if (!editProjectResponse.ok) {
       setError(new Error(projectJson.error));
       setEmptyFields(projectJson.emptyFields);
       setIsLoading(false);
@@ -168,22 +170,9 @@ const CreateProjectForm: React.FC = () => {
         setIsShowingErrorAlert(false);
       }, 4000);
     }
-    if (projectCreateResponse.ok) {
+    if (editProjectResponse.ok) {
       setError(null);
       setIsLoading(false);
-      setTitle('');
-      setDescription('');
-      setTags([]);
-      setSoftwareList([]);
-      setCompressedImages([]);
-      setImageData([]);
-      setCPU('');
-      setGPU('');
-      setRAM(0);
-      setWorkflowText(null);
-      setWorkflowImage(null);
-      setAcceptedImages([]);
-      navigate(`/user/${user.username}`);
     }
   };
 
@@ -218,7 +207,7 @@ const CreateProjectForm: React.FC = () => {
       if (inputList.length > 0 && inputRef.current?.value === '') {
         setInputWidth(inputRef.current.value.length || 1);
       }
-    }, [inputList, inputRef.current?.value, setInputWidth]);
+    }, [inputList, inputRef.current?.value, setInputWidth, inputRef]);
   };
 
   useInputWidthEffect(softwareList, softwareInputRef, setSoftwareInputWidth);
@@ -286,6 +275,9 @@ const CreateProjectForm: React.FC = () => {
         );
         setExistingImagesArr(uploadedSrcData);
         setWorkflowText(editProjectJson.workflow);
+        setExistingWorkflowImage(
+          editProjectJson.workflowImage?.originalFileName,
+        );
       }
     };
 
@@ -340,7 +332,7 @@ const CreateProjectForm: React.FC = () => {
                 placeholder="Give your project a name"
                 onChange={(e) => setTitle(e.target.value)}
                 serverError={
-                  emptyFields.includes('title')
+                  emptyFields?.includes('title')
                     ? 'Please enter a title for your project.'
                     : ''
                 }
@@ -353,7 +345,7 @@ const CreateProjectForm: React.FC = () => {
                 name="description"
                 id="description"
                 serverError={
-                  emptyFields.includes('description')
+                  emptyFields?.includes('description')
                     ? 'Please enter a description for your project.'
                     : ''
                 }
@@ -367,7 +359,7 @@ const CreateProjectForm: React.FC = () => {
               fileSizeLimit="5MB max size (JPEG, JPG, PNG)"
               maxFileCount={6}
               serverError={
-                emptyFields.includes('project images')
+                emptyFields?.includes('project images')
                   ? 'Please upload at least one image for your project.'
                   : ''
               }
@@ -390,15 +382,15 @@ const CreateProjectForm: React.FC = () => {
               <div className={styles['workflow-header']}>
                 <h3 className={styles['section-title']}>Workflow</h3>
                 <p className={styles['section-subtitle']}>
-                  Give us a look into your workflow, processes, and methodologi
-                  es of your project
+                  Give us a look into your workflow, processes, and
+                  methodologies of your project
                 </p>
               </div>
               <WorkflowInput
                 currentContent={workflowText}
                 setWorkflowText={setWorkflowText}
                 serverError={
-                  emptyFields.includes('workflow')
+                  emptyFields?.includes('workflow')
                     ? 'Please write about or upload a photo of your workflow.'
                     : ''
                 }
@@ -410,6 +402,8 @@ const CreateProjectForm: React.FC = () => {
                 <WorkflowImageInput
                   workflowImage={workflowImage}
                   setWorkflowImage={setWorkflowImage}
+                  existingWorkflowImage={existingWorkflowImage}
+                  setExistingWorkflowImage={setExistingWorkflowImage}
                 />
               </div>
             </section>
@@ -443,7 +437,7 @@ const CreateProjectForm: React.FC = () => {
                   }
                   optionalClass={true}
                   serverError={
-                    emptyFields.includes('software')
+                    emptyFields?.includes('software')
                       ? 'Please include at least one software you used in your project.'
                       : ''
                   }
@@ -471,7 +465,7 @@ const CreateProjectForm: React.FC = () => {
                   addTag={(e) => addTag(e, setTags, tags, setTagInputWidth)}
                   optionalClass={true}
                   serverError={
-                    emptyFields.includes('tags')
+                    emptyFields?.includes('tags')
                       ? 'Please include at least one tag for your project.'
                       : ''
                   }
