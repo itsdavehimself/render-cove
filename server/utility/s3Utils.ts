@@ -75,7 +75,7 @@ const deleteImagesFromS3 = async (project: ProjectDocument) => {
     }
   }
 
-  if (project.workflowImage) {
+  if (project.workflowImage.url) {
     const workflowFileName = project.workflowImage.url.split('.com/')[1];
 
     const workflowParams = {
