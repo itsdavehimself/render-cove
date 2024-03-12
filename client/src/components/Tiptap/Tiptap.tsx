@@ -15,6 +15,7 @@ import Heading from '@tiptap/extension-heading';
 import ListItem from '@tiptap/extension-list-item';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
+import Hardbreak from '@tiptap/extension-hard-break';
 
 const lowlight = createLowlight(common);
 
@@ -45,6 +46,7 @@ const Tiptap: React.FC<TiptapProps> = ({ onUpdate, currentContent }) => {
         BulletList,
         OrderedList,
         CodeBlockLowlight,
+        Hardbreak,
       ]);
     } else {
       return '<p>Write about your workflow here...</p>';

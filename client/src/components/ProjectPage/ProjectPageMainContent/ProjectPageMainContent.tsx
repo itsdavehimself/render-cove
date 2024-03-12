@@ -19,6 +19,7 @@ import ListItem from '@tiptap/extension-list-item';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import Hardbreak from '@tiptap/extension-hard-break';
 import { common, createLowlight } from 'lowlight';
 import { generateHTML } from '@tiptap/react';
 import { useState, useEffect } from 'react';
@@ -67,6 +68,7 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
         BulletList,
         OrderedList,
         CodeBlockLowlight,
+        Hardbreak,
       ]);
 
     setEditorContent(htmlContent);
