@@ -17,6 +17,7 @@ interface ProjectCardProps {
   imageUrl: string;
   avatarUrl: string;
   projectId: string;
+  published: boolean;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -25,6 +26,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   imageUrl,
   avatarUrl,
   projectId,
+  published,
 }) => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
@@ -90,6 +92,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
       )}
       <div className={styles['card-options']}>
+        <div>
+          {!published && <div className={styles['not-published']}>Draft</div>}
+        </div>
         <button
           className={styles['options-button']}
           onClick={handleOptionClick}

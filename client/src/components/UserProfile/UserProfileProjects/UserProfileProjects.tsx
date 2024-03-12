@@ -24,6 +24,7 @@ const UserProfileProjects: React.FC = () => {
                     imageUrl={project.images[0].url}
                     avatarUrl={userInfo.avatarUrl}
                     projectId={project._id}
+                    published={project.published}
                   />
                 ) : (
                   <>
@@ -34,6 +35,7 @@ const UserProfileProjects: React.FC = () => {
                         imageUrl={project.images[0].url}
                         avatarUrl={userInfo.avatarUrl}
                         projectId={project._id}
+                        published={project.published}
                       />
                     )}
                   </>

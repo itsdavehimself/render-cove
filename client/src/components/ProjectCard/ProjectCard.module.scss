@@ -14,6 +14,11 @@
     transform: scale(1.1);
     transition: all 0.3s ease-in-out;
   }
+
+  .not-published {
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 .popout-menu-container {
@@ -49,9 +54,23 @@
   position: absolute;
   top: 0;
   right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   padding: 0.5rem;
   z-index: 3;
   font-size: 1.25rem;
+}
+
+.not-published {
+  font-size: 0.8rem;
+  background-color: variables.$accent-color;
+  color: variables.$secondary-color;
+  opacity: 0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 5rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .options-button {
