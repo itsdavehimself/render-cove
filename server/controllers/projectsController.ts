@@ -14,8 +14,8 @@ import {
   checkEmptyProjectFieldsEditing,
 } from '../utility/validation.utility.js';
 import User from '../models/userModel.js';
-import { UserDocument } from '../types/UserInterfaces.js';
 import Image from '../types/Image.js';
+import { ramValue } from '../utility/value.utility.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -108,10 +108,11 @@ const createProject = async (req: AuthRequest, res: Response) => {
       ? JSON.parse(softwareList)
       : softwareList || [];
   const workflowFileName = workflowImage?.originalname;
+
   const hardware = {
     cpu,
     gpu,
-    ram,
+    ram: ramValue(ram),
   };
 
   if (!commentsAllowed) {
@@ -217,13 +218,13 @@ const deleteProject = async (req: AuthRequest, res: Response) => {
 
     const success = await deleteImagesFromS3(project);
 
-    if (success) {
-      const user: UserDocument | null = await User.findOneAndUpdate(
-        { _id: user_id },
-        { $pull: { projects: id } },
-        { new: true }
-      );
-    }
+    console.log(success);
+
+    await User.findOneAndUpdate(
+      { _id: user_id },
+      { $pull: { projects: id } },
+      { new: true }
+    );
 
     res.status(200).json(project);
   } catch (error: any) {
@@ -271,7 +272,7 @@ const updateProject = async (req: AuthRequest, res: Response) => {
   const hardware = {
     cpu,
     gpu,
-    ram,
+    ram: ramValue(ram),
   };
 
   if (!commentsAllowed) {
