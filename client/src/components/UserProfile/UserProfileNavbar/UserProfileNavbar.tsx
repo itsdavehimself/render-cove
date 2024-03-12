@@ -10,12 +10,11 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../../hooks/useAuthContext';
+import { useAllProjectsContext } from '../../../hooks/useAllProjectsContext';
 import UserInfo from '../../../types/UserInfo';
-import Project from '../../../types/Project';
 
 interface UserProfileNavbarProps {
   userInfo: UserInfo;
-  allProjects: Project[];
 }
 
 enum Views {
@@ -26,13 +25,11 @@ enum Views {
   Collections = 'collections',
 }
 
-const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({
-  userInfo,
-  allProjects,
-}) => {
+const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({ userInfo }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuthContext();
+  const { allProjects } = useAllProjectsContext();
 
   const [currentView, setCurrentView] = useState<Views>(Views.Latest);
 
