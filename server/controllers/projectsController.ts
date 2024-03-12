@@ -216,9 +216,7 @@ const deleteProject = async (req: AuthRequest, res: Response) => {
       return res.status(404).json({ message: 'Project not found.' });
     }
 
-    const success = await deleteImagesFromS3(project);
-
-    console.log(success);
+    await deleteImagesFromS3(project);
 
     await User.findOneAndUpdate(
       { _id: user_id },
