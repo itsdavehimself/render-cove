@@ -16,6 +16,7 @@ interface UserInfo {
   createdAt: Date;
   following: string[];
   followers: string[];
+  projects: string[];
   _id: string;
 }
 
