@@ -2,9 +2,17 @@ import Project from '../models/projectModel.js';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import ProjectDocument from '../types/ProjectDocument.js';
-import { deleteImagesFromS3, uploadImagesToS3 } from '../utility/s3Utils.js';
+import {
+  deleteExistingImageFromS3,
+  deleteImagesFromS3,
+  uploadImagesToS3,
+  deleteWorkflowImageFromS3,
+} from '../utility/s3Utils.js';
 import ProjectImageData from '../types/ProjectImage.js';
-import { checkEmptyProjectFields } from '../utility/validation.utility.js';
+import {
+  checkEmptyProjectFields,
+  checkEmptyProjectFieldsEditing,
+} from '../utility/validation.utility.js';
 import User from '../models/userModel.js';
 import { UserDocument } from '../types/UserInterfaces.js';
 
@@ -98,7 +106,7 @@ const createProject = async (req: AuthRequest, res: Response) => {
     typeof softwareList === 'string'
       ? JSON.parse(softwareList)
       : softwareList || [];
-
+  const workflowFileName = workflowImage?.originalname;
   const hardware = {
     cpu,
     gpu,
@@ -172,7 +180,10 @@ const createProject = async (req: AuthRequest, res: Response) => {
       tags: parsedTags,
       softwareList: parsedSoftwareList,
       workflow: parsedWorkflow,
-      workflowUrl: workflowImageUrl,
+      workflowImage: {
+        url: workflowImageUrl,
+        originalFileName: workflowFileName,
+      },
       hardware,
       commentsAllowed: areCommentsAllowed,
       images: imageObject,
@@ -219,24 +230,219 @@ const deleteProject = async (req: AuthRequest, res: Response) => {
   }
 };
 
-const updateProject = async (req: Request, res: Response) => {
-  const { id } = req.params;
+const updateProject = async (req: AuthRequest, res: Response) => {
+  const { projectId } = req.params;
+  const userId = req.user?._id;
+  const {
+    title,
+    description,
+    cpu,
+    gpu,
+    ram,
+    commentsAllowed,
+    tags,
+    softwareList,
+    published,
+    imageData,
+    workflow,
+    existingImages,
+    existingImageData,
+    existingWorkflowImage,
+  } = req.body;
+  const parsedExistingImages = JSON.parse(existingImages);
+  const parsedExistingImageData = JSON.parse(existingImageData);
+  let areCommentsAllowed = true;
+  const isPublished = JSON.parse(published);
+  const parsedWorkflow = JSON.parse(workflow);
+  const workflowImage = (req.files as { workflowImage?: Express.Multer.File[] })
+    ?.workflowImage?.[0];
+  const workflowFileName = workflowImage?.originalname;
+  const projectImages = (req.files as { images?: Express.Multer.File[] })
+    ?.images;
+  const parsedImageData = JSON.parse(imageData);
+  const parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags || [];
+  const parsedSoftwareList =
+    typeof softwareList === 'string'
+      ? JSON.parse(softwareList)
+      : softwareList || [];
+  const parsedExistingWorkflowImage = JSON.parse(existingWorkflowImage);
+
+  const hardware = {
+    cpu,
+    gpu,
+    ram,
+  };
+
+  if (!commentsAllowed) {
+    areCommentsAllowed = false;
+  }
+
+  const emptyFields = checkEmptyProjectFieldsEditing(
+    title,
+    description,
+    parsedExistingImages,
+    projectImages,
+    workflow,
+    workflowImage,
+    parsedSoftwareList,
+    parsedTags,
+    parsedExistingWorkflowImage
+  );
+
+  if (emptyFields.length > 0) {
+    return res.status(400).json({
+      error: `Please fill out the missing fields.`,
+      emptyFields,
+    });
+  }
+
   try {
-    if (!Types.ObjectId.isValid(id)) {
+    if (!Types.ObjectId.isValid(projectId)) {
       return res.status(400).json({ message: 'Invalid user ID.' });
     }
 
-    const project: ProjectDocument | null = await Project.findOneAndUpdate(
-      { _id: id },
-      { ...req.body },
-      { new: true }
-    );
+    const project: ProjectDocument | null = await Project.findById({
+      _id: projectId,
+    });
 
     if (!project) {
       return res.status(404).json({ message: 'Project not found.' });
     }
 
-    res.status(200).json(project);
+    const updatedProjectImages = await Project.findById(projectId)
+      .lean()
+      .then((projectDoc) => {
+        return projectDoc?.images.map((image) => {
+          const matchingData = parsedExistingImageData.find(
+            (data) => data.url === image.url
+          );
+
+          if (matchingData) {
+            return {
+              ...image,
+              caption: matchingData.caption,
+              model: matchingData.model,
+              prompt: matchingData.prompt,
+              negativePrompt: matchingData.negativePrompt,
+              cfgScale: matchingData.cfgScale,
+              steps: matchingData.steps,
+              sampler: matchingData.sampler,
+              seed: matchingData.seed,
+            };
+          } else {
+            return image;
+          }
+        });
+      });
+
+    await Project.findOneAndUpdate(
+      { _id: projectId },
+      { $set: { images: updatedProjectImages } },
+      { new: true }
+    );
+
+    const nonMatchingImages = project.images.filter(
+      (image) => !parsedExistingImages.includes(image.url)
+    );
+
+    const imagesToDelete = nonMatchingImages.map((image) => image.url);
+    const imagesDeletedFromS3 = await deleteExistingImageFromS3(imagesToDelete);
+
+    if (imagesDeletedFromS3) {
+      const updatedProject: ProjectDocument | null =
+        await Project.findOneAndUpdate(
+          { _id: projectId },
+          { $pull: { images: { url: { $in: imagesToDelete } } } },
+          { new: true }
+        );
+
+      if (updatedProject) {
+        return res
+          .status(200)
+          .json({ message: 'Project updated successfully' });
+      } else {
+        return res
+          .status(500)
+          .json({ message: 'Error updating project in MongoDB' });
+      }
+    }
+
+    const uploadProjectImagesToS3 = async (
+      files: Express.Multer.File[] | undefined
+    ) => {
+      if (!files || !files.length) return [];
+
+      const uploadPromises = files.map(async (file) => {
+        return await uploadImagesToS3(file);
+      });
+
+      return Promise.all(uploadPromises);
+    };
+
+    const projectImageUrls = await uploadProjectImagesToS3(projectImages);
+
+    const imageObject = parsedImageData.map(
+      (imageData: ProjectImageData, index: number) => ({
+        url: projectImageUrls[index],
+        mimeType:
+          projectImages && projectImages[index]
+            ? projectImages[index].mimetype
+            : '',
+        size:
+          projectImages && projectImages[index] ? projectImages[index].size : 0,
+        caption: imageData.caption,
+        prompt: imageData.prompt,
+        negativePrompt: imageData.negativePrompt,
+        seed: imageData.seed,
+        steps: imageData.steps,
+        sampler: imageData.sampler,
+        model: imageData.model,
+        cfgScale: imageData.cfgScale,
+        createdAt: new Date(),
+        author: userId,
+      })
+    );
+
+    if (!parsedExistingWorkflowImage) {
+      let workflowImageUrl;
+      await deleteWorkflowImageFromS3(project);
+      if (workflowImage) {
+        workflowImageUrl = await uploadImagesToS3(workflowImage);
+      }
+      const updatedProject: ProjectDocument | null =
+        await Project.findOneAndUpdate(
+          { _id: projectId },
+          {
+            $set: {
+              workflowImage: {
+                url: workflowImageUrl || '',
+                originalFileName: workflowFileName || '',
+              },
+            },
+          },
+          { new: true }
+        );
+    }
+
+    const updatedProject: ProjectDocument | null =
+      await Project.findOneAndUpdate(
+        { _id: projectId },
+        {
+          $set: {
+            title: title,
+            description: description,
+            workflow: parsedWorkflow,
+            softwareList: parsedSoftwareList,
+            tags: parsedTags,
+            hardware: hardware,
+            commentsAllowed: areCommentsAllowed,
+            published: isPublished,
+          },
+        },
+        { new: true }
+      );
+
+    res.status(200).json(updatedProject);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
