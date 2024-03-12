@@ -21,7 +21,7 @@ import WorkflowInput from '../../components/WorkflowInput/WorkflowInput';
 import PublishSidebar from '../../components/PublishSidebar/PublishSidebar';
 import CheckboxInput from '../../components/CheckboxInput/CheckboxInput';
 import WorkflowImageInput from '../../components/WorkflowImageInput/WorkflowImageInput';
-import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
+import EditAlert from '../../components/EditAlert/EditAlert';
 import { useParams } from 'react-router-dom';
 import DeleteProjectModal from '../../components/DeleteProjectModal/DeleteProjectModal';
 import { Image } from '../../types/Project';
@@ -78,8 +78,7 @@ const CreateProjectForm: React.FC = () => {
   const [isImageNew, setIsImageNew] = useState<boolean>(false);
 
   const [error, setError] = useState<Error | null>(null);
-  const [isShowingErrorAlert, setIsShowingErrorAlert] =
-    useState<boolean>(false);
+  const [isShowingAlert, setIsShowingAlert] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
 
@@ -164,16 +163,18 @@ const CreateProjectForm: React.FC = () => {
       setError(new Error(projectJson.error));
       setEmptyFields(projectJson.emptyFields);
       setIsLoading(false);
-      setIsShowingErrorAlert(true);
-
-      setTimeout(() => {
-        setIsShowingErrorAlert(false);
-      }, 4000);
+      setIsShowingAlert(true);
     }
     if (editProjectResponse.ok) {
+      setIsShowingAlert(true);
       setError(null);
       setIsLoading(false);
+      setEmptyFields([]);
     }
+
+    setTimeout(() => {
+      setIsShowingAlert(false);
+    }, 4000);
   };
 
   const handleKeydownTags = (
@@ -286,7 +287,11 @@ const CreateProjectForm: React.FC = () => {
 
   return (
     <>
-      {error && isShowingErrorAlert && <ErrorAlert />}
+      <div className={styles['alert-container']}>
+        {isShowingAlert && (
+          <EditAlert isSuccess={error === null} itemToUpdate="Project" />
+        )}
+      </div>
       {isGenerationDataShowing && (
         <GenerationDataModal
           isDataShowing={isGenerationDataShowing}

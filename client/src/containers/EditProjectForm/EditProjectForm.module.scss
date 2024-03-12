@@ -108,3 +108,9 @@
 .error-message {
   color: variables.$error-color;
 }
+
+.alert-container {
+  position: absolute;
+  right: 21rem;
+  bottom: 5rem;
+}
