@@ -438,6 +438,7 @@ const updateProject = async (req: AuthRequest, res: Response) => {
             commentsAllowed: areCommentsAllowed,
             published: isPublished,
           },
+          $addToSet: { images: imageObject },
         },
         { new: true }
       );
