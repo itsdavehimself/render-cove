@@ -160,25 +160,31 @@ const Comment: React.FC<CommentProps> = ({
     }
   }, [user, project, id]);
 
+  const buttons = [
+    {
+      icon: user.userId === authorInfo?._id ? deleteIcon : reportIcon,
+      label:
+        user.userId === authorInfo?._id ? 'Delete comment' : 'Report comment',
+      onClick:
+        user.userId === authorInfo?._id
+          ? handleDeleteComment
+          : () => console.log('report comment'),
+    },
+  ];
+
+  if (user.userId === project.author && user.userId !== authorInfo?._id) {
+    buttons.push({
+      icon: deleteIcon,
+      label: 'Delete comment',
+      onClick: handleDeleteComment,
+    });
+  }
+
   return (
     <div className={styles['comment-container']}>
       {isCommentOptionsOpen && (
         <div className={styles['comment-options-container']}>
-          <PopOutMenu
-            buttons={[
-              {
-                icon: user.userId === authorInfo?._id ? deleteIcon : reportIcon,
-                label:
-                  user.userId === authorInfo?._id
-                    ? 'Delete comment'
-                    : 'Report comment',
-                onClick:
-                  user.userId === authorInfo?._id
-                    ? handleDeleteComment
-                    : () => console.log('report comment'),
-              },
-            ]}
-          />
+          <PopOutMenu buttons={buttons} />
         </div>
       )}
       <button
