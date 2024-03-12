@@ -3,6 +3,7 @@ import styles from './UserProfileProjects.module.scss';
 import ProjectCard from '../../ProjectCard/ProjectCard';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useAllProjectsContext } from '../../../hooks/useAllProjectsContext';
+import React from 'react';
 
 const UserProfileProjects: React.FC = () => {
   const { user } = useAuthContext();
@@ -15,7 +16,7 @@ const UserProfileProjects: React.FC = () => {
         {allProjects && (
           <>
             {allProjects.map((project) => (
-              <>
+              <React.Fragment key={project._id}>
                 {user.userId === userInfo._id ? (
                   <ProjectCard
                     title={project.title}
@@ -23,7 +24,6 @@ const UserProfileProjects: React.FC = () => {
                     imageUrl={project.images[0].url}
                     avatarUrl={userInfo.avatarUrl}
                     projectId={project._id}
-                    key={project._id}
                   />
                 ) : (
                   <>
@@ -34,12 +34,11 @@ const UserProfileProjects: React.FC = () => {
                         imageUrl={project.images[0].url}
                         avatarUrl={userInfo.avatarUrl}
                         projectId={project._id}
-                        key={project._id}
                       />
                     )}
                   </>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </>
         )}
