@@ -209,7 +209,7 @@ const CreateProjectForm: React.FC = () => {
       if (inputList.length > 0 && inputRef.current?.value === '') {
         setInputWidth(inputRef.current.value.length || 1);
       }
-    }, [inputList, inputRef.current?.value, setInputWidth]);
+    }, [inputList, inputRef.current?.value, setInputWidth, inputRef]);
   };
 
   useInputWidthEffect(softwareList, softwareInputRef, setSoftwareInputWidth);
