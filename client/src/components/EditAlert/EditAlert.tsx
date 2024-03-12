@@ -1,12 +1,13 @@
-import styles from './EditProfileAlert.module.scss';
+import styles from './EditAlert.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
-interface EditProfileAlertProps {
+interface EditAlertProps {
   isSuccess: boolean;
+  itemToUpdate: string;
 }
 
-const EditProfileAlert: React.FC<EditProfileAlertProps> = ({ isSuccess }) => {
+const EditAlert: React.FC<EditAlertProps> = ({ isSuccess, itemToUpdate }) => {
   const checkIcon: React.ReactNode = <FontAwesomeIcon icon={faCheck} />;
   const xMark: React.ReactNode = <FontAwesomeIcon icon={faXmark} />;
 
@@ -17,7 +18,7 @@ const EditProfileAlert: React.FC<EditProfileAlertProps> = ({ isSuccess }) => {
           <div className={`${styles['status-icon']} ${styles['success']}`}>
             {checkIcon}
           </div>
-          <div>Account successfully updated.</div>
+          <div>{itemToUpdate} successfully updated.</div>
         </>
       ) : (
         <>
@@ -31,4 +32,4 @@ const EditProfileAlert: React.FC<EditProfileAlertProps> = ({ isSuccess }) => {
   );
 };
 
-export default EditProfileAlert;
+export default EditAlert;
