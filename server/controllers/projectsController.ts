@@ -587,7 +587,10 @@ const deleteComment = async (req: AuthRequest, res: Response) => {
       return res.status(404).json({ error: 'Comment not found' });
     }
 
-    if (commentToDelete.author.toString() !== userId?.toString()) {
+    if (
+      commentToDelete.author.toString() !== userId?.toString() &&
+      userId?.toString() !== project.author.toString()
+    ) {
       return res.status(403).json({
         error:
           'Unauthorized: You do not have permission to delete this comment',
