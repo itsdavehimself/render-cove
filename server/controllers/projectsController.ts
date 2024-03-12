@@ -15,6 +15,7 @@ import {
 } from '../utility/validation.utility.js';
 import User from '../models/userModel.js';
 import { UserDocument } from '../types/UserInterfaces.js';
+import Image from '../types/Image.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -314,7 +315,7 @@ const updateProject = async (req: AuthRequest, res: Response) => {
       .then((projectDoc) => {
         return projectDoc?.images.map((image) => {
           const matchingData = parsedExistingImageData.find(
-            (data) => data.url === image.url
+            (data: Image) => data.url === image.url
           );
 
           if (matchingData) {
