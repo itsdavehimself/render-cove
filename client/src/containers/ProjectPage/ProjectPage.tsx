@@ -14,6 +14,7 @@ const ProjectPage: React.FC = () => {
   const { projectId } = useParams();
   const { project, artist } = useProjectContext();
   const { user } = useAuthContext();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [generationData, setGenerationData] = useState<GenerationData>({
     prompt: '',
@@ -48,25 +49,37 @@ const ProjectPage: React.FC = () => {
     incrementViews();
   }, [projectId]);
 
+  useEffect(() => {
+    if (user && artist) {
+      setIsLoading(false);
+    }
+  }, [user, artist]);
+
   return (
     <>
-      {!project?.published && user?.userId !== artist?._id ? (
-        <div>Project is not published</div>
+      {isLoading ? (
+        <div>Loading...</div>
       ) : (
-        <div className={styles['project-container']}>
-          <main className={styles.main}>
-            <ProjectPageMainContent
-              generationData={generationData}
-              setGenerationData={setGenerationData}
-            />
-          </main>
-          <aside className={styles.sidebar}>
-            <ProjectPageSidebar
-              generationData={generationData}
-              API_BASE_URL={API_BASE_URL}
-            />
-          </aside>
-        </div>
+        <>
+          {!project?.published && user?.userId !== artist?._id ? (
+            <div>Project is not published</div>
+          ) : (
+            <div className={styles['project-container']}>
+              <main className={styles.main}>
+                <ProjectPageMainContent
+                  generationData={generationData}
+                  setGenerationData={setGenerationData}
+                />
+              </main>
+              <aside className={styles.sidebar}>
+                <ProjectPageSidebar
+                  generationData={generationData}
+                  API_BASE_URL={API_BASE_URL}
+                />
+              </aside>
+            </div>
+          )}
+        </>
       )}
     </>
   );
