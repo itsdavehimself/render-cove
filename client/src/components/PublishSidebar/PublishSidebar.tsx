@@ -5,7 +5,6 @@ import {
   faAngleDown,
   faAngleUp,
   faFloppyDisk,
-  faCloudArrowUp,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
@@ -27,15 +26,12 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
   isEditing,
   isDeleteModalOpen,
   setIsDeleteModalOpen,
-  previouslyPublished,
 }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const downArrowIcon: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
   const upArrowIcon: React.ReactNode = <FontAwesomeIcon icon={faAngleUp} />;
   const saveIcon: React.ReactNode = <FontAwesomeIcon icon={faFloppyDisk} />;
-  const publishIcon: React.ReactNode = (
-    <FontAwesomeIcon icon={faCloudArrowUp} />
-  );
+
   const deleteIcon: React.ReactNode = <FontAwesomeIcon icon={faTrash} />;
 
   const handlePublishOptionClick = (published: boolean): void => {
@@ -83,14 +79,6 @@ const PublishSidebar: React.FC<PublishSidebarProps> = ({
           isLoading={isLoading}
           color="blue"
         />
-        {!previouslyPublished && (
-          <SaveSubmitButton
-            icon={publishIcon}
-            label="Publish"
-            isLoading={isLoading}
-            color="green"
-          />
-        )}
         {isEditing && setIsDeleteModalOpen && (
           <button
             className={styles['delete-button']}
