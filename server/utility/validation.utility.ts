@@ -55,10 +55,11 @@ const checkEmptyProjectFieldsEditing = (
   description: string,
   parsedExistingImages: string[],
   projectImages: Express.Multer.File[] | undefined,
-  parsedWorkflow: object,
+  workflow: string,
   workflowImage: Express.Multer.File | undefined,
   parsedSoftwareList: string[],
-  parsedTags: string[]
+  parsedTags: string[],
+  existingWorkflowImage: string
 ): string[] => {
   let emptyFields: string[] = [];
 
@@ -74,7 +75,10 @@ const checkEmptyProjectFieldsEditing = (
     emptyFields.push('project images');
   }
 
-  if (!parsedWorkflow && !workflowImage) {
+  if (
+    workflow === '{"type":"doc","content":[{"type":"paragraph"}]}' &&
+    (!workflowImage || !existingWorkflowImage)
+  ) {
     emptyFields.push('workflow');
   }
 
