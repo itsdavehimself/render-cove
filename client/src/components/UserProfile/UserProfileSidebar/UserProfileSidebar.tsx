@@ -49,6 +49,7 @@ const UserProfileSidebar: React.FC = () => {
   const [isHoveringFollowButton, setIsHoveringFollowButton] =
     useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [likes, setLikes] = useState<number>(0);
 
   const locationIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faLocationDot} />
@@ -123,6 +124,10 @@ const UserProfileSidebar: React.FC = () => {
     if (userInfo) {
       setFollowers(userInfo.followers.length);
       setFollowing(userInfo.following.length);
+      const totalLikes = userInfo.projects.reduce((total, project) => {
+        return total + project.likes.length;
+      }, 0);
+      setLikes(totalLikes);
     }
   }, [userInfo]);
 
@@ -256,7 +261,7 @@ const UserProfileSidebar: React.FC = () => {
         <TagDisplay header="Generators & UI" tagList={userInfo?.generators} />
         <div className={styles['user-stats-container']}>
           <div className={styles['user-stats']}>
-            <p className={styles['user-stats-number']}>0</p>
+            <p className={styles['user-stats-number']}>{likes}</p>
             <p className={styles['user-stats-label']}>LIKES</p>
           </div>
           <div className={styles['user-stats']}>
