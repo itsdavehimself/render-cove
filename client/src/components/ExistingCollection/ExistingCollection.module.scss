@@ -1,0 +1,57 @@
+@use 'variables';
+
+@mixin button-styles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-width: 6rem;
+  min-height: 2.5rem;
+  border-radius: 3px;
+  transition: all 0.2s ease-in-out;
+}
+
+@mixin button-styles-hover {
+  cursor: pointer;
+}
+
+.collection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.collection-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 0.5rem;
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  p {
+    font: 0.8rem;
+    font-weight: 300;
+    font-style: italic;
+    color: variables.$secondary-darker;
+  }
+}
+
+.save-button {
+  @include button-styles();
+  border: 1px solid variables.$secondary-darker;
+  background-color: transparent;
+  color: variables.$secondary-darker;
+}
+
+.save-button:hover {
+  @include button-styles-hover();
+  color: variables.$secondary-color;
+  border: 1px solid variables.$secondary-color;
+  background-color: variables.$primary-tertiary;
+}
