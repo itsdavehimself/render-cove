@@ -200,7 +200,7 @@ const Navbar: React.FC = () => {
                       {
                         icon: myLikesIcon,
                         label: 'My Likes',
-                        onClick: () => navigate(`/user/${user.username}`),
+                        onClick: () => navigate(`/${user.username}/likes`),
                       },
                       {
                         icon: logOutSymbol,
