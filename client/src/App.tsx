@@ -16,6 +16,7 @@ import ProjectPage from './containers/ProjectPage/ProjectPage';
 import EditProjectForm from './containers/EditProjectForm/EditProjectForm';
 import { ProjectContextProvider } from './context/ProjectContext';
 import UserLikes from './containers/UserLikes/UserLikes';
+import UserCollections from './containers/UserCollections/UserCollections';
 
 function App() {
   const { user } = useAuthContext();
@@ -91,6 +92,12 @@ function App() {
                 <Route
                   path="/:username/likes"
                   element={user ? <UserLikes /> : <Navigate to="/login" />}
+                />
+                <Route
+                  path="/:username/collections"
+                  element={
+                    user ? <UserCollections /> : <Navigate to="/login" />
+                  }
                 />
               </Route>
             </Routes>
