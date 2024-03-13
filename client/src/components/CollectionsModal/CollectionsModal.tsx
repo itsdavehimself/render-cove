@@ -6,6 +6,9 @@ import FormInput from '../FormInput/FormInput';
 import CheckboxInput from '../CheckboxInput/CheckboxInput';
 import { useParams } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import SaveSubmitButton from '../SaveSubmitButton/SaveSubmitButton';
+import ExistingCollection from '../ExistingCollection/ExistingCollection';
+import Collection from '../../types/Collection';
 
 interface CollectionsModalProps {
   isModalOpen: boolean;
@@ -28,7 +31,10 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
   const [isCreatingNewCollection, setIsCreatingNewCollection] =
     useState<boolean>(false);
   const [collectionName, setCollectionName] = useState<string>('');
+  const [collections, setCollections] = useState<Collection[]>([]);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -46,6 +52,8 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
     e: React.FormEvent,
   ): Promise<void> => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     if (projectId) {
       formData.append('projectId', projectId);
@@ -53,7 +61,7 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
 
     const requestBody = {
       projectId: projectId,
-      private: isPrivate,
+      isPrivate: isPrivate,
       collectionName,
     };
 
@@ -67,7 +75,50 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
         Authorization: `Bearer ${user.token}`,
       },
     });
+
+    const collectionsJson = await newCollectionResponse.json();
+
+    if (!newCollectionResponse.ok) {
+      setIsLoading(false);
+      setError(collectionsJson.error);
+    }
+
+    if (newCollectionResponse.ok) {
+      setIsLoading(false);
+      setIsModalOpen(false);
+    }
   };
+
+  useEffect(() => {
+    const fetchCollections = async (): Promise<void> => {
+      setError(null);
+      setIsLoading(true);
+      const fetchCollectionsResponse = await fetch(
+        `${API_BASE_URL}/collections/$${user.userId}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
+      );
+
+      const userCollectionsJson = await fetchCollectionsResponse.json();
+
+      if (!fetchCollectionsResponse.ok) {
+        setError(userCollectionsJson.error);
+        setIsLoading(false);
+      }
+
+      if (fetchCollectionsResponse.ok) {
+        setIsLoading(false);
+        setCollections(userCollectionsJson);
+        console.log(userCollectionsJson);
+      }
+    };
+
+    fetchCollections();
+  }, [user.token, user.userId]);
 
   return (
     <>
@@ -84,13 +135,21 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
             </button>
           </div>
           <div className={styles['existing-collections']}>
-            <div className={styles.collection}>
-              <div className={styles['collection-header']}>
-                <h4>Existing Collection</h4>
-                <p>1 project</p>
-              </div>
-              <button className={styles['save-button']}>Save</button>
-            </div>
+            {collections.length > 0 ? (
+              <>
+                {collections?.map((collection) => (
+                  <ExistingCollection
+                    title={collection.title}
+                    numberOfProjects={collection.projects.length}
+                    key={collection._id}
+                  />
+                ))}
+              </>
+            ) : (
+              <p className={styles['no-collections-message']}>
+                You don't have any collections yet
+              </p>
+            )}
           </div>
           <div className={styles['new-collection']}>
             {isCreatingNewCollection ? (
@@ -107,6 +166,11 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
                   value={collectionName}
                   placeholder="Enter collection name"
                   onChange={(e) => setCollectionName(e.target.value)}
+                  clientError={
+                    error?.message === 'Missing name'
+                      ? 'Please enter a name for your collection'
+                      : ''
+                  }
                 />
                 <div className={styles['form-buttons']}>
                   <CheckboxInput
@@ -117,9 +181,12 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
                     isChecked={isPrivate}
                     setIsChecked={setIsPrivate}
                   />
-                  <button className={styles['new-collection-button']}>
-                    <span>{saveIcon}</span>Save collection
-                  </button>
+                  <SaveSubmitButton
+                    icon={saveIcon}
+                    label="Create collection"
+                    isLoading={isLoading}
+                    color="blue"
+                  />
                 </div>
               </form>
             ) : (

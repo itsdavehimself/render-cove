@@ -45,7 +45,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: fit-content;
-  width: fit-content;
+  width: 36rem;
   background-color: variables.$primary-alt;
   border-radius: 0.25rem;
   padding: 2rem 2rem;
@@ -90,45 +90,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.collection {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 30rem;
-}
-
-.collection-header {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-
-  h4 {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  p {
-    font: 0.8rem;
-    font-weight: 300;
-    font-style: italic;
-    color: variables.$secondary-darker;
-  }
-}
-
-.save-button {
-  @include button-styles();
-  border: 1px solid variables.$secondary-darker;
-  background-color: transparent;
-  color: variables.$secondary-darker;
-}
-
-.save-button:hover {
-  @include button-styles-hover();
-  color: variables.$secondary-color;
-  border: 1px solid variables.$secondary-color;
-  background-color: variables.$primary-tertiary;
+  background-color: variables.$primary-color;
+  border-radius: 0.25rem;
+  border: 1px solid variables.$primary-light;
+  padding: 2rem;
+  row-gap: 2rem;
+  height: 18rem;
+  overflow-y: scroll;
 }
 
 .new-collection {
@@ -156,4 +125,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.no-collections-message {
+  color: variables.$secondary-darker;
 }
