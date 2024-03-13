@@ -1,0 +1,160 @@
+@use 'variables';
+
+@mixin button-styles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-width: 6rem;
+  min-height: 2.5rem;
+  border-radius: 3px;
+  transition: all 0.2s ease-in-out;
+}
+
+@mixin button-styles-hover {
+  cursor: pointer;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba($color: #000000, $alpha: 0.7);
+  z-index: 1000;
+}
+
+.modal-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 2000;
+}
+
+.bookmark-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: fit-content;
+  width: fit-content;
+  background-color: variables.$primary-alt;
+  border-radius: 0.25rem;
+  padding: 3rem 3rem 2rem;
+  font-size: 0.9rem;
+  row-gap: 2rem;
+}
+
+.cancel {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.cancel-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  padding: 1.5rem;
+  background-color: transparent;
+  color: variables.$secondary-darker;
+  font-size: 1.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.cancel-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
+.existing-collections {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.collection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 30rem;
+}
+
+.collection-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  p {
+    font: 0.8rem;
+    font-weight: 300;
+    font-style: italic;
+    color: variables.$secondary-darker;
+  }
+}
+
+.save-button {
+  @include button-styles();
+  border: 1px solid variables.$secondary-darker;
+  background-color: transparent;
+  color: variables.$secondary-darker;
+}
+
+.save-button:hover {
+  @include button-styles-hover();
+  color: variables.$secondary-color;
+  border: 1px solid variables.$secondary-color;
+}
+
+.new-collection {
+  display: flex;
+  justify-content: center;
+}
+
+.new-collection-button {
+  @include button-styles();
+  background-color: variables.$accent-color;
+}
+
+.new-collection-button:hover {
+  @include button-styles-hover();
+  background-color: variables.$accent-tertiary;
+}
+
+.new-collection-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
