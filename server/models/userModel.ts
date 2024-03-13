@@ -107,6 +107,7 @@ const userSchema = new Schema<UserDocument>(
     following: [{ type: String }],
     followers: [{ type: String }],
     projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
+    collections: [{ type: Schema.Types.ObjectId, ref: 'Collection' }],
     likes: [
       {
         projectId: { type: Schema.Types.ObjectId, ref: 'Project' },

@@ -25,6 +25,7 @@ interface UserDocument {
   following: string[];
   followers: string[];
   projects: Types.ObjectId[];
+  collections: Types.ObjectId[];
   likes: UserLike[];
 }
 
