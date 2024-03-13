@@ -9,6 +9,7 @@ import { userInfoReducer } from '../reducers/userInfoReducer';
 import { useParams } from 'react-router-dom';
 import { SocialEntry } from './AuthContext';
 import { UserInfoAction } from '../types/UserInfoActionTypes';
+import { Like } from '../types/Project';
 
 interface UserInfoType {
   email: string;
@@ -28,7 +29,7 @@ interface UserInfoType {
   following: string[];
   followers: string[];
   _id: string;
-  projects: string[];
+  projects: [{ projectId: string; likes: Like[] }];
 }
 
 interface UserInfoContextType {
