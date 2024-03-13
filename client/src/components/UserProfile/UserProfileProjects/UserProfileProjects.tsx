@@ -19,23 +19,23 @@ const UserProfileProjects: React.FC = () => {
               <React.Fragment key={project._id}>
                 {user?.userId === userInfo?._id ? (
                   <ProjectCard
-                    title={project.title}
-                    author={userInfo.username}
-                    imageUrl={project.images[0].url}
-                    avatarUrl={userInfo.avatarUrl}
-                    projectId={project._id}
-                    published={project.published}
+                    title={project?.title}
+                    author={userInfo?.username}
+                    imageUrl={project?.images[0].url}
+                    avatarUrl={userInfo?.avatarUrl}
+                    projectId={project?._id}
+                    published={project?.published}
                   />
                 ) : (
                   <>
                     {project.published === true && (
                       <ProjectCard
-                        title={project.title}
-                        author={userInfo.username}
-                        imageUrl={project.images[0].url}
-                        avatarUrl={userInfo.avatarUrl}
-                        projectId={project._id}
-                        published={project.published}
+                        title={project?.title}
+                        author={userInfo?.username}
+                        imageUrl={project?.images[0].url}
+                        avatarUrl={userInfo?.avatarUrl}
+                        projectId={project?._id}
+                        published={project?.published}
                       />
                     )}
                   </>
