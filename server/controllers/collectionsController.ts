@@ -64,13 +64,13 @@ const createCollection = async (req: AuthRequest, res: Response) => {
 };
 
 const getCollections = async (req: AuthRequest, res: Response) => {
-  const userId = req.user?._id;
+  const { userId } = req.params;
 
   try {
     const allCollections: CollectionDocument[] | null = await Collection.find({
       creator: userId,
     }).sort({
-      createdAt: -1,
+      updatedAt: -1,
     });
 
     res.status(200).json(allCollections);
