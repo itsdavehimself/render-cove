@@ -50,10 +50,10 @@ const ProjectPage: React.FC = () => {
   }, [projectId]);
 
   useEffect(() => {
-    if (user && artist) {
+    if (artist) {
       setIsLoading(false);
     }
-  }, [user, artist]);
+  }, [artist]);
 
   return (
     <>
