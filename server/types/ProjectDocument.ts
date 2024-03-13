@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 import Image from './Image';
 import Comment from './Comment';
 import Hardware from './Hardware';
@@ -22,7 +22,7 @@ interface ProjectDocument {
   published: Boolean;
   createdAt: Date;
   updatedAt: Date;
-  _id: string;
+  _id: Types.ObjectId;
 }
 
 export default ProjectDocument;
