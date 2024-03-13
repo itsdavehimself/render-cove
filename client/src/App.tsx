@@ -88,7 +88,10 @@ function App() {
                     user ? <EditProjectForm /> : <Navigate to="/login" />
                   }
                 />
-                <Route path="/:username/likes" element={<UserLikes />} />
+                <Route
+                  path="/:username/likes"
+                  element={user ? <UserLikes /> : <Navigate to="/login" />}
+                />
               </Route>
             </Routes>
           </>
