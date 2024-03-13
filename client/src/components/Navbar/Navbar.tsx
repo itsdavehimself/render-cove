@@ -195,7 +195,8 @@ const Navbar: React.FC = () => {
                       {
                         icon: myCollectionsIcon,
                         label: 'My Collections',
-                        onClick: () => navigate(`/user/${user.username}`),
+                        onClick: () =>
+                          navigate(`/${user.username}/collections`),
                       },
                       {
                         icon: myLikesIcon,
