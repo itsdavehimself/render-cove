@@ -11,7 +11,7 @@ import { SocialEntry } from './AuthContext';
 import { UserInfoAction } from '../types/UserInfoActionTypes';
 import { Like } from '../types/Project';
 
-interface UserInfoType {
+export interface UserInfoType {
   email: string;
   username: string;
   displayName: string;
