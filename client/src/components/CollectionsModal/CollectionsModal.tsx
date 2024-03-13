@@ -74,16 +74,14 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
       <div className={styles['modal-overlay']}></div>
       <div className={styles['modal-container']}>
         <div className={styles['bookmark-modal']}>
-          <div className={styles.cancel}>
+          <div className={styles.header}>
+            <h3>Save project to collection</h3>
             <button
               className={styles['cancel-button']}
               onClick={() => setIsModalOpen(false)}
             >
               {cancelIcon}
             </button>
-          </div>
-          <div className={styles.header}>
-            <h3>Save project to collection</h3>
           </div>
           <div className={styles['existing-collections']}>
             <div className={styles.collection}>

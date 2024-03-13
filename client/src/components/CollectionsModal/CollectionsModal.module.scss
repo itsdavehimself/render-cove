@@ -41,7 +41,6 @@
 }
 
 .bookmark-modal {
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -49,15 +48,9 @@
   width: fit-content;
   background-color: variables.$primary-alt;
   border-radius: 0.25rem;
-  padding: 3rem 3rem 2rem;
+  padding: 2rem 2rem;
   font-size: 0.9rem;
   row-gap: 2rem;
-}
-
-.cancel {
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 
 .cancel-button {
@@ -66,7 +59,6 @@
   align-items: center;
   height: 2rem;
   width: 2rem;
-  padding: 1.5rem;
   background-color: transparent;
   color: variables.$secondary-darker;
   font-size: 1.25rem;
@@ -81,10 +73,16 @@
 
 .header {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid variables.$primary-tertiary;
+
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: variables.$secondary-color;
   }
 }
 
@@ -130,6 +128,7 @@
   @include button-styles-hover();
   color: variables.$secondary-color;
   border: 1px solid variables.$secondary-color;
+  background-color: variables.$primary-tertiary;
 }
 
 .new-collection {
