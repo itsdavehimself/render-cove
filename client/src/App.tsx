@@ -15,6 +15,7 @@ import UserProfileProjects from './components/UserProfile/UserProfileProjects/Us
 import ProjectPage from './containers/ProjectPage/ProjectPage';
 import EditProjectForm from './containers/EditProjectForm/EditProjectForm';
 import { ProjectContextProvider } from './context/ProjectContext';
+import UserLikes from './containers/UserLikes/UserLikes';
 
 function App() {
   const { user } = useAuthContext();
@@ -72,7 +73,7 @@ function App() {
                   />
                 </Route>
                 <Route
-                  path="project/:projectId"
+                  path="/project/:projectId"
                   element={
                     <>
                       <ProjectContextProvider>
@@ -82,11 +83,12 @@ function App() {
                   }
                 ></Route>
                 <Route
-                  path="project/edit/:projectId"
+                  path="/project/edit/:projectId"
                   element={
                     user ? <EditProjectForm /> : <Navigate to="/login" />
                   }
                 />
+                <Route path="/:username/likes" element={<UserLikes />} />
               </Route>
             </Routes>
           </>
