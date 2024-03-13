@@ -262,11 +262,15 @@ const UserProfileSidebar: React.FC = () => {
         <div className={styles['user-stats-container']}>
           <div className={styles['user-stats']}>
             <p className={styles['user-stats-number']}>{likes}</p>
-            <p className={styles['user-stats-label']}>LIKES</p>
+            <p className={styles['user-stats-label']}>
+              {likes === 1 ? 'LIKE' : 'LIKES'}
+            </p>
           </div>
           <div className={styles['user-stats']}>
             <p className={styles['user-stats-number']}>{followers}</p>
-            <p className={styles['user-stats-label']}>FOLLOWERS</p>
+            <p className={styles['user-stats-label']}>
+              {followers === 1 ? 'FOLLOWER' : 'FOLLOWERS'}
+            </p>
           </div>
           <div className={styles['user-stats']}>
             <p className={styles['user-stats-number']}>{following}</p>
