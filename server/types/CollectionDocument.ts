@@ -5,6 +5,7 @@ interface CollectionDocument {
   creator: Types.ObjectId;
   projects: Types.ObjectId[];
   createdAt: Date;
+  updatedAt: Date;
   private: boolean;
   _id: Types.ObjectId;
 }
