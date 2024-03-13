@@ -1,8 +1,4 @@
 import { Request, Response } from 'express';
-import { Types } from 'mongoose';
-import { UserDocument } from '../types/UserInterfaces.js';
-import ProjectDocument from '../types/ProjectDocument.js';
-import Project from '../models/projectModel.js';
 import User from '../models/userModel.js';
 
 interface AuthRequest extends Request {
