@@ -5,7 +5,8 @@ interface CollectionDocument {
   creator: Types.ObjectId;
   projects: Types.ObjectId[];
   createdAt: Date;
-  public: boolean;
+  private: boolean;
+  _id: Types.ObjectId;
 }
 
 export default CollectionDocument;
