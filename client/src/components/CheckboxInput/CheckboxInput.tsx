@@ -10,7 +10,8 @@ interface CheckboxInputProps {
   name: string;
   id: string;
   isChecked: boolean;
-  setSectionCheckedBoxes: React.Dispatch<React.SetStateAction<string[]>>;
+  setIsChecked?: React.Dispatch<React.SetStateAction<boolean>>;
+  setSectionCheckedBoxes?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const CheckboxInput: React.FC<CheckboxInputProps> = ({
@@ -21,18 +22,25 @@ const CheckboxInput: React.FC<CheckboxInputProps> = ({
   name,
   id,
   isChecked,
+  setIsChecked,
   setSectionCheckedBoxes,
 }) => {
   const checkIcon: React.ReactNode = <FontAwesomeIcon icon={faCheck} />;
 
   const handleCheckboxChange = () => {
-    setSectionCheckedBoxes((prevCheckedBoxes) => {
-      if (prevCheckedBoxes.includes(id)) {
-        return prevCheckedBoxes.filter((checkbox) => checkbox !== id);
-      } else {
-        return [...prevCheckedBoxes, id];
+    if (setSectionCheckedBoxes) {
+      setSectionCheckedBoxes((prevCheckedBoxes) => {
+        if (prevCheckedBoxes.includes(id)) {
+          return prevCheckedBoxes.filter((checkbox) => checkbox !== id);
+        } else {
+          return [...prevCheckedBoxes, id];
+        }
+      });
+    } else {
+      if (setIsChecked) {
+        setIsChecked(!isChecked);
       }
-    });
+    }
   };
 
   return (
