@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
-import { UserDocument } from '../types/UserInterfaces.js';
+import { UserDocument } from '../types/UserDocument.js';
 
 const jwtSecret: string = process.env.JWT_SECRET || '';
 

@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
-import { UserDocument, UserModel } from '../types/UserInterfaces.js';
+import { UserDocument, UserModel } from '../types/UserDocument.js';
 
 const allowedSocialMedia = [
   'facebook',

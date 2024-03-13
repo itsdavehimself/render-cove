@@ -16,7 +16,7 @@ import {
 import User from '../models/userModel.js';
 import Image from '../types/Image.js';
 import { ramValue } from '../utility/value.utility.js';
-import { UserDocument } from '../types/UserInterfaces.js';
+import { UserDocument } from '../types/UserDocument.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };

@@ -1,5 +1,5 @@
 import User from '../models/userModel.js';
-import { UserDocument } from '../types/UserInterfaces';
+import { UserDocument } from '../types/UserDocument.js';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import { uploadImagesToS3 } from '../utility/s3Utils.js';
