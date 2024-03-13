@@ -31,9 +31,13 @@ const getUser = async (req: Request, res: Response) => {
     let user: UserDocument | null;
 
     if (Types.ObjectId.isValid(identifier)) {
-      user = await User.findById(identifier);
+      user = await User.findById(identifier)
+        .populate({ path: 'projects', select: '_id likes' })
+        .exec();
     } else {
-      user = await User.findOne({ username: identifier });
+      user = await User.findOne({ username: identifier })
+        .populate({ path: 'projects', select: '_id likes' })
+        .exec();
     }
 
     if (!user) {
