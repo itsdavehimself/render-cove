@@ -17,7 +17,7 @@ const UserProfileProjects: React.FC = () => {
           <>
             {allProjects.map((project) => (
               <React.Fragment key={project._id}>
-                {user.userId === userInfo._id ? (
+                {user?.userId === userInfo?._id ? (
                   <ProjectCard
                     title={project.title}
                     author={userInfo.username}
