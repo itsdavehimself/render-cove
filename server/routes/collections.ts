@@ -12,6 +12,6 @@ collectionsRouter.get('/likes', requireAuth, getAllUserLikes);
 
 collectionsRouter.post('/', requireAuth, createCollection);
 
-collectionsRouter.get('/:userId', requireAuth, getCollections);
+collectionsRouter.get('/:userId', getCollections);
 
 export default collectionsRouter;
