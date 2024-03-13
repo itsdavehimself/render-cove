@@ -231,6 +231,16 @@ const deleteProject = async (req: AuthRequest, res: Response) => {
       { new: true }
     );
 
+    const usersWithLikes = await User.find({ 'likes.projectId': id });
+
+    await Promise.all(
+      usersWithLikes.map(async (user) => {
+        await User.findByIdAndUpdate(user._id, {
+          $pull: { likes: { projectId: id } },
+        });
+      })
+    );
+
     res.status(200).json(project);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
