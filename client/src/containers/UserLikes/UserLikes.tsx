@@ -3,6 +3,8 @@ import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { Image } from '../../types/Project';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -26,8 +28,14 @@ const UserLikes: React.FC = () => {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [likedProjects, setLikedProjects] = useState<LikedProjects[]>([]);
+  const { username } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (username !== user.username) {
+      navigate(`/${user.username}/likes`);
+    }
+
     const fetchProjects = async (): Promise<void> => {
       setError(null);
       const projectsReponse = await fetch(`${API_BASE_URL}/collections/likes`, {
@@ -51,7 +59,7 @@ const UserLikes: React.FC = () => {
     };
 
     fetchProjects();
-  }, [user.token]);
+  }, [user.token, navigate, user.username, username]);
 
   return (
     <main className={styles['likes-container']}>
