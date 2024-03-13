@@ -41,6 +41,10 @@
   transition: all 0.2s ease-in-out;
 }
 
+.bookmark:hover {
+  color: variables.$yellow-color;
+}
+
 .social-button.liked {
   color: variables.$accent-color;
   border: 1px solid variables.$primary-lighter;

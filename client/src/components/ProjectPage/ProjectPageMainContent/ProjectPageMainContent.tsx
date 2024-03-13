@@ -27,6 +27,7 @@ import { Content } from '@tiptap/react';
 import { GenerationData } from '../../../types/Project';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useProjectContext } from '../../../hooks/useProjectContext';
+import CollectionsModal from '../../CollectionsModal/CollectionsModal';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -52,6 +53,8 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
   );
   const [editorInitialized, setEditorInitialized] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [isCollectionsModalOpen, setIsCollectionsModalOpen] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const htmlContent =
@@ -126,6 +129,10 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
     }
   };
 
+  const handleBookmarkClick = (): void => {
+    setIsCollectionsModalOpen(true);
+  };
+
   useEffect(() => {
     if (project && user) {
       setIsLiked(project.likes.some((like) => like.userId === user.userId));
@@ -134,6 +141,12 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
 
   return (
     <main className={styles['main-container']}>
+      {isCollectionsModalOpen && (
+        <CollectionsModal
+          isModalOpen={isCollectionsModalOpen}
+          setIsModalOpen={setIsCollectionsModalOpen}
+        />
+      )}
       <div className={styles['button-container']}>
         <button
           className={`${styles['social-button']} ${isLiked ? styles.liked : ''}`}
@@ -141,7 +154,12 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
         >
           {likeIcon}
         </button>
-        <button className={styles['social-button']}>{bookmarkIcon}</button>
+        <button
+          className={`${styles['social-button']} ${styles.bookmark}`}
+          onClick={handleBookmarkClick}
+        >
+          {bookmarkIcon}
+        </button>
         <button className={styles['social-button']}>{shareIcon}</button>
       </div>
       {project && (
