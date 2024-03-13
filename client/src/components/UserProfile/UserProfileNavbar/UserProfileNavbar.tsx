@@ -11,10 +11,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useAllProjectsContext } from '../../../hooks/useAllProjectsContext';
-import UserInfo from '../../../types/UserInfo';
+import { UserInfoType } from '../../../context/UserInfoContext';
 
 interface UserProfileNavbarProps {
-  userInfo: UserInfo;
+  userInfo: UserInfoType;
 }
 
 enum Views {
