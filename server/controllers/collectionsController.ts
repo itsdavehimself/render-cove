@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import User from '../models/userModel.js';
 import CollectionDocument from '../types/CollectionDocument.js';
 import Collection from '../models/collectionModel.js';
-import mongoose from 'mongoose';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
