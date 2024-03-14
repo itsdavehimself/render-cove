@@ -34,7 +34,6 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
   const [collections, setCollections] = useState<Collection[]>([]);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isLoadingExisting, setIsLoadingExisting] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
@@ -117,49 +116,6 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
     fetchCollections();
   }, []);
 
-  const handleToggleInCollection = async (
-    collectionId: string,
-  ): Promise<void> => {
-    setIsLoadingExisting(true);
-    const toggleCollectionResponse = await fetch(
-      `${API_BASE_URL}/collections/${collectionId}`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({ projectId: projectId }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-      },
-    );
-
-    const toggleJson = await toggleCollectionResponse.json();
-
-    if (!toggleCollectionResponse.ok) {
-      setError(error);
-      setIsLoadingExisting(false);
-    }
-
-    if (toggleCollectionResponse.ok) {
-      setIsLoadingExisting(false);
-
-      const index = collections.findIndex(
-        (item) => item._id === toggleJson._id,
-      );
-
-      if (index !== -1) {
-        const updatedCollections = collections.map((item, idx) => {
-          if (idx === index) {
-            return toggleJson;
-          }
-          return item;
-        });
-
-        setCollections(updatedCollections);
-      }
-    }
-  };
-
   return (
     <>
       <div className={styles['modal-overlay']}></div>
@@ -181,14 +137,15 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
                   <ExistingCollection
                     title={collection.title}
                     numberOfProjects={collection.projects.length}
+                    collectionId={collection._id}
                     key={collection._id}
-                    saveToCollection={() =>
-                      handleToggleInCollection(collection._id)
-                    }
                     isSaved={collection.projects.some(
                       (project) => project._id === projectId,
                     )}
-                    isLoading={isLoadingExisting}
+                    collections={collections}
+                    setCollections={setCollections}
+                    projectId={projectId}
+                    user={user}
                   />
                 ))}
               </>
