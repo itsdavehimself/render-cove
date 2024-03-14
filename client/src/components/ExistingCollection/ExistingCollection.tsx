@@ -3,11 +3,17 @@ import styles from './ExistingCollection.module.scss';
 interface ExistingCollectionProps {
   title: string;
   numberOfProjects: number;
+  saveToCollection: () => Promise<void>;
+  isSaved: boolean;
+  isLoading: boolean;
 }
 
 const ExistingCollection: React.FC<ExistingCollectionProps> = ({
   title,
   numberOfProjects,
+  saveToCollection,
+  isSaved,
+  isLoading,
 }) => {
   return (
     <div className={styles.collection}>
@@ -17,7 +23,16 @@ const ExistingCollection: React.FC<ExistingCollectionProps> = ({
           {numberOfProjects} {numberOfProjects === 1 ? 'Project' : 'Projects'}
         </p>
       </div>
-      <button className={styles['save-button']}>Save</button>
+      <button
+        className={`${styles['save-button']} ${isSaved ? styles.saved : ''}`}
+        onClick={saveToCollection}
+      >
+        {isLoading ? (
+          <span className={styles['loader-spinner']}></span>
+        ) : (
+          <> {isSaved ? 'Saved' : 'Save'}</>
+        )}
+      </button>
     </div>
   );
 };
