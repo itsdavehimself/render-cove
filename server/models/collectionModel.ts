@@ -5,7 +5,7 @@ const collectionSchema = new Schema<CollectionDocument>(
   {
     title: { type: String, required: true },
     creator: { type: Schema.Types.ObjectId, ref: 'User' },
-    projects: [{ type: Schema.Types.ObjectId, ref: 'Projects' }],
+    projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
     private: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
