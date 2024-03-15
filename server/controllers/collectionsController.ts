@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/userModel.js';
 import CollectionDocument from '../types/CollectionDocument.js';
 import Collection from '../models/collectionModel.js';
-import mongoose, { Types, ObjectId } from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import { UserDocument } from '../types/UserDocument.js';
 
 interface AuthRequest extends Request {
@@ -20,7 +20,7 @@ const getAllUserLikes = async (req: AuthRequest, res: Response) => {
         match: { published: true },
         populate: {
           path: 'author',
-          select: 'avatarUrl username',
+          select: 'avatarUrl username displayName',
         },
       })
       .exec();
@@ -64,7 +64,7 @@ const createCollection = async (req: AuthRequest, res: Response) => {
   }
 };
 
-const getCollections = async (req: AuthRequest, res: Response) => {
+const getCollections = async (req: Request, res: Response) => {
   const { identifier } = req.params;
 
   try {
@@ -89,7 +89,7 @@ const getCollections = async (req: AuthRequest, res: Response) => {
         match: { published: true },
         populate: {
           path: 'author',
-          select: 'avatarUrl username',
+          select: 'avatarUrl username displayName',
         },
       })
       .exec();
@@ -128,7 +128,7 @@ const toggleInCollection = async (req: AuthRequest, res: Response) => {
         match: { published: true },
         populate: {
           path: 'author',
-          select: 'avatarUrl username',
+          select: 'avatarUrl username displayName',
         },
       });
       res.status(200).json(populatedCollection);
@@ -143,7 +143,7 @@ const toggleInCollection = async (req: AuthRequest, res: Response) => {
         match: { published: true },
         populate: {
           path: 'author',
-          select: 'avatarUrl username',
+          select: 'avatarUrl username displayName',
         },
       });
       res.status(200).json(populatedCollection);
@@ -176,7 +176,7 @@ const deleteCollection = async (req: AuthRequest, res: Response) => {
         match: { published: true },
         populate: {
           path: 'author',
-          select: 'avatarUrl username',
+          select: 'avatarUrl username displayName',
         },
       })
       .exec();
@@ -211,13 +211,45 @@ const updateCollection = async (req: AuthRequest, res: Response) => {
         match: { published: true },
         populate: {
           path: 'author',
-          select: 'avatarUrl username',
+          select: 'avatarUrl username displayName',
         },
       })
       .exec();
     res.status(200).json(allCollections);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+const getSingleCollection = async (req: Request, res: Response) => {
+  const { collectionId } = req.params;
+
+  if (!Types.ObjectId.isValid(collectionId)) {
+    return res.status(400).json({ message: 'Invalid collection ID.' });
+  }
+
+  try {
+    const collection: CollectionDocument | null = await Collection.findById(
+      collectionId
+    )
+      .populate({
+        path: 'projects',
+        select: 'images title _id',
+        match: { published: true },
+        populate: {
+          path: 'author',
+          select: 'avatarUrl username displayName',
+        },
+      })
+      .exec();
+
+    if (!collection) {
+      res.status(404).json({ message: 'Collection not found.' });
+    }
+
+    res.status(200).json(collection);
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -228,4 +260,5 @@ export {
   toggleInCollection,
   deleteCollection,
   updateCollection,
+  getSingleCollection,
 };

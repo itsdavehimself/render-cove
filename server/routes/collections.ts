@@ -6,6 +6,7 @@ import {
   toggleInCollection,
   deleteCollection,
   updateCollection,
+  getSingleCollection,
 } from '../controllers/collectionsController.js';
 import requireAuth from '../middleware/requireAuth.js';
 
@@ -20,6 +21,8 @@ collectionsRouter.get('/:identifier', getCollections);
 collectionsRouter.patch('/:collectionId', requireAuth, toggleInCollection);
 
 collectionsRouter.delete('/:collectionId', requireAuth, deleteCollection);
+
+collectionsRouter.get('/single/:collectionId', getSingleCollection);
 
 collectionsRouter.patch('/update/:collectionId', requireAuth, updateCollection);
 
