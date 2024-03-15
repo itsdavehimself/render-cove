@@ -11,7 +11,7 @@ import { AllProjectsAction } from '../types/AllProjectsActionTypes';
 import { allProjectsReducer } from '../reducers/allProjectsReducer';
 
 interface AllProjectsContextType {
-  dispatshAllProjects: Dispatch<AllProjectsAction>;
+  dispatchAllProjects: Dispatch<AllProjectsAction>;
   allProjects: Project[];
 }
 
