@@ -1,0 +1,27 @@
+@use 'variables';
+
+.latest-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4rem;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+
+.section-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.alert-container {
+  position: absolute;
+  right: 21rem;
+  bottom: 5rem;
+}
