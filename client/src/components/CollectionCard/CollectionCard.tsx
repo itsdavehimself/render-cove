@@ -111,7 +111,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
             <div className={styles['private']}>{privateIcon} Private</div>
           )}
         </div>
-        {user.userId === creator && (
+        {user?.userId === creator && (
           <>
             <button
               className={styles['options-button']}
@@ -124,6 +124,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
       </div>
       <div className={styles.info}>
         <div className={styles['collection-info']}>
+          <p className={styles.label}>COLLECTION</p>
           <h4 className={styles.title}>{title}</h4>
         </div>
       </div>
