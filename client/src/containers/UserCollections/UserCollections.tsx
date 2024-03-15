@@ -4,21 +4,21 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import CollectionCard from '../../components/CollectionCard/CollectionCard';
-import Collection from '../../types/Collection';
 import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import EditCollectionModal from '../../components/EditCollectionModal/EditCollectionModal';
+import { useCollectionsContext } from '../../hooks/useCollectionsContext';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
 const UserLikes: React.FC = () => {
   const { user } = useAuthContext();
+  const { collections } = useCollectionsContext();
   const { username } = useParams();
   const navigate = useNavigate();
 
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [collections, setCollections] = useState<Collection[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [collectionToDelete, setCollectionToDelete] = useState<string>('');
@@ -27,33 +27,6 @@ const UserLikes: React.FC = () => {
     if (username !== user.username) {
       navigate(`/${user.username}/collections`);
     }
-
-    const fetchCollections = async (): Promise<void> => {
-      setError(null);
-      const collectionsResponse = await fetch(
-        `${API_BASE_URL}/collections/${user.userId}`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        },
-      );
-
-      const collectionsJson = await collectionsResponse.json();
-
-      if (!collectionsResponse.ok) {
-        setIsLoading(false);
-        setError(collectionsJson.error);
-      }
-
-      if (collectionsResponse.ok) {
-        setIsLoading(false);
-        setCollections(collectionsJson);
-      }
-    };
-
-    fetchCollections();
   }, [user]);
 
   const handleDeleteCollection = async (): Promise<void> => {
@@ -95,34 +68,30 @@ const UserLikes: React.FC = () => {
         <h1>Collections</h1>
         <p>See all of your collections here</p>
       </div>
-      {isLoading ? (
-        <div>Loading</div>
-      ) : (
-        <>
-          {error ? (
-            <div>
-              There was an error loading the posts. Please try again in a little
-              bit.
-            </div>
-          ) : (
-            <section className={styles['collection-cards']}>
-              {collections?.map((collection) => (
-                <CollectionCard
-                  title={collection.title}
-                  creator={collection.creator}
-                  collectionId={collection._id}
-                  isPrivate={collection.private}
-                  imageUrl={collection.projects[0]?.images[0]?.url}
-                  key={collection._id}
-                  setIsDeleteModalOpen={setIsDeleteModalOpen}
-                  setIsEditModalOpen={setIsEditModalOpen}
-                  setCollectionToDelete={setCollectionToDelete}
-                />
-              ))}
-            </section>
-          )}
-        </>
-      )}
+      <>
+        {error ? (
+          <div>
+            There was an error loading the posts. Please try again in a little
+            bit.
+          </div>
+        ) : (
+          <section className={styles['collection-cards']}>
+            {collections?.map((collection) => (
+              <CollectionCard
+                title={collection.title}
+                creator={collection.creator}
+                collectionId={collection._id}
+                isPrivate={collection.private}
+                imageUrl={collection.projects[0]?.images[0]?.url}
+                key={collection._id}
+                setIsDeleteModalOpen={setIsDeleteModalOpen}
+                setIsEditModalOpen={setIsEditModalOpen}
+                setCollectionToDelete={setCollectionToDelete}
+              />
+            ))}
+          </section>
+        )}
+      </>
     </main>
   );
 };
