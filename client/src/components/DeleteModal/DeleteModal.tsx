@@ -32,7 +32,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
     <>
       <div className={styles['modal-overlay']}></div>
       <div className={styles['modal-container']}>
-        <div className={styles['delete-project-modal']}>
+        <div className={styles['delete-modal']}>
           <div className={styles['modal-text']}>
             <h4>Are you sure you want to delete this {type}?</h4>
             <p>
