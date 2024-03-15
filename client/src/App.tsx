@@ -18,6 +18,7 @@ import { ProjectContextProvider } from './context/ProjectContext';
 import UserLikes from './containers/UserLikes/UserLikes';
 import UserCollections from './containers/UserCollections/UserCollections';
 import { CollectionsContextProvider } from './context/CollectionsContext';
+import UserProfileCollections from './components/UserProfile/UserProfileCollections/UserProfileCollections';
 
 function App() {
   const { user } = useAuthContext();
@@ -71,7 +72,7 @@ function App() {
                   />
                   <Route
                     path="/user/:username/collections"
-                    element={<UserProfileProjects />}
+                    element={<UserProfileCollections />}
                   />
                 </Route>
                 <Route
