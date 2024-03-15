@@ -3,15 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBolt,
   faImage,
-  faFlask,
+  // faFlask,
   faBookmark,
-  faBookOpen,
+  // faBookOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useAllProjectsContext } from '../../../hooks/useAllProjectsContext';
 import { UserInfoType } from '../../../context/UserInfoContext';
+import { useCollectionsContext } from '../../../hooks/useCollectionsContext';
 
 interface UserProfileNavbarProps {
   userInfo: UserInfoType;
@@ -30,16 +31,17 @@ const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({ userInfo }) => {
   const location = useLocation();
   const { user } = useAuthContext();
   const { allProjects } = useAllProjectsContext();
+  const { collections } = useCollectionsContext();
 
   const [currentView, setCurrentView] = useState<Views>(Views.Latest);
 
   const latestIcon: React.ReactNode = <FontAwesomeIcon icon={faBolt} />;
   const projectsIcon: React.ReactNode = <FontAwesomeIcon icon={faImage} />;
-  const caseStudyIcon: React.ReactNode = <FontAwesomeIcon icon={faFlask} />;
+  // const caseStudyIcon: React.ReactNode = <FontAwesomeIcon icon={faFlask} />;
   const collectionsIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faBookmark} />
   );
-  const tutorialsIcon: React.ReactNode = <FontAwesomeIcon icon={faBookOpen} />;
+  // const tutorialsIcon: React.ReactNode = <FontAwesomeIcon icon={faBookOpen} />;
 
   const baseUrlParams: string = `/user/${userInfo?.username}`;
 
@@ -91,7 +93,7 @@ const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({ userInfo }) => {
             : allProjects?.filter((project) => project?.published).length}
         </div>
       </div>
-      <div
+      {/* <div
         className={`${styles['user-nav-item']} ${currentView === Views.CaseStudies ? styles['current-item'] : ''}`}
         onClick={() => navigate(`${baseUrlParams}/case-studies`)}
       >
@@ -105,14 +107,19 @@ const UserProfileNavbar: React.FC<UserProfileNavbarProps> = ({ userInfo }) => {
       >
         <div className={styles['user-nav-icon']}>{tutorialsIcon}</div>Tutorials
         <div className={styles['user-nav-number']}>0</div>
-      </div>
+      </div> */}
       <div
         className={`${styles['user-nav-item']} ${currentView === Views.Collections ? styles['current-item'] : ''}`}
         onClick={() => navigate(`${baseUrlParams}/collections`)}
       >
         <div className={styles['user-nav-icon']}>{collectionsIcon}</div>
         Collections
-        <div className={styles['user-nav-number']}>0</div>
+        <div className={styles['user-nav-number']}>
+          {user?.userId === userInfo?._id
+            ? collections?.length
+            : collections?.filter((collection) => collection?.private === false)
+                .length}
+        </div>
       </div>
     </nav>
   );
