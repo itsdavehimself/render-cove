@@ -13,7 +13,8 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 
 interface ProjectCardProps {
   title: string;
-  author: string;
+  authorDisplayName: string;
+  authorUsername: string;
   imageUrl: string;
   avatarUrl: string;
   projectId: string;
@@ -22,7 +23,8 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
-  author,
+  authorDisplayName,
+  authorUsername,
   imageUrl,
   avatarUrl,
   projectId,
@@ -73,11 +75,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <PopOutMenu
             buttons={[
               {
-                icon: user?.username === author ? editIcon : reportIcon,
+                icon: user?.username === authorUsername ? editIcon : reportIcon,
                 label:
-                  user?.username === author ? 'Edit Project' : 'Report Project',
+                  user?.username === authorUsername
+                    ? 'Edit Project'
+                    : 'Report Project',
                 onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
-                  user?.username === author
+                  user?.username === authorUsername
                     ? handleEditProjectClick(e)
                     : reportProjectClick(e),
               },
@@ -108,7 +112,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
         <div className={styles['project-info']}>
           <h4 className={styles.title}>{title}</h4>
-          <h5 className={styles.author}>{author}</h5>
+          <h5 className={styles.author}>{authorDisplayName}</h5>
         </div>
       </div>
       <div className={styles['card-overlay']}></div>
