@@ -10,6 +10,7 @@ import { useState } from 'react';
 import PopOutMenu from '../PopOutMenu/PopOutMenu';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
+import { FocusedCollectionType } from '../../containers/UserCollections/UserCollections';
 
 interface CollectionCardProps {
   title: string;
@@ -19,7 +20,9 @@ interface CollectionCardProps {
   imageUrl: string;
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setCollectionToDelete: React.Dispatch<React.SetStateAction<string>>;
+  setFocusedCollection: React.Dispatch<
+    React.SetStateAction<FocusedCollectionType | undefined>
+  >;
 }
 
 const CollectionCard: React.FC<CollectionCardProps> = ({
@@ -30,7 +33,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   imageUrl,
   setIsDeleteModalOpen,
   setIsEditModalOpen,
-  setCollectionToDelete,
+  setFocusedCollection,
 }) => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -58,7 +61,12 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
     e.stopPropagation();
     setIsDeleteModalOpen(true);
     setIsMenuOpen(false);
-    setCollectionToDelete(collectionId);
+    setFocusedCollection({
+      title: title,
+      creator: creator,
+      isPrivate: isPrivate,
+      collectionId: collectionId,
+    });
   };
 
   const handleOpenEditModal = (
@@ -67,6 +75,12 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
     e.stopPropagation();
     setIsEditModalOpen(true);
     setIsMenuOpen(false);
+    setFocusedCollection({
+      title: title,
+      creator: creator,
+      isPrivate: isPrivate,
+      collectionId: collectionId,
+    });
   };
   return (
     <div
