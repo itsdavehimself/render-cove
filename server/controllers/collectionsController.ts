@@ -191,7 +191,6 @@ const updateCollection = async (req: AuthRequest, res: Response) => {
   const { collectionId } = req.params;
   const { title, isPrivate } = req.body;
   const userId = req.user?._id;
-  console.log(req.body);
 
   if (title === '') {
     return res.status(400).json({ error: 'Empty collection name' });
