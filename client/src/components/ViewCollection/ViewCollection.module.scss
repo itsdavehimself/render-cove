@@ -1,0 +1,80 @@
+@use 'variables';
+
+.view-collection-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 3rem 10rem;
+  row-gap: 2rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.5rem;
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: variables.$secondary-darker;
+  }
+}
+
+.buttons {
+  display: flex;
+  column-gap: 1rem;
+}
+
+.collection-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 3px;
+  border: 1px solid variables.$secondary-darker;
+  color: variables.$secondary-darker;
+  background-color: variables.$primary-color;
+  min-width: 6rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.collection-button:hover {
+  cursor: pointer;
+  background-color: variables.$primary-tertiary;
+  color: variables.$secondary-color;
+  border: 1px solid variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.collection-button.delete {
+  padding: 0.5rem 0.75rem;
+  border-radius: 3px;
+  border: 1px solid variables.$error-color;
+  color: variables.$error-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.collection-button.delete:hover {
+  cursor: pointer;
+  background-color: variables.$error-color-hover;
+  color: variables.$primary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.collection-cards {
+  display: flex;
+  gap: 2rem;
+}
+
+.alert-container {
+  position: absolute;
+  right: 21rem;
+  bottom: 5rem;
+}
