@@ -65,15 +65,23 @@ const createCollection = async (req: AuthRequest, res: Response) => {
 };
 
 const getCollections = async (req: AuthRequest, res: Response) => {
-  const { userId } = req.params;
+  const { identifier } = req.params;
 
   try {
-    if (!Types.ObjectId.isValid(userId)) {
-      return res.status(400).json({ error: 'Invalid user ID' });
+    let user: UserDocument | null;
+
+    if (Types.ObjectId.isValid(identifier)) {
+      user = await User.findById(identifier);
+    } else {
+      user = await User.findOne({ username: identifier });
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
     const allCollections: CollectionDocument[] | null = await Collection.find({
-      creator: userId,
+      creator: user._id,
     })
       .populate({
         path: 'projects',
@@ -155,13 +163,60 @@ const deleteCollection = async (req: AuthRequest, res: Response) => {
   try {
     await Collection.findByIdAndDelete(collectionId);
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { $pull: { collections: collectionObjectId } },
-      { new: true }
+    await User.findByIdAndUpdate(userId, {
+      $pull: { collections: collectionObjectId },
+    });
+
+    const allCollections: CollectionDocument[] | null = await Collection.find({
+      creator: userId,
+    })
+      .populate({
+        path: 'projects',
+        select: 'images title _id',
+        match: { published: true },
+        populate: {
+          path: 'author',
+          select: 'avatarUrl username',
+        },
+      })
+      .exec();
+
+    res.status(200).json(allCollections);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updateCollection = async (req: AuthRequest, res: Response) => {
+  const { collectionId } = req.params;
+  const { title, isPrivate } = req.body;
+  const userId = req.user?._id;
+  console.log(req.body);
+
+  if (title === '') {
+    return res.status(400).json({ error: 'Empty collection name' });
+  }
+
+  try {
+    await Collection.findOneAndUpdate(
+      { _id: collectionId },
+      { $set: { title: title, private: isPrivate } }
     );
 
-    res.status(200).json(updatedUser);
+    const allCollections: CollectionDocument[] | null = await Collection.find({
+      creator: userId,
+    })
+      .populate({
+        path: 'projects',
+        select: 'images title _id',
+        match: { published: true },
+        populate: {
+          path: 'author',
+          select: 'avatarUrl username',
+        },
+      })
+      .exec();
+    res.status(200).json(allCollections);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -173,4 +228,5 @@ export {
   getCollections,
   toggleInCollection,
   deleteCollection,
+  updateCollection,
 };
