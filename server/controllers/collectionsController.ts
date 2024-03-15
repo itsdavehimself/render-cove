@@ -3,6 +3,7 @@ import User from '../models/userModel.js';
 import CollectionDocument from '../types/CollectionDocument.js';
 import Collection from '../models/collectionModel.js';
 import mongoose, { Types, ObjectId } from 'mongoose';
+import { UserDocument } from '../types/UserDocument.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -49,7 +50,7 @@ const createCollection = async (req: AuthRequest, res: Response) => {
       title: collectionName,
       creator: userId,
       projects: [projectId],
-      public: isPrivate,
+      private: isPrivate,
     });
 
     if (collection) {
@@ -145,9 +146,31 @@ const toggleInCollection = async (req: AuthRequest, res: Response) => {
   }
 };
 
+const deleteCollection = async (req: AuthRequest, res: Response) => {
+  const { collectionId } = req.params;
+  const userId = req.user?._id;
+
+  const collectionObjectId = new mongoose.Types.ObjectId(collectionId);
+
+  try {
+    await Collection.findByIdAndDelete(collectionId);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $pull: { collections: collectionObjectId } },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export {
   getAllUserLikes,
   createCollection,
   getCollections,
   toggleInCollection,
+  deleteCollection,
 };
