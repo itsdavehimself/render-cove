@@ -19,6 +19,7 @@ import UserLikes from './containers/UserLikes/UserLikes';
 import UserCollections from './containers/UserCollections/UserCollections';
 import { CollectionsContextProvider } from './context/CollectionsContext';
 import UserProfileCollections from './components/UserProfile/UserProfileCollections/UserProfileCollections';
+import ViewCollection from './components/ViewCollection/ViewCollection';
 
 function App() {
   const { user } = useAuthContext();
@@ -108,6 +109,10 @@ function App() {
                       <Navigate to="/login" />
                     )
                   }
+                />
+                <Route
+                  path="/collections/:collectionId"
+                  element={<ViewCollection />}
                 />
               </Route>
             </Routes>
