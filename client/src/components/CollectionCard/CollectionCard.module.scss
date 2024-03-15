@@ -1,0 +1,123 @@
+@use 'variables';
+
+.container {
+  position: relative;
+}
+
+.collection-card {
+  position: relative;
+  height: 18rem;
+  width: 18rem;
+  overflow: hidden;
+  border-radius: 0.25rem;
+}
+
+.collection-card:hover {
+  cursor: pointer;
+  .project-image {
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+.popout-menu-container {
+  position: absolute;
+  top: 5%;
+  left: 16%;
+  width: 100%;
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.card-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.8337928921568627) 0%,
+    rgba(255, 255, 255, 0) 30%
+  );
+  z-index: 2;
+}
+
+.card-options {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem;
+  z-index: 3;
+  font-size: 1.25rem;
+}
+
+.private {
+  font-size: 0.8rem;
+  background-color: variables.$accent-color;
+  color: variables.$secondary-color;
+  padding: 0.1rem 0.5rem;
+  border-radius: 5rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.options-button {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.options-button:hover {
+  color: variables.$secondary-darker;
+}
+
+.info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  z-index: 3;
+  padding: 1rem;
+  column-gap: 0.5rem;
+
+  h4,
+  h5 {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 0.25rem;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.author {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.avatar-container {
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  overflow: hidden;
+}
