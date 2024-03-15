@@ -56,7 +56,8 @@ const ViewCollection: React.FC<ViewCollectionProps> = () => {
             {collection.projects.map((project) => (
               <ProjectCard
                 title={project?.title}
-                author={project?.author.displayName}
+                authorDisplayName={project?.author.displayName}
+                authorUsername={project?.author.username}
                 imageUrl={project?.images[0].url}
                 avatarUrl={project?.author.avatarUrl}
                 projectId={project?._id}

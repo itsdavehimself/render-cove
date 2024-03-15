@@ -20,7 +20,8 @@ const UserProfileProjects: React.FC = () => {
                 {user?.userId === userInfo?._id ? (
                   <ProjectCard
                     title={project?.title}
-                    author={userInfo?.displayName}
+                    authorDisplayName={userInfo?.displayName}
+                    authorUsername={userInfo?.username}
                     imageUrl={project?.images[0].url}
                     avatarUrl={userInfo?.avatarUrl}
                     projectId={project?._id}
@@ -31,7 +32,8 @@ const UserProfileProjects: React.FC = () => {
                     {project.published === true && (
                       <ProjectCard
                         title={project?.title}
-                        author={userInfo?.displayName}
+                        authorDisplayName={userInfo?.displayName}
+                        authorUsername={userInfo?.username}
                         imageUrl={project?.images[0].url}
                         avatarUrl={userInfo?.avatarUrl}
                         projectId={project?._id}
