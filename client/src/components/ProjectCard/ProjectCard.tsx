@@ -73,11 +73,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <PopOutMenu
             buttons={[
               {
-                icon: user.username === author ? editIcon : reportIcon,
+                icon: user?.username === author ? editIcon : reportIcon,
                 label:
-                  user.username === author ? 'Edit Project' : 'Report Project',
+                  user?.username === author ? 'Edit Project' : 'Report Project',
                 onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
-                  user.username === author
+                  user?.username === author
                     ? handleEditProjectClick(e)
                     : reportProjectClick(e),
               },
