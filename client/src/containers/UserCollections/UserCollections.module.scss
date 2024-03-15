@@ -25,3 +25,8 @@
     color: variables.$secondary-darker;
   }
 }
+
+.collection-cards {
+  display: flex;
+  gap: 2rem;
+}

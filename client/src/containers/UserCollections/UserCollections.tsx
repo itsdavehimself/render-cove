@@ -3,31 +3,42 @@ import { useEffect, useState } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import CollectionCard from '../../components/CollectionCard/CollectionCard';
+import Collection from '../../types/Collection';
+import DeleteModal from '../../components/DeleteModal/DeleteModal';
+import EditCollectionModal from '../../components/EditCollectionModal/EditCollectionModal';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
 const UserLikes: React.FC = () => {
   const { user } = useAuthContext();
-  const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [collections, setCollections] = useState();
   const { username } = useParams();
   const navigate = useNavigate();
 
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [collectionToDelete, setCollectionToDelete] = useState<string>('');
+
   useEffect(() => {
     if (username !== user.username) {
-      navigate(`/${user.username}/likes`);
+      navigate(`/${user.username}/collections`);
     }
 
     const fetchCollections = async (): Promise<void> => {
       setError(null);
-      const collectionsResponse = await fetch(`${API_BASE_URL}/collections/`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${user.token}`,
+      const collectionsResponse = await fetch(
+        `${API_BASE_URL}/collections/${user.userId}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
         },
-      });
+      );
 
       const collectionsJson = await collectionsResponse.json();
 
@@ -43,10 +54,43 @@ const UserLikes: React.FC = () => {
     };
 
     fetchCollections();
-  }, [user.token, navigate, user.username, username]);
+  }, [user]);
+
+  const handleDeleteCollection = async (): Promise<void> => {
+    const deleteCollectionResponse = await fetch(
+      `${API_BASE_URL}/collections/${collectionToDelete}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      },
+    );
+
+    const deleteCollectionJson = await deleteCollectionResponse.json();
+
+    if (!deleteCollectionResponse.ok) {
+      setError(deleteCollectionJson.error);
+      setIsLoading(false);
+    }
+
+    if (deleteCollectionResponse.ok) {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <main className={styles['collections-container']}>
+      {isDeleteModalOpen && (
+        <DeleteModal
+          isModalOpen={isDeleteModalOpen}
+          setIsModalOpen={setIsDeleteModalOpen}
+          handleDeleteClick={handleDeleteCollection}
+          isLoading={isLoading}
+          type="collection"
+        />
+      )}
+      {isEditModalOpen && <EditCollectionModal />}
       <div className={styles.header}>
         <h1>Collections</h1>
         <p>See all of your collections here</p>
@@ -61,7 +105,21 @@ const UserLikes: React.FC = () => {
               bit.
             </div>
           ) : (
-            <div>Much empty</div>
+            <section className={styles['collection-cards']}>
+              {collections?.map((collection) => (
+                <CollectionCard
+                  title={collection.title}
+                  creator={collection.creator}
+                  collectionId={collection._id}
+                  isPrivate={collection.private}
+                  imageUrl={collection.projects[0]?.images[0]?.url}
+                  key={collection._id}
+                  setIsDeleteModalOpen={setIsDeleteModalOpen}
+                  setIsEditModalOpen={setIsEditModalOpen}
+                  setCollectionToDelete={setCollectionToDelete}
+                />
+              ))}
+            </section>
           )}
         </>
       )}
