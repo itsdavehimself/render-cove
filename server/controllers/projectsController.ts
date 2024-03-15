@@ -114,7 +114,12 @@ const createProject = async (req: AuthRequest, res: Response) => {
     typeof softwareList === 'string'
       ? JSON.parse(softwareList)
       : softwareList || [];
-  const workflowFileName = workflowImage?.originalname;
+
+  let workflowFileName = '';
+
+  if (workflowImage) {
+    workflowFileName = workflowImage?.originalname;
+  }
 
   const hardware = {
     cpu,
@@ -190,7 +195,7 @@ const createProject = async (req: AuthRequest, res: Response) => {
       softwareList: parsedSoftwareList,
       workflow: parsedWorkflow,
       workflowImage: {
-        url: workflowImageUrl,
+        url: workflowImageUrl || '',
         originalFileName: workflowFileName,
       },
       hardware,
