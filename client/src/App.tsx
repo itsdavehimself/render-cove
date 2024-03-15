@@ -20,6 +20,7 @@ import UserCollections from './containers/UserCollections/UserCollections';
 import { CollectionsContextProvider } from './context/CollectionsContext';
 import UserProfileCollections from './components/UserProfile/UserProfileCollections/UserProfileCollections';
 import ViewCollection from './components/ViewCollection/ViewCollection';
+import UserProfileLatest from './components/UserProfile/UserProfileLatest/UserProfileLatest';
 
 function App() {
   const { user } = useAuthContext();
@@ -59,6 +60,10 @@ function App() {
                   }
                 />
                 <Route path="/user/:username" element={<UserProfilePublic />}>
+                  <Route
+                    path="/user/:username"
+                    element={<UserProfileLatest />}
+                  />
                   <Route
                     path="/user/:username/projects"
                     element={<UserProfileProjects />}
