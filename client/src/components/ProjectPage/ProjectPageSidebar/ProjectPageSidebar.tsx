@@ -287,59 +287,68 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
         {!(
           hardwareArray[0] === '' &&
           hardwareArray[1] === '' &&
-          hardwareArray[2] === null
+          hardwareArray[2] === undefined
         ) && (
           <TagDisplay header="Hardware used" tagList={hardwareArray || {}} />
         )}
       </section>
       <section className={styles.comments}>
-        <form onSubmit={handleCommentSubmit}>
-          <h4 className={styles['comments-header']}>
-            {project?.comments.length}{' '}
-            {project?.comments.length === 1 ? 'Comment' : 'Comments'}
-          </h4>
-          {project?.comments.length > 0 && (
-            <div className={styles['comments-list']}>
-              {project?.comments
-                .slice(0, commentsToShow)
-                .map((comment) => (
-                  <Comment
-                    author={comment.author}
-                    comment={comment.content}
-                    date={comment.timestamp}
-                    likes={comment.likes}
-                    id={comment._id}
-                    key={comment._id}
-                  />
-                ))}
-              {commentsToShow < project?.comments.length && (
-                <button
-                  className={styles['load-comments-button']}
-                  type="button"
-                  onClick={() => setCommentsToShow(commentsToShow + 5)}
-                >
-                  Load More Comments
-                </button>
-              )}
+        {project.commentsAllowed ? (
+          <form onSubmit={handleCommentSubmit}>
+            <h4 className={styles['comments-header']}>
+              {project?.comments.length}{' '}
+              {project?.comments.length === 1 ? 'Comment' : 'Comments'}
+            </h4>
+            {project?.comments.length > 0 && (
+              <div className={styles['comments-list']}>
+                {project?.comments
+                  .slice(0, commentsToShow)
+                  .map((comment) => (
+                    <Comment
+                      author={comment.author}
+                      comment={comment.content}
+                      date={comment.timestamp}
+                      likes={comment.likes}
+                      id={comment._id}
+                      key={comment._id}
+                    />
+                  ))}
+                {commentsToShow < project?.comments.length && (
+                  <button
+                    className={styles['load-comments-button']}
+                    type="button"
+                    onClick={() => setCommentsToShow(commentsToShow + 5)}
+                  >
+                    Load More Comments
+                  </button>
+                )}
+              </div>
+            )}
+            <TextAreaInput
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              label=""
+              name="comment"
+              id="comment"
+              placeholder={
+                project?.comments.length === 0
+                  ? 'Be the first to comment...'
+                  : 'Join the conversation...'
+              }
+              serverError={error ? error.message : ''}
+            />
+            <div className={styles['comment-button']}>
+              <SaveSubmitButton label="Sumbit" isLoading={false} color="blue" />
             </div>
-          )}
-          <TextAreaInput
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            label=""
-            name="comment"
-            id="comment"
-            placeholder={
-              project?.comments.length === 0
-                ? 'Be the first to comment...'
-                : 'Join the conversation...'
-            }
-            serverError={error ? error.message : ''}
-          />
-          <div className={styles['comment-button']}>
-            <SaveSubmitButton label="Sumbit" isLoading={false} color="blue" />
-          </div>
-        </form>
+          </form>
+        ) : (
+          <>
+            <h4 className={styles['comments-header']}>Comments</h4>
+            <p className={styles['comments-disabled']}>
+              Comments have been disabled for this post.
+            </p>
+          </>
+        )}
       </section>
     </aside>
   );

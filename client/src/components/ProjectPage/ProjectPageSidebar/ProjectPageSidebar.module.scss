@@ -329,3 +329,9 @@
   color: variables.$secondary-color;
   transition: all 0.2s ease-in-out;
 }
+
+.comments-disabled {
+  text-align: center;
+  color: variables.$secondary-darker;
+  font-size: 0.8rem;
+}
