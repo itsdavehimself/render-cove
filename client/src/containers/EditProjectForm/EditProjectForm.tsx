@@ -23,13 +23,16 @@ import CheckboxInput from '../../components/CheckboxInput/CheckboxInput';
 import WorkflowImageInput from '../../components/WorkflowImageInput/WorkflowImageInput';
 import EditAlert from '../../components/EditAlert/EditAlert';
 import { useParams } from 'react-router-dom';
-import DeleteProjectModal from '../../components/DeleteProjectModal/DeleteProjectModal';
+import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import { Image } from '../../types/Project';
 import PreviewUploadCards from '../../components/PreviewUploadCards/PreviewUploadCards';
+import { useNavigate } from 'react-router-dom';
 
 const CreateProjectForm: React.FC = () => {
   const { user } = useAuthContext();
   const { projectId } = useParams();
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
@@ -285,6 +288,32 @@ const CreateProjectForm: React.FC = () => {
     fetchProjectInfo();
   }, [projectId]);
 
+  const handleDeleteProjectClick = async (): Promise<void> => {
+    const deleteProjectResponse = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/projects/${projectId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      },
+    );
+
+    const deleteJson = await deleteProjectResponse.json();
+
+    if (!deleteProjectResponse.ok) {
+      setIsDeleteModalOpen(false);
+      setIsLoading(false);
+      setError(deleteJson.error);
+    }
+
+    if (deleteProjectResponse.ok) {
+      setIsDeleteModalOpen(false);
+      setIsLoading(false);
+      navigate('/');
+    }
+  };
+
   return (
     <>
       <div className={styles['alert-container']}>
@@ -307,12 +336,12 @@ const CreateProjectForm: React.FC = () => {
         />
       )}
       {isDeleteModalOpen && (
-        <DeleteProjectModal
+        <DeleteModal
           isModalOpen={isDeleteModalOpen}
           setIsModalOpen={setIsDeleteModalOpen}
-          projectId={projectId}
-          user={user}
-          setError={setError}
+          handleDeleteClick={handleDeleteProjectClick}
+          isLoading={isLoading}
+          type="project"
         />
       )}
       <div className={styles['create-project-container']}>
