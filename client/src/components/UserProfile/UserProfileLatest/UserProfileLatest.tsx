@@ -16,7 +16,7 @@ const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
 const UserProfileLatest: React.FC = () => {
-  const { allProjects, dispatchAllProjects } = useAllProjectsContext();
+  const { allProjects } = useAllProjectsContext();
   const { collections, dispatchCollections } = useCollectionsContext();
   const { userInfo } = useUserInfoContext();
   const { user } = useAuthContext();
@@ -116,27 +116,28 @@ const UserProfileLatest: React.FC = () => {
           <EditAlert isSuccess={error === null} itemToUpdate="Collection" />
         )}
       </div>
+      {isDeleteModalOpen && (
+        <DeleteModal
+          isModalOpen={isDeleteModalOpen}
+          setIsModalOpen={setIsDeleteModalOpen}
+          handleDeleteClick={handleDeleteCollection}
+          isLoading={isLoading}
+          type="collection"
+        />
+      )}
+      {isEditModalOpen && (
+        <EditCollectionModal
+          isModalOpen={isEditModalOpen}
+          setIsModalOpen={setIsEditModalOpen}
+          handleEditClick={handleEditCollection}
+          isLoading={isLoading}
+          focusedCollection={focusedCollection}
+          setFocusedCollection={setFocusedCollection}
+          error={emptyNameError}
+        />
+      )}
+
       <div className={styles['latest-container']}>
-        {isDeleteModalOpen && (
-          <DeleteModal
-            isModalOpen={isDeleteModalOpen}
-            setIsModalOpen={setIsDeleteModalOpen}
-            handleDeleteClick={handleDeleteCollection}
-            isLoading={isLoading}
-            type="collection"
-          />
-        )}
-        {isEditModalOpen && (
-          <EditCollectionModal
-            isModalOpen={isEditModalOpen}
-            setIsModalOpen={setIsEditModalOpen}
-            handleEditClick={handleEditCollection}
-            isLoading={isLoading}
-            focusedCollection={focusedCollection}
-            setFocusedCollection={setFocusedCollection}
-            error={emptyNameError}
-          />
-        )}
         {allProjects?.length > 0 && (
           <section className={styles['section-container']}>
             <h2 className={styles['section-header']}>Projects</h2>
