@@ -1,5 +1,38 @@
 @use 'variables';
 
+@mixin blue-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: variables.$accent-color;
+  transition: all 0.2s ease-in-out;
+  column-gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+@mixin blue-button-hover {
+  cursor: pointer;
+  background-color: variables.$accent-tertiary;
+  transition: all 0.2s ease-in-out;
+}
+
+@mixin gray-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+  background-color: variables.$primary-light;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.9rem;
+}
+
+@mixin gray-button-hover {
+  cursor: pointer;
+  background-color: variables.$primary-lighter;
+  transition: all 0.2s ease-in-out;
+}
+
 .user-section-header {
   font-weight: 400;
   font-size: 0.9rem;
@@ -112,38 +145,21 @@
 }
 
 .follower-user-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: variables.$accent-color;
-  transition: all 0.2s ease-in-out;
-  column-gap: 0.5rem;
-  font-size: 0.9rem;
+  @include blue-button();
 }
 
 .follower-user-button:hover {
-  cursor: pointer;
-  background-color: variables.$accent-tertiary;
-  transition: all 0.2s ease-in-out;
+  @include blue-button-hover();
 }
 
 .message-user-button,
 .follower-user-button-unfollow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  column-gap: 0.5rem;
-  background-color: variables.$primary-light;
-  color: variables.$secondary-color;
-  transition: all 0.2s ease-in-out;
-  font-size: 0.9rem;
+  @include gray-button();
 }
 
 .message-user-button:hover,
 .follower-user-button-unfollow:hover {
-  cursor: pointer;
-  background-color: variables.$primary-lighter;
-  transition: all 0.2s ease-in-out;
+  @include gray-button-hover();
 }
 
 .edit-profile-button {
