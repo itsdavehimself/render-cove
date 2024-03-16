@@ -104,8 +104,8 @@ const userSchema = new Schema<UserDocument>(
         default: false,
       },
     },
-    following: [{ type: String }],
-    followers: [{ type: String }],
+    following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
     collections: [{ type: Schema.Types.ObjectId, ref: 'Collection' }],
     likes: [
