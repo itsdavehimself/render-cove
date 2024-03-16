@@ -8,6 +8,7 @@ import DeleteModal from '../../components/DeleteModal/DeleteModal';
 import EditCollectionModal from '../../components/EditCollectionModal/EditCollectionModal';
 import { useCollectionsContext } from '../../hooks/useCollectionsContext';
 import EditAlert from '../../components/EditAlert/EditAlert';
+import LargeLoadingSpinner from '../../components/LargeLoadingSpinner/LargeLoadingSpinner';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -21,13 +22,14 @@ export interface FocusedCollectionType {
 
 const UserLikes: React.FC = () => {
   const { user } = useAuthContext();
-  const { collections, dispatchCollections } = useCollectionsContext();
+  const { collections, dispatchCollections, isLoadingCollections } =
+    useCollectionsContext();
   const { username } = useParams();
   const navigate = useNavigate();
 
   const [error, setError] = useState<Error | null>(null);
   const [emptyNameError, setEmptyNameError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [focusedCollection, setFocusedCollection] = useState<
@@ -152,27 +154,33 @@ const UserLikes: React.FC = () => {
           <p>See all of your collections here</p>
         </div>
         <>
-          {error ? (
-            <div>
-              There was an error loading the posts. Please try again in a little
-              bit.
-            </div>
+          {isLoadingCollections ? (
+            <LargeLoadingSpinner />
           ) : (
-            <section className={styles['collection-cards']}>
-              {collections?.map((collection) => (
-                <CollectionCard
-                  title={collection.title}
-                  creator={collection.creator}
-                  collectionId={collection._id}
-                  isPrivate={collection.private}
-                  imageUrl={collection.projects[0]?.images[0]?.url}
-                  key={collection._id}
-                  setIsDeleteModalOpen={setIsDeleteModalOpen}
-                  setIsEditModalOpen={setIsEditModalOpen}
-                  setFocusedCollection={setFocusedCollection}
-                />
-              ))}
-            </section>
+            <>
+              {error ? (
+                <div>
+                  There was an error loading the posts. Please try again in a
+                  little bit.
+                </div>
+              ) : (
+                <section className={styles['collection-cards']}>
+                  {collections?.map((collection) => (
+                    <CollectionCard
+                      title={collection.title}
+                      creator={collection.creator}
+                      collectionId={collection._id}
+                      isPrivate={collection.private}
+                      imageUrl={collection.projects[0]?.images[0]?.url}
+                      key={collection._id}
+                      setIsDeleteModalOpen={setIsDeleteModalOpen}
+                      setIsEditModalOpen={setIsEditModalOpen}
+                      setFocusedCollection={setFocusedCollection}
+                    />
+                  ))}
+                </section>
+              )}
+            </>
           )}
         </>
       </main>
