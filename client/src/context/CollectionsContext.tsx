@@ -23,7 +23,7 @@ const CollectionsContext = createContext<CollectionsContextType | null>(null);
 const CollectionsContextProvider = ({ children }: { children: ReactNode }) => {
   const { username } = useParams();
   const [state, dispatchCollections] = useReducer(collectionsReducer, {
-    collections: null,
+    collections: [],
   });
 
   useEffect(() => {
