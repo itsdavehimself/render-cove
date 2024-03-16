@@ -95,9 +95,7 @@ const getCollections = async (req: Request, res: Response) => {
       .exec();
 
     if (!allCollections || allCollections.length === 0) {
-      return res
-        .status(404)
-        .json({ message: 'No collections found for the user' });
+      return res.status(200).json([]);
     }
 
     res.status(200).json(allCollections);
