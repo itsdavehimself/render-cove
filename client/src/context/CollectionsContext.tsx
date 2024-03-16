@@ -4,6 +4,7 @@ import {
   createContext,
   useEffect,
   useReducer,
+  useState,
 } from 'react';
 import { useParams } from 'react-router-dom';
 import Collection from '../types/Collection';
@@ -16,12 +17,14 @@ const API_BASE_URL: string =
 interface CollectionsContextType {
   dispatchCollections: Dispatch<CollectionsAction>;
   collections: Collection[];
+  isLoadingCollections: boolean;
 }
 
 const CollectionsContext = createContext<CollectionsContextType | null>(null);
 
 const CollectionsContextProvider = ({ children }: { children: ReactNode }) => {
   const { username } = useParams();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [state, dispatchCollections] = useReducer(collectionsReducer, {
     collections: [],
   });
@@ -43,17 +46,22 @@ const CollectionsContextProvider = ({ children }: { children: ReactNode }) => {
             payload: collectionsJson,
           });
         } else {
-          console.error(collectionsResponse.json());
+          console.error(await collectionsResponse.json());
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchCollections();
   }, [username]);
+
   return (
-    <CollectionsContext.Provider value={{ ...state, dispatchCollections }}>
+    <CollectionsContext.Provider
+      value={{ ...state, dispatchCollections, isLoadingCollections: isLoading }}
+    >
       {children}
     </CollectionsContext.Provider>
   );
