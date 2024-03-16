@@ -30,10 +30,16 @@ enum FollowAction {
   Unfollow = 'unfollow',
 }
 
+interface UserProfileSidebarProps {
+  setOpenModal: React.Dispatch<React.SetStateAction<string>>;
+}
+
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
-const UserProfileSidebar: React.FC = () => {
+const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
+  setOpenModal,
+}) => {
   const { user, dispatch } = useAuthContext();
   const { userInfo, dispatchUserInfo } = useUserInfoContext();
   const navigate = useNavigate();
@@ -125,7 +131,7 @@ const UserProfileSidebar: React.FC = () => {
       setFollowers(userInfo.followers.length);
       setFollowing(userInfo.following.length);
       const totalLikes = userInfo.projects.reduce((total, project) => {
-        return total + project.likes.length;
+        return total + project?.likes?.length;
       }, 0);
       setLikes(totalLikes);
     }
@@ -266,16 +272,26 @@ const UserProfileSidebar: React.FC = () => {
               {likes === 1 ? 'LIKE' : 'LIKES'}
             </p>
           </div>
-          <div className={styles['user-stats']}>
-            <p className={styles['user-stats-number']}>{followers}</p>
-            <p className={styles['user-stats-label']}>
-              {followers === 1 ? 'FOLLOWER' : 'FOLLOWERS'}
-            </p>
-          </div>
-          <div className={styles['user-stats']}>
-            <p className={styles['user-stats-number']}>{following}</p>
-            <p className={styles['user-stats-label']}>FOLLOWING</p>
-          </div>
+          <button
+            className={styles['follow-detail-button']}
+            onClick={() => setOpenModal('followers')}
+          >
+            <div className={styles['user-stats']}>
+              <p className={styles['user-stats-number']}>{followers}</p>
+              <p className={styles['user-stats-label']}>
+                {followers === 1 ? 'FOLLOWER' : 'FOLLOWERS'}
+              </p>
+            </div>
+          </button>
+          <button
+            className={styles['follow-detail-button']}
+            onClick={() => setOpenModal('following')}
+          >
+            <div className={styles['user-stats']}>
+              <p className={styles['user-stats-number']}>{following}</p>
+              <p className={styles['user-stats-label']}>FOLLOWING</p>
+            </div>
+          </button>
         </div>
       </div>
     </aside>

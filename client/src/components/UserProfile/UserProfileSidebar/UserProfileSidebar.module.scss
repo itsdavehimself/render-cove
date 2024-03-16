@@ -224,3 +224,15 @@
 .error-message {
   color: variables.$error-color;
 }
+
+.follow-detail-button {
+  background-color: transparent;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
+
+.follow-detail-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
