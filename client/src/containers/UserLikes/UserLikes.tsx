@@ -5,6 +5,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { Image } from '../../types/Project';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import LargeLoadingSpinner from '../../components/LargeLoadingSpinner/LargeLoadingSpinner';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -15,6 +16,7 @@ interface LikedProjects {
     author: {
       avatarUrl: string;
       username: string;
+      displayName: string;
     };
     images: Image[];
     _id: string;
@@ -68,7 +70,7 @@ const UserLikes: React.FC = () => {
         <p>See all the posts you've liked here</p>
       </div>
       {isLoading ? (
-        <div>Loading</div>
+        <LargeLoadingSpinner />
       ) : (
         <>
           {error ? (
@@ -83,7 +85,8 @@ const UserLikes: React.FC = () => {
                   {likedProjects.map((project) => (
                     <ProjectCard
                       title={project.projectId.title}
-                      author={project.projectId.author.username}
+                      authorUsername={project.projectId.author.username}
+                      authorDisplayName={project.projectId.author.displayName}
                       avatarUrl={project.projectId.author.avatarUrl}
                       imageUrl={project.projectId.images[0].url}
                       projectId={project.projectId._id}
