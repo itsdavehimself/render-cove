@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import userAuthRouter from './routes/userAuth.js';
 import collectionsRouter from './routes/collections.js';
+import followersRouter from './routes/followers.js';
 
 dotenv.config();
 
@@ -22,6 +23,8 @@ app.use('/api/projects', projectsRouter);
 app.use('/api/auth', userAuthRouter);
 
 app.use('/api/collections', collectionsRouter);
+
+app.use('/api/followers', followersRouter);
 
 const mongoURI = process.env.MONGO_URI;
 
