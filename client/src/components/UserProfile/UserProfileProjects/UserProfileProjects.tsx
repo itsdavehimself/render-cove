@@ -12,8 +12,8 @@ const UserProfileProjects: React.FC = () => {
 
   return (
     <>
-      <section className={styles['user-profile-projects']}>
-        {allProjects && (
+      {allProjects && allProjects?.length > 0 ? (
+        <section className={styles['user-profile-projects']}>
           <>
             {allProjects.map((project) => (
               <React.Fragment key={project._id}>
@@ -45,8 +45,12 @@ const UserProfileProjects: React.FC = () => {
               </React.Fragment>
             ))}
           </>
-        )}
-      </section>
+        </section>
+      ) : (
+        <div className={styles['missing-message']}>
+          This user doesn't have any projects yet.
+        </div>
+      )}
     </>
   );
 };

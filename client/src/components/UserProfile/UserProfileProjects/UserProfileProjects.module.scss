@@ -1,4 +1,19 @@
+@use 'variables';
+
+@mixin missing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8rem;
+  color: variables.$secondary-darker;
+  font-size: 0.9rem;
+}
+
 .user-profile-projects {
   display: flex;
   gap: 1rem;
+}
+
+.missing-message {
+  @include missing();
 }
