@@ -12,41 +12,44 @@ const UserProfileProjects: React.FC = () => {
 
   return (
     <>
-      {allProjects && allProjects?.length > 0 ? (
-        <section className={styles['user-profile-projects']}>
-          <>
-            {allProjects.map((project) => (
-              <React.Fragment key={project._id}>
-                {user?.userId === userInfo?._id ? (
-                  <ProjectCard
-                    title={project?.title}
-                    authorDisplayName={userInfo?.displayName}
-                    authorUsername={userInfo?.username}
-                    imageUrl={project?.images[0].url}
-                    avatarUrl={userInfo?.avatarUrl}
-                    projectId={project?._id}
-                    published={project?.published}
-                  />
-                ) : (
-                  <>
-                    {project.published === true && (
-                      <ProjectCard
-                        title={project?.title}
-                        authorDisplayName={userInfo?.displayName}
-                        authorUsername={userInfo?.username}
-                        imageUrl={project?.images[0].url}
-                        avatarUrl={userInfo?.avatarUrl}
-                        projectId={project?._id}
-                        published={project?.published}
-                      />
-                    )}
-                  </>
-                )}
-              </React.Fragment>
-            ))}
-          </>
-        </section>
-      ) : (
+      <section className={styles['projects-container']}>
+        {allProjects && allProjects?.length > 0 && (
+          <div className={styles['user-profile-projects']}>
+            <>
+              {allProjects.map((project) => (
+                <React.Fragment key={project._id}>
+                  {user?.userId === userInfo?._id ? (
+                    <ProjectCard
+                      title={project?.title}
+                      authorDisplayName={userInfo?.displayName}
+                      authorUsername={userInfo?.username}
+                      imageUrl={project?.images[0].url}
+                      avatarUrl={userInfo?.avatarUrl}
+                      projectId={project?._id}
+                      published={project?.published}
+                    />
+                  ) : (
+                    <>
+                      {project.published === true && (
+                        <ProjectCard
+                          title={project?.title}
+                          authorDisplayName={userInfo?.displayName}
+                          authorUsername={userInfo?.username}
+                          imageUrl={project?.images[0].url}
+                          avatarUrl={userInfo?.avatarUrl}
+                          projectId={project?._id}
+                          published={project?.published}
+                        />
+                      )}
+                    </>
+                  )}
+                </React.Fragment>
+              ))}
+            </>
+          </div>
+        )}
+      </section>
+      {allProjects?.length === 0 && (
         <div className={styles['missing-message']}>
           This user doesn't have any projects yet.
         </div>

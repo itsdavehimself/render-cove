@@ -135,9 +135,9 @@ const UserProfileCollections: React.FC<UserProfileCollectionsProps> = () => {
           error={emptyNameError}
         />
       )}
-      <section className={styles['user-profile-collections']}>
+      <section className={styles['collections-container']}>
         {collections && (
-          <>
+          <div className={styles['user-profile-collections']}>
             {collections.map((collection) => (
               <React.Fragment key={collection._id}>
                 {user?.userId === userInfo?._id ? (
@@ -171,9 +171,14 @@ const UserProfileCollections: React.FC<UserProfileCollectionsProps> = () => {
                 )}
               </React.Fragment>
             ))}
-          </>
+          </div>
         )}
       </section>
+      {collections?.length === 0 && (
+        <div className={styles['missing-message']}>
+          This user doesn't have any collections yet.
+        </div>
+      )}
     </>
   );
 };

@@ -9,6 +9,18 @@
   font-size: 0.9rem;
 }
 
+@mixin container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4rem;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+
+.projects-container {
+  @include container();
+}
+
 .user-profile-projects {
   display: flex;
   gap: 1rem;

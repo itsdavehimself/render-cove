@@ -137,83 +137,92 @@ const UserProfileLatest: React.FC = () => {
             error={emptyNameError}
           />
         )}
-        <section className={styles['section-container']}>
-          <h2 className={styles['section-header']}>Projects</h2>
-          <div className={styles.cards}>
-            {allProjects
-              ?.slice(0, 6)
-              .map((project) => (
-                <React.Fragment key={project._id}>
-                  {user?.userId === userInfo?._id ? (
-                    <ProjectCard
-                      title={project?.title}
-                      authorDisplayName={userInfo?.displayName}
-                      authorUsername={userInfo?.username}
-                      imageUrl={project?.images[0].url}
-                      avatarUrl={userInfo?.avatarUrl}
-                      projectId={project?._id}
-                      published={project?.published}
-                    />
-                  ) : (
-                    <>
-                      {project?.published === true && (
-                        <ProjectCard
-                          title={project?.title}
-                          authorDisplayName={userInfo?.displayName}
-                          authorUsername={userInfo?.username}
-                          imageUrl={project?.images[0].url}
-                          avatarUrl={userInfo?.avatarUrl}
-                          projectId={project?._id}
-                          published={project?.published}
-                        />
-                      )}
-                    </>
-                  )}
-                </React.Fragment>
-              ))}
-          </div>
-        </section>
-        <section className={styles['section-container']}>
-          <h2 className={styles['section-header']}>Collections</h2>
-          <div className={styles.cards}>
-            {collections
-              ?.slice(0, 6)
-              .map((collection) => (
-                <React.Fragment key={collection?._id}>
-                  {user?.userId === userInfo?._id ? (
-                    <CollectionCard
-                      title={collection?.title}
-                      creator={collection?.creator}
-                      collectionId={collection?._id}
-                      isPrivate={collection?.private}
-                      imageUrl={collection?.projects[0]?.images[0]?.url}
-                      key={collection?._id}
-                      setIsDeleteModalOpen={setIsDeleteModalOpen}
-                      setIsEditModalOpen={setIsEditModalOpen}
-                      setFocusedCollection={setFocusedCollection}
-                    />
-                  ) : (
-                    <>
-                      {collection?.private === false && (
-                        <CollectionCard
-                          title={collection?.title}
-                          creator={collection?.creator}
-                          collectionId={collection?._id}
-                          isPrivate={collection?.private}
-                          imageUrl={collection?.projects[0]?.images[0]?.url}
-                          key={collection?._id}
-                          setIsDeleteModalOpen={setIsDeleteModalOpen}
-                          setIsEditModalOpen={setIsEditModalOpen}
-                          setFocusedCollection={setFocusedCollection}
-                        />
-                      )}
-                    </>
-                  )}
-                </React.Fragment>
-              ))}
-          </div>
-        </section>
+        {allProjects?.length > 0 && (
+          <section className={styles['section-container']}>
+            <h2 className={styles['section-header']}>Projects</h2>
+            <div className={styles.cards}>
+              {allProjects
+                ?.slice(0, 6)
+                .map((project) => (
+                  <React.Fragment key={project._id}>
+                    {user?.userId === userInfo?._id ? (
+                      <ProjectCard
+                        title={project?.title}
+                        authorDisplayName={userInfo?.displayName}
+                        authorUsername={userInfo?.username}
+                        imageUrl={project?.images[0].url}
+                        avatarUrl={userInfo?.avatarUrl}
+                        projectId={project?._id}
+                        published={project?.published}
+                      />
+                    ) : (
+                      <>
+                        {project?.published === true && (
+                          <ProjectCard
+                            title={project?.title}
+                            authorDisplayName={userInfo?.displayName}
+                            authorUsername={userInfo?.username}
+                            imageUrl={project?.images[0].url}
+                            avatarUrl={userInfo?.avatarUrl}
+                            projectId={project?._id}
+                            published={project?.published}
+                          />
+                        )}
+                      </>
+                    )}
+                  </React.Fragment>
+                ))}
+            </div>
+          </section>
+        )}
+        {collections?.length > 0 && (
+          <section className={styles['section-container']}>
+            <h2 className={styles['section-header']}>Collections</h2>
+            <div className={styles.cards}>
+              {collections
+                ?.slice(0, 6)
+                .map((collection) => (
+                  <React.Fragment key={collection?._id}>
+                    {user?.userId === userInfo?._id ? (
+                      <CollectionCard
+                        title={collection?.title}
+                        creator={collection?.creator}
+                        collectionId={collection?._id}
+                        isPrivate={collection?.private}
+                        imageUrl={collection?.projects[0]?.images[0]?.url}
+                        key={collection?._id}
+                        setIsDeleteModalOpen={setIsDeleteModalOpen}
+                        setIsEditModalOpen={setIsEditModalOpen}
+                        setFocusedCollection={setFocusedCollection}
+                      />
+                    ) : (
+                      <>
+                        {collection?.private === false && (
+                          <CollectionCard
+                            title={collection?.title}
+                            creator={collection?.creator}
+                            collectionId={collection?._id}
+                            isPrivate={collection?.private}
+                            imageUrl={collection?.projects[0]?.images[0]?.url}
+                            key={collection?._id}
+                            setIsDeleteModalOpen={setIsDeleteModalOpen}
+                            setIsEditModalOpen={setIsEditModalOpen}
+                            setFocusedCollection={setFocusedCollection}
+                          />
+                        )}
+                      </>
+                    )}
+                  </React.Fragment>
+                ))}
+            </div>
+          </section>
+        )}
       </div>
+      {allProjects?.length === 0 && collections?.length === 0 && (
+        <div className={styles['missing-message']}>
+          This user doesn't have anything to show yet.
+        </div>
+      )}
     </>
   );
 };

@@ -1,11 +1,8 @@
 @use 'variables';
+@use '../UserProfileProjects/UserProfileProjects.module.scss' as Profile;
 
 .latest-container {
-  display: flex;
-  flex-direction: column;
-  row-gap: 4rem;
-  margin-top: 1rem;
-  margin-bottom: 4rem;
+  @include Profile.container();
 }
 
 .section-container {
@@ -24,4 +21,8 @@
   position: absolute;
   right: 21rem;
   bottom: 5rem;
+}
+
+.missing-message {
+  @include Profile.missing();
 }

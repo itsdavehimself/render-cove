@@ -1,6 +1,15 @@
 @use 'variables';
+@use '../UserProfileProjects/UserProfileProjects.module.scss' as Profile;
+
+.collections-container {
+  @include Profile.container();
+}
 
 .user-profile-collections {
   display: flex;
   gap: 1rem;
+}
+
+.missing-message {
+  @include Profile.missing();
 }
