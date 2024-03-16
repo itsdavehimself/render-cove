@@ -75,7 +75,6 @@ const FollowerModal: React.FC<FollowerModalProps> = ({
     fetchUserList();
   }, [username, openModal]);
 
-  console.log(userList);
   return (
     <>
       <div className={styles['modal-overlay']}></div>
@@ -95,8 +94,8 @@ const FollowerModal: React.FC<FollowerModalProps> = ({
               username={follower?.username}
               displayName={follower?.displayName}
               avatarUrl={follower?.avatarUrl}
-              _id={follower?._id}
               key={follower?._id}
+              setOpenModal={setOpenModal}
             />
           ))}
         </div>
