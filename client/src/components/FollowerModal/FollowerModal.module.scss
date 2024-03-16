@@ -1,0 +1,63 @@
+@use 'variables';
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba($color: #000000, $alpha: 0.7);
+  z-index: 1000;
+}
+
+.modal-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 2000;
+}
+
+.follower-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: fit-content;
+  width: fit-content;
+  background-color: variables.$primary-alt;
+  border-radius: 0.25rem;
+  padding: 1.5rem 2rem;
+  row-gap: 1rem;
+  font-size: 0.9rem;
+  row-gap: 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.close-button {
+  font-size: 1.2rem;
+  background-color: transparent;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
+
+.close-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
