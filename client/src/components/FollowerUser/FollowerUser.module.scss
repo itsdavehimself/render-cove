@@ -1,4 +1,6 @@
 @use 'variables';
+@use '../UserProfile/UserProfileSidebar/UserProfileSidebar.module.scss' as
+  Profile;
 
 .follower-card {
   display: flex;
@@ -8,11 +10,11 @@
   padding: 0.5rem 0.75rem;
 }
 
-.follower-button {
+.user-profile-button {
   background-color: transparent;
 }
 
-.follower-button:hover {
+.user-profile-button:hover {
   cursor: pointer;
 }
 
@@ -45,4 +47,24 @@
   width: 3rem;
   overflow: hidden;
   border-radius: 50%;
+}
+
+.follow-button {
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  @include Profile.blue-button();
+}
+
+.follow-button:hover {
+  @include Profile.blue-button-hover();
+}
+
+.unfollow-button {
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  @include Profile.gray-button();
+}
+
+.unfollow-button:hover {
+  @include Profile.gray-button-hover();
 }

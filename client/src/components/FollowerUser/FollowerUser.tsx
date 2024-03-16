@@ -1,11 +1,13 @@
 import styles from './FollowerUser.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 interface FollowerUserProps {
   username: string;
   displayName: string;
   avatarUrl: string;
   setOpenModal: React.Dispatch<React.SetStateAction<string>>;
+  _id: string;
 }
 
 const FollowerUser: React.FC<FollowerUserProps> = ({
@@ -13,8 +15,10 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
   displayName,
   avatarUrl,
   setOpenModal,
+  _id,
 }) => {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   const handleClickUser = () => {
     navigate(`/user/${username}`);
@@ -23,7 +27,10 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
 
   return (
     <div className={styles['follower-card']}>
-      <button className={styles['follower-button']} onClick={handleClickUser}>
+      <button
+        className={styles['user-profile-button']}
+        onClick={handleClickUser}
+      >
         <div className={styles['follower-details']}>
           <div className={styles['avatar-container']}>
             <img src={avatarUrl}></img>
@@ -34,7 +41,7 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
           </div>
         </div>
       </button>
-      <button>Follow</button>
+      <button className={styles['follow-button']}>Follow</button>
     </div>
   );
 };
