@@ -21,6 +21,7 @@ import { CollectionsContextProvider } from './context/CollectionsContext';
 import UserProfileCollections from './components/UserProfile/UserProfileCollections/UserProfileCollections';
 import ViewCollection from './components/ViewCollection/ViewCollection';
 import UserProfileLatest from './components/UserProfile/UserProfileLatest/UserProfileLatest';
+import { UserInfoContextProvider } from './context/UserInfoContext';
 
 function App() {
   const { user } = useAuthContext();
@@ -59,7 +60,14 @@ function App() {
                     user ? <CreateProjectForm /> : <Navigate to="/login" />
                   }
                 />
-                <Route path="/user/:username" element={<UserProfilePublic />}>
+                <Route
+                  path="/user/:username"
+                  element={
+                    <UserInfoContextProvider>
+                      <UserProfilePublic />
+                    </UserInfoContextProvider>
+                  }
+                >
                   <Route
                     path="/user/:username"
                     element={<UserProfileLatest />}
