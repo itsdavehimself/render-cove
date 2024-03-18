@@ -27,9 +27,9 @@
 .follower-modal {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: fit-content;
-  width: fit-content;
+  justify-content: flex-start;
+  height: 28rem;
+  width: 30rem;
   background-color: variables.$primary-alt;
   border-radius: 0.25rem;
   padding: 1.5rem 2rem;
