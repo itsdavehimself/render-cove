@@ -76,14 +76,14 @@ const Navbar: React.FC = () => {
               <div className={styles.logo}>RENDERCOVE</div>
             </Link>
             <div className={styles['nav-links']}>
-              <Link className={styles['nav-link']} to="">
+              <Link className={styles['nav-link']} to="/explore">
                 <button className={styles['navbar-nav-button']}>Explore</button>
               </Link>
-              <Link className={styles['nav-link']} to="">
+              <Link className={styles['nav-link']} to="/about">
                 <button className={styles['navbar-nav-button']}>About</button>
               </Link>
-              <Link className={styles['nav-link']} to="">
-                <button className={styles['navbar-nav-button']}>Donate</button>
+              <Link className={styles['nav-link']} to="/contact">
+                <button className={styles['navbar-nav-button']}>Contact</button>
               </Link>
             </div>
           </div>
@@ -113,14 +113,14 @@ const Navbar: React.FC = () => {
               <div className={styles.logo}>RENDERCOVE</div>
             </Link>
             <div className={styles['nav-links']}>
-              <Link className={styles['nav-link']} to="">
+              <Link className={styles['nav-link']} to="/explore">
                 <button className={styles['navbar-nav-button']}>Explore</button>
               </Link>
-              <Link className={styles['nav-link']} to="">
+              <Link className={styles['nav-link']} to="/about">
                 <button className={styles['navbar-nav-button']}>About</button>
               </Link>
-              <Link className={styles['nav-link']} to="">
-                <button className={styles['navbar-nav-button']}>Donate</button>
+              <Link className={styles['nav-link']} to="/contact">
+                <button className={styles['navbar-nav-button']}>Contact</button>
               </Link>
             </div>
           </div>{' '}
