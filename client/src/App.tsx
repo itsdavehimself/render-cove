@@ -22,6 +22,9 @@ import UserProfileCollections from './components/UserProfile/UserProfileCollecti
 import ViewCollection from './components/ViewCollection/ViewCollection';
 import UserProfileLatest from './components/UserProfile/UserProfileLatest/UserProfileLatest';
 import { UserInfoContextProvider } from './context/UserInfoContext';
+import Contact from './containers/Contact/Contact';
+import About from './containers/About/About';
+import Explore from './containers/Explore/Explore';
 
 function App() {
   const { user } = useAuthContext();
@@ -53,6 +56,9 @@ function App() {
               </Route>
               <Route element={<WithNav />}>
                 <Route path="/" element={<Home />} />
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route
                   path="/create/project"
