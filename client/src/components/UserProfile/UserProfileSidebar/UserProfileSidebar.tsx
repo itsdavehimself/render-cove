@@ -21,17 +21,18 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useUserInfoContext } from '../../../hooks/useUserInfoContext';
 import TagDisplay from '../../TagDisplay/TagDisplay';
-
-enum FollowAction {
-  Follow = 'follow',
-  Unfollow = 'unfollow',
-}
+import handleFollowClick, {
+  FollowAction,
+} from '../../../containers/UserProfilePublic/UserProfilePublic.utility';
 
 interface UserProfileSidebarProps {
   setOpenModal: React.Dispatch<React.SetStateAction<string>>;
+  followers: number | undefined;
+  following: number | undefined;
+  isFollowing: boolean;
 }
 
 const API_BASE_URL: string =
@@ -39,23 +40,19 @@ const API_BASE_URL: string =
 
 const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
   setOpenModal,
+  followers,
+  following,
+  isFollowing,
 }) => {
-  const { user, dispatch } = useAuthContext();
-  const { userInfo, dispatchUserInfo } = useUserInfoContext();
   const navigate = useNavigate();
-
-  const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [followers, setFollowers] = useState<number | undefined>(
-    userInfo?.followers.length || 0,
-  );
-  const [following, setFollowing] = useState<number | undefined>(
-    userInfo?.following.length || 0,
-  );
+  const { userInfo, dispatchUserInfo } = useUserInfoContext();
+  const { user, dispatch } = useAuthContext();
   const [isHoveringFollowButton, setIsHoveringFollowButton] =
     useState<boolean>(false);
-  const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [likes, setLikes] = useState<number>(0);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const locationIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faLocationDot} />
@@ -85,63 +82,14 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
     behance: 'https://www.behance.net/',
   };
 
-  const handleFollowClick = async (action: FollowAction): Promise<void> => {
-    setError(null);
-    setIsLoading(true);
-    const toggleFollowStatusResponse = await fetch(
-      `${API_BASE_URL}/users/toggleFollowStatus/${userInfo?._id}`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          followAction: action,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-      },
-    );
-
-    const toggleFollowStatusJSON = await toggleFollowStatusResponse.json();
-
-    if (!toggleFollowStatusResponse.ok) {
-      setError(toggleFollowStatusJSON);
-      setIsLoading(false);
-    }
-
-    if (toggleFollowStatusResponse.ok) {
-      setError(null);
-      setIsLoading(false);
-
-      const mergedUser = { ...user, ...toggleFollowStatusJSON.updatedUser };
-
-      setFollowers(toggleFollowStatusJSON.toggledUser.followers.length);
-      dispatchUserInfo({
-        type: 'UPDATE_INFO',
-        payload: toggleFollowStatusJSON.toggledUser,
-      });
-      setIsFollowing(userInfo.followers.includes(user.userId));
-      dispatch({ type: 'UPDATE_USER', payload: mergedUser });
-      localStorage.setItem('user', JSON.stringify(mergedUser));
-    }
-  };
-
   useEffect(() => {
     if (userInfo) {
-      setFollowers(userInfo.followers.length);
-      setFollowing(userInfo.following.length);
       const totalLikes = userInfo.projects.reduce((total, project) => {
         return total + project?.likes?.length;
       }, 0);
       setLikes(totalLikes);
     }
   }, [userInfo]);
-
-  useEffect(() => {
-    if (user && userInfo && userInfo.followers) {
-      setIsFollowing(userInfo.followers.includes(user.userId));
-    }
-  }, [user, userInfo]);
 
   return (
     <aside className={styles['profile-sidebar-container']}>
@@ -199,7 +147,18 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
                     onClick={
                       !user
                         ? () => navigate('/login')
-                        : () => handleFollowClick(FollowAction.Unfollow)
+                        : () =>
+                            handleFollowClick(
+                              FollowAction.Unfollow,
+                              setError,
+                              setIsLoading,
+                              API_BASE_URL,
+                              userInfo._id,
+                              userInfo._id,
+                              user,
+                              dispatch,
+                              dispatchUserInfo,
+                            )
                     }
                     disabled={isLoading}
                     onMouseEnter={() => setIsHoveringFollowButton(true)}
@@ -217,7 +176,18 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
                     onClick={
                       !user
                         ? () => navigate('/login')
-                        : () => handleFollowClick(FollowAction.Follow)
+                        : () =>
+                            handleFollowClick(
+                              FollowAction.Follow,
+                              setError,
+                              setIsLoading,
+                              API_BASE_URL,
+                              userInfo._id,
+                              userInfo._id,
+                              user,
+                              dispatch,
+                              dispatchUserInfo,
+                            )
                     }
                     disabled={isLoading}
                   >

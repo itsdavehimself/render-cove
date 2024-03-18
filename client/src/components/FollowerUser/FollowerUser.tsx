@@ -1,6 +1,17 @@
 import styles from './FollowerUser.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useState, useEffect } from 'react';
+import { useUserInfoContext } from '../../hooks/useUserInfoContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faUserPlus,
+  faUserMinus,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons';
+import handleFollowClick, {
+  FollowAction,
+} from '../../containers/UserProfilePublic/UserProfilePublic.utility';
 
 interface FollowerUserProps {
   username: string;
@@ -10,6 +21,9 @@ interface FollowerUserProps {
   _id: string;
 }
 
+const API_BASE_URL: string =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
+
 const FollowerUser: React.FC<FollowerUserProps> = ({
   username,
   displayName,
@@ -18,12 +32,28 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
   _id,
 }) => {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
+  const { userInfo, dispatchUserInfo } = useUserInfoContext();
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [isHoveringFollowButton, setIsHoveringFollowButton] =
+    useState<boolean>(false);
+
+  const followIcon: React.ReactNode = <FontAwesomeIcon icon={faUserPlus} />;
+  const checkIcon: React.ReactNode = <FontAwesomeIcon icon={faCheck} />;
+  const unfollowIcon: React.ReactNode = <FontAwesomeIcon icon={faUserMinus} />;
 
   const handleClickUser = () => {
     navigate(`/user/${username}`);
     setOpenModal('none');
   };
+
+  useEffect(() => {
+    if (user && userInfo && userInfo.followers) {
+      setIsFollowing(user.following.includes(_id));
+    }
+  }, [user, userInfo, _id]);
 
   return (
     <div className={styles['follower-card']}>
@@ -41,7 +71,65 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
           </div>
         </div>
       </button>
-      <button className={styles['follow-button']}>Follow</button>
+      {user.userId !== _id ? (
+        <>
+          {isFollowing ? (
+            <button
+              className={styles['unfollow-button']}
+              onClick={
+                !user
+                  ? () => navigate('/login')
+                  : () =>
+                      handleFollowClick(
+                        FollowAction.Unfollow,
+                        setError,
+                        setIsLoading,
+                        API_BASE_URL,
+                        userInfo._id,
+                        _id,
+                        user,
+                        dispatch,
+                        dispatchUserInfo,
+                      )
+              }
+              disabled={isLoading}
+              onMouseEnter={() => setIsHoveringFollowButton(true)}
+              onMouseLeave={() => setIsHoveringFollowButton(false)}
+            >
+              {!isHoveringFollowButton ? (
+                <>{checkIcon} Following</>
+              ) : (
+                <>{unfollowIcon} Unfollow</>
+              )}
+            </button>
+          ) : (
+            <button
+              className={styles['follow-button']}
+              onClick={
+                !user
+                  ? () => navigate('/login')
+                  : () =>
+                      handleFollowClick(
+                        FollowAction.Follow,
+                        setError,
+                        setIsLoading,
+                        API_BASE_URL,
+                        userInfo._id,
+                        _id,
+                        user,
+                        dispatch,
+                        dispatchUserInfo,
+                      )
+              }
+              disabled={isLoading}
+            >
+              {followIcon} Follow
+            </button>
+          )}
+        </>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
