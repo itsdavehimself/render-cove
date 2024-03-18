@@ -28,6 +28,7 @@ import { GenerationData } from '../../../types/Project';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { useProjectContext } from '../../../hooks/useProjectContext';
 import CollectionsModal from '../../CollectionsModal/CollectionsModal';
+import ShareModal from '../../ShareModal/ShareModal';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -55,6 +56,7 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
   const [isLiked, setIsLiked] = useState(false);
   const [isCollectionsModalOpen, setIsCollectionsModalOpen] =
     useState<boolean>(false);
+  const [isSharingOpen, setIsSharingOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const htmlContent =
@@ -141,6 +143,9 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
 
   return (
     <main className={styles['main-container']}>
+      {isSharingOpen && (
+        <ShareModal setIsOpen={setIsSharingOpen} project={project} />
+      )}
       {isCollectionsModalOpen && (
         <CollectionsModal
           isModalOpen={isCollectionsModalOpen}
@@ -160,7 +165,12 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
         >
           {bookmarkIcon}
         </button>
-        <button className={styles['social-button']}>{shareIcon}</button>
+        <button
+          className={styles['social-button']}
+          onClick={() => setIsSharingOpen(true)}
+        >
+          {shareIcon}
+        </button>
       </div>
       {project && (
         <section className={styles.project}>
