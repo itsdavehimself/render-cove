@@ -17,6 +17,8 @@ import User from '../models/userModel.js';
 import Image from '../types/Image.js';
 import { ramValue } from '../utility/value.utility.js';
 import { UserDocument } from '../types/UserDocument.js';
+import { io } from '../server.js';
+import Notification from '../models/notificationModel.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -504,6 +506,8 @@ const toggleLikeProject = async (req: AuthRequest, res: Response) => {
       return res.status(404).json({ error: 'Project not found' });
     }
 
+    const notificationRoom = project?.author.toString();
+
     if (project.likes.some((like) => like.userId.equals(userId))) {
       const project = await Project.findOneAndUpdate(
         { _id: projectId },
@@ -539,6 +543,21 @@ const toggleLikeProject = async (req: AuthRequest, res: Response) => {
         project,
         user,
       };
+
+      let notification = await Notification.create({
+        recipient: project?.author,
+        sender: userId,
+        type: 'like',
+        post: projectId,
+      });
+
+      notification = await notification.populate([
+        { path: 'sender', select: 'avatarUrl displayName' },
+        { path: 'post', select: 'title' },
+      ]);
+
+      io.to(notificationRoom).emit('receive-notification', notification);
+
       res.status(200).json(likeObject);
     }
   } catch (error: any) {
