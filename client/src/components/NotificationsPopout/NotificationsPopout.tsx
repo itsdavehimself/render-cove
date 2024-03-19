@@ -41,6 +41,7 @@ const NotificationPopout: React.FC<NotificationPopoutProps> = ({
             <Link
               to={`/project/${notification.post._id}`}
               key={notification._id}
+              onClick={() => setIsOpen(false)}
             >
               <div className={styles['notification']}>
                 <div className={styles['avatar-container']}>
