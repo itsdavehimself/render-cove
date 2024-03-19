@@ -5,7 +5,7 @@ const API_BASE_URL: string =
 
 const markAsRead = async (
   user: UserType,
-  fetchNotifications: () => Promise<void>,
+  fetchNotifications: () => void,
 ): Promise<void> => {
   const readResponse = await fetch(`${API_BASE_URL}/notifications/markAsRead`, {
     method: 'PATCH',
