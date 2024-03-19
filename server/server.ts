@@ -10,6 +10,7 @@ import followersRouter from './routes/followers.js';
 import http from 'http';
 import { Server } from 'socket.io';
 import notificationsRouter from './routes/notifications.js';
+import messagesRouter from './routes/messages.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use('/api/auth', userAuthRouter);
 app.use('/api/collections', collectionsRouter);
 app.use('/api/followers', followersRouter);
 app.use('/api/notifications', notificationsRouter);
+app.use('/api/messages', messagesRouter);
 
 const mongoURI = process.env.MONGO_URI;
 
