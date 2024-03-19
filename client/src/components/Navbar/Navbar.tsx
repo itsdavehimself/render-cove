@@ -1,5 +1,5 @@
 import styles from './Navbar.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useLogOut from '../../hooks/useLogOut';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -22,16 +22,43 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
+import { useNotificationContext } from '../../hooks/useNotificationContext';
+import Notification from '../../types/Notification';
+import NotificationPopout from '../NotificationsPopout/NotificationsPopout';
+
+const API_SOCKET_URL: string =
+  import.meta.env.VITE_SOCKET_URL || 'ws://localhost:4000';
 
 const Navbar: React.FC = () => {
+  const socket = io(API_SOCKET_URL);
+  const { unreadNotifications, addNotification } = useNotificationContext();
+  const { logOut } = useLogOut();
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+
   const [isUserPopOutShowing, setIsUserPopOutShowing] =
     useState<boolean>(false);
   const [isCreatePopOutShowing, setIsCreatePopOutShowing] =
     useState<boolean>(false);
+  const [isNotificationPopoutOpen, setIsNotificationPopoutOpen] =
+    useState<boolean>(false);
 
-  const { logOut } = useLogOut();
-  const { user } = useAuthContext();
-  const navigate = useNavigate();
+  useEffect(() => {
+    socket.on('connect', () => {
+      socket.emit('userId', user.userId);
+    });
+
+    const handleReceiveNotification = (notification: Notification) => {
+      addNotification(notification);
+    };
+
+    socket.on('receive-notification', handleReceiveNotification);
+
+    return () => {
+      socket.off('receive-notification', handleReceiveNotification);
+    };
+  }, []);
 
   const handleLogout = (): void => {
     logOut();
@@ -158,12 +185,32 @@ const Navbar: React.FC = () => {
               )}
             </div>
             <div className={styles['notification-icons']}>
-              <div className={styles['notification-bell']}>
-                {notificationBell}
-              </div>
-              <div className={styles['notification-envelope']}>
-                {envelopeIcon}
-              </div>
+              {isNotificationPopoutOpen && (
+                <div className={styles['notification-popout-container']}>
+                  <NotificationPopout setIsOpen={setIsNotificationPopoutOpen} />
+                </div>
+              )}
+              <button
+                className={styles['notification-button']}
+                onClick={() =>
+                  setIsNotificationPopoutOpen(!isNotificationPopoutOpen)
+                }
+              >
+                <div className={styles['notification-icon']}>
+                  {unreadNotifications > 0 && (
+                    <div className={styles['notification-dot']}>
+                      {unreadNotifications < 9 ? unreadNotifications : '9+'}
+                    </div>
+                  )}
+
+                  {notificationBell}
+                </div>
+              </button>
+              <button className={styles['notification-button']}>
+                <div className={styles['notification-icon']}>
+                  {envelopeIcon}
+                </div>
+              </button>
             </div>
             <div
               className={styles['avatar-container']}

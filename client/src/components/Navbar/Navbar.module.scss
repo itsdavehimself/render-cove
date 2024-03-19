@@ -146,19 +146,31 @@ button {
 }
 
 .notification-icons {
+  position: relative;
   display: flex;
-  column-gap: 2rem;
+  column-gap: 1.4rem;
   font-size: 1.2rem;
 }
 
-.notification-bell,
-.notification-envelope {
+.notification-popout-container {
+  position: absolute;
+  right: 470px;
+  top: 40px;
+}
+
+.notification-button {
+  background-color: transparent;
+  height: 2rem;
+  width: 2rem;
+}
+
+.notification-icon {
+  position: relative;
   color: variables.$primary-lighter;
   transition: all 0.2s ease-in-out;
 }
 
-.notification-bell:hover,
-.notification-envelope:hover {
+.notification-icon:hover {
   color: variables.$primary-lightest;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
@@ -189,4 +201,21 @@ button {
   top: 4.5rem;
   right: -2rem;
   width: 16rem;
+}
+
+.notification-dot {
+  position: absolute;
+  top: -10px;
+  right: -12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  background-color: variables.$error-color;
+  color: variables.$secondary-color;
+  border: 3px solid variables.$primary-color;
+  font-size: 0.7rem;
+  font-weight: 500;
+  border-radius: 50%;
 }
