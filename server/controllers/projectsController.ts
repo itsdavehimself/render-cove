@@ -595,7 +595,26 @@ const addComment = async (req: AuthRequest, res: Response) => {
       { $push: { comments: commentObject } },
       { new: true }
     );
-    res.status(200).json(project);
+
+    if (project) {
+      const notificationRoom = project?.author.toString();
+
+      let notification = await Notification.create({
+        recipient: project?.author,
+        sender: userId,
+        type: 'comment',
+        post: projectId,
+      });
+
+      notification = await notification.populate([
+        { path: 'sender', select: 'avatarUrl displayName' },
+        { path: 'post', select: 'title' },
+      ]);
+
+      io.to(notificationRoom).emit('receive-notification', notification);
+
+      res.status(200).json(project);
+    }
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
