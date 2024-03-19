@@ -55,7 +55,9 @@ const NotificationPopout: React.FC<NotificationPopoutProps> = ({
                     <span className={styles.emphasized}>
                       {notification.sender.displayName}
                     </span>{' '}
-                    liked your post{' '}
+                    {notification.type === 'like'
+                      ? 'liked your post'
+                      : 'commented on your post'}{' '}
                     <span className={styles.emphasized}>
                       {notification.post.title}
                     </span>
