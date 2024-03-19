@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import mongoose, { Types } from 'mongoose';
 import Notification from '../models/notificationModel.js';
 
 interface AuthRequest extends Request {
