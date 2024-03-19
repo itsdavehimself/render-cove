@@ -25,6 +25,7 @@ import { UserInfoContextProvider } from './context/UserInfoContext';
 import Contact from './containers/Contact/Contact';
 import About from './containers/About/About';
 import Explore from './containers/Explore/Explore';
+import Notifications from './containers/Notifications/Notifications';
 
 function App() {
   const { user } = useAuthContext();
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
+                <Route path="/notifications" element={<Notifications />} />
                 <Route
                   path="/create/project"
                   element={
