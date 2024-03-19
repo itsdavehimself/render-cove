@@ -544,19 +544,21 @@ const toggleLikeProject = async (req: AuthRequest, res: Response) => {
         user,
       };
 
-      let notification = await Notification.create({
-        recipient: project?.author,
-        sender: userId,
-        type: 'like',
-        post: projectId,
-      });
+      if (notificationRoom !== userId?.toString()) {
+        let notification = await Notification.create({
+          recipient: project?.author,
+          sender: userId,
+          type: 'like',
+          post: projectId,
+        });
 
-      notification = await notification.populate([
-        { path: 'sender', select: 'avatarUrl displayName' },
-        { path: 'post', select: 'title' },
-      ]);
+        notification = await notification.populate([
+          { path: 'sender', select: 'avatarUrl displayName' },
+          { path: 'post', select: 'title' },
+        ]);
 
-      io.to(notificationRoom).emit('receive-notification', notification);
+        io.to(notificationRoom).emit('receive-notification', notification);
+      }
 
       res.status(200).json(likeObject);
     }
@@ -599,19 +601,21 @@ const addComment = async (req: AuthRequest, res: Response) => {
     if (project) {
       const notificationRoom = project?.author.toString();
 
-      let notification = await Notification.create({
-        recipient: project?.author,
-        sender: userId,
-        type: 'comment',
-        post: projectId,
-      });
+      if (notificationRoom !== userId?.toString()) {
+        let notification = await Notification.create({
+          recipient: project?.author,
+          sender: userId,
+          type: 'comment',
+          post: projectId,
+        });
 
-      notification = await notification.populate([
-        { path: 'sender', select: 'avatarUrl displayName' },
-        { path: 'post', select: 'title' },
-      ]);
+        notification = await notification.populate([
+          { path: 'sender', select: 'avatarUrl displayName' },
+          { path: 'post', select: 'title' },
+        ]);
 
-      io.to(notificationRoom).emit('receive-notification', notification);
+        io.to(notificationRoom).emit('receive-notification', notification);
+      }
 
       res.status(200).json(project);
     }
