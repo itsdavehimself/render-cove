@@ -8,10 +8,10 @@ import { NotificationContextProvider } from './context/NotificationsContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <NotificationContextProvider>
-      <AuthContextProvider>
+    <AuthContextProvider>
+      <NotificationContextProvider>
         <App />
-      </AuthContextProvider>
-    </NotificationContextProvider>
+      </NotificationContextProvider>
+    </AuthContextProvider>
   </React.StrictMode>,
 );
