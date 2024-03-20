@@ -3,7 +3,7 @@ import styles from './FormInput.module.scss';
 
 interface FormInputProps {
   htmlFor: string;
-  label: string;
+  label?: string;
   type: string;
   id: string;
   name: string;
@@ -28,9 +28,11 @@ const FormInput: React.FC<FormInputProps> = ({
 }) => {
   return (
     <div className={styles['input-container']}>
-      <label className={styles['input-label']} htmlFor={htmlFor}>
-        {label}
-      </label>
+      {label && (
+        <label className={styles['input-label']} htmlFor={htmlFor}>
+          {label}
+        </label>
+      )}
       <input
         className={`${styles['form-input']} ${clientError || serverError ? styles.error : ''}`}
         type={type}
