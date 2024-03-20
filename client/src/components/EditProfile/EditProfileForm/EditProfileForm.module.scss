@@ -55,6 +55,8 @@
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
+  font-size: 0.9rem;
+  color: variables.$secondary-color;
 }
 
 .bio-remaining-characters {
