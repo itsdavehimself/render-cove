@@ -12,6 +12,7 @@ interface FormInputProps {
   clientError?: string;
   serverError?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  autoComplete?: string;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -25,6 +26,7 @@ const FormInput: React.FC<FormInputProps> = ({
   clientError,
   serverError,
   onChange,
+  autoComplete,
 }) => {
   return (
     <div className={styles['input-container']}>
@@ -41,6 +43,7 @@ const FormInput: React.FC<FormInputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        autoComplete={autoComplete}
       />
       {clientError && (
         <div className={styles['input-error-message']}>{clientError}</div>
