@@ -4,8 +4,8 @@ import { getMessages, sendMessage } from '../controllers/messagesController.js';
 
 const messagesRouter: Router = express.Router();
 
-messagesRouter.get('/', requireAuth, getMessages);
+messagesRouter.get('/:otherUserId', requireAuth, getMessages);
 
-messagesRouter.post('/', requireAuth, sendMessage);
+messagesRouter.post('/:otherUserId', requireAuth, sendMessage);
 
 export default messagesRouter;
