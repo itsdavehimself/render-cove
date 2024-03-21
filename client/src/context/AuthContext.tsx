@@ -41,6 +41,17 @@ export interface UserType {
   followers: string[];
   likes: UserLike[];
   _id: string;
+  messages: [
+    {
+      withUser: {
+        avatarUrl: string;
+        displayName: string;
+        _id: string;
+      };
+      unreadCount: number;
+      _id: string;
+    },
+  ];
 }
 
 interface AuthContextType {
