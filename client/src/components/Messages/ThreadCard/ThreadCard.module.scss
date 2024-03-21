@@ -1,0 +1,27 @@
+@use 'variables';
+
+.thread-card {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+  padding: 1rem 2rem;
+  width: 100%;
+  transition: all 0.2s ease-in-out;
+}
+
+.thread-card:hover {
+  cursor: pointer;
+  background-color: variables.$primary-tertiary;
+  transition: all 0.2s ease-in-out;
+}
+
+.avatar-container {
+  height: 3rem;
+  width: 3rem;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.name {
+  font-size: 1rem;
+}

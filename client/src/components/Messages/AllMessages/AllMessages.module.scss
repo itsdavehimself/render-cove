@@ -1,0 +1,21 @@
+@use 'variables';
+
+.all-messages-container {
+  background-color: variables.$primary-color;
+  width: 26rem;
+  min-height: calc(100vh - 9rem);
+}
+
+.messages-header {
+  position: fixed;
+  top: 5rem;
+  background-color: variables.$primary-color;
+  padding: 1rem 1.25rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  width: 24rem;
+}
+
+.threads {
+  margin-top: 4rem;
+}

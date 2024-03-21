@@ -1,0 +1,120 @@
+@use 'variables';
+
+@mixin message-bubble-default {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 0.35rem 0.75rem;
+  border-radius: 1rem;
+  max-width: 40rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+@mixin message-details-default {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+}
+
+.messages-window {
+  position: relative;
+  display: grid;
+  background-color: variables.$primary-color;
+  height: calc(100vh - 5rem);
+  margin-left: 8px;
+}
+
+.message-thread-container {
+  overflow-y: scroll;
+  height: calc(100vh - 9rem);
+  mask-image: linear-gradient(to top, transparent, variables.$primary-color),
+    linear-gradient(to left, transparent 17px, variables.$primary-color 17px);
+  mask-size: 100% 20000px;
+  mask-position: left bottom;
+  -webkit-mask-image: linear-gradient(
+      to top,
+      transparent,
+      variables.$primary-color
+    ),
+    linear-gradient(to left, transparent 17px, variables.$primary-color 17px);
+  -webkit-mask-size: 100% 1000000px;
+  -webkit-mask-position: left bottom;
+  transition:
+    mask-position 0.3s,
+    -webkit-mask-position 0.3s;
+  border-left: 1px solid variables.$primary-tertiary;
+}
+
+.message-thread-container:hover {
+  -webkit-mask-position: left top;
+}
+
+.message-thread-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.message-thread-container::-webkit-scrollbar-thumb {
+  background-color: variables.$primary-light;
+  border-radius: 4px;
+}
+
+.message-thread-container::-webkit-scrollbar-track {
+  background-color: variables.$primary-alt;
+}
+
+.message-thread {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  width: 100%;
+  padding: 1.5rem 1.5rem;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-details.sender {
+  align-self: flex-end;
+  align-items: flex-end;
+  @include message-details-default();
+}
+
+.message-details.receiver {
+  align-self: flex-start;
+  align-items: flex-start;
+  @include message-details-default();
+}
+
+.message-bubble.sender {
+  @include message-bubble-default();
+  background-color: variables.$accent-color;
+}
+
+.message-bubble.receiver {
+  @include message-bubble-default();
+  background-color: variables.$secondary-color;
+  color: variables.$primary-color;
+}
+
+.date {
+  font-size: 0.7rem;
+  color: variables.$secondary-darker;
+}
+
+.message-input {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  width: calc(100vw - 26rem - 8px);
+  padding: 0 1.1rem;
+  column-gap: 0.5rem;
+  border-left: 1px solid variables.$primary-tertiary;
+}
