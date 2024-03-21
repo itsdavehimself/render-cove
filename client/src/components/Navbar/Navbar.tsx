@@ -1,7 +1,7 @@
 import styles from './Navbar.module.scss';
 import { useEffect, useState } from 'react';
 import useLogOut from '../../hooks/useLogOut';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import PopOutMenu from '../PopOutMenu/PopOutMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,6 +36,7 @@ const Navbar: React.FC = () => {
   const { logOut } = useLogOut();
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isUserPopOutShowing, setIsUserPopOutShowing] =
     useState<boolean>(false);
@@ -95,7 +96,9 @@ const Navbar: React.FC = () => {
   const tutorialsIcon: React.ReactNode = <FontAwesomeIcon icon={faBookOpen} />;
 
   return (
-    <nav className={styles.navbar}>
+    <nav
+      className={`${styles.navbar} ${location.pathname === '/messages' ? styles.border : ''}`}
+    >
       {!user && (
         <>
           <div className={styles['left-third-nav']}>
@@ -206,7 +209,10 @@ const Navbar: React.FC = () => {
                   {notificationBell}
                 </div>
               </button>
-              <button className={styles['notification-button']}>
+              <button
+                className={styles['notification-button']}
+                onClick={() => navigate('/messages')}
+              >
                 <div className={styles['notification-icon']}>
                   {envelopeIcon}
                 </div>

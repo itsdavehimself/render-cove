@@ -36,6 +36,10 @@ button {
   z-index: 1000;
 }
 
+.border {
+  border-bottom: 1px solid variables.$primary-tertiary;
+}
+
 .left-third-nav {
   display: flex;
   align-items: center;
