@@ -21,10 +21,14 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
 
   try {
     let userQuery = User.findOne({ email: email });
-    userQuery = userQuery.populate({
-      path: 'projects',
-      select: '_id likes',
-    });
+    userQuery = userQuery.populate([
+      { path: 'projects', select: '_id likes' },
+      {
+        path: 'messages',
+        select: 'withUser',
+        populate: { path: 'withUser', select: 'avatarUrl displayName' },
+      },
+    ]);
 
     const user: UserDocument | null = await userQuery.exec();
     if (!user) {
@@ -53,6 +57,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       _id: userId,
       likes,
       projects,
+      messages,
     } = user;
 
     res.status(200).json({
@@ -78,6 +83,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       likes,
       token,
       projects,
+      messages,
     });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
@@ -116,6 +122,7 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       _id: userId,
       likes,
       projects,
+      messages,
     } = user;
 
     res.status(200).json({
@@ -141,6 +148,7 @@ const signupUser = async (req: Request, res: Response): Promise<void> => {
       followers,
       likes,
       projects,
+      messages,
     });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
@@ -151,7 +159,14 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
   const { email } = req.body;
 
   const existingUser = await User.findOne({ email })
-    .populate({ path: 'projects', select: '_id likes' })
+    .populate([
+      { path: 'projects', select: '_id likes' },
+      {
+        path: 'messages',
+        select: 'withUser',
+        populate: { path: 'withUser', select: 'avatarUrl displayName' },
+      },
+    ])
     .exec();
 
   try {
@@ -184,6 +199,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         followers,
         likes,
         projects,
+        messages,
       } = existingUser;
 
       res.status(200).json({
@@ -209,6 +225,7 @@ const checkEmailOAuth = async (req: Request, res: Response): Promise<void> => {
         followers,
         likes,
         projects,
+        messages,
       });
     }
 
@@ -259,6 +276,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         followers,
         likes,
         projects,
+        messages,
       } = newUser;
 
       res.status(200).json({
@@ -284,6 +302,7 @@ const signUpWithOAuth = async (req: Request, res: Response): Promise<void> => {
         followers,
         likes,
         projects,
+        messages,
       });
     }
   } catch (error: any) {
