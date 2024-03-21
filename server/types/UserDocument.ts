@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { EmailNotifications } from './EmailNotifications';
 import UserLike from './UserLike';
 import { Types } from 'mongoose';
+import UserMessagesOverview from './UserMessagesOverview';
 
 interface UserDocument {
   email: string;
@@ -27,6 +28,7 @@ interface UserDocument {
   projects: Types.ObjectId[];
   collections: Types.ObjectId[];
   likes: UserLike[];
+  messages: UserMessagesOverview[];
 }
 
 interface UserModel extends mongoose.Model<UserDocument> {
