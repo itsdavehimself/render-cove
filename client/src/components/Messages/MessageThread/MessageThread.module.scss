@@ -28,7 +28,7 @@
 
 .message-thread-container {
   overflow-y: scroll;
-  height: calc(100vh - 9rem);
+  height: calc(100vh - 10rem);
   mask-image: linear-gradient(to top, transparent, variables.$primary-color),
     linear-gradient(to left, transparent 17px, variables.$primary-color 17px);
   mask-size: 100% 20000px;
