@@ -112,9 +112,15 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 5rem;
+  background-color: variables.$primary-color;
   width: calc(100vw - 26rem - 8px);
-  padding: 0 1.1rem;
-  column-gap: 0.5rem;
   border-left: 1px solid variables.$primary-tertiary;
+}
+
+.message-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 1.1rem;
 }

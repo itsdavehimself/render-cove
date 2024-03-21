@@ -23,12 +23,6 @@ interface MessageWithDelivered extends Message {
 
 type CombinedMessage = Message | MessageWithDelivered;
 
-const isMessageWithDelivered = (
-  message: CombinedMessage,
-): message is MessageWithDelivered => {
-  return (message as MessageWithDelivered).delivered !== undefined;
-};
-
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
@@ -75,7 +69,7 @@ const MessageThread: React.FC<MessageThreadProps> = ({
     return () => {
       socket.off('receive-message', handleReceiveMessage);
     };
-  }, []);
+  }, [socket, user.userId]);
 
   const displaySentMessage = (newMessage: Message) => {
     setNewMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -184,26 +178,28 @@ const MessageThread: React.FC<MessageThreadProps> = ({
             </div>
             <div ref={messagesEndRef} />
           </div>
-          <form
-            className={styles['message-input']}
-            onSubmit={handleSendMessage}
-          >
-            <FormInput
-              htmlFor="message"
-              type="text"
-              id="message"
-              name="message"
-              value={message}
-              placeholder="Type message here..."
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <SaveSubmitButton
-              icon={sendIcon}
-              label="Send"
-              isLoading={false}
-              color="blue"
-            />
-          </form>
+          <div className={styles['message-input']}>
+            <form
+              onSubmit={handleSendMessage}
+              className={styles['message-form']}
+            >
+              <FormInput
+                htmlFor="message"
+                type="text"
+                id="message"
+                name="message"
+                value={message}
+                placeholder="Type message here..."
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <SaveSubmitButton
+                icon={sendIcon}
+                label="Send"
+                isLoading={false}
+                color="blue"
+              />
+            </form>
+          </div>
         </>
       )}
     </div>
