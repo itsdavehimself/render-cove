@@ -191,6 +191,7 @@ const MessageThread: React.FC<MessageThreadProps> = ({
                 value={message}
                 placeholder="Type message here..."
                 onChange={(e) => setMessage(e.target.value)}
+                autoComplete="off"
               />
               <SaveSubmitButton
                 icon={sendIcon}
