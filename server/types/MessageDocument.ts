@@ -5,6 +5,7 @@ interface MessageDocument {
   sender: Types.ObjectId;
   content: string;
   createdAt: Date;
+  updatedAt: Date;
   read: boolean;
   _id: Types.ObjectId;
 }
