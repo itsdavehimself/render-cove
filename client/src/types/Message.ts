@@ -1,6 +1,14 @@
 interface Message {
-  recipient: string;
-  sender: string;
+  recipient: {
+    avatarUrl: string;
+    displayName: string;
+    _id: string;
+  };
+  sender: {
+    avatarUrl: string;
+    displayName: string;
+    _id: string;
+  };
   content: string;
   createdAt: Date;
   read: boolean;
