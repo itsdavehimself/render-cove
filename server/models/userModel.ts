@@ -114,12 +114,6 @@ const userSchema = new Schema<UserDocument>(
         timestamp: { type: Date, default: Date.now },
       },
     ],
-    messages: [
-      {
-        withUser: { type: Schema.Types.ObjectId, ref: 'User' },
-        unreadCount: { type: Number, default: 0 },
-      },
-    ],
   },
   { timestamps: true }
 );
