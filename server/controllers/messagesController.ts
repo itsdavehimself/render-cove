@@ -9,8 +9,6 @@ interface AuthRequest extends Request {
 const getMessages = async (req: AuthRequest, res: Response) => {
   const userId = req.user?._id;
   const otherUserId = req.params.otherUserId;
-  console.log('userId', userId);
-  console.log('otherUserId', otherUserId);
 
   try {
     const messages = await Message.find({
@@ -18,7 +16,13 @@ const getMessages = async (req: AuthRequest, res: Response) => {
         { sender: userId, recipient: otherUserId },
         { sender: otherUserId, recipient: userId },
       ],
-    }).sort({ updatedAt: 1 });
+    })
+      .populate([
+        { path: 'sender', select: 'avatarUrl displayName' },
+        { path: 'recipient', select: 'avatarUrl displayName' },
+      ])
+      .sort({ createdAt: 1 })
+      .exec();
 
     res.status(200).json(messages);
   } catch (error: any) {
@@ -33,10 +37,17 @@ const sendMessage = async (req: AuthRequest, res: Response) => {
 
   if (!content) {
     res.status(500).json({ error: 'Message cannot be empty' });
+    return;
   }
 
   if (!recipientId) {
     res.status(500).json({ error: 'Recipient cannot be empty' });
+    return;
+  }
+
+  if (!userId) {
+    res.status(401).json({ error: 'Unauthorized request' });
+    return;
   }
 
   try {
@@ -58,4 +69,102 @@ const sendMessage = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export { getMessages, sendMessage };
+const markAsRead = async (req: AuthRequest, res: Response) => {
+  const loggedInUserId = req.user?._id;
+  const otherUserId = req.params.otherUserId;
+
+  try {
+    const messages = await Message.find({
+      sender: otherUserId,
+      recipient: loggedInUserId,
+    });
+
+    await Promise.all(
+      messages.map(async (message) => {
+        message.read = true;
+        await message.save();
+      })
+    );
+
+    res.status(200);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getConversations = async (req: AuthRequest, res: Response) => {
+  const loggedInUserId = req.user?._id;
+
+  try {
+    const conversations = await Message.aggregate([
+      {
+        $match: {
+          $or: [{ sender: loggedInUserId }, { recipient: loggedInUserId }],
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $group: {
+          _id: {
+            $cond: {
+              if: { $eq: ['$sender', loggedInUserId] },
+              then: '$recipient',
+              else: '$sender',
+            },
+          },
+          latestMessage: { $first: '$$ROOT' },
+          unreadCount: {
+            $sum: {
+              $cond: {
+                if: {
+                  $and: [
+                    { $eq: ['$read', false] },
+                    { $eq: ['$recipient', loggedInUserId] },
+                  ],
+                },
+                then: 1,
+                else: 0,
+              },
+            },
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'userDetails',
+        },
+      },
+      {
+        $unwind: '$userDetails',
+      },
+      {
+        $project: {
+          _id: '$latestMessage._id',
+          sender: '$latestMessage.sender',
+          recipient: '$latestMessage.recipient',
+          content: '$latestMessage.content',
+          read: '$latestMessage.read',
+          createdAt: '$latestMessage.createdAt',
+          otherUser: {
+            avatarUrl: '$userDetails.avatarUrl',
+            displayName: '$userDetails.displayName',
+            _id: '$userDetails._id',
+            username: '$userDetails.username',
+          },
+          unreadCount: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(conversations);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export { getMessages, sendMessage, markAsRead, getConversations };
