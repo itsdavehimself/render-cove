@@ -63,7 +63,6 @@ const getUser = async (req: Request, res: Response) => {
       projects,
       _id,
       likes,
-      messages,
     } = user;
 
     const userResponseObject = {
@@ -84,7 +83,6 @@ const getUser = async (req: Request, res: Response) => {
       followers,
       projects,
       likes,
-      messages,
       _id,
     };
 
