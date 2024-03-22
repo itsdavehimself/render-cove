@@ -30,6 +30,7 @@ import Messages from './containers/Messages/Messages';
 import SocketContextProvider from './context/SocketContext';
 import { io } from 'socket.io-client';
 import { ConversationContextProvider } from './context/ConversationsContext';
+import MessageThread from './components/Messages/MessageThread/MessageThread';
 
 const API_SOCKET_URL: string =
   import.meta.env.VITE_SOCKET_URL || 'ws://localhost:4000';
@@ -73,7 +74,13 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/profile/edit" element={<EditProfile />} />
                     <Route path="/notifications" element={<Notifications />} />
-                    <Route path="/messages" element={<Messages />} />
+                    <Route path="/messages" element={<Messages />}>
+                      <Route path="/messages" element={<MessageThread />} />
+                      <Route
+                        path="/messages/:userIdToMessage"
+                        element={<MessageThread />}
+                      />
+                    </Route>
                     <Route
                       path="/create/project"
                       element={
