@@ -27,6 +27,13 @@ import About from './containers/About/About';
 import Explore from './containers/Explore/Explore';
 import Notifications from './containers/Notifications/Notifications';
 import Messages from './containers/Messages/Messages';
+import SocketContextProvider from './context/SocketContext';
+import { io } from 'socket.io-client';
+
+const API_SOCKET_URL: string =
+  import.meta.env.VITE_SOCKET_URL || 'ws://localhost:4000';
+
+const socket = io(API_SOCKET_URL);
 
 function App() {
   const { user } = useAuthContext();
@@ -38,112 +45,114 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        {!isLoading ? (
-          <>
-            <Routes>
-              <Route element={<WithoutNav />}>
-                <Route
-                  path="/signup"
-                  element={!user ? <SignUp /> : <Navigate to="/" />}
-                />
-                <Route
-                  path="/login"
-                  element={!user ? <Login /> : <Navigate to="/" />}
-                />
-                <Route
-                  path="/signup/username"
-                  element={!user ? <ChooseUsername /> : <Navigate to="/" />}
-                />
-              </Route>
-              <Route element={<WithNav />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/explore" element={<Explore />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/profile/edit" element={<EditProfile />} />
-                <Route path="/notifications" element={<Notifications />} />
-                <Route path="/messages" element={<Messages />} />
-                <Route
-                  path="/create/project"
-                  element={
-                    user ? <CreateProjectForm /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/user/:username"
-                  element={
-                    <UserInfoContextProvider>
-                      <UserProfilePublic />
-                    </UserInfoContextProvider>
-                  }
-                >
+      <SocketContextProvider socket={socket}>
+        <BrowserRouter>
+          {!isLoading ? (
+            <>
+              <Routes>
+                <Route element={<WithoutNav />}>
                   <Route
-                    path="/user/:username"
-                    element={<UserProfileLatest />}
+                    path="/signup"
+                    element={!user ? <SignUp /> : <Navigate to="/" />}
                   />
                   <Route
-                    path="/user/:username/projects"
-                    element={<UserProfileProjects />}
+                    path="/login"
+                    element={!user ? <Login /> : <Navigate to="/" />}
                   />
                   <Route
-                    path="/user/:username/case-studies"
-                    element={<UserProfileProjects />}
-                  />
-                  <Route
-                    path="/user/:username/tutorials"
-                    element={<UserProfileProjects />}
-                  />
-                  <Route
-                    path="/user/:username/collections"
-                    element={<UserProfileCollections />}
+                    path="/signup/username"
+                    element={!user ? <ChooseUsername /> : <Navigate to="/" />}
                   />
                 </Route>
-                <Route
-                  path="/project/:projectId"
-                  element={
-                    <>
-                      <ProjectContextProvider>
-                        <ProjectPage />
-                      </ProjectContextProvider>
-                    </>
-                  }
-                ></Route>
-                <Route
-                  path="/project/edit/:projectId"
-                  element={
-                    user ? <EditProjectForm /> : <Navigate to="/login" />
-                  }
-                />
-                <Route
-                  path="/:username/likes"
-                  element={user ? <UserLikes /> : <Navigate to="/login" />}
-                />
-                <Route
-                  path="/:username/collections"
-                  element={
-                    user ? (
+                <Route element={<WithNav />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/explore" element={<Explore />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/profile/edit" element={<EditProfile />} />
+                  <Route path="/notifications" element={<Notifications />} />
+                  <Route path="/messages" element={<Messages />} />
+                  <Route
+                    path="/create/project"
+                    element={
+                      user ? <CreateProjectForm /> : <Navigate to="/login" />
+                    }
+                  />
+                  <Route
+                    path="/user/:username"
+                    element={
+                      <UserInfoContextProvider>
+                        <UserProfilePublic />
+                      </UserInfoContextProvider>
+                    }
+                  >
+                    <Route
+                      path="/user/:username"
+                      element={<UserProfileLatest />}
+                    />
+                    <Route
+                      path="/user/:username/projects"
+                      element={<UserProfileProjects />}
+                    />
+                    <Route
+                      path="/user/:username/case-studies"
+                      element={<UserProfileProjects />}
+                    />
+                    <Route
+                      path="/user/:username/tutorials"
+                      element={<UserProfileProjects />}
+                    />
+                    <Route
+                      path="/user/:username/collections"
+                      element={<UserProfileCollections />}
+                    />
+                  </Route>
+                  <Route
+                    path="/project/:projectId"
+                    element={
                       <>
-                        <CollectionsContextProvider>
-                          <UserCollections />
-                        </CollectionsContextProvider>
+                        <ProjectContextProvider>
+                          <ProjectPage />
+                        </ProjectContextProvider>
                       </>
-                    ) : (
-                      <Navigate to="/login" />
-                    )
-                  }
-                />
-                <Route
-                  path="/collections/:collectionId"
-                  element={<ViewCollection />}
-                />
-              </Route>
-            </Routes>
-          </>
-        ) : (
-          <div>Loading....</div>
-        )}
-      </BrowserRouter>
+                    }
+                  ></Route>
+                  <Route
+                    path="/project/edit/:projectId"
+                    element={
+                      user ? <EditProjectForm /> : <Navigate to="/login" />
+                    }
+                  />
+                  <Route
+                    path="/:username/likes"
+                    element={user ? <UserLikes /> : <Navigate to="/login" />}
+                  />
+                  <Route
+                    path="/:username/collections"
+                    element={
+                      user ? (
+                        <>
+                          <CollectionsContextProvider>
+                            <UserCollections />
+                          </CollectionsContextProvider>
+                        </>
+                      ) : (
+                        <Navigate to="/login" />
+                      )
+                    }
+                  />
+                  <Route
+                    path="/collections/:collectionId"
+                    element={<ViewCollection />}
+                  />
+                </Route>
+              </Routes>
+            </>
+          ) : (
+            <div>Loading....</div>
+          )}
+        </BrowserRouter>
+      </SocketContextProvider>
     </div>
   );
 }
