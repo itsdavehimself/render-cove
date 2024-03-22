@@ -4,6 +4,7 @@ import Message from '../types/Message';
 import { SocketContext } from './SocketContext';
 import { useContext } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
+import LargeLoadingSpinner from '../components/LargeLoadingSpinner/LargeLoadingSpinner';
 
 interface ConversationsContextType {
   conversations: Conversation[];
@@ -38,6 +39,7 @@ const API_BASE_URL: string =
 const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [numOfUnreadMessages, setNumOfUnreadMessages] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
   const { user } = useAuthContext();
   const socket = useContext(SocketContext);
 
@@ -128,6 +130,7 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const fetchConversations = async () => {
+    setLoading(true);
     if (user && user.token) {
       try {
         const conversationsResponse = await fetch(
@@ -158,6 +161,8 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
         }
       } catch (error) {
         console.error('Error fetching conversations:', error);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -165,6 +170,10 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     fetchConversations();
   }, [user]);
+
+  if (loading) {
+    return <LargeLoadingSpinner />;
+  }
 
   return (
     <ConversationContext.Provider
