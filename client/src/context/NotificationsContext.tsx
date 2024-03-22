@@ -36,13 +36,13 @@ const NotificationContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const fetchNotifications = async () => {
-    let userToken;
+    const user = localStorage.getItem('user');
+    if (!user) {
+      return;
+    }
+
+    const { token: userToken } = JSON.parse(user);
     try {
-      const user = localStorage.getItem('user');
-      if (user) {
-        const parsedUser = JSON.parse(user);
-        userToken = parsedUser.token;
-      }
       const notificationsResponse = await fetch(
         `${API_BASE_URL}/notifications`,
         {
