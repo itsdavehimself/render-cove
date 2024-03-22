@@ -77,7 +77,7 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
         socket?.off('receive-message', setMessagePreview);
       };
     }
-  }, [conversations]);
+  }, [user]);
 
   const markAsReadOnServer = async (otherUserId: string) => {
     if (user && user.token) {
