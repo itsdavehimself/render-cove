@@ -4,12 +4,14 @@ import styles from './Messages.module.scss';
 import { useState, useEffect } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import Message from '../../types/Message';
+import { useConversationContext } from '../../hooks/useConversationContext';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
 const Messages: React.FC = () => {
   const { user } = useAuthContext();
+  const { conversations, markConversationsAsRead } = useConversationContext();
   const [currentThread, setCurrentThread] = useState<string>('');
   const [messageThread, setMessageThread] = useState<Message[]>([]);
   const [error, setError] = useState<Error | null>(null);
@@ -39,11 +41,13 @@ const Messages: React.FC = () => {
         if (messagesResponse.ok) {
           setMessageThread(messagesJson);
           setIsLoadingMessages(false);
+          markConversationsAsRead(currentThread);
         }
       };
       fetchMessages();
     }
   }, [currentThread, user.token]);
+
   return (
     <div className={styles['messages-container']}>
       <aside className={styles['all-messages']}>
@@ -56,6 +60,7 @@ const Messages: React.FC = () => {
             messageThread={messageThread}
             recipientId={currentThread}
             isLoadingMessages={isLoadingMessages}
+            otherUser={conversations[0].otherUser}
           />
         ) : (
           <div className={styles['empty-message']}>
