@@ -1,26 +1,30 @@
 import styles from './AllMessages.module.scss';
-import { useAuthContext } from '../../../hooks/useAuthContext';
 import ThreadCard from '../ThreadCard/ThreadCard';
+import { useConversationContext } from '../../../hooks/useConversationContext';
 
 interface AllMessagesProps {
   setCurrentThread: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AllMessages: React.FC<AllMessagesProps> = ({ setCurrentThread }) => {
-  const { user } = useAuthContext();
+  const { conversations } = useConversationContext();
 
   return (
     <div className={styles['all-messages-container']}>
       <header className={styles['messages-header']}>Messages</header>
       <div className={styles['threads']}>
-        {user.messages.map((message) => (
+        {conversations?.map((conversation) => (
           <div
-            key={message._id}
-            onClick={() => setCurrentThread(message.withUser._id)}
+            key={conversation._id}
+            onClick={() => setCurrentThread(conversation.otherUser._id)}
           >
             <ThreadCard
-              displayName={message.withUser.displayName}
-              avatarUrl={message.withUser.avatarUrl}
+              displayName={conversation.otherUser.displayName}
+              avatarUrl={conversation.otherUser.avatarUrl}
+              sender={conversation.sender}
+              lastMessage={conversation.content}
+              updatedAt={conversation.createdAt}
+              unreadCount={conversation.unreadCount}
             />
           </div>
         ))}
