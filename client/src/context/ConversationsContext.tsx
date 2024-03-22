@@ -171,7 +171,7 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
     fetchConversations();
   }, [user]);
 
-  if (loading) {
+  if (loading && user) {
     return <LargeLoadingSpinner />;
   }
 
