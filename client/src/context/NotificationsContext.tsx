@@ -40,8 +40,8 @@ const NotificationContextProvider = ({ children }: { children: ReactNode }) => {
     if (!user) {
       return;
     }
-
     const { token: userToken } = JSON.parse(user);
+
     try {
       const notificationsResponse = await fetch(
         `${API_BASE_URL}/notifications`,
