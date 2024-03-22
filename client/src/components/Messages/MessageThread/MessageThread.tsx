@@ -10,18 +10,19 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import { v4 as uuidv4 } from 'uuid';
 import { io } from 'socket.io-client';
 import LargeLoadingSpinner from '../../LargeLoadingSpinner/LargeLoadingSpinner';
+import { useConversationContext } from '../../../hooks/useConversationContext';
 
 interface MessageThreadProps {
   messageThread: Message[];
   recipientId: string;
   isLoadingMessages: boolean;
+  otherUser: {
+    avatarUrl: string;
+    displayName: string;
+    username: string;
+    _id: string;
+  };
 }
-
-interface MessageWithDelivered extends Message {
-  delivered: boolean;
-}
-
-type CombinedMessage = Message | MessageWithDelivered;
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -33,13 +34,16 @@ const MessageThread: React.FC<MessageThreadProps> = ({
   messageThread,
   recipientId,
   isLoadingMessages,
+  otherUser,
 }) => {
   const { user } = useAuthContext();
+  const { markConversationsAsRead, setMessagePreview } =
+    useConversationContext();
   const socket = io(API_SOCKET_URL);
   const sendIcon: React.ReactNode = <FontAwesomeIcon icon={faPaperPlane} />;
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<Error | null>(null);
-  const [newMessages, setNewMessages] = useState<CombinedMessage[]>([]);
+  const [newMessages, setNewMessages] = useState<Message[]>([]);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -49,11 +53,8 @@ const MessageThread: React.FC<MessageThreadProps> = ({
 
   useEffect(() => {
     scrollToBottom();
-  }, [isLoadingMessages]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [newMessages]);
+    markConversationsAsRead(recipientId);
+  }, [newMessages, isLoadingMessages]);
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -69,7 +70,7 @@ const MessageThread: React.FC<MessageThreadProps> = ({
     return () => {
       socket.off('receive-message', handleReceiveMessage);
     };
-  }, [socket, user.userId]);
+  }, []);
 
   const displaySentMessage = (newMessage: Message) => {
     setNewMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -86,16 +87,21 @@ const MessageThread: React.FC<MessageThreadProps> = ({
     }
 
     const newMessage = {
-      sender: user.userId,
-      recipient: recipientId,
+      sender: {
+        avatarUrl: user.avatarUrl,
+        displayName: user.displayName,
+        username: user.username,
+        _id: user.userId,
+      },
+      recipient: otherUser,
       content: message,
-      delivered: false,
       createdAt: new Date(),
       _id: uuidv4(),
       read: false,
     };
 
     displaySentMessage(newMessage);
+    setMessagePreview(newMessage);
 
     try {
       const messageResponse = await fetch(
@@ -143,10 +149,10 @@ const MessageThread: React.FC<MessageThreadProps> = ({
                   key={message._id}
                 >
                   <div
-                    className={`${styles['message-details']} ${user.userId === message.sender ? styles.sender : styles.receiver}`}
+                    className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
                   >
                     <div
-                      className={`${styles['message-bubble']} ${user.userId === message.sender ? styles.sender : styles.receiver}`}
+                      className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
                     >
                       {message.content}
                     </div>
@@ -162,10 +168,10 @@ const MessageThread: React.FC<MessageThreadProps> = ({
                   key={message._id}
                 >
                   <div
-                    className={`${styles['message-details']} ${user.userId === message.sender ? styles.sender : styles.receiver}`}
+                    className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
                   >
                     <div
-                      className={`${styles['message-bubble']} ${user.userId === message.sender ? styles.sender : styles.receiver}`}
+                      className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
                     >
                       {message.content}
                     </div>
