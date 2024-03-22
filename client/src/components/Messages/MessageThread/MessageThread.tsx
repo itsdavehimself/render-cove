@@ -12,36 +12,34 @@ import LargeLoadingSpinner from '../../LargeLoadingSpinner/LargeLoadingSpinner';
 import { useConversationContext } from '../../../hooks/useConversationContext';
 import { SocketContext } from '../../../context/SocketContext';
 import { useContext } from 'react';
-
-interface MessageThreadProps {
-  messageThread: Message[];
-  recipientId: string;
-  isLoadingMessages: boolean;
-  otherUser: {
-    avatarUrl: string;
-    displayName: string;
-    username: string;
-    _id: string;
-  };
-}
+import { useParams } from 'react-router-dom';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
-const MessageThread: React.FC<MessageThreadProps> = ({
-  messageThread,
-  recipientId,
-  isLoadingMessages,
-  otherUser,
-}) => {
+interface OtherUser {
+  avatarUrl: string;
+  displayName: string;
+  _id: string;
+}
+
+const MessageThread: React.FC = () => {
   const { user } = useAuthContext();
-  const { markConversationsAsRead, setMessagePreview } =
+  const { markConversationsAsRead, setMessagePreview, conversations } =
     useConversationContext();
   const socket = useContext(SocketContext);
+  const { userIdToMessage } = useParams();
   const sendIcon: React.ReactNode = <FontAwesomeIcon icon={faPaperPlane} />;
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<Error | null>(null);
   const [newMessages, setNewMessages] = useState<Message[]>([]);
+  const [messageThread, setMessageThread] = useState<Message[]>([]);
+  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(false);
+  const [otherUser, setOtherUser] = useState<OtherUser>({
+    avatarUrl: '',
+    displayName: '',
+    _id: '',
+  });
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -50,8 +48,51 @@ const MessageThread: React.FC<MessageThreadProps> = ({
   };
 
   useEffect(() => {
-    scrollToBottom();
-    markConversationsAsRead(recipientId);
+    setOtherUser({
+      avatarUrl: conversations[0].otherUser.avatarUrl,
+      displayName: conversations[0].otherUser.displayName,
+      _id: conversations[0].otherUser._id,
+    });
+  }, [conversations]);
+
+  useEffect(() => {
+    if (userIdToMessage) {
+      setIsLoadingMessages(true);
+      const fetchMessages = async (): Promise<void> => {
+        const messagesResponse = await fetch(
+          `${API_BASE_URL}/messages/${userIdToMessage}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          },
+        );
+
+        const messagesJson = await messagesResponse.json();
+
+        if (!messagesResponse.ok) {
+          setError(messagesJson.error);
+          setIsLoadingMessages(false);
+        }
+
+        if (messagesResponse.ok) {
+          setMessageThread(messagesJson);
+          setIsLoadingMessages(false);
+          markConversationsAsRead(userIdToMessage);
+        }
+      };
+      fetchMessages();
+    } else {
+      setMessageThread([]);
+    }
+  }, [userIdToMessage]);
+
+  useEffect(() => {
+    if (userIdToMessage) {
+      scrollToBottom();
+      markConversationsAsRead(userIdToMessage);
+    }
   }, [newMessages, isLoadingMessages]);
 
   useEffect(() => {
@@ -104,7 +145,7 @@ const MessageThread: React.FC<MessageThreadProps> = ({
 
     try {
       const messageResponse = await fetch(
-        `${API_BASE_URL}/messages/${recipientId}`,
+        `${API_BASE_URL}/messages/${userIdToMessage}`,
         {
           method: 'POST',
           body: JSON.stringify({ message }),
