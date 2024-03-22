@@ -26,6 +26,7 @@ import io from 'socket.io-client';
 import { useNotificationContext } from '../../hooks/useNotificationContext';
 import Notification from '../../types/Notification';
 import NotificationPopout from '../NotificationsPopout/NotificationsPopout';
+import { useConversationContext } from '../../hooks/useConversationContext';
 
 const API_SOCKET_URL: string =
   import.meta.env.VITE_SOCKET_URL || 'ws://localhost:4000';
@@ -33,6 +34,7 @@ const API_SOCKET_URL: string =
 const Navbar: React.FC = () => {
   const socket = io(API_SOCKET_URL);
   const { unreadNotifications, addNotification } = useNotificationContext();
+  const { numOfUnreadMessages } = useConversationContext();
   const { logOut } = useLogOut();
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -205,7 +207,6 @@ const Navbar: React.FC = () => {
                       {unreadNotifications < 9 ? unreadNotifications : '9+'}
                     </div>
                   )}
-
                   {notificationBell}
                 </div>
               </button>
@@ -214,6 +215,11 @@ const Navbar: React.FC = () => {
                 onClick={() => navigate('/messages')}
               >
                 <div className={styles['notification-icon']}>
+                  {numOfUnreadMessages > 0 && (
+                    <div className={styles['notification-dot']}>
+                      {numOfUnreadMessages < 9 ? numOfUnreadMessages : '9+'}
+                    </div>
+                  )}
                   {envelopeIcon}
                 </div>
               </button>
