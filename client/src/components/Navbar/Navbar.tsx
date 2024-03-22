@@ -97,7 +97,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav
-      className={`${styles.navbar} ${location.pathname === '/messages' ? styles.border : ''}`}
+      className={`${styles.navbar} ${location.pathname.startsWith('/messages') ? styles.border : ''}`}
     >
       {!user && (
         <>
