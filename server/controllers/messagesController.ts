@@ -74,19 +74,12 @@ const markAsRead = async (req: AuthRequest, res: Response) => {
   const otherUserId = req.params.otherUserId;
 
   try {
-    const messages = await Message.find({
-      sender: otherUserId,
-      recipient: loggedInUserId,
-    });
-
-    await Promise.all(
-      messages.map(async (message) => {
-        message.read = true;
-        await message.save();
-      })
+    const messages = await Message.updateMany(
+      { sender: otherUserId, recipient: loggedInUserId },
+      { $set: { read: true } }
     );
 
-    res.status(200);
+    res.status(200).json({ message: 'Messages marked as read successfully' });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
