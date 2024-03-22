@@ -22,21 +22,19 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
 import { useNotificationContext } from '../../hooks/useNotificationContext';
 import Notification from '../../types/Notification';
 import NotificationPopout from '../NotificationsPopout/NotificationsPopout';
 import { useConversationContext } from '../../hooks/useConversationContext';
-
-const API_SOCKET_URL: string =
-  import.meta.env.VITE_SOCKET_URL || 'ws://localhost:4000';
+import { SocketContext } from '../../context/SocketContext';
+import { useContext } from 'react';
 
 const Navbar: React.FC = () => {
-  const socket = io(API_SOCKET_URL);
   const { unreadNotifications, addNotification } = useNotificationContext();
   const { numOfUnreadMessages } = useConversationContext();
   const { logOut } = useLogOut();
   const { user } = useAuthContext();
+  const socket = useContext(SocketContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -48,18 +46,18 @@ const Navbar: React.FC = () => {
     useState<boolean>(false);
 
   useEffect(() => {
-    socket.on('connect', () => {
-      socket.emit('userId', user.userId);
+    socket?.on('connect', () => {
+      socket?.emit('userId', user.userId);
     });
 
     const handleReceiveNotification = (notification: Notification) => {
       addNotification(notification);
     };
 
-    socket.on('receive-notification', handleReceiveNotification);
+    socket?.on('receive-notification', handleReceiveNotification);
 
     return () => {
-      socket.off('receive-notification', handleReceiveNotification);
+      socket?.off('receive-notification', handleReceiveNotification);
     };
   }, []);
 

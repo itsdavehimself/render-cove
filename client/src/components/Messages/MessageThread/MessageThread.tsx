@@ -8,9 +8,10 @@ import Message from '../../../types/Message';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { v4 as uuidv4 } from 'uuid';
-import { io } from 'socket.io-client';
 import LargeLoadingSpinner from '../../LargeLoadingSpinner/LargeLoadingSpinner';
 import { useConversationContext } from '../../../hooks/useConversationContext';
+import { SocketContext } from '../../../context/SocketContext';
+import { useContext } from 'react';
 
 interface MessageThreadProps {
   messageThread: Message[];
@@ -27,9 +28,6 @@ interface MessageThreadProps {
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
-const API_SOCKET_URL: string =
-  import.meta.env.VITE_SOCKET_URL || 'ws://localhost:4000';
-
 const MessageThread: React.FC<MessageThreadProps> = ({
   messageThread,
   recipientId,
@@ -39,7 +37,7 @@ const MessageThread: React.FC<MessageThreadProps> = ({
   const { user } = useAuthContext();
   const { markConversationsAsRead, setMessagePreview } =
     useConversationContext();
-  const socket = io(API_SOCKET_URL);
+  const socket = useContext(SocketContext);
   const sendIcon: React.ReactNode = <FontAwesomeIcon icon={faPaperPlane} />;
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<Error | null>(null);
@@ -57,18 +55,19 @@ const MessageThread: React.FC<MessageThreadProps> = ({
   }, [newMessages, isLoadingMessages]);
 
   useEffect(() => {
-    socket.on('connect', () => {
-      socket.emit('userId', user.userId);
+    socket?.on('connect', () => {
+      socket?.emit('userId', user.userId);
     });
 
     const handleReceiveMessage = (message: Message) => {
       setNewMessages((prevMessages) => [...prevMessages, message]);
+      setMessagePreview(message);
     };
 
-    socket.on('receive-message', handleReceiveMessage);
+    socket?.on('receive-message', handleReceiveMessage);
 
     return () => {
-      socket.off('receive-message', handleReceiveMessage);
+      socket?.off('receive-message', handleReceiveMessage);
     };
   }, []);
 

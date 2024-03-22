@@ -1,7 +1,9 @@
 import { createContext, useState, ReactNode } from 'react';
 import { useEffect } from 'react';
-import { io } from 'socket.io-client';
 import Message from '../types/Message';
+import { SocketContext } from './SocketContext';
+import { useContext } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 interface ConversationsContextType {
   conversations: Conversation[];
@@ -33,14 +35,11 @@ const ConversationContext = createContext<ConversationsContextType | null>(
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
 
-const API_SOCKET_URL: string =
-  import.meta.env.VITE_SOCKET_URL || 'ws://localhost:4000';
-
 const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
-  const socket = io(API_SOCKET_URL);
-
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [numOfUnreadMessages, setNumOfUnreadMessages] = useState<number>(0);
+  const { user } = useAuthContext();
+  const socket = useContext(SocketContext);
 
   const setMessagePreview = (message: Message) => {
     setConversations((prevConversations) =>
@@ -67,47 +66,40 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-      return;
+    if (user && user.userId) {
+      socket?.on('connect', () => {
+        socket?.emit('userId', user.userId);
+      });
+
+      socket?.on('receive-message', setMessagePreview);
+
+      return () => {
+        socket?.off('receive-message', setMessagePreview);
+      };
     }
-    const { userId: userId } = JSON.parse(user);
-
-    socket.on('connect', () => {
-      socket.emit('userId', userId);
-    });
-
-    socket.on('receive-message', setMessagePreview);
-
-    return () => {
-      socket.off('receive-message', setMessagePreview);
-    };
   }, [conversations]);
 
   const markAsReadOnServer = async (otherUserId: string) => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-      return;
-    }
-    const { token: userToken } = JSON.parse(user);
-    try {
-      const markAsReadResponse = await fetch(
-        `${API_BASE_URL}/messages/${otherUserId}`,
-        {
-          method: 'PATCH',
-          headers: {
-            Authorization: `Bearer ${userToken}`,
+    if (user && user.token) {
+      try {
+        const markAsReadResponse = await fetch(
+          `${API_BASE_URL}/messages/${otherUserId}`,
+          {
+            method: 'PATCH',
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
           },
-        },
-      );
+        );
 
-      const markAsReadJson = await markAsReadResponse.json();
+        const markAsReadJson = await markAsReadResponse.json();
 
-      if (!markAsReadResponse.ok) {
-        console.error(markAsReadJson.error);
+        if (!markAsReadResponse.ok) {
+          console.error(markAsReadJson.error);
+        }
+      } catch (error) {
+        console.error('Error marking as read:', error);
       }
-    } catch (error) {
-      console.error('Error marking as read:', error);
     }
   };
 
@@ -136,46 +128,43 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const fetchConversations = async () => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-      return;
-    }
-    const { token: userToken } = JSON.parse(user);
-    try {
-      const conversationsResponse = await fetch(
-        `${API_BASE_URL}/messages/conversations`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${userToken}`,
+    if (user && user.token) {
+      try {
+        const conversationsResponse = await fetch(
+          `${API_BASE_URL}/messages/conversations`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
           },
-        },
-      );
-
-      const conversationsJson = await conversationsResponse.json();
-
-      if (!conversationsResponse.ok) {
-        console.error(conversationsJson.error);
-      }
-
-      if (conversationsResponse.ok) {
-        setConversations(conversationsJson);
-        const totalUnreadCount = conversationsJson.reduce(
-          (total: number, conversation: Conversation) => {
-            return total + conversation.unreadCount;
-          },
-          0,
         );
-        setNumOfUnreadMessages(totalUnreadCount);
+
+        const conversationsJson = await conversationsResponse.json();
+
+        if (!conversationsResponse.ok) {
+          console.error(conversationsJson.error);
+        }
+
+        if (conversationsResponse.ok) {
+          setConversations(conversationsJson);
+          const totalUnreadCount = conversationsJson.reduce(
+            (total: number, conversation: Conversation) => {
+              return total + conversation.unreadCount;
+            },
+            0,
+          );
+          setNumOfUnreadMessages(totalUnreadCount);
+        }
+      } catch (error) {
+        console.error('Error fetching conversations:', error);
       }
-    } catch (error) {
-      console.error('Error fetching conversations:', error);
     }
   };
 
   useEffect(() => {
     fetchConversations();
-  }, []);
+  }, [user]);
 
   return (
     <ConversationContext.Provider
