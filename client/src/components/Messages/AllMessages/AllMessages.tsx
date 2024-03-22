@@ -13,21 +13,27 @@ const AllMessages: React.FC<AllMessagesProps> = ({ setCurrentThread }) => {
     <div className={styles['all-messages-container']}>
       <header className={styles['messages-header']}>Messages</header>
       <div className={styles['threads']}>
-        {conversations?.map((conversation) => (
-          <div
-            key={conversation._id}
-            onClick={() => setCurrentThread(conversation.otherUser._id)}
-          >
-            <ThreadCard
-              displayName={conversation.otherUser.displayName}
-              avatarUrl={conversation.otherUser.avatarUrl}
-              sender={conversation.sender}
-              lastMessage={conversation.content}
-              updatedAt={conversation.createdAt}
-              unreadCount={conversation.unreadCount}
-            />
-          </div>
-        ))}
+        {conversations.length > 0 ? (
+          <>
+            {conversations?.map((conversation) => (
+              <div
+                key={conversation._id}
+                onClick={() => setCurrentThread(conversation.otherUser._id)}
+              >
+                <ThreadCard
+                  displayName={conversation.otherUser.displayName}
+                  avatarUrl={conversation.otherUser.avatarUrl}
+                  sender={conversation.sender}
+                  lastMessage={conversation.content}
+                  updatedAt={conversation.createdAt}
+                  unreadCount={conversation.unreadCount}
+                />
+              </div>
+            ))}
+          </>
+        ) : (
+          <div className={styles['no-threads-message']}>No conversations</div>
+        )}
       </div>
     </div>
   );
