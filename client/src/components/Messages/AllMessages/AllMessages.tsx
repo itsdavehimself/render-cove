@@ -1,13 +1,11 @@
 import styles from './AllMessages.module.scss';
 import ThreadCard from '../ThreadCard/ThreadCard';
 import { useConversationContext } from '../../../hooks/useConversationContext';
+import { useNavigate } from 'react-router-dom';
 
-interface AllMessagesProps {
-  setCurrentThread: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const AllMessages: React.FC<AllMessagesProps> = ({ setCurrentThread }) => {
+const AllMessages: React.FC = () => {
   const { conversations } = useConversationContext();
+  const navigate = useNavigate();
 
   return (
     <div className={styles['all-messages-container']}>
@@ -18,7 +16,9 @@ const AllMessages: React.FC<AllMessagesProps> = ({ setCurrentThread }) => {
             {conversations?.map((conversation) => (
               <div
                 key={conversation._id}
-                onClick={() => setCurrentThread(conversation.otherUser._id)}
+                onClick={() =>
+                  navigate(`/messages/${conversation.otherUser._id}`)
+                }
               >
                 <ThreadCard
                   displayName={conversation.otherUser.displayName}
