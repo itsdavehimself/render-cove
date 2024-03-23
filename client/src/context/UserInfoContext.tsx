@@ -50,28 +50,30 @@ const UserInfoContextProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    const fetchUserInfo = async (): Promise<void> => {
-      try {
-        const userInfoResponse = await fetch(
-          `${API_BASE_URL}/users/${targetUser}`,
-          {
-            method: 'GET',
-          },
-        );
+    if (username || userIdToMessage) {
+      const fetchUserInfo = async (): Promise<void> => {
+        try {
+          const userInfoResponse = await fetch(
+            `${API_BASE_URL}/users/${targetUser}`,
+            {
+              method: 'GET',
+            },
+          );
 
-        if (userInfoResponse.ok) {
-          const userInfo = await userInfoResponse.json();
-          dispatchUserInfo({ type: 'GET_INFO', payload: userInfo });
-        } else {
-          console.error(userInfoResponse.json());
+          if (userInfoResponse.ok) {
+            const userInfo = await userInfoResponse.json();
+            dispatchUserInfo({ type: 'GET_INFO', payload: userInfo });
+          } else {
+            console.error(userInfoResponse.json());
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      };
 
-    fetchUserInfo();
-  }, [targetUser]);
+      fetchUserInfo();
+    }
+  }, [targetUser, userIdToMessage, username]);
   return (
     <UserInfoContext.Provider value={{ ...state, dispatchUserInfo }}>
       {children}
