@@ -2,7 +2,7 @@ import FormInput from '../../FormInput/FormInput';
 import SaveSubmitButton from '../../SaveSubmitButton/SaveSubmitButton';
 import styles from './MessageThread.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faMessage } from '@fortawesome/free-solid-svg-icons';
 import { FormEvent, useState, useEffect, useRef } from 'react';
 import Message from '../../../types/Message';
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -29,7 +29,6 @@ const MessageThread: React.FC = () => {
     useConversationContext();
   const socket = useContext(SocketContext);
   const { userIdToMessage } = useParams();
-  const sendIcon: React.ReactNode = <FontAwesomeIcon icon={faPaperPlane} />;
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<Error | null>(null);
   const [newMessages, setNewMessages] = useState<Message[]>([]);
@@ -40,6 +39,9 @@ const MessageThread: React.FC = () => {
     displayName: '',
     _id: '',
   });
+
+  const sendIcon: React.ReactNode = <FontAwesomeIcon icon={faPaperPlane} />;
+  const messageIcon: React.ReactNode = <FontAwesomeIcon icon={faMessage} />;
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -181,72 +183,84 @@ const MessageThread: React.FC = () => {
         <LargeLoadingSpinner />
       ) : (
         <>
-          <div className={styles['message-thread-container']}>
-            <div className={styles['message-thread']}>
-              {messageThread.map((message) => (
-                <div
-                  className={`${styles['message-container']}`}
-                  key={message._id}
-                >
-                  <div
-                    className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
-                  >
+          {userIdToMessage ? (
+            <>
+              {' '}
+              <div className={styles['message-thread-container']}>
+                <div className={styles['message-thread']}>
+                  {messageThread.map((message) => (
                     <div
-                      className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                      className={`${styles['message-container']}`}
+                      key={message._id}
                     >
-                      {message.content}
+                      <div
+                        className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                      >
+                        <div
+                          className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                        >
+                          {message.content}
+                        </div>
+                        <div className={styles['date']}>
+                          {formatDistanceToNowStrict(message.createdAt)} ago
+                        </div>
+                      </div>
                     </div>
-                    <div className={styles['date']}>
-                      {formatDistanceToNowStrict(message.createdAt)} ago
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {newMessages.map((message) => (
-                <div
-                  className={`${styles['message-container']}`}
-                  key={message._id}
-                >
-                  <div
-                    className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
-                  >
+                  ))}
+                  {newMessages.map((message) => (
                     <div
-                      className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                      className={`${styles['message-container']}`}
+                      key={message._id}
                     >
-                      {message.content}
+                      <div
+                        className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                      >
+                        <div
+                          className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                        >
+                          {message.content}
+                        </div>
+                        <div className={styles['date']}>
+                          {formatDistanceToNowStrict(message.createdAt)} ago
+                        </div>
+                      </div>
                     </div>
-                    <div className={styles['date']}>
-                      {formatDistanceToNowStrict(message.createdAt)} ago
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+                <div ref={messagesEndRef} />
+              </div>
+              <div className={styles['message-input']}>
+                <form
+                  onSubmit={handleSendMessage}
+                  className={styles['message-form']}
+                >
+                  <FormInput
+                    htmlFor="message"
+                    type="text"
+                    id="message"
+                    name="message"
+                    value={message}
+                    placeholder="Type message here..."
+                    onChange={(e) => setMessage(e.target.value)}
+                    autoComplete="off"
+                  />
+                  <SaveSubmitButton
+                    icon={sendIcon}
+                    label="Send"
+                    isLoading={false}
+                    color="blue"
+                  />
+                </form>
+              </div>
+            </>
+          ) : (
+            <div className={styles['placeholder']}>
+              <div className={styles['message-icon']}>{messageIcon}</div>
+              <p className={styles['placeholder-message']}>
+                Your conversations will be here.
+              </p>
             </div>
-            <div ref={messagesEndRef} />
-          </div>
-          <div className={styles['message-input']}>
-            <form
-              onSubmit={handleSendMessage}
-              className={styles['message-form']}
-            >
-              <FormInput
-                htmlFor="message"
-                type="text"
-                id="message"
-                name="message"
-                value={message}
-                placeholder="Type message here..."
-                onChange={(e) => setMessage(e.target.value)}
-                autoComplete="off"
-              />
-              <SaveSubmitButton
-                icon={sendIcon}
-                label="Send"
-                isLoading={false}
-                color="blue"
-              />
-            </form>
-          </div>
+          )}
         </>
       )}
     </div>
