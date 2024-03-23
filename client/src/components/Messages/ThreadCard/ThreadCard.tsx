@@ -21,6 +21,12 @@ const ThreadCard: React.FC<ThreadCardProps> = ({
 }) => {
   const { user } = useAuthContext();
 
+  const MAX_PREVIEW_LENGTH = 20;
+  const truncatedMessage =
+    lastMessage.length > MAX_PREVIEW_LENGTH
+      ? lastMessage.slice(0, MAX_PREVIEW_LENGTH) + '...'
+      : lastMessage;
+
   return (
     <div className={styles['thread-card']}>
       <div className={styles['thread-main']}>
@@ -35,7 +41,7 @@ const ThreadCard: React.FC<ThreadCardProps> = ({
             <div
               className={`${styles['sender-preview']} ${unreadCount > 0 ? styles.bold : ''}`}
             >
-              {user.userId === sender && 'You: '} {lastMessage}
+              {user.userId === sender && 'You: '} {truncatedMessage}
             </div>
             <div className={styles.date}>
               • {formatDistanceToNowStrict(updatedAt)} ago
