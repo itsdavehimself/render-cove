@@ -43,7 +43,8 @@ const API_BASE_URL: string =
 const UserInfoContext = createContext<UserInfoContextType | null>(null);
 
 const UserInfoContextProvider = ({ children }: { children: ReactNode }) => {
-  const { username } = useParams();
+  const { username, userIdToMessage } = useParams();
+  const targetUser = username || userIdToMessage;
   const [state, dispatchUserInfo] = useReducer(userInfoReducer, {
     userInfo: null,
   });
@@ -52,7 +53,7 @@ const UserInfoContextProvider = ({ children }: { children: ReactNode }) => {
     const fetchUserInfo = async (): Promise<void> => {
       try {
         const userInfoResponse = await fetch(
-          `${API_BASE_URL}/users/${username}`,
+          `${API_BASE_URL}/users/${targetUser}`,
           {
             method: 'GET',
           },
@@ -70,7 +71,7 @@ const UserInfoContextProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchUserInfo();
-  }, [username]);
+  }, [targetUser]);
   return (
     <UserInfoContext.Provider value={{ ...state, dispatchUserInfo }}>
       {children}
