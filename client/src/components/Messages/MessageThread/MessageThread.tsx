@@ -190,15 +190,20 @@ const MessageThread: React.FC = () => {
           {userIdToMessage ? (
             <>
               <div className={styles['user-info-bar']}>
-                <div className={styles['avatar-container']}>
-                  <img
-                    className={styles.avatar}
-                    src={otherUser.avatarUrl}
-                  ></img>
-                </div>
-                <p className={styles['display-name']}>
-                  {otherUser.displayName}
-                </p>
+                <button
+                  className={styles['user-info-button']}
+                  onClick={() => navigate(`/user/${otherUser._id}`)}
+                >
+                  <div className={styles['avatar-container']}>
+                    <img
+                      className={styles.avatar}
+                      src={otherUser.avatarUrl}
+                    ></img>
+                  </div>
+                  <p className={styles['display-name']}>
+                    {otherUser.displayName}
+                  </p>
+                </button>
               </div>
               <div className={styles['message-thread-container']}>
                 {messageThread.length > 0 ? (

@@ -36,8 +36,19 @@
   border-bottom: 1px solid variables.$primary-tertiary;
   width: 100%;
   height: 4rem;
+}
+
+.user-info-button {
+  display: flex;
+  align-items: center;
   padding-left: 1rem;
   column-gap: 0.5rem;
+  display: flex;
+  background-color: variables.$primary-color;
+}
+
+.user-info-button:hover {
+  cursor: pointer;
 }
 
 .avatar-container {
