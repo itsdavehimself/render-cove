@@ -14,6 +14,7 @@ import { SocketContext } from '../../../context/SocketContext';
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserInfoContext } from '../../../hooks/useUserInfoContext';
+import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -30,6 +31,7 @@ const MessageThread: React.FC = () => {
   const { markConversationsAsRead, setMessagePreview, conversations } =
     useConversationContext();
   const socket = useContext(SocketContext);
+  const navigate = useNavigate();
   const { userIdToMessage } = useParams();
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<Error | null>(null);
@@ -199,47 +201,69 @@ const MessageThread: React.FC = () => {
                 </p>
               </div>
               <div className={styles['message-thread-container']}>
-                <div className={styles['message-thread']}>
-                  {messageThread.map((message) => (
-                    <div
-                      className={`${styles['message-container']}`}
-                      key={message._id}
-                    >
-                      <div
-                        className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
-                      >
+                {messageThread.length > 0 ? (
+                  <>
+                    <div className={styles['message-thread']}>
+                      {messageThread.map((message) => (
                         <div
-                          className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                          className={`${styles['message-container']}`}
+                          key={message._id}
                         >
-                          {message.content}
+                          <div
+                            className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                          >
+                            <div
+                              className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                            >
+                              {message.content}
+                            </div>
+                            <div className={styles['date']}>
+                              {formatDistanceToNowStrict(message.createdAt)} ago
+                            </div>
+                          </div>
                         </div>
-                        <div className={styles['date']}>
-                          {formatDistanceToNowStrict(message.createdAt)} ago
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  {newMessages.map((message) => (
-                    <div
-                      className={`${styles['message-container']}`}
-                      key={message._id}
-                    >
-                      <div
-                        className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
-                      >
+                      ))}
+                      {newMessages.map((message) => (
                         <div
-                          className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                          className={`${styles['message-container']}`}
+                          key={message._id}
                         >
-                          {message.content}
+                          <div
+                            className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                          >
+                            <div
+                              className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                            >
+                              {message.content}
+                            </div>
+                            <div className={styles['date']}>
+                              {formatDistanceToNowStrict(message.createdAt)} ago
+                            </div>
+                          </div>
                         </div>
-                        <div className={styles['date']}>
-                          {formatDistanceToNowStrict(message.createdAt)} ago
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <div ref={messagesEndRef} />
+                    <div ref={messagesEndRef} />
+                  </>
+                ) : (
+                  <div className={styles['new-thread-container']}>
+                    <div className={styles['large-avatar-container']}>
+                      <img
+                        className={styles.avatar}
+                        src={otherUser.avatarUrl}
+                      ></img>
+                    </div>
+                    <p className={styles['display-name']}>
+                      {otherUser.displayName}
+                    </p>
+                    <button
+                      className={styles['view-profile-button']}
+                      onClick={() => navigate(`/user/${otherUser._id}`)}
+                    >
+                      View Profile
+                    </button>
+                  </div>
+                )}
               </div>
               <div className={styles['message-input']}>
                 <form

@@ -1,4 +1,6 @@
 @use 'variables';
+@use '../../UserProfile/UserProfileSidebar/UserProfileSidebar.module.scss' as
+  Profile;
 
 @mixin message-bubble-default {
   display: flex;
@@ -107,6 +109,32 @@
 .placeholder-message {
   font-size: 0.9rem;
   color: variables.$secondary-darker;
+}
+
+.new-thread-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5rem;
+  width: 100%;
+  height: calc(100vh - 13.6rem);
+  row-gap: 1rem;
+}
+
+.large-avatar-container {
+  width: 5rem;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.view-profile-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  @include Profile.gray-button();
+}
+
+.view-profile-button:hover {
+  @include Profile.gray-button-hover();
 }
 
 .message-thread {
