@@ -11,7 +11,12 @@
 
 .thread-card:hover {
   cursor: pointer;
-  background-color: variables.$primary-tertiary;
+  background-color: variables.$primary-alt;
+  transition: all 0.2s ease-in-out;
+}
+
+.thread-card.selected {
+  background-color: variables.$primary-alt;
   transition: all 0.2s ease-in-out;
 }
 

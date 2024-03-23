@@ -1,10 +1,12 @@
 import styles from './ThreadCard.module.scss';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { formatDistanceToNowStrict } from 'date-fns';
+import { useParams } from 'react-router-dom';
 
 interface ThreadCardProps {
   displayName: string;
   avatarUrl: string;
+  id: string;
   lastMessage: string;
   updatedAt: Date;
   sender: string;
@@ -14,12 +16,14 @@ interface ThreadCardProps {
 const ThreadCard: React.FC<ThreadCardProps> = ({
   displayName,
   avatarUrl,
+  id,
   lastMessage,
   updatedAt,
   sender,
   unreadCount,
 }) => {
   const { user } = useAuthContext();
+  const { userIdToMessage } = useParams();
 
   const MAX_PREVIEW_LENGTH = 20;
   const truncatedMessage =
@@ -28,7 +32,9 @@ const ThreadCard: React.FC<ThreadCardProps> = ({
       : lastMessage;
 
   return (
-    <div className={styles['thread-card']}>
+    <div
+      className={`${styles['thread-card']} ${userIdToMessage === id ? styles.selected : ''}`}
+    >
       <div className={styles['thread-main']}>
         <div className={styles['avatar-container']}>
           <img className={styles.avatar} src={avatarUrl}></img>
