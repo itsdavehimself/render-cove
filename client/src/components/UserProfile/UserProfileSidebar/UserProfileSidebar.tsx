@@ -194,7 +194,10 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
                     {followIcon} Follow
                   </button>
                 )}
-                <button className={styles['message-user-button']}>
+                <button
+                  className={styles['message-user-button']}
+                  onClick={() => navigate(`/messages/${userInfo._id}`)}
+                >
                   {messageIcon} Message
                 </button>
                 {error && (
