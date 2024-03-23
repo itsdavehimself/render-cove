@@ -206,7 +206,7 @@ const MessageThread: React.FC = () => {
                 </button>
               </div>
               <div className={styles['message-thread-container']}>
-                {messageThread.length > 0 ? (
+                {messageThread.length > 0 || newMessages.length > 0 ? (
                   <>
                     <div className={styles['message-thread']}>
                       {messageThread.map((message) => (
