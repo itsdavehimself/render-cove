@@ -23,6 +23,7 @@ const AllMessages: React.FC = () => {
                 <ThreadCard
                   displayName={conversation.otherUser.displayName}
                   avatarUrl={conversation.otherUser.avatarUrl}
+                  id={conversation.otherUser._id}
                   sender={conversation.sender}
                   lastMessage={conversation.content}
                   updatedAt={conversation.createdAt}
