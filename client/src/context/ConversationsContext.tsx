@@ -19,7 +19,6 @@ interface Conversation {
   otherUser: {
     avatarUrl: string;
     displayName: string;
-    username: string;
     _id: string;
   };
   read: boolean;
@@ -44,27 +43,72 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   const socket = useContext(SocketContext);
 
   const setMessagePreview = (message: Message) => {
-    setConversations((prevConversations) =>
-      prevConversations.map((conversation) => {
-        if (
-          (conversation.sender === message.sender._id &&
-            conversation.recipient === message.recipient._id) ||
-          (conversation.sender === message.recipient._id &&
-            conversation.recipient === message.sender._id)
-        ) {
-          return {
-            ...conversation,
-            content: message.content,
-            recipient: message.recipient._id,
-            sender: message.sender._id,
-            read: message.read,
-            unreadCount: conversation.unreadCount + 1,
-          };
-        }
-        return conversation;
-      }),
+    const existingConversationIndex = conversations.findIndex(
+      (conversation) =>
+        (conversation.sender === message.sender._id &&
+          conversation.recipient === message.recipient._id) ||
+        (conversation.sender === message.recipient._id &&
+          conversation.recipient === message.sender._id),
     );
-    setNumOfUnreadMessages((prevNumber) => prevNumber + 1);
+
+    if (existingConversationIndex !== -1) {
+      setConversations((prevConversations) =>
+        prevConversations.map((conversation, index) => {
+          if (index === existingConversationIndex) {
+            return {
+              ...conversation,
+              content: message.content,
+              recipient: message.recipient._id,
+              sender: message.sender._id,
+              read: message.read,
+              unreadCount: conversation.unreadCount + 1,
+            };
+          }
+          return conversation;
+        }),
+      );
+
+      if (message.sender._id !== user.userId) {
+        setNumOfUnreadMessages((prevNumber) => prevNumber + 1);
+      }
+    } else {
+      const otherUserId =
+        user.userId === message.sender._id
+          ? message.recipient._id
+          : message.sender._id;
+      const otherUserAvatarUrl =
+        user.userId === message.sender._id
+          ? message.recipient.avatarUrl
+          : message.sender.avatarUrl;
+      const otherUserDisplayName =
+        user.userId === message.sender._id
+          ? message.recipient.displayName
+          : message.sender.displayName;
+
+      const newConversation = {
+        _id: message._id,
+        content: message.content,
+        createdAt: message.createdAt,
+        otherUser: {
+          avatarUrl: otherUserAvatarUrl,
+          displayName: otherUserDisplayName,
+          _id: otherUserId,
+        },
+        read: message.read,
+        recipient: message.recipient._id,
+        sender: message.sender._id,
+        unreadCount: message.sender._id !== user.userId ? 1 : 0,
+      };
+
+      setConversations((prevConversations) => [
+        newConversation,
+        ...prevConversations,
+      ]);
+
+      if (message.sender._id !== user.userId) {
+        setNumOfUnreadMessages((prevNumber) => prevNumber + 1);
+      }
+    }
   };
 
   useEffect(() => {
