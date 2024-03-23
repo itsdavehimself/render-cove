@@ -13,7 +13,7 @@ import { useConversationContext } from '../../../hooks/useConversationContext';
 import { SocketContext } from '../../../context/SocketContext';
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { useThreadIndexContext } from '../../../hooks/useThreadIndexContext';
+import { useUserInfoContext } from '../../../hooks/useUserInfoContext';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -26,9 +26,9 @@ interface OtherUser {
 
 const MessageThread: React.FC = () => {
   const { user } = useAuthContext();
+  const { userInfo } = useUserInfoContext();
   const { markConversationsAsRead, setMessagePreview, conversations } =
     useConversationContext();
-  const { threadIndex } = useThreadIndexContext();
   const socket = useContext(SocketContext);
   const { userIdToMessage } = useParams();
   const [message, setMessage] = useState<string>('');
@@ -37,9 +37,9 @@ const MessageThread: React.FC = () => {
   const [messageThread, setMessageThread] = useState<Message[]>([]);
   const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(false);
   const [otherUser, setOtherUser] = useState<OtherUser>({
-    avatarUrl: '',
-    displayName: '',
-    _id: '',
+    avatarUrl: userInfo?.avatarUrl,
+    displayName: userInfo?.displayName,
+    _id: userInfo?._id,
   });
 
   const sendIcon: React.ReactNode = <FontAwesomeIcon icon={faPaperPlane} />;
@@ -52,14 +52,13 @@ const MessageThread: React.FC = () => {
   };
 
   useEffect(() => {
-    if (threadIndex !== undefined && conversations[threadIndex]) {
-      setOtherUser({
-        avatarUrl: conversations[threadIndex].otherUser.avatarUrl,
-        displayName: conversations[threadIndex].otherUser.displayName,
-        _id: conversations[threadIndex].otherUser._id,
-      });
-    }
-  }, [conversations, threadIndex]);
+    setOtherUser({
+      avatarUrl: userInfo?.avatarUrl,
+      displayName: userInfo?.displayName,
+      _id: userInfo?._id,
+    });
+  }, [conversations, userInfo]);
+
   useEffect(() => {
     if (userIdToMessage) {
       setIsLoadingMessages(true);
