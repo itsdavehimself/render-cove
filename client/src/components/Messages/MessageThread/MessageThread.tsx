@@ -51,9 +51,9 @@ const MessageThread: React.FC = () => {
 
   useEffect(() => {
     setOtherUser({
-      avatarUrl: conversations[0].otherUser.avatarUrl,
-      displayName: conversations[0].otherUser.displayName,
-      _id: conversations[0].otherUser._id,
+      avatarUrl: conversations[0]?.otherUser.avatarUrl,
+      displayName: conversations[0]?.otherUser.displayName,
+      _id: conversations[0]?.otherUser._id,
     });
   }, [conversations]);
 
@@ -185,7 +185,17 @@ const MessageThread: React.FC = () => {
         <>
           {userIdToMessage ? (
             <>
-              {' '}
+              <div className={styles['user-info-bar']}>
+                <div className={styles['avatar-container']}>
+                  <img
+                    className={styles.avatar}
+                    src={otherUser.avatarUrl}
+                  ></img>
+                </div>
+                <p className={styles['display-name']}>
+                  {otherUser.displayName}
+                </p>
+              </div>
               <div className={styles['message-thread-container']}>
                 <div className={styles['message-thread']}>
                   {messageThread.map((message) => (
