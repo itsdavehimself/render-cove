@@ -13,7 +13,7 @@
   overflow-y: scroll;
   height: calc(100vh - 5rem);
   mask-image: linear-gradient(to top, transparent, variables.$primary-color),
-    linear-gradient(to left, transparent 17px, variables.$primary-color 17px);
+    linear-gradient(to left, transparent 0px, variables.$primary-color 0px);
   mask-size: 100% 20000px;
   mask-position: left bottom;
   -webkit-mask-image: linear-gradient(
@@ -21,7 +21,7 @@
       transparent,
       variables.$primary-color
     ),
-    linear-gradient(to left, transparent 17px, variables.$primary-color 17px);
+    linear-gradient(to left, transparent 0px, variables.$primary-color 0px);
   -webkit-mask-size: 100% 1000000px;
   -webkit-mask-position: left bottom;
   transition:
