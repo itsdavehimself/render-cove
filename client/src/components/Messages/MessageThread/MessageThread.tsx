@@ -13,6 +13,7 @@ import { useConversationContext } from '../../../hooks/useConversationContext';
 import { SocketContext } from '../../../context/SocketContext';
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { useThreadIndexContext } from '../../../hooks/useThreadIndexContext';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -27,6 +28,7 @@ const MessageThread: React.FC = () => {
   const { user } = useAuthContext();
   const { markConversationsAsRead, setMessagePreview, conversations } =
     useConversationContext();
+  const { threadIndex } = useThreadIndexContext();
   const socket = useContext(SocketContext);
   const { userIdToMessage } = useParams();
   const [message, setMessage] = useState<string>('');
@@ -50,13 +52,14 @@ const MessageThread: React.FC = () => {
   };
 
   useEffect(() => {
-    setOtherUser({
-      avatarUrl: conversations[0]?.otherUser.avatarUrl,
-      displayName: conversations[0]?.otherUser.displayName,
-      _id: conversations[0]?.otherUser._id,
-    });
-  }, [conversations]);
-
+    if (threadIndex !== undefined && conversations[threadIndex]) {
+      setOtherUser({
+        avatarUrl: conversations[threadIndex].otherUser.avatarUrl,
+        displayName: conversations[threadIndex].otherUser.displayName,
+        _id: conversations[threadIndex].otherUser._id,
+      });
+    }
+  }, [conversations, threadIndex]);
   useEffect(() => {
     if (userIdToMessage) {
       setIsLoadingMessages(true);

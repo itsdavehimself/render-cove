@@ -2,10 +2,17 @@ import styles from './AllMessages.module.scss';
 import ThreadCard from '../ThreadCard/ThreadCard';
 import { useConversationContext } from '../../../hooks/useConversationContext';
 import { useNavigate } from 'react-router-dom';
+import { useThreadIndexContext } from '../../../hooks/useThreadIndexContext';
 
 const AllMessages: React.FC = () => {
   const { conversations } = useConversationContext();
   const navigate = useNavigate();
+  const { setThreadIndex } = useThreadIndexContext();
+
+  const handleClickThread = (id: string, index: number) => {
+    setThreadIndex(index);
+    navigate(`/messages/${id}`);
+  };
 
   return (
     <div className={styles['all-messages-container']}>
@@ -13,11 +20,11 @@ const AllMessages: React.FC = () => {
       <div className={styles['threads']}>
         {conversations.length > 0 ? (
           <>
-            {conversations?.map((conversation) => (
+            {conversations?.map((conversation, index) => (
               <div
                 key={conversation._id}
                 onClick={() =>
-                  navigate(`/messages/${conversation.otherUser._id}`)
+                  handleClickThread(conversation.otherUser._id, index)
                 }
               >
                 <ThreadCard
