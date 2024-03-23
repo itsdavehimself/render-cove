@@ -108,20 +108,7 @@ const getConversations = async (req: AuthRequest, res: Response) => {
             },
           },
           latestMessage: { $first: '$$ROOT' },
-          unreadCount: {
-            $sum: {
-              $cond: {
-                if: {
-                  $and: [
-                    { $eq: ['$read', false] },
-                    { $eq: ['$recipient', loggedInUserId] },
-                  ],
-                },
-                then: 1,
-                else: 0,
-              },
-            },
-          },
+          maxCreatedAt: { $max: '$createdAt' }, // Add this stage to get the latest message's createdAt timestamp
         },
       },
       {
@@ -149,8 +136,26 @@ const getConversations = async (req: AuthRequest, res: Response) => {
             _id: '$userDetails._id',
             username: '$userDetails.username',
           },
-          unreadCount: 1,
+          unreadCount: {
+            $sum: {
+              $cond: [
+                {
+                  $and: [
+                    { $eq: ['$latestMessage.read', false] },
+                    { $eq: ['$latestMessage.recipient', loggedInUserId] },
+                    { $eq: ['$latestMessage.sender', '$_id'] },
+                  ],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+          maxCreatedAt: 1,
         },
+      },
+      {
+        $sort: { maxCreatedAt: -1 },
       },
     ]);
 
