@@ -39,7 +39,7 @@ const API_BASE_URL: string =
 const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [numOfUnreadMessages, setNumOfUnreadMessages] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const { user } = useAuthContext();
   const socket = useContext(SocketContext);
 
@@ -130,7 +130,6 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const fetchConversations = async () => {
-    setLoading(true);
     if (user && user.token) {
       try {
         const conversationsResponse = await fetch(
@@ -168,7 +167,12 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchConversations();
+    if (location.pathname.startsWith('/messages')) {
+      setLoading(true);
+      fetchConversations();
+    } else {
+      fetchConversations();
+    }
   }, [user]);
 
   if (loading && user) {
