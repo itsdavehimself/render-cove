@@ -64,7 +64,14 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route path="/notifications" element={<Notifications />} />
-                <Route path="/messages" element={<Messages />}>
+                <Route
+                  path="/messages"
+                  element={
+                    <UserInfoContextProvider>
+                      <Messages />
+                    </UserInfoContextProvider>
+                  }
+                >
                   <Route path="/messages" element={<MessageThread />} />
                   <Route
                     path="/messages/:userIdToMessage"
