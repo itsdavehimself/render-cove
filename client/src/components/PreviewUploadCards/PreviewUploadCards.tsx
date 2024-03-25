@@ -112,10 +112,7 @@ const PreviewUploadCards: React.FC<PreviewUploadCardsProps> = ({
         });
 
         const dataURLs = await Promise.all(promises);
-        setImageSrcArray((prevImageSrcArray) => [
-          ...prevImageSrcArray,
-          ...dataURLs,
-        ]);
+        setImageSrcArray(dataURLs);
       };
 
       loadImages();
