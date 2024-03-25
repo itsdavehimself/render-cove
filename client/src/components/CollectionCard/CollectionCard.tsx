@@ -6,7 +6,7 @@ import {
   faPenToSquare,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import PopOutMenu from '../PopOutMenu/PopOutMenu';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -44,6 +44,11 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   );
   const editIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
   const deleteIcon: React.ReactNode = <FontAwesomeIcon icon={faTrash} />;
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const handleMenuClose = (): void => {
+    setIsMenuOpen(false);
+  };
 
   const handleCollectionClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
@@ -86,6 +91,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
     <div
       className={styles['collection-card']}
       onClick={(e) => handleCollectionClick(e)}
+      ref={menuRef}
     >
       {isMenuOpen && (
         <div className={styles['popout-menu-container']}>
@@ -102,6 +108,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
                 onClick: handleOpenDeleteModal,
               },
             ]}
+            onClose={handleMenuClose}
           />
         </div>
       )}

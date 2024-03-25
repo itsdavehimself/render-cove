@@ -7,9 +7,10 @@ import {
   faEye,
   faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import PopOutMenu from '../PopOutMenu/PopOutMenu';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import useClickOutside from '../../hooks/useClickOutside';
 
 interface ProjectCardProps {
   title: string;
@@ -33,6 +34,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleProjectClick = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
@@ -44,6 +46,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const handleOptionClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleMenuClose = (): void => {
+    setIsMenuOpen(false);
   };
 
   const ellipsisIcon: React.ReactNode = (
@@ -69,6 +75,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     <div
       className={styles['project-card']}
       onClick={(e) => handleProjectClick(e)}
+      ref={menuRef}
     >
       {isMenuOpen && (
         <div className={styles['popout-menu-container']}>
@@ -92,6 +99,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   handleProjectClick(e),
               },
             ]}
+            onClose={handleMenuClose}
           />
         </div>
       )}

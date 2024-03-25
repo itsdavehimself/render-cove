@@ -73,6 +73,24 @@ const Navbar: React.FC = () => {
     navigate(`/user/${user.username}`);
   };
 
+  const handleClosePopout = (
+    popoutType: 'user' | 'notification' | 'create',
+  ): void => {
+    switch (popoutType) {
+      case 'user':
+        setIsUserPopOutShowing(false);
+        break;
+      case 'notification':
+        setIsNotificationPopoutOpen(false);
+        break;
+      case 'create':
+        setIsCreatePopOutShowing(false);
+        break;
+      default:
+        break;
+    }
+  };
+
   const logOutSymbol: React.ReactNode = (
     <FontAwesomeIcon icon={faArrowRightFromBracket} />
   );
@@ -183,6 +201,7 @@ const Navbar: React.FC = () => {
                         onClick: () => console.log('create tutorial'),
                       },
                     ]}
+                    onClose={() => handleClosePopout('create')}
                   />
                 </div>
               )}
@@ -190,7 +209,10 @@ const Navbar: React.FC = () => {
             <div className={styles['notification-icons']}>
               {isNotificationPopoutOpen && (
                 <div className={styles['notification-popout-container']}>
-                  <NotificationPopout setIsOpen={setIsNotificationPopoutOpen} />
+                  <NotificationPopout
+                    setIsOpen={setIsNotificationPopoutOpen}
+                    onClose={() => handleClosePopout('notification')}
+                  />
                 </div>
               )}
               <button
@@ -266,6 +288,7 @@ const Navbar: React.FC = () => {
                         onClick: handleLogout,
                       },
                     ]}
+                    onClose={() => handleClosePopout('user')}
                   />
                 </div>
               )}
