@@ -143,7 +143,7 @@ const UserProfileLatest: React.FC = () => {
             <h2 className={styles['section-header']}>Projects</h2>
             <div className={styles.cards}>
               {allProjects
-                ?.slice(0, 6)
+                ?.slice(0, 5)
                 .map((project) => (
                   <React.Fragment key={project._id}>
                     {user?.userId === userInfo?._id ? (
