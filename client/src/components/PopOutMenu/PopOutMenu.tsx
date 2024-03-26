@@ -1,6 +1,4 @@
-import React, { useRef } from 'react';
 import styles from './PopOutMenu.module.scss';
-import useClickOutside from '../../hooks/useClickOutside';
 
 interface PopOutMenuProps {
   buttons: {
@@ -8,16 +6,11 @@ interface PopOutMenuProps {
     label: string;
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   }[];
-  onClose: () => void;
 }
 
-const PopOutMenu: React.FC<PopOutMenuProps> = ({ buttons, onClose }) => {
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  useClickOutside(menuRef, onClose);
-
+const PopOutMenu: React.FC<PopOutMenuProps> = ({ buttons }) => {
   return (
-    <div className={styles['popout-menu']} ref={menuRef}>
+    <div className={styles['popout-menu']}>
       {buttons.map((button, index) => (
         <button
           type="button"
