@@ -11,6 +11,7 @@ import PopOutMenu from '../PopOutMenu/PopOutMenu';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { FocusedCollectionType } from '../../containers/UserCollections/UserCollections';
+import useClickOutside from '../../hooks/useClickOutside';
 
 interface CollectionCardProps {
   title: string;
@@ -46,9 +47,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   const deleteIcon: React.ReactNode = <FontAwesomeIcon icon={faTrash} />;
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const handleMenuClose = (): void => {
-    setIsMenuOpen(false);
-  };
+  useClickOutside(menuRef, () => setIsMenuOpen(false));
 
   const handleCollectionClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
@@ -108,7 +107,6 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
                 onClick: handleOpenDeleteModal,
               },
             ]}
-            onClose={handleMenuClose}
           />
         </div>
       )}

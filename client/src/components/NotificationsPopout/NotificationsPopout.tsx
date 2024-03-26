@@ -3,25 +3,19 @@ import Notification from '../../types/Notification';
 import styles from './NotificationsPopout.module.scss';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { useNotificationContext } from '../../hooks/useNotificationContext';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { markAsRead } from '../../utility/Notifications.utility';
-import useClickOutside from '../../hooks/useClickOutside';
 
 interface NotificationPopoutProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onClose: () => void;
 }
 
 const NotificationPopout: React.FC<NotificationPopoutProps> = ({
   setIsOpen,
-  onClose,
 }) => {
   const { notifications, fetchNotifications } = useNotificationContext();
   const { user } = useAuthContext();
-  const notificationRef = useRef<HTMLDivElement>(null);
-
-  useClickOutside(notificationRef, onClose);
 
   useEffect(() => {
     return () => {
@@ -30,7 +24,7 @@ const NotificationPopout: React.FC<NotificationPopoutProps> = ({
   }, []);
 
   return (
-    <div className={styles['notification-popout']} ref={notificationRef}>
+    <div className={styles['notification-popout']}>
       <div className={styles.header}>
         Notifications
         <Link

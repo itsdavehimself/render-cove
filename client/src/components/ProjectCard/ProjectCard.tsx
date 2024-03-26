@@ -48,9 +48,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleMenuClose = (): void => {
-    setIsMenuOpen(false);
-  };
+  useClickOutside(menuRef, () => setIsMenuOpen(false));
 
   const ellipsisIcon: React.ReactNode = (
     <FontAwesomeIcon icon={faEllipsisVertical} />
@@ -99,7 +97,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   handleProjectClick(e),
               },
             ]}
-            onClose={handleMenuClose}
           />
         </div>
       )}

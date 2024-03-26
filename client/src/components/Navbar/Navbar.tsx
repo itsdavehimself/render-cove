@@ -1,5 +1,5 @@
 import styles from './Navbar.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import useLogOut from '../../hooks/useLogOut';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -28,6 +28,7 @@ import NotificationPopout from '../NotificationsPopout/NotificationsPopout';
 import { useConversationContext } from '../../hooks/useConversationContext';
 import { SocketContext } from '../../context/SocketContext';
 import { useContext } from 'react';
+import useClickOutside from '../../hooks/useClickOutside';
 
 const Navbar: React.FC = () => {
   const { unreadNotifications, addNotification } = useNotificationContext();
@@ -37,6 +38,14 @@ const Navbar: React.FC = () => {
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const avatarRef = useRef<HTMLDivElement>(null);
+  const createProjectRef = useRef<HTMLButtonElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(avatarRef, () => setIsUserPopOutShowing(false));
+  useClickOutside(createProjectRef, () => setIsCreatePopOutShowing(false));
+  useClickOutside(notificationRef, () => setIsNotificationPopoutOpen(false));
 
   const [isUserPopOutShowing, setIsUserPopOutShowing] =
     useState<boolean>(false);
@@ -71,24 +80,6 @@ const Navbar: React.FC = () => {
 
   const handleViewProfile = (): void => {
     navigate(`/user/${user.username}`);
-  };
-
-  const handleClosePopout = (
-    popoutType: 'user' | 'notification' | 'create',
-  ): void => {
-    switch (popoutType) {
-      case 'user':
-        setIsUserPopOutShowing(false);
-        break;
-      case 'notification':
-        setIsNotificationPopoutOpen(false);
-        break;
-      case 'create':
-        setIsCreatePopOutShowing(false);
-        break;
-      default:
-        break;
-    }
   };
 
   const logOutSymbol: React.ReactNode = (
@@ -183,6 +174,7 @@ const Navbar: React.FC = () => {
               <button
                 className={styles['create-drop-down-button']}
                 onClick={() => setIsCreatePopOutShowing(!isCreatePopOutShowing)}
+                ref={createProjectRef}
               >
                 {caretDown}
               </button>
@@ -201,7 +193,6 @@ const Navbar: React.FC = () => {
                         onClick: () => console.log('create tutorial'),
                       },
                     ]}
-                    onClose={() => handleClosePopout('create')}
                   />
                 </div>
               )}
@@ -209,10 +200,7 @@ const Navbar: React.FC = () => {
             <div className={styles['notification-icons']}>
               {isNotificationPopoutOpen && (
                 <div className={styles['notification-popout-container']}>
-                  <NotificationPopout
-                    setIsOpen={setIsNotificationPopoutOpen}
-                    onClose={() => handleClosePopout('notification')}
-                  />
+                  <NotificationPopout setIsOpen={setIsNotificationPopoutOpen} />
                 </div>
               )}
               <button
@@ -220,6 +208,7 @@ const Navbar: React.FC = () => {
                 onClick={() =>
                   setIsNotificationPopoutOpen(!isNotificationPopoutOpen)
                 }
+                ref={notificationRef}
               >
                 <div className={styles['notification-icon']}>
                   {unreadNotifications > 0 && (
@@ -247,6 +236,7 @@ const Navbar: React.FC = () => {
             <div
               className={styles['avatar-container']}
               onClick={() => setIsUserPopOutShowing(!isUserPopOutShowing)}
+              ref={avatarRef}
             >
               <img
                 className={styles['user-avatar']}
@@ -288,7 +278,6 @@ const Navbar: React.FC = () => {
                         onClick: handleLogout,
                       },
                     ]}
-                    onClose={() => handleClosePopout('user')}
                   />
                 </div>
               )}
