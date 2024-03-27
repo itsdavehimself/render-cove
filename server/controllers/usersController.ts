@@ -386,13 +386,17 @@ const toggleFollowStatus = async (req: AuthRequest, res: Response) => {
       { _id: userToToggleId },
       updateActionToggledUser,
       { new: true }
-    );
+    )
+      .populate({ path: 'projects', select: '_id likes' })
+      .exec();
 
     const updatedUser = await User.findOneAndUpdate(
       { _id: userId },
       updateActionUser,
       { new: true }
-    );
+    )
+      .populate({ path: 'projects', select: '_id likes' })
+      .exec();
 
     const usersObject = {
       toggledUser,
