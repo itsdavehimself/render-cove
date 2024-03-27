@@ -97,7 +97,6 @@ const MessageThread: React.FC = () => {
   useEffect(() => {
     if (userIdToMessage) {
       scrollToBottom();
-      markConversationsAsRead(userIdToMessage);
     }
   }, [newMessages, isLoadingMessages]);
 
@@ -108,7 +107,7 @@ const MessageThread: React.FC = () => {
 
     const handleReceiveMessage = (message: Message) => {
       setNewMessages((prevMessages) => [...prevMessages, message]);
-      setMessagePreview(message);
+      markConversationsAsRead(message.recipient._id);
     };
 
     socket?.on('receive-message', handleReceiveMessage);
