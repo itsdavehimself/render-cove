@@ -108,7 +108,7 @@ const getConversations = async (req: AuthRequest, res: Response) => {
             },
           },
           latestMessage: { $first: '$$ROOT' },
-          maxCreatedAt: { $max: '$createdAt' }, // Add this stage to get the latest message's createdAt timestamp
+          maxCreatedAt: { $max: '$createdAt' },
         },
       },
       {
