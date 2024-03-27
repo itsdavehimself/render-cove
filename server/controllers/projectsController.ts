@@ -380,15 +380,15 @@ const updateProject = async (req: AuthRequest, res: Response) => {
           { new: true }
         );
 
-      if (updatedProject) {
-        return res
-          .status(200)
-          .json({ message: 'Project updated successfully' });
-      } else {
-        return res
-          .status(500)
-          .json({ message: 'Error updating project in MongoDB' });
-      }
+      // if (updatedProject) {
+      //   return res
+      //     .status(200)
+      //     .json({ message: 'Project updated successfully' });
+      // } else {
+      //   return res
+      //     .status(500)
+      //     .json({ message: 'Error updating project in MongoDB' });
+      // }
     }
 
     const uploadProjectImagesToS3 = async (
