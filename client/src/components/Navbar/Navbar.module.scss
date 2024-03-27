@@ -105,9 +105,9 @@ button {
 
 .create-project-button {
   @include colored-button();
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  padding-right: 8px;
+  // border-top-right-radius: 0;
+  // border-bottom-right-radius: 0;
+  // padding-right: 8px;
 }
 
 .create-project-button:hover {

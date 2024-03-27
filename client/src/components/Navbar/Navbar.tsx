@@ -171,7 +171,7 @@ const Navbar: React.FC = () => {
                   <div>{uploadIcon}</div> Upload Project
                 </button>
               </Link>
-              <button
+              {/* <button
                 className={styles['create-drop-down-button']}
                 onClick={() => setIsCreatePopOutShowing(!isCreatePopOutShowing)}
                 ref={createProjectRef}
@@ -195,7 +195,7 @@ const Navbar: React.FC = () => {
                     ]}
                   />
                 </div>
-              )}
+              )} */}
             </div>
             <div className={styles['notification-icons']}>
               <button
