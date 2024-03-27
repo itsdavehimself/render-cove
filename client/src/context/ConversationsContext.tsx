@@ -42,8 +42,6 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuthContext();
   const socket = useContext(SocketContext);
 
-  console.log('conversations', conversations);
-
   const setMessagePreview = (message: Message) => {
     const existingConversationIndex = conversations.findIndex(
       (conversation) =>
@@ -52,12 +50,8 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
         (conversation.sender === message.recipient._id &&
           conversation.recipient === message.sender._id),
     );
-    console.log('index', existingConversationIndex);
-    console.log('conversations', conversations);
-    console.log('message', message);
 
     if (existingConversationIndex !== -1) {
-      console.log('updating');
       setConversations((prevConversations) =>
         prevConversations.map((conversation, index) => {
           if (index === existingConversationIndex) {
@@ -106,7 +100,6 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
         unreadCount: message.sender._id !== user.userId ? 1 : 0,
       };
 
-      console.log('new conversation', newConversation);
       setConversations((prevConversations) => [
         newConversation,
         ...prevConversations,
