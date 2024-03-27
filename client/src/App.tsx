@@ -67,9 +67,13 @@ function App() {
                 <Route
                   path="/messages"
                   element={
-                    <UserInfoContextProvider>
-                      <Messages />
-                    </UserInfoContextProvider>
+                    !user ? (
+                      <Login />
+                    ) : (
+                      <UserInfoContextProvider>
+                        <Messages />
+                      </UserInfoContextProvider>
+                    )
                   }
                 >
                   <Route path="/messages" element={<MessageThread />} />
