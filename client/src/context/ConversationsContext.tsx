@@ -43,17 +43,17 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
   const socket = useContext(SocketContext);
 
   const setMessagePreview = (message: Message) => {
-    const existingConversationIndex = conversations.findIndex(
-      (conversation) =>
-        (conversation.sender === message.sender._id &&
-          conversation.recipient === message.recipient._id) ||
-        (conversation.sender === message.recipient._id &&
-          conversation.recipient === message.sender._id),
-    );
+    setConversations((prevConversations) => {
+      const existingConversationIndex = prevConversations.findIndex(
+        (conversation) =>
+          (conversation.sender === message.sender._id &&
+            conversation.recipient === message.recipient._id) ||
+          (conversation.sender === message.recipient._id &&
+            conversation.recipient === message.sender._id),
+      );
 
-    if (existingConversationIndex !== -1) {
-      setConversations((prevConversations) =>
-        prevConversations.map((conversation, index) => {
+      if (existingConversationIndex !== -1) {
+        return prevConversations.map((conversation, index) => {
           if (index === existingConversationIndex) {
             return {
               ...conversation,
@@ -65,49 +65,42 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
             };
           }
           return conversation;
-        }),
-      );
+        });
+      } else {
+        const otherUserId =
+          user.userId === message.sender._id
+            ? message.recipient._id
+            : message.sender._id;
+        const otherUserAvatarUrl =
+          user.userId === message.sender._id
+            ? message.recipient.avatarUrl
+            : message.sender.avatarUrl;
+        const otherUserDisplayName =
+          user.userId === message.sender._id
+            ? message.recipient.displayName
+            : message.sender.displayName;
 
-      if (message.sender._id !== user.userId) {
-        setNumOfUnreadMessages((prevNumber) => prevNumber + 1);
+        const newConversation = {
+          _id: message._id,
+          content: message.content,
+          createdAt: message.createdAt,
+          otherUser: {
+            avatarUrl: otherUserAvatarUrl,
+            displayName: otherUserDisplayName,
+            _id: otherUserId,
+          },
+          read: message.read,
+          recipient: message.recipient._id,
+          sender: message.sender._id,
+          unreadCount: message.sender._id !== user.userId ? 1 : 0,
+        };
+
+        return [newConversation, ...prevConversations];
       }
-    } else {
-      const otherUserId =
-        user.userId === message.sender._id
-          ? message.recipient._id
-          : message.sender._id;
-      const otherUserAvatarUrl =
-        user.userId === message.sender._id
-          ? message.recipient.avatarUrl
-          : message.sender.avatarUrl;
-      const otherUserDisplayName =
-        user.userId === message.sender._id
-          ? message.recipient.displayName
-          : message.sender.displayName;
+    });
 
-      const newConversation = {
-        _id: message._id,
-        content: message.content,
-        createdAt: message.createdAt,
-        otherUser: {
-          avatarUrl: otherUserAvatarUrl,
-          displayName: otherUserDisplayName,
-          _id: otherUserId,
-        },
-        read: message.read,
-        recipient: message.recipient._id,
-        sender: message.sender._id,
-        unreadCount: message.sender._id !== user.userId ? 1 : 0,
-      };
-
-      setConversations((prevConversations) => [
-        newConversation,
-        ...prevConversations,
-      ]);
-
-      if (message.sender._id !== user.userId) {
-        setNumOfUnreadMessages((prevNumber) => prevNumber + 1);
-      }
+    if (message.sender._id !== user.userId) {
+      setNumOfUnreadMessages((prevNumber) => prevNumber + 1);
     }
   };
 
@@ -116,6 +109,8 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
       socket?.on('connect', () => {
         socket?.emit('userId', user.userId);
       });
+
+      socket?.on('receive-message', setMessagePreview);
 
       return () => {
         socket?.off('receive-message', setMessagePreview);
