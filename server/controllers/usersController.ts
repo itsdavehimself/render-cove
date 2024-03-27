@@ -140,6 +140,10 @@ const deleteUser = async (req: AuthRequest, res: Response) => {
       { $pull: { followers: userId } }
     );
 
+    await Notification.deleteMany({
+      $or: [{ recipient: userId }, { sender: userId }],
+    });
+
     res.status(200).json(user);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
