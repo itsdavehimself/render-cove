@@ -89,16 +89,18 @@ const FollowerModal: React.FC<FollowerModalProps> = ({
               {closeIcon}
             </button>
           </div>
-          {userList.map((follower) => (
-            <FollowerUser
-              username={follower?.username}
-              displayName={follower?.displayName}
-              avatarUrl={follower?.avatarUrl}
-              _id={follower?._id}
-              key={follower?._id}
-              setOpenModal={setOpenModal}
-            />
-          ))}
+          <div className={styles['follow-list']}>
+            {userList.map((follower) => (
+              <FollowerUser
+                username={follower?.username}
+                displayName={follower?.displayName}
+                avatarUrl={follower?.avatarUrl}
+                _id={follower?._id}
+                key={follower?._id}
+                setOpenModal={setOpenModal}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>

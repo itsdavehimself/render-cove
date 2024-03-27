@@ -25,23 +25,17 @@
 }
 
 .follower-modal {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 28rem;
-  width: 30rem;
   background-color: variables.$primary-alt;
   border-radius: 0.25rem;
   padding: 1.5rem 2rem;
-  row-gap: 1rem;
   font-size: 0.9rem;
-  row-gap: 1.5rem;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 0;
 
   h3 {
     font-size: 1rem;
@@ -60,4 +54,18 @@
   cursor: pointer;
   color: variables.$secondary-color;
   transition: all 0.2s ease-in-out;
+}
+
+.follow-list {
+  background-color: variables.$primary-color;
+  border-radius: 0.25rem;
+  border: 1px solid variables.$primary-tertiary;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  row-gap: 1.5rem;
+  height: 24rem;
+  width: 30rem;
+  padding: 1rem;
+  overflow-y: scroll;
 }
