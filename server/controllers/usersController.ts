@@ -6,6 +6,8 @@ import { uploadImagesToS3 } from '../utility/s3Utils.js';
 import bcrypt from 'bcrypt';
 import { EmailNotifications } from '../types/EmailNotifications.js';
 import { validateUsername } from '../utility/validation.utility.js';
+import { io } from '../server.js';
+import Notification from '../models/notificationModel.js';
 
 export interface SocialEntry {
   network: string;
@@ -402,6 +404,20 @@ const toggleFollowStatus = async (req: AuthRequest, res: Response) => {
       toggledUser,
       updatedUser,
     };
+
+    if (action === 'follow') {
+      let notification = await Notification.create({
+        recipient: userToToggleId,
+        sender: userId,
+        type: 'follow',
+      });
+
+      notification = await notification.populate([
+        { path: 'sender', select: 'avatarUrl displayName username' },
+      ]);
+
+      io.to(userToToggleId).emit('receive-notification');
+    }
 
     res.status(200).json(usersObject);
   } catch (error: any) {
