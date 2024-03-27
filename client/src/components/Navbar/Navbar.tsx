@@ -16,9 +16,9 @@ import {
   faEye,
   faBookmark,
   faHeart,
-  faAngleDown,
-  faFlask,
-  faBookOpen,
+  // faAngleDown,
+  // faFlask,
+  // faBookOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
@@ -40,17 +40,17 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   const avatarRef = useRef<HTMLDivElement>(null);
-  const createProjectRef = useRef<HTMLButtonElement>(null);
+  // const createProjectRef = useRef<HTMLButtonElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(avatarRef, () => setIsUserPopOutShowing(false));
-  useClickOutside(createProjectRef, () => setIsCreatePopOutShowing(false));
+  // useClickOutside(createProjectRef, () => setIsCreatePopOutShowing(false));
   useClickOutside(notificationRef, () => setIsNotificationPopoutOpen(false));
 
   const [isUserPopOutShowing, setIsUserPopOutShowing] =
     useState<boolean>(false);
-  const [isCreatePopOutShowing, setIsCreatePopOutShowing] =
-    useState<boolean>(false);
+  // const [isCreatePopOutShowing, setIsCreatePopOutShowing] =
+  //   useState<boolean>(false);
   const [isNotificationPopoutOpen, setIsNotificationPopoutOpen] =
     useState<boolean>(false);
 
@@ -100,9 +100,9 @@ const Navbar: React.FC = () => {
     <FontAwesomeIcon icon={faArrowRightToBracket} />
   );
   const signupIcon: React.ReactNode = <FontAwesomeIcon icon={faPenToSquare} />;
-  const caretDown: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
-  const caseStudyIcon: React.ReactNode = <FontAwesomeIcon icon={faFlask} />;
-  const tutorialsIcon: React.ReactNode = <FontAwesomeIcon icon={faBookOpen} />;
+  // const caretDown: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
+  // const caseStudyIcon: React.ReactNode = <FontAwesomeIcon icon={faFlask} />;
+  // const tutorialsIcon: React.ReactNode = <FontAwesomeIcon icon={faBookOpen} />;
 
   return (
     <nav
