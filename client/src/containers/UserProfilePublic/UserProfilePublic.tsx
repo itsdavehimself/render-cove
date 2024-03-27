@@ -26,11 +26,9 @@ const UserProfilePublic: React.FC = () => {
 
   useEffect(() => {
     if (userInfo && userInfo?._id !== user?.userId) {
-      console.log('hi');
       setFollowers(userInfo.followers.length);
       setFollowing(userInfo.following.length);
     } else if (userInfo && userInfo?._id === user?.userId) {
-      console.log('hmm');
       setFollowers(userInfo.followers.length);
       setFollowing(userInfo.following.length);
     }
@@ -38,7 +36,6 @@ const UserProfilePublic: React.FC = () => {
 
   useEffect(() => {
     if (user && userInfo && userInfo.followers) {
-      console.log('ok');
       setIsFollowing(userInfo.followers.includes(user.userId));
     }
   }, [user, userInfo]);
