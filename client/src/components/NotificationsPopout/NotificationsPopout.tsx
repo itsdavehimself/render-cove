@@ -41,7 +41,7 @@ const NotificationPopout: React.FC<NotificationPopoutProps> = ({
             <Link
               to={
                 notification.type === 'follow'
-                  ? `/user/${notification.sender.username}`
+                  ? `/user/${notification.sender?.username}`
                   : `/project/${notification.post?._id}`
               }
               key={notification._id}
@@ -51,13 +51,13 @@ const NotificationPopout: React.FC<NotificationPopoutProps> = ({
                 <div className={styles['avatar-container']}>
                   <img
                     className={styles.avatar}
-                    src={notification.sender.avatarUrl}
+                    src={notification.sender?.avatarUrl}
                   />
                 </div>
                 <div className={styles['notification-text']}>
                   <div className={styles['notification-details']}>
                     <span className={styles.emphasized}>
-                      {notification.sender.displayName}
+                      {notification.sender?.displayName}
                     </span>{' '}
                     {notification.type === 'like'
                       ? 'liked your post'
