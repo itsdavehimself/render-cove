@@ -124,8 +124,6 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
         socket?.emit('userId', user.userId);
       });
 
-      // socket?.on('receive-message', setMessagePreview);
-
       return () => {
         socket?.off('receive-message', setMessagePreview);
       };
