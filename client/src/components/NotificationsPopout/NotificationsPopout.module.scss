@@ -75,12 +75,11 @@
 }
 
 .notification-details {
-  display: flex;
-  justify-content: flex-start;
   font-size: 0.9rem;
   font-weight: 400;
   color: variables.$secondary-darker;
   column-gap: 0.35rem;
+  text-align: left;
 }
 
 .emphasized {
