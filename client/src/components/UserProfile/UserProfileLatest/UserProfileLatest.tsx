@@ -182,39 +182,21 @@ const UserProfileLatest: React.FC = () => {
             <div className={styles.cards}>
               {collections
                 ?.slice(0, 6)
-                .map((collection) => (
-                  <React.Fragment key={collection?._id}>
-                    {user?.userId === userInfo?._id ? (
-                      <CollectionCard
-                        title={collection?.title}
-                        creator={collection?.creator}
-                        collectionId={collection?._id}
-                        isPrivate={collection?.private}
-                        imageUrl={collection?.projects[0]?.images[0]?.url}
-                        key={collection?._id}
-                        setIsDeleteModalOpen={setIsDeleteModalOpen}
-                        setIsEditModalOpen={setIsEditModalOpen}
-                        setFocusedCollection={setFocusedCollection}
-                      />
-                    ) : (
-                      <>
-                        {collection?.private === false && (
-                          <CollectionCard
-                            title={collection?.title}
-                            creator={collection?.creator}
-                            collectionId={collection?._id}
-                            isPrivate={collection?.private}
-                            imageUrl={collection?.projects[0]?.images[0]?.url}
-                            key={collection?._id}
-                            setIsDeleteModalOpen={setIsDeleteModalOpen}
-                            setIsEditModalOpen={setIsEditModalOpen}
-                            setFocusedCollection={setFocusedCollection}
-                          />
-                        )}
-                      </>
-                    )}
-                  </React.Fragment>
-                ))}
+                .map((collection) =>
+                  user?.userId === userInfo?._id || !collection?.private ? (
+                    <CollectionCard
+                      key={collection?._id}
+                      title={collection?.title}
+                      creator={collection?.creator}
+                      collectionId={collection?._id}
+                      isPrivate={collection?.private}
+                      imageUrl={collection?.projects[0]?.images[0]?.url}
+                      setIsDeleteModalOpen={setIsDeleteModalOpen}
+                      setIsEditModalOpen={setIsEditModalOpen}
+                      setFocusedCollection={setFocusedCollection}
+                    />
+                  ) : null,
+                )}
             </div>
           </section>
         )}
