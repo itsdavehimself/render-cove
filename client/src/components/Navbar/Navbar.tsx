@@ -198,14 +198,6 @@ const Navbar: React.FC = () => {
               )}
             </div>
             <div className={styles['notification-icons']}>
-              {isNotificationPopoutOpen && (
-                <div
-                  className={styles['notification-popout-container']}
-                  ref={notificationRef}
-                >
-                  <NotificationPopout setIsOpen={setIsNotificationPopoutOpen} />
-                </div>
-              )}
               <button
                 className={styles['notification-button']}
                 onClick={() =>
@@ -222,6 +214,13 @@ const Navbar: React.FC = () => {
                     </div>
                   )}
                   {notificationBell}
+                  {isNotificationPopoutOpen && (
+                    <div className={styles['notification-popout-container']}>
+                      <NotificationPopout
+                        setIsOpen={setIsNotificationPopoutOpen}
+                      />
+                    </div>
+                  )}
                 </div>
               </button>
               <button
