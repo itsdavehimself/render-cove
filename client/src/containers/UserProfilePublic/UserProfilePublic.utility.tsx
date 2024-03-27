@@ -18,6 +18,7 @@ const handleFollowClick = async (
   user: UserType,
   dispatch: Dispatch<AuthAction>,
   dispatchUserInfo: Dispatch<UserInfoAction>,
+  isProfilePage: boolean,
 ): Promise<void> => {
   setError(null);
   setIsLoading(true);
@@ -48,7 +49,7 @@ const handleFollowClick = async (
 
     const mergedUser = { ...user, ...toggleFollowStatusJSON.updatedUser };
 
-    if (currentProfileId !== user.userId) {
+    if (currentProfileId !== user.userId && isProfilePage) {
       dispatchUserInfo({
         type: 'UPDATE_INFO',
         payload: toggleFollowStatusJSON.toggledUser,
