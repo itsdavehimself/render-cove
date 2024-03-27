@@ -199,7 +199,10 @@ const Navbar: React.FC = () => {
             </div>
             <div className={styles['notification-icons']}>
               {isNotificationPopoutOpen && (
-                <div className={styles['notification-popout-container']}>
+                <div
+                  className={styles['notification-popout-container']}
+                  ref={notificationRef}
+                >
                   <NotificationPopout setIsOpen={setIsNotificationPopoutOpen} />
                 </div>
               )}
@@ -208,9 +211,11 @@ const Navbar: React.FC = () => {
                 onClick={() =>
                   setIsNotificationPopoutOpen(!isNotificationPopoutOpen)
                 }
-                ref={notificationRef}
               >
-                <div className={styles['notification-icon']}>
+                <div
+                  className={styles['notification-icon']}
+                  ref={notificationRef}
+                >
                   {unreadNotifications > 0 && (
                     <div className={styles['notification-dot']}>
                       {unreadNotifications < 9 ? unreadNotifications : '9+'}
