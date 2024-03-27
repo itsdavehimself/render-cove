@@ -82,18 +82,21 @@ const UserLikes: React.FC = () => {
             <section className={styles['post-container']}>
               {likedProjects.length > 0 ? (
                 <>
-                  {likedProjects.map((project) => (
-                    <ProjectCard
-                      title={project.projectId.title}
-                      authorUsername={project.projectId.author.username}
-                      authorDisplayName={project.projectId.author.displayName}
-                      avatarUrl={project.projectId.author.avatarUrl}
-                      imageUrl={project.projectId.images[0].url}
-                      projectId={project.projectId._id}
-                      published={true}
-                      key={project.projectId._id}
-                    />
-                  ))}
+                  {likedProjects
+                    .slice()
+                    .reverse()
+                    .map((project) => (
+                      <ProjectCard
+                        title={project.projectId.title}
+                        authorUsername={project.projectId.author.username}
+                        authorDisplayName={project.projectId.author.displayName}
+                        avatarUrl={project.projectId.author.avatarUrl}
+                        imageUrl={project.projectId.images[0].url}
+                        projectId={project.projectId._id}
+                        published={true}
+                        key={project.projectId._id}
+                      />
+                    ))}
                 </>
               ) : (
                 <p>You haven't liked any posts yet</p>
