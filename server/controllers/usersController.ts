@@ -8,6 +8,7 @@ import { EmailNotifications } from '../types/EmailNotifications.js';
 import { validateUsername } from '../utility/validation.utility.js';
 import { io } from '../server.js';
 import Notification from '../models/notificationModel.js';
+import Project from '../models/projectModel.js';
 
 export interface SocialEntry {
   network: string;
@@ -116,6 +117,28 @@ const deleteUser = async (req: AuthRequest, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
+
+    await Project.updateMany(
+      { 'likes.userId': userId },
+      { $pull: { likes: { userId } } },
+      { multi: true }
+    );
+
+    await Project.updateMany(
+      { 'comments.author': userId },
+      { $pull: { comments: { author: userId } } },
+      { multi: true }
+    );
+
+    await User.updateMany(
+      { following: userId },
+      { $pull: { following: userId } }
+    );
+
+    await User.updateMany(
+      { followers: userId },
+      { $pull: { followers: userId } }
+    );
 
     res.status(200).json(user);
   } catch (error: any) {
