@@ -90,6 +90,7 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
                         user,
                         dispatch,
                         dispatchUserInfo,
+                        location.pathname === `/user/${userInfo.username}`,
                       )
               }
               disabled={isLoading}
@@ -119,6 +120,7 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
                         user,
                         dispatch,
                         dispatchUserInfo,
+                        location.pathname === `/user/${userInfo.username}`,
                       )
               }
               disabled={isLoading}

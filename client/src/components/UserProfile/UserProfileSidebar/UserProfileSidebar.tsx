@@ -158,6 +158,8 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
                               user,
                               dispatch,
                               dispatchUserInfo,
+                              location.pathname ===
+                                `/user/${userInfo.username}`,
                             )
                     }
                     disabled={isLoading}
@@ -187,6 +189,8 @@ const UserProfileSidebar: React.FC<UserProfileSidebarProps> = ({
                               user,
                               dispatch,
                               dispatchUserInfo,
+                              location.pathname ===
+                                `/user/${userInfo.username}`,
                             )
                     }
                     disabled={isLoading}
