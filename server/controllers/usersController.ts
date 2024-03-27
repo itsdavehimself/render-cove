@@ -416,7 +416,8 @@ const toggleFollowStatus = async (req: AuthRequest, res: Response) => {
         { path: 'sender', select: 'avatarUrl displayName username' },
       ]);
 
-      io.to(userToToggleId).emit('receive-notification');
+      io.to(userToToggleId).emit('receive-notification', notification);
+      io.to(userToToggleId).emit('receive-follow', toggledUser);
     }
 
     res.status(200).json(usersObject);
