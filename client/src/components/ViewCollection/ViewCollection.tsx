@@ -50,7 +50,7 @@ const ViewCollection: React.FC<ViewCollectionProps> = () => {
         <h1>{collection.title}</h1>
         <p>View all the projects in this collection below</p>
       </div>
-      <section>
+      <section className={styles.cards}>
         {collection && (
           <>
             {collection.projects.map((project) => (

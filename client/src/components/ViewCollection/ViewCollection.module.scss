@@ -26,6 +26,12 @@
   }
 }
 
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
 .buttons {
   display: flex;
   column-gap: 1rem;
