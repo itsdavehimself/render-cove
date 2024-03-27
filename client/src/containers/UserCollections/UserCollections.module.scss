@@ -27,8 +27,9 @@
 }
 
 .collection-cards {
-  display: flex;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .alert-container {

@@ -27,6 +27,9 @@
 }
 
 .post-container {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
   p {
     color: variables.$secondary-darker;
   }
