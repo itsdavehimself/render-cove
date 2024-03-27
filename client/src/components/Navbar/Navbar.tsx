@@ -56,7 +56,7 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     socket?.on('connect', () => {
-      socket?.emit('userId', user.userId);
+      socket?.emit('userId', user?.userId);
     });
 
     const handleReceiveNotification = (notification: Notification) => {

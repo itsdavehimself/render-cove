@@ -21,7 +21,7 @@ const UserProfilePublic: React.FC = () => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   useEffect(() => {
-    if (userInfo && userInfo._id !== user.userId) {
+    if (userInfo && userInfo?._id !== user?.userId) {
       setFollowers(userInfo.followers.length);
       setFollowing(userInfo.following.length);
     } else if (userInfo && userInfo._id === user.userId) {
