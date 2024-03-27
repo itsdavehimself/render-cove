@@ -24,7 +24,11 @@ const Notifications: React.FC = () => {
 
             {notifications.map((notification) => (
               <Link
-                to={`/project/${notification.post._id}`}
+                to={
+                  notification.type === 'follow'
+                    ? `/user/${notification.sender.username}`
+                    : `/project/${notification.post?._id}`
+                }
                 key={notification._id}
               >
                 <div className={styles['notification']}>
@@ -41,10 +45,14 @@ const Notifications: React.FC = () => {
                       </span>{' '}
                       {notification.type === 'like'
                         ? 'liked your post'
-                        : 'commented on your post'}{' '}
-                      <span className={styles.emphasized}>
-                        {notification.post.title}
-                      </span>
+                        : notification.type === 'comment'
+                          ? 'commented on your post'
+                          : 'followed you'}{' '}
+                      {notification.type !== 'follow' && (
+                        <span className={styles.emphasized}>
+                          {notification.post.title}
+                        </span>
+                      )}
                     </div>
                     <p className={styles['date']}>
                       {formatDistanceToNowStrict(notification.createdAt)} ago

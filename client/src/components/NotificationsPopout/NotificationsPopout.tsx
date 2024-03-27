@@ -39,7 +39,11 @@ const NotificationPopout: React.FC<NotificationPopoutProps> = ({
         <>
           {notifications.slice(0, 9).map((notification: Notification) => (
             <Link
-              to={`/project/${notification.post._id}`}
+              to={
+                notification.type === 'follow'
+                  ? `/user/${notification.sender.username}`
+                  : `/project/${notification.post?._id}`
+              }
               key={notification._id}
               onClick={() => setIsOpen(false)}
             >
@@ -57,10 +61,14 @@ const NotificationPopout: React.FC<NotificationPopoutProps> = ({
                     </span>{' '}
                     {notification.type === 'like'
                       ? 'liked your post'
-                      : 'commented on your post'}{' '}
-                    <span className={styles.emphasized}>
-                      {notification.post.title}
-                    </span>
+                      : notification.type === 'comment'
+                        ? 'commented on your post'
+                        : 'followed you'}{' '}
+                    {notification.type !== 'follow' && (
+                      <span className={styles.emphasized}>
+                        {notification.post.title}
+                      </span>
+                    )}
                   </div>
                   <p className={styles['date']}>
                     {formatDistanceToNowStrict(notification.createdAt)} ago
