@@ -3,6 +3,7 @@ interface Notification {
   sender: {
     avatarUrl: string;
     displayName: string;
+    username: string;
   };
   post: {
     title: string;
