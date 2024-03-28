@@ -66,6 +66,7 @@ const Home: React.FC = () => {
               imageUrl={project?.images[0].url}
               projectId={project?._id}
               published={project?.published}
+              key={project?._id}
             />
           ))}
         </section>
