@@ -149,10 +149,10 @@ const UserProfileLatest: React.FC = () => {
                     {user?.userId === userInfo?._id ? (
                       <ProjectCard
                         title={project?.title}
-                        authorDisplayName={userInfo?.displayName}
-                        authorUsername={userInfo?.username}
+                        authorDisplayName={project?.author.displayName}
+                        authorUsername={project?.author.username}
                         imageUrl={project?.images[0].url}
-                        avatarUrl={userInfo?.avatarUrl}
+                        avatarUrl={project?.author.avatarUrl}
                         projectId={project?._id}
                         published={project?.published}
                       />
@@ -161,10 +161,10 @@ const UserProfileLatest: React.FC = () => {
                         {project?.published === true && (
                           <ProjectCard
                             title={project?.title}
-                            authorDisplayName={userInfo?.displayName}
-                            authorUsername={userInfo?.username}
+                            authorDisplayName={project?.author.displayName}
+                            authorUsername={project?.author.username}
                             imageUrl={project?.images[0].url}
-                            avatarUrl={userInfo?.avatarUrl}
+                            avatarUrl={project?.author.avatarUrl}
                             projectId={project?._id}
                             published={project?.published}
                           />
