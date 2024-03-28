@@ -29,6 +29,7 @@ import Notifications from './containers/Notifications/Notifications';
 import Messages from './containers/Messages/Messages';
 import MessageThread from './components/Messages/MessageThread/MessageThread';
 import ExploreProjects from './components/ExploreProjects/ExploreProjects';
+import Search from './containers/Search/Search';
 
 function App() {
   const { user } = useAuthContext();
@@ -68,6 +69,7 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route path="/notifications" element={<Notifications />} />
+                <Route path="/search" element={<Search />} />
                 <Route
                   path="/messages"
                   element={
