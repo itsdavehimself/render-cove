@@ -28,6 +28,7 @@ import Explore from './containers/Explore/Explore';
 import Notifications from './containers/Notifications/Notifications';
 import Messages from './containers/Messages/Messages';
 import MessageThread from './components/Messages/MessageThread/MessageThread';
+import ExploreProjects from './components/ExploreProjects/ExploreProjects';
 
 function App() {
   const { user } = useAuthContext();
@@ -59,7 +60,10 @@ function App() {
               </Route>
               <Route element={<WithNav />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/explore" element={<Explore />} />
+                <Route path="/explore" element={<Explore />}>
+                  <Route path="/explore/" element={<ExploreProjects />} />
+                  <Route path="/explore/:tag" element={<ExploreProjects />} />
+                </Route>
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
