@@ -57,9 +57,14 @@ const getUsersProjects = async (req: Request, res: Response) => {
 
     const allProjects: ProjectDocument[] = await Project.find({
       author: user._id,
-    }).sort({
-      createdAt: -1,
-    });
+    })
+      .sort({
+        createdAt: -1,
+      })
+      .populate({
+        path: 'author',
+        select: 'username displayName _id avatarUrl',
+      });
     res.status(200).json(allProjects);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
@@ -96,10 +101,33 @@ const incrementViews = async (req: Request, res: Response) => {
   }
 };
 
+const getProjectsWithTag = async (req: Request, res: Response) => {
+  const tag = req.params.tag;
+
+  try {
+    const projects = await Project.find({
+      tags: { $regex: new RegExp(tag, 'i') },
+    })
+      .sort({ likes: -1 })
+      .populate({
+        path: 'author',
+        select: 'displayName username _id avatarUrl',
+      });
+
+    res.status(200).json(projects);
+  } catch (error) {
+    console.error('Error fetching projects with tag:', error);
+    res
+      .status(500)
+      .json({ error: 'An error occurred while fetching projects.' });
+  }
+};
+
 export {
   getProject,
   getFeaturedProjects,
   getUsersProjects,
   getAuthUsersProjects,
+  getProjectsWithTag,
   incrementViews,
 };
