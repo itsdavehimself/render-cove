@@ -5,6 +5,7 @@ import {
   getProject,
   getUsersProjects,
   incrementViews,
+  getProjectsWithTag,
 } from '../controllers/projectGetController.js';
 import {
   createProject,
@@ -30,6 +31,8 @@ projectsRouter.get('/:id', getProject);
 projectsRouter.get('/user/:identifier', getUsersProjects);
 
 projectsRouter.get('/', requireAuth, getAuthUsersProjects);
+
+projectsRouter.get('/tag/:tag', getProjectsWithTag);
 
 projectsRouter.post(
   '/',
