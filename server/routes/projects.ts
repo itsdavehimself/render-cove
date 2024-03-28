@@ -1,18 +1,20 @@
 import express, { Router } from 'express';
 import {
-  getAllProjects,
+  getFeaturedProjects,
+  getAuthUsersProjects,
   getProject,
   getUsersProjects,
-  getAuthUsersProjects,
-  createProject,
-  deleteProject,
-  updateProject,
   incrementViews,
+} from '../controllers/projectGetController.js';
+import {
+  createProject,
+  updateProject,
+  deleteProject,
   toggleLikeProject,
+  toggleLikeComment,
   addComment,
   deleteComment,
-  toggleLikeComment,
-} from '../controllers/projectsController.js';
+} from '../controllers/projectActionController.js';
 import multer from 'multer';
 import requireAuth from '../middleware/requireAuth.js';
 
@@ -21,7 +23,7 @@ const upload = multer({ storage: storage });
 
 const projectsRouter: Router = express.Router();
 
-projectsRouter.get('/all', getAllProjects);
+projectsRouter.get('/all', getFeaturedProjects);
 
 projectsRouter.get('/:id', getProject);
 
