@@ -18,6 +18,7 @@ import {
 } from '../utility/s3Utils.js';
 import Image from '../types/Image.js';
 import { io } from '../server.js';
+import { createOrUpdateTags, createTags } from './tagsController.js';
 
 interface AuthRequest extends Request {
   user?: { _id: string };
@@ -142,6 +143,9 @@ const createProject = async (req: AuthRequest, res: Response) => {
     });
 
     await User.findByIdAndUpdate(userId, { $push: { projects: project._id } });
+
+    await createOrUpdateTags(parsedTags);
+
     res.status(200).json(project);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
@@ -401,6 +405,8 @@ const updateProject = async (req: AuthRequest, res: Response) => {
         },
         { new: true }
       );
+
+    await createTags(parsedTags);
 
     res.status(200).json(updatedProject);
   } catch (error: any) {
