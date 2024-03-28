@@ -1,0 +1,45 @@
+@use 'variables';
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 10rem;
+}
+
+.home-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  margin: 1rem 0;
+
+  h1 {
+    color: variables.$secondary-darker;
+    font-weight: 600;
+  }
+}
+
+.explore-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 0.35rem;
+  font-weight: 600;
+  color: variables.$accent-secondary;
+  transition: all 0.2s ease-in-out;
+}
+
+.explore-link:hover {
+  color: variables.$accent-tertiary;
+  transition: all 0.2s ease-in-out;
+}
+
+a {
+  text-decoration: none;
+}
+
+.project-cards {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
