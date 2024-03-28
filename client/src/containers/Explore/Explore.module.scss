@@ -1,0 +1,8 @@
+@use 'variables';
+
+.explore-page {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  margin: 2rem 8rem;
+}
