@@ -52,7 +52,12 @@ interface WorkflowImage {
 }
 
 interface Project {
-  author: string;
+  author: {
+    displayName: string;
+    username: string;
+    _id: string;
+    avatarUrl: string;
+  };
   title: string;
   description?: string;
   tags: string[];
