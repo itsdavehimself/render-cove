@@ -23,7 +23,7 @@ const upload = multer({ storage: storage });
 
 const projectsRouter: Router = express.Router();
 
-projectsRouter.get('/all', getFeaturedProjects);
+projectsRouter.get('/featured', getFeaturedProjects);
 
 projectsRouter.get('/:id', getProject);
 
