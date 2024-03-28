@@ -11,6 +11,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import notificationsRouter from './routes/notifications.js';
 import messagesRouter from './routes/messages.js';
+import tagsRouter from './routes/tags.js';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use('/api/collections', collectionsRouter);
 app.use('/api/followers', followersRouter);
 app.use('/api/notifications', notificationsRouter);
 app.use('/api/messages', messagesRouter);
+app.use('/api/tags', tagsRouter);
 
 const mongoURI = process.env.MONGO_URI;
 
