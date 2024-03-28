@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import Project from '../../types/Project';
+import LargeLoadingSpinner from '../../components/LargeLoadingSpinner/LargeLoadingSpinner';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -12,6 +13,7 @@ const API_BASE_URL: string =
 const Home: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const rightArrow: React.ReactNode = <FontAwesomeIcon icon={faArrowRight} />;
 
@@ -28,10 +30,12 @@ const Home: React.FC = () => {
 
       if (!projectsResponse.ok) {
         setError(projectsJson.error);
+        setIsLoading(false);
       }
 
       if (projectsResponse.ok) {
         setProjects(projectsJson);
+        setIsLoading(false);
       }
     };
 
@@ -49,19 +53,23 @@ const Home: React.FC = () => {
           </div>
         </Link>
       </header>
-      <section className={styles['project-cards']}>
-        {projects?.map((project) => (
-          <ProjectCard
-            title={project?.title}
-            authorDisplayName={project?.author.displayName}
-            authorUsername={project?.author.username}
-            avatarUrl={project?.author.avatarUrl}
-            imageUrl={project?.images[0].url}
-            projectId={project?._id}
-            published={project?.published}
-          />
-        ))}
-      </section>
+      {isLoading ? (
+        <LargeLoadingSpinner />
+      ) : (
+        <section className={styles['project-cards']}>
+          {projects?.map((project) => (
+            <ProjectCard
+              title={project?.title}
+              authorDisplayName={project?.author.displayName}
+              authorUsername={project?.author.username}
+              avatarUrl={project?.author.avatarUrl}
+              imageUrl={project?.images[0].url}
+              projectId={project?._id}
+              published={project?.published}
+            />
+          ))}
+        </section>
+      )}
     </main>
   );
 };
