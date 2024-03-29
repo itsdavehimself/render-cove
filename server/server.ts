@@ -12,6 +12,8 @@ import { Server } from 'socket.io';
 import notificationsRouter from './routes/notifications.js';
 import messagesRouter from './routes/messages.js';
 import tagsRouter from './routes/tags.js';
+import createIndexes from './createIndexes.js';
+import searchRouter from './routes/search.js';
 
 dotenv.config();
 
@@ -28,6 +30,7 @@ app.use('/api/followers', followersRouter);
 app.use('/api/notifications', notificationsRouter);
 app.use('/api/messages', messagesRouter);
 app.use('/api/tags', tagsRouter);
+app.use('/api/search', searchRouter);
 
 const mongoURI = process.env.MONGO_URI;
 
@@ -69,5 +72,7 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
   });
 });
+
+createIndexes();
 
 export { io };
