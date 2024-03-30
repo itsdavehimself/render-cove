@@ -1,6 +1,7 @@
 import Project from './models/projectModel.js';
+import User from './models/userModel.js';
 
-const createIndexes = async () => {
+const createProjectIndex = async () => {
   try {
     await Project.collection.createIndex(
       {
@@ -19,4 +20,19 @@ const createIndexes = async () => {
   }
 };
 
-export default createIndexes;
+const createUserIndex = async () => {
+  try {
+    await User.collection.createIndex(
+      {
+        username: 'text',
+        displayName: 'text',
+      },
+      { name: 'user_text_index', default_language: 'english' }
+    );
+    console.log('User text index created successfully.');
+  } catch (error) {
+    console.error('Error create text index:', error);
+  }
+};
+
+export { createProjectIndex, createUserIndex };
