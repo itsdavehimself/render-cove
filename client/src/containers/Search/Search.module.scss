@@ -185,3 +185,12 @@ h2 {
 .query {
   color: variables.$accent-secondary;
 }
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: variables.$secondary-darker;
+  font-size: 0.9rem;
+  margin-top: 4rem;
+}

@@ -11,6 +11,7 @@ import {
   faAngleDown,
 } from '@fortawesome/free-solid-svg-icons';
 import UserInfo from '../../types/UserInfo';
+import LargeLoadingSpinner from '../../components/LargeLoadingSpinner/LargeLoadingSpinner';
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -50,6 +51,7 @@ const Search = () => {
 
   useEffect(() => {
     const fetchSearchResults = async () => {
+      setIsLoading(true);
       if (!query) return;
 
       const url = `${API_BASE_URL}/search?query=${query}&filter=${filter}&sort=${sortOption}`;
@@ -207,25 +209,48 @@ const Search = () => {
             results for <span className={styles.query}>"{query}"</span>
           </h2>
         </header>
-        {filter === 'projects' ? (
-          <section className={styles['project-cards']}>
-            {projectSearchResults.map((project) => (
-              <ProjectCard
-                title={project?.title}
-                authorDisplayName={project?.author.displayName}
-                authorUsername={project?.author.username}
-                imageUrl={project?.images[0].url}
-                avatarUrl={project?.author.avatarUrl}
-                projectId={project?._id}
-                published={project?.published}
-                key={project?._id}
-              />
-            ))}
-          </section>
+        {isLoading ? (
+          <LargeLoadingSpinner />
         ) : (
-          <section className={styles['user-cards']}>
-            {userSearchResults.map((user) => user.displayName)}
-          </section>
+          <>
+            {filter === 'projects' ? (
+              <>
+                {projectSearchResults.length > 0 ? (
+                  <>
+                    <section className={styles['project-cards']}>
+                      {projectSearchResults.map((project) => (
+                        <ProjectCard
+                          title={project?.title}
+                          authorDisplayName={project?.author.displayName}
+                          authorUsername={project?.author.username}
+                          imageUrl={project?.images[0].url}
+                          avatarUrl={project?.author.avatarUrl}
+                          projectId={project?._id}
+                          published={project?.published}
+                          key={project?._id}
+                        />
+                      ))}
+                    </section>
+                  </>
+                ) : (
+                  <div className={styles['no-results']}>No results found.</div>
+                )}
+              </>
+            ) : (
+              <>
+                {userSearchResults.length > 0 ? (
+                  <>
+                    {' '}
+                    <section className={styles['user-cards']}>
+                      {userSearchResults.map((user) => user.displayName)}
+                    </section>
+                  </>
+                ) : (
+                  <div className={styles['no-results']}>No results found.</div>
+                )}
+              </>
+            )}
+          </>
         )}
       </div>
     </main>
