@@ -35,7 +35,7 @@ const SearchBar: React.FC = () => {
     event: React.FormEvent<HTMLFormElement>,
   ): void => {
     event.preventDefault();
-    navigate(`/search?query=${searchQuery}`);
+    navigate(`/search?query=${searchQuery}&filter=projects&sort=relevant`);
   };
 
   const handleInput = (search: string) => {
