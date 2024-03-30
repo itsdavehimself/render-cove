@@ -12,8 +12,8 @@ import { Server } from 'socket.io';
 import notificationsRouter from './routes/notifications.js';
 import messagesRouter from './routes/messages.js';
 import tagsRouter from './routes/tags.js';
-import createIndexes from './createIndexes.js';
 import searchRouter from './routes/search.js';
+import { createProjectIndex, createUserIndex } from './createIndexes.js';
 
 dotenv.config();
 
@@ -73,6 +73,7 @@ io.on('connection', (socket) => {
   });
 });
 
-createIndexes();
+createProjectIndex();
+createUserIndex();
 
 export { io };
