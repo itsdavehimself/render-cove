@@ -88,6 +88,11 @@
   transition: all 0.2s ease-in-out;
 }
 
+.publish-option:last-child {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
 .publish-option:hover {
   background-color: variables.$accent-tertiary;
   transition: all 0.2s ease-in-out;
