@@ -10,8 +10,18 @@ import {
   faAngleUp,
   faAngleDown,
 } from '@fortawesome/free-solid-svg-icons';
-import UserInfo from '../../types/UserInfo';
 import LargeLoadingSpinner from '../../components/LargeLoadingSpinner/LargeLoadingSpinner';
+import UserCard from '../../components/UserCard/UserCard';
+
+export type UserCardInfo = {
+  displayName: string;
+  username: string;
+  avatarUrl: string;
+  tagline: string;
+  followers: string[];
+  _id: string;
+  projects: Project[];
+};
 
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
@@ -32,7 +42,7 @@ const Search = () => {
   const [projectSearchResults, setProjectSearchResults] = useState<Project[]>(
     [],
   );
-  const [userSearchResults, setUserSearchResults] = useState<UserInfo[]>([]);
+  const [userSearchResults, setUserSearchResults] = useState<User[]>([]);
   const [sortOption, setSortOption] = useState<string>(
     queryParams.get('sort') || 'relevant',
   );
@@ -69,6 +79,7 @@ const Search = () => {
           setProjectSearchResults(json);
         } else {
           setUserSearchResults(json);
+          console.log(json);
         }
       }
 
@@ -242,7 +253,9 @@ const Search = () => {
                   <>
                     {' '}
                     <section className={styles['user-cards']}>
-                      {userSearchResults.map((user) => user.displayName)}
+                      {userSearchResults.map((user) => (
+                        <UserCard userForCard={user} />
+                      ))}
                     </section>
                   </>
                 ) : (
