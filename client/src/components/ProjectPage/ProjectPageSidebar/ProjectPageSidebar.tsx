@@ -12,7 +12,7 @@ import {
   faComment,
   faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, FormEvent } from 'react';
 import { FollowAction, handleFollowClick } from './ProjectPageSidebar.utility';
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -324,22 +324,39 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
                 )}
               </div>
             )}
-            <TextAreaInput
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              label=""
-              name="comment"
-              id="comment"
-              placeholder={
-                project?.comments.length === 0
-                  ? 'Be the first to comment...'
-                  : 'Join the conversation...'
-              }
-              serverError={error ? error.message : ''}
-            />
-            <div className={styles['comment-button']}>
-              <SaveSubmitButton label="Sumbit" isLoading={false} color="blue" />
-            </div>
+            {user ? (
+              <>
+                <TextAreaInput
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  label=""
+                  name="comment"
+                  id="comment"
+                  placeholder={
+                    project?.comments.length === 0
+                      ? 'Be the first to comment...'
+                      : 'Join the conversation...'
+                  }
+                  serverError={error ? error.message : ''}
+                />
+                <div className={styles['comment-button']}>
+                  <SaveSubmitButton
+                    label="Sumbit"
+                    isLoading={false}
+                    color="blue"
+                  />
+                </div>
+              </>
+            ) : (
+              <div className={styles['login']}>
+                <div className={styles['login-text']}>
+                  <span className={styles['login-link']}>
+                    <Link to="/login">Log In</Link>
+                  </span>{' '}
+                  to comment
+                </div>
+              </div>
+            )}
           </form>
         ) : (
           <>
