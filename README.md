@@ -18,6 +18,8 @@ RenderCove is a full-stack social web application designed for AI artists to sho
 
 - **WYSIWYG Workflow Text Editor:** Utilize a user-friendly text editor to document your artistic workflow, allowing you to share detailed insights and techniques with ease.
 
+- **Indexing and Search Feature:** Effortlessly explore and discover a vast array of AI art projects, profiles, and artworks with our robust indexing and search functionality. Quickly locate specific content, artists, or topics of interest, empowering you to delve deeper into the creative community and find inspiration at your fingertips.
+
 - **Responsive Design:** Enjoy a seamless browsing experience across devices, ensuring accessibility and usability for all users.
 
 RenderCove is tailored for AI artists, offering a seamless platform to share their creative works and insights conveniently. Inspired by the collaborative spirit of the r/stablediffusion subreddit, where artists shared their work alongside detailed process descriptions, RenderCove aims to provide a dedicated space for artists to showcase their creations. Rooted in the ethos of fostering a community of serious hobbyists, the project encourages documenting creative processes and approaching art with a scientific mindset.
