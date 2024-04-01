@@ -44,7 +44,7 @@ a {
   gap: 1rem;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1600px) {
   .home-page {
     margin: 0 2rem;
   }
@@ -56,7 +56,9 @@ a {
       font-size: 1.5rem;
     }
   }
+}
 
+@media screen and (max-width: 768px) {
   .project-cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -65,18 +67,6 @@ a {
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
-  .home-page {
-    margin: 0 2rem;
-  }
-
-  .home-header {
-    h1 {
-      color: variables.$secondary-darker;
-      font-weight: 600;
-      font-size: 1.5rem;
-    }
-  }
-
   .project-cards {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -85,18 +75,6 @@ a {
 }
 
 @media screen and (min-width: 1025px) and (max-width: 1600px) {
-  .home-page {
-    margin: 0 2rem;
-  }
-
-  .home-header {
-    h1 {
-      color: variables.$secondary-darker;
-      font-weight: 600;
-      font-size: 1.5rem;
-    }
-  }
-
   .project-cards {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
