@@ -162,17 +162,20 @@ const Comment: React.FC<CommentProps> = ({
 
   const buttons = [
     {
-      icon: user.userId === authorInfo?._id ? deleteIcon : reportIcon,
+      icon: user?.userId === authorInfo?._id ? deleteIcon : reportIcon,
       label:
-        user.userId === authorInfo?._id ? 'Delete comment' : 'Report comment',
+        user?.userId === authorInfo?._id ? 'Delete comment' : 'Report comment',
       onClick:
-        user.userId === authorInfo?._id
+        user?.userId === authorInfo?._id
           ? handleDeleteComment
           : () => console.log('report comment'),
     },
   ];
 
-  if (user.userId === project.author && user.userId !== authorInfo?._id) {
+  if (
+    user?.userId === project?.author._id &&
+    user?.userId !== authorInfo?._id
+  ) {
     buttons.push({
       icon: deleteIcon,
       label: 'Delete comment',
