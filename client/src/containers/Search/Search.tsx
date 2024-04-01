@@ -42,7 +42,9 @@ const Search = () => {
   const [projectSearchResults, setProjectSearchResults] = useState<Project[]>(
     [],
   );
-  const [userSearchResults, setUserSearchResults] = useState<User[]>([]);
+  const [userSearchResults, setUserSearchResults] = useState<UserCardInfo[]>(
+    [],
+  );
   const [sortOption, setSortOption] = useState<string>(
     queryParams.get('sort') || 'relevant',
   );
