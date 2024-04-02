@@ -58,11 +58,19 @@ a {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 550px) {
+  .project-cards {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 768px) {
   .project-cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 2rem;
   }
 }
 
