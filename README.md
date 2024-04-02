@@ -73,6 +73,10 @@ or you can use the sample account credentials:
 
 <img src="./client/src/assets/screenshots/project-upload-desktop.png" alt="Project Upload Page" width="750">
 
+### Search Results Page
+
+<img src="./client/src/assets/screenshots/search-desktop.png" alt="Project Upload Page" width="750">
+
 <!-- ### Responsive Design
 
 <img src="" alt="Responsive Design"/> -->
