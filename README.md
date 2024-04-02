@@ -49,13 +49,13 @@ or you can use the sample account credentials:
 
 ## Screenshots
 
-### Dashboard
+### Home Page
 
-<img src="" alt="Home Page" width="500" />
+<img src="./client/src/assets/screenshots/home-page-desktop.png" alt="Home Page" width="500" />
 
 ### Explore Page
 
-<img src="" alt="Explore Page" width="500" />
+<img src="./client/src/assets/screenshots/explore-page-desktop.png" alt="Explore Page" width="500" />
 
 ### Edit Profile
 
