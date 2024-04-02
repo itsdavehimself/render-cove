@@ -51,31 +51,31 @@ or you can use the sample account credentials:
 
 ### Home Page
 
-<img src="./client/src/assets/screenshots/home-page-desktop.png" alt="Home Page" width="500" />
+<img src="./client/src/assets/screenshots/home-page-desktop.png" alt="Home Page" width="750" />
 
 ### Explore Page
 
-<img src="./client/src/assets/screenshots/explore-page-desktop.png" alt="Explore Page" width="500" />
+<img src="./client/src/assets/screenshots/explore-page-desktop.png" alt="Explore Page" width="750" />
 
 ### Edit Profile
 
-<img src="" alt="Edit Profile" width="500" />
+<img src="./client/src/assets/screenshots/edit-profile-desktop.png" alt="Edit Profile" width="750" />
 
 ### User Profile
 
-<img src="" alt="User Profile" width="500" />
+<img src="./client/src/assets/screenshots/user-profile-desktop.png" alt="User Profile" width="750" />
 
 ### Project Page
 
-<img src="" alt="Project Page" width="500" />
+<img src="./client/src/assets/screenshots/project-page-desktop.png" alt="Project Page" width="750" />
 
 ### Project Upload Page
 
-<img src="" alt="Project Upload Page" width="500">
+<img src="./client/src/assets/screenshots/project-upload-desktop.png" alt="Project Upload Page" width="750">
 
-### Responsive Design
+<!-- ### Responsive Design
 
-<img src="" alt="Responsive Design"/>
+<img src="" alt="Responsive Design"/> -->
 
 ## Installation
 
