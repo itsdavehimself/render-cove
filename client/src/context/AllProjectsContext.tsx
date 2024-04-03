@@ -23,7 +23,7 @@ const AllProjectsContext = createContext<AllProjectsContextType | null>(null);
 const AllProjectsContextProvider = ({ children }: { children: ReactNode }) => {
   const { username } = useParams();
   const [state, dispatchAllProjects] = useReducer(allProjectsReducer, {
-    projects: null,
+    allProjects: [],
   });
 
   useEffect(() => {
