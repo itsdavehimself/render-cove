@@ -84,3 +84,10 @@
   right: 21rem;
   bottom: 5rem;
 }
+
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: variables.$secondary-darker;
+}

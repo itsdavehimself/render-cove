@@ -46,28 +46,37 @@ const ViewCollection: React.FC<ViewCollectionProps> = () => {
 
   return (
     <main className={styles['view-collection-container']}>
-      <div className={styles.header}>
-        <h1>{collection.title}</h1>
-        <p>View all the projects in this collection below</p>
-      </div>
-      <section className={styles.cards}>
-        {collection && (
-          <>
-            {collection.projects.map((project) => (
-              <ProjectCard
-                title={project?.title}
-                authorDisplayName={project?.author.displayName}
-                authorUsername={project?.author.username}
-                imageUrl={project?.images[0].url}
-                avatarUrl={project?.author.avatarUrl}
-                projectId={project?._id}
-                published={true}
-                key={project?._id}
-              />
-            ))}
-          </>
-        )}
-      </section>
+      {error ? (
+        <div className={styles['error-message']}>
+          Something went wrong. Please try reloading the page.
+        </div>
+      ) : (
+        <>
+          {' '}
+          <div className={styles.header}>
+            <h1>{collection.title}</h1>
+            <p>View all the projects in this collection below</p>
+          </div>
+          <section className={styles.cards}>
+            {collection && (
+              <>
+                {collection.projects.map((project) => (
+                  <ProjectCard
+                    title={project?.title}
+                    authorDisplayName={project?.author.displayName}
+                    authorUsername={project?.author.username}
+                    imageUrl={project?.images[0].url}
+                    avatarUrl={project?.author.avatarUrl}
+                    projectId={project?._id}
+                    published={true}
+                    key={project?._id}
+                  />
+                ))}
+              </>
+            )}
+          </section>
+        </>
+      )}
     </main>
   );
 };
