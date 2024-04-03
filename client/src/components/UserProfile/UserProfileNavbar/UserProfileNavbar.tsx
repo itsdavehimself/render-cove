@@ -15,7 +15,7 @@ import { UserInfoType } from '../../../context/UserInfoContext';
 import { useCollectionsContext } from '../../../hooks/useCollectionsContext';
 
 interface UserProfileNavbarProps {
-  userInfo: UserInfoType;
+  userInfo: UserInfoType | null;
 }
 
 enum Views {
