@@ -143,7 +143,7 @@ const Comment: React.FC<CommentProps> = ({
         payload: { project: responseData },
       });
 
-      const comment = project.comments.find((comment) => comment._id === id);
+      const comment = project?.comments.find((comment) => comment._id === id);
       setIsCommentLiked(
         comment?.likes.some((like) => like.userId === user.userId),
       );
