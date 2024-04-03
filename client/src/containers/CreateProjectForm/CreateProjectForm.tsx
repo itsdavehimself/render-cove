@@ -46,7 +46,6 @@ const CreateProjectForm: React.FC = () => {
     'commentsAllowed',
   ]);
   const [workflowText, setWorkflowText] = useState<object | null>(null);
-  const [acceptedImages, setAcceptedImages] = useState<File[] | undefined>([]);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [tagInputWidth, setTagInputWidth] = useState<number>(23);
@@ -95,8 +94,6 @@ const CreateProjectForm: React.FC = () => {
         options,
         setCompressedImages,
       );
-
-      setAcceptedImages(acceptedFiles);
     },
     [setImageData],
   );
@@ -173,7 +170,6 @@ const CreateProjectForm: React.FC = () => {
       setRAM(0);
       setWorkflowText(null);
       setWorkflowImage(null);
-      setAcceptedImages([]);
       navigate(`/user/${user.username}`);
     }
   };

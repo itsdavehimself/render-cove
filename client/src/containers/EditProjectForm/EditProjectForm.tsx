@@ -49,7 +49,6 @@ const CreateProjectForm: React.FC = () => {
   const [workflowText, setWorkflowText] = useState<object | null>(null);
   const [existingWorkflowImage, setExistingWorkflowImage] =
     useState<string>('');
-  const [acceptedImages, setAcceptedImages] = useState<File[] | undefined>([]);
 
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const [tagInputWidth, setTagInputWidth] = useState<number>(23);
@@ -102,8 +101,6 @@ const CreateProjectForm: React.FC = () => {
         options,
         setCompressedImages,
       );
-
-      setAcceptedImages(acceptedFiles);
     },
     [setImageData],
   );
