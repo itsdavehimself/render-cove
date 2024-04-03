@@ -81,7 +81,6 @@ const Search = () => {
           setProjectSearchResults(json);
         } else {
           setUserSearchResults(json);
-          console.log(json);
         }
       }
 
@@ -226,42 +225,54 @@ const Search = () => {
           <LargeLoadingSpinner />
         ) : (
           <>
-            {filter === 'projects' ? (
-              <>
-                {projectSearchResults.length > 0 ? (
-                  <>
-                    <section className={styles['project-cards']}>
-                      {projectSearchResults.map((project) => (
-                        <ProjectCard
-                          title={project?.title}
-                          authorDisplayName={project?.author.displayName}
-                          authorUsername={project?.author.username}
-                          imageUrl={project?.images[0].url}
-                          avatarUrl={project?.author.avatarUrl}
-                          projectId={project?._id}
-                          published={project?.published}
-                          key={project?._id}
-                        />
-                      ))}
-                    </section>
-                  </>
-                ) : (
-                  <div className={styles['no-results']}>No results found.</div>
-                )}
-              </>
+            {error ? (
+              <div className={styles['error-message']}>
+                Something went wrong. Please try reloading the page.
+              </div>
             ) : (
               <>
-                {userSearchResults.length > 0 ? (
+                {filter === 'projects' ? (
                   <>
-                    {' '}
-                    <section className={styles['user-cards']}>
-                      {userSearchResults.map((user) => (
-                        <UserCard userForCard={user} />
-                      ))}
-                    </section>
+                    {projectSearchResults.length > 0 ? (
+                      <>
+                        <section className={styles['project-cards']}>
+                          {projectSearchResults.map((project) => (
+                            <ProjectCard
+                              title={project?.title}
+                              authorDisplayName={project?.author.displayName}
+                              authorUsername={project?.author.username}
+                              imageUrl={project?.images[0].url}
+                              avatarUrl={project?.author.avatarUrl}
+                              projectId={project?._id}
+                              published={project?.published}
+                              key={project?._id}
+                            />
+                          ))}
+                        </section>
+                      </>
+                    ) : (
+                      <div className={styles['no-results']}>
+                        No results found.
+                      </div>
+                    )}
                   </>
                 ) : (
-                  <div className={styles['no-results']}>No results found.</div>
+                  <>
+                    {userSearchResults.length > 0 ? (
+                      <>
+                        {' '}
+                        <section className={styles['user-cards']}>
+                          {userSearchResults.map((user) => (
+                            <UserCard userForCard={user} />
+                          ))}
+                        </section>
+                      </>
+                    ) : (
+                      <div className={styles['no-results']}>
+                        No results found.
+                      </div>
+                    )}
+                  </>
                 )}
               </>
             )}
