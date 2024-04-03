@@ -52,8 +52,8 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
   const [editorContent, setEditorContent] = useState<Content | undefined>(
     undefined,
   );
-  const [editorInitialized, setEditorInitialized] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+  const [editorInitialized, setEditorInitialized] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isCollectionsModalOpen, setIsCollectionsModalOpen] =
     useState<boolean>(false);
   const [isSharingOpen, setIsSharingOpen] = useState<boolean>(false);
@@ -125,7 +125,9 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
         type: 'UPDATE_PROJECT',
         payload: { project: responseData.project },
       });
-      setIsLiked(project.likes.some((like) => like.userId === user.userId));
+      setIsLiked(
+        (project?.likes ?? []).some((like) => like.userId === user.userId),
+      );
     } catch (error) {
       console.error('Error liking the project:', error);
     }
