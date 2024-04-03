@@ -44,6 +44,13 @@ a {
   gap: 1rem;
 }
 
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: variables.$secondary-darker;
+}
+
 @media screen and (max-width: 1600px) {
   .home-page {
     margin: 0 2rem;

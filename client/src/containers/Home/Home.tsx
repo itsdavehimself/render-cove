@@ -53,6 +53,11 @@ const Home: React.FC = () => {
           </div>
         </Link>
       </header>
+      {error && (
+        <div className={styles['error-message']}>
+          Something went wrong. Please try reloading the page.
+        </div>
+      )}
       {isLoading ? (
         <LargeLoadingSpinner />
       ) : (
