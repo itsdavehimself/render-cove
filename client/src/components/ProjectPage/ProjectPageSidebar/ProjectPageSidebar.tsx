@@ -68,7 +68,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
     e.preventDefault();
     setIsLoading(true);
     const commentResponse = await fetch(
-      `${API_BASE_URL}/projects/comment/${project._id}`,
+      `${API_BASE_URL}/projects/comment/${project?._id}`,
       {
         method: 'PATCH',
         headers: {
@@ -232,7 +232,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
           {user?.userId === artist?._id && (
             <button
               className={styles['edit-project-button']}
-              onClick={() => navigate(`/project/edit/${project._id}`)}
+              onClick={() => navigate(`/project/edit/${project?._id}`)}
             >
               <span>{editIcon}</span> Edit project
             </button>
@@ -293,7 +293,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
         )}
       </section>
       <section className={styles.comments}>
-        {project.commentsAllowed ? (
+        {project?.commentsAllowed ? (
           <form onSubmit={handleCommentSubmit}>
             <h4 className={styles['comments-header']}>
               {project?.comments.length}{' '}
