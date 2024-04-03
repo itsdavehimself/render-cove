@@ -69,3 +69,10 @@
   padding: 1rem;
   overflow-y: scroll;
 }
+
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: variables.$secondary-darker;
+}

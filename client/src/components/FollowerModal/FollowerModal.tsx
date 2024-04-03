@@ -90,6 +90,11 @@ const FollowerModal: React.FC<FollowerModalProps> = ({
             </button>
           </div>
           <div className={styles['follow-list']}>
+            {error && (
+              <div className={styles['error-message']}>
+                Something went wrong. Please try reloading the page.
+              </div>
+            )}
             {userList.map((follower) => (
               <FollowerUser
                 username={follower?.username}
