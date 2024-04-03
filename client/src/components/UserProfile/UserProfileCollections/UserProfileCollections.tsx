@@ -37,7 +37,7 @@ const UserProfileCollections: React.FC<UserProfileCollectionsProps> = () => {
       {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );
@@ -74,7 +74,7 @@ const UserProfileCollections: React.FC<UserProfileCollectionsProps> = () => {
         body: updatedCollectionString,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );

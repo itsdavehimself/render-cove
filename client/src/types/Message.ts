@@ -1,18 +1,18 @@
 interface Message {
   recipient: {
-    avatarUrl: string;
-    displayName: string;
-    _id: string;
+    avatarUrl: string | undefined;
+    displayName: string | undefined;
+    _id: string | undefined;
   };
   sender: {
-    avatarUrl: string;
-    displayName: string;
-    _id: string;
+    avatarUrl: string | undefined;
+    displayName: string | undefined;
+    _id: string | undefined;
   };
-  content: string;
+  content: string | undefined;
   createdAt: Date;
   read: boolean;
-  _id: string;
+  _id: string | undefined;
 }
 
 export default Message;

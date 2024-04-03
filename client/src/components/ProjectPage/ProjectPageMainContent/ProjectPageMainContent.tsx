@@ -109,7 +109,7 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
         {
           method: 'PATCH',
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         },
       );
@@ -126,7 +126,7 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
         payload: { project: responseData.project },
       });
       setIsLiked(
-        (project?.likes ?? []).some((like) => like.userId === user.userId),
+        (project?.likes ?? []).some((like) => like.userId === user?.userId),
       );
     } catch (error) {
       console.error('Error liking the project:', error);

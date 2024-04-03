@@ -25,13 +25,16 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
   const { user } = useAuthContext();
 
   const handleDeleteAccount = async (): Promise<void> => {
-    const deleteResponse = await fetch(`${API_BASE_URL}/users/${user.userId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-        'Content-Type': 'application/json',
+    const deleteResponse = await fetch(
+      `${API_BASE_URL}/users/${user?.userId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
 
     if (!deleteResponse.ok) {
       setIsConfirmModalShowing(false);

@@ -4,12 +4,12 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import { useParams } from 'react-router-dom';
 
 interface ThreadCardProps {
-  displayName: string;
-  avatarUrl: string;
-  id: string;
-  lastMessage: string;
+  displayName: string | undefined;
+  avatarUrl: string | undefined;
+  id: string | undefined;
+  lastMessage: string | undefined;
   updatedAt: Date;
-  sender: string;
+  sender: string | undefined;
   unreadCount: number;
 }
 
@@ -27,8 +27,8 @@ const ThreadCard: React.FC<ThreadCardProps> = ({
 
   const MAX_PREVIEW_LENGTH = 20;
   const truncatedMessage =
-    lastMessage.length > MAX_PREVIEW_LENGTH
-      ? lastMessage.slice(0, MAX_PREVIEW_LENGTH) + '...'
+    lastMessage!.length > MAX_PREVIEW_LENGTH
+      ? lastMessage?.slice(0, MAX_PREVIEW_LENGTH) + '...'
       : lastMessage;
 
   return (
@@ -47,7 +47,7 @@ const ThreadCard: React.FC<ThreadCardProps> = ({
             <div
               className={`${styles['sender-preview']} ${unreadCount > 0 ? styles.bold : ''}`}
             >
-              {user.userId === sender && 'You: '} {truncatedMessage}
+              {user?.userId === sender && 'You: '} {truncatedMessage}
             </div>
             <div className={styles.date}>
               • {formatDistanceToNowStrict(updatedAt)} ago

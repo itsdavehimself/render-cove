@@ -9,23 +9,23 @@ import LargeLoadingSpinner from '../components/LargeLoadingSpinner/LargeLoadingS
 interface ConversationsContextType {
   conversations: Conversation[];
   numOfUnreadMessages: number;
-  markConversationsAsRead: (otherUserId: string) => void;
+  markConversationsAsRead: (otherUserId: string | undefined) => void;
   setMessagePreview: (message: Message) => void;
 }
 
 interface Conversation {
-  content: string;
+  content: string | undefined;
   createdAt: Date;
   otherUser: {
-    avatarUrl: string;
-    displayName: string;
-    _id: string;
+    avatarUrl: string | undefined;
+    displayName: string | undefined;
+    _id: string | undefined;
   };
   read: boolean;
-  recipient: string;
-  sender: string;
+  recipient: string | undefined;
+  sender: string | undefined;
   unreadCount: number;
-  _id: string;
+  _id: string | undefined;
 }
 
 const ConversationContext = createContext<ConversationsContextType | null>(
@@ -68,15 +68,15 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
         });
       } else {
         const otherUserId =
-          user.userId === message.sender._id
+          user?.userId === message.sender._id
             ? message.recipient._id
             : message.sender._id;
         const otherUserAvatarUrl =
-          user.userId === message.sender._id
+          user?.userId === message.sender._id
             ? message.recipient.avatarUrl
             : message.sender.avatarUrl;
         const otherUserDisplayName =
-          user.userId === message.sender._id
+          user?.userId === message.sender._id
             ? message.recipient.displayName
             : message.sender.displayName;
 
@@ -92,14 +92,14 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
           read: message.read,
           recipient: message.recipient._id,
           sender: message.sender._id,
-          unreadCount: message.sender._id !== user.userId ? 1 : 0,
+          unreadCount: message.sender._id !== user?.userId ? 1 : 0,
         };
 
         return [newConversation, ...prevConversations];
       }
     });
 
-    if (message.sender._id !== user.userId) {
+    if (message.sender._id !== user?.userId) {
       setNumOfUnreadMessages((prevNumber) => prevNumber + 1);
     }
   };
@@ -118,7 +118,7 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [user]);
 
-  const markAsReadOnServer = async (otherUserId: string) => {
+  const markAsReadOnServer = async (otherUserId: string | undefined) => {
     if (user && user.token) {
       try {
         const markAsReadResponse = await fetch(
@@ -142,7 +142,7 @@ const ConversationContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const markConversationsAsRead = (otherUserId: string) => {
+  const markConversationsAsRead = (otherUserId: string | undefined) => {
     let totalUnreadCount = numOfUnreadMessages;
 
     const updatedConversations = conversations.map((conversation) => {

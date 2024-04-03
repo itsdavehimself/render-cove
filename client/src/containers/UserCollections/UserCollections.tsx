@@ -38,8 +38,8 @@ const UserLikes: React.FC = () => {
   const [isShowingAlert, setIsShowingAlert] = useState<boolean>(false);
 
   useEffect(() => {
-    if (username !== user.username) {
-      navigate(`/${user.username}/collections`);
+    if (username !== user?.username) {
+      navigate(`/${user?.username}/collections`);
     }
   }, [user]);
 
@@ -50,7 +50,7 @@ const UserLikes: React.FC = () => {
       {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );
@@ -87,7 +87,7 @@ const UserLikes: React.FC = () => {
         body: updatedCollectionString,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );

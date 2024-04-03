@@ -34,8 +34,8 @@ const UserLikes: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (username !== user.username) {
-      navigate(`/${user.username}/likes`);
+    if (username !== user?.username) {
+      navigate(`/${user?.username}/likes`);
     }
 
     const fetchProjects = async (): Promise<void> => {
@@ -43,7 +43,7 @@ const UserLikes: React.FC = () => {
       const projectsReponse = await fetch(`${API_BASE_URL}/collections/likes`, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       });
 
@@ -61,7 +61,7 @@ const UserLikes: React.FC = () => {
     };
 
     fetchProjects();
-  }, [user.token, navigate, user.username, username]);
+  }, [user?.token, navigate, user?.username, username]);
 
   return (
     <main className={styles['likes-container']}>

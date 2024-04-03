@@ -72,7 +72,7 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
       body: requestBodyJson,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
     });
 
@@ -94,7 +94,7 @@ const CollectionsModal: React.FC<CollectionsModalProps> = ({
       setError(null);
       setIsLoading(true);
       const fetchCollectionsResponse = await fetch(
-        `${API_BASE_URL}/collections/${user.userId}`,
+        `${API_BASE_URL}/collections/${user?.userId}`,
         {
           method: 'GET',
         },

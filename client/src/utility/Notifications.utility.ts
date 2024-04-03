@@ -4,13 +4,13 @@ const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
 const markAsRead = async (
-  user: UserType,
+  user: UserType | null,
   fetchNotifications: () => void,
 ): Promise<void> => {
   const readResponse = await fetch(`${API_BASE_URL}/notifications/markAsRead`, {
     method: 'PATCH',
     headers: {
-      Authorization: `Bearer ${user.token}`,
+      Authorization: `Bearer ${user?.token}`,
     },
   });
 

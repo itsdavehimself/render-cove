@@ -152,7 +152,7 @@ const CreateProjectForm: React.FC = () => {
         method: 'PATCH',
         body: formData,
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );
@@ -291,7 +291,7 @@ const CreateProjectForm: React.FC = () => {
       {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );

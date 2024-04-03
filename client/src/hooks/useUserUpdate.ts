@@ -19,13 +19,16 @@ const useUpdateUser = () => {
       updatedFields[key] = value;
     });
 
-    const updateResponse = await fetch(`${API_BASE_URL}/users/${user.userId}`, {
-      method: 'PATCH',
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${user.token}`,
+    const updateResponse = await fetch(
+      `${API_BASE_URL}/users/${user?.userId}`,
+      {
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
       },
-    });
+    );
 
     const updateJSON = await updateResponse.json();
 

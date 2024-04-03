@@ -91,7 +91,7 @@ const Comment: React.FC<CommentProps> = ({
           body: JSON.stringify({ id }),
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         },
       );
@@ -126,7 +126,7 @@ const Comment: React.FC<CommentProps> = ({
           body: JSON.stringify({ id }),
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         },
       );
@@ -145,7 +145,7 @@ const Comment: React.FC<CommentProps> = ({
 
       const comment = project?.comments.find((comment) => comment._id === id);
       setIsCommentLiked(
-        comment?.likes.some((like) => like.userId === user.userId),
+        comment?.likes.some((like) => like.userId === user?.userId),
       );
     } catch (error) {
       console.error('Error liking the comment:', error);

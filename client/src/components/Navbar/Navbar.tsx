@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
   };
 
   const handleViewProfile = (): void => {
-    navigate(`/user/${user.username}`);
+    navigate(`/user/${user?.username}`);
   };
 
   const logOutSymbol: React.ReactNode = (

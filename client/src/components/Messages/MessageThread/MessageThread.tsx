@@ -70,7 +70,7 @@ const MessageThread: React.FC = () => {
           {
             method: 'GET',
             headers: {
-              Authorization: `Bearer ${user.token}`,
+              Authorization: `Bearer ${user?.token}`,
             },
           },
         );
@@ -102,7 +102,7 @@ const MessageThread: React.FC = () => {
 
   useEffect(() => {
     socket?.on('connect', () => {
-      socket?.emit('userId', user.userId);
+      socket?.emit('userId', user?.userId);
     });
 
     const handleReceiveMessage = (message: Message) => {
@@ -133,10 +133,10 @@ const MessageThread: React.FC = () => {
 
     const newMessage = {
       sender: {
-        avatarUrl: user.avatarUrl,
-        displayName: user.displayName,
-        username: user.username,
-        _id: user.userId,
+        avatarUrl: user?.avatarUrl,
+        displayName: user?.displayName,
+        username: user?.username,
+        _id: user?.userId,
       },
       recipient: otherUser,
       content: message,
@@ -156,7 +156,7 @@ const MessageThread: React.FC = () => {
           body: JSON.stringify({ message }),
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         },
       );
@@ -220,10 +220,10 @@ const MessageThread: React.FC = () => {
                               key={message._id}
                             >
                               <div
-                                className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                                className={`${styles['message-details']} ${user?.userId === message.sender._id ? styles.sender : styles.receiver}`}
                               >
                                 <div
-                                  className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                                  className={`${styles['message-bubble']} ${user?.userId === message.sender._id ? styles.sender : styles.receiver}`}
                                 >
                                   {message.content}
                                 </div>
@@ -240,10 +240,10 @@ const MessageThread: React.FC = () => {
                               key={message._id}
                             >
                               <div
-                                className={`${styles['message-details']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                                className={`${styles['message-details']} ${user?.userId === message.sender._id ? styles.sender : styles.receiver}`}
                               >
                                 <div
-                                  className={`${styles['message-bubble']} ${user.userId === message.sender._id ? styles.sender : styles.receiver}`}
+                                  className={`${styles['message-bubble']} ${user?.userId === message.sender._id ? styles.sender : styles.receiver}`}
                                 >
                                   {message.content}
                                 </div>

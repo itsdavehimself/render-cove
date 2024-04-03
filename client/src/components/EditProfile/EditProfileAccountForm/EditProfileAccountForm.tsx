@@ -20,7 +20,7 @@ const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
   setAlertInfo,
 }) => {
   const { user, dispatch } = useAuthContext();
-  const [email, setEmail] = useState<string>(user.email);
+  const [email, setEmail] = useState<string>(user?.email || '');
   const [emailError, setEmailError] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<boolean>(false);
@@ -52,7 +52,7 @@ const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
     }
 
     const emailUpdateResponse = await fetch(
-      `${API_BASE_URL}/users/updateEmail/${user.userId}`,
+      `${API_BASE_URL}/users/updateEmail/${user?.userId}`,
       {
         method: 'PATCH',
         body: JSON.stringify({
@@ -60,7 +60,7 @@ const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
           email: email,
         }),
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
           'Content-Type': 'application/json',
         },
       },
@@ -122,7 +122,7 @@ const EditProfileAccountForm: React.FC<EditProfileAccountFormProps> = ({
               serverError=""
               onChange={(e) => setEmail(e.target.value)}
             />
-            {email !== user.email && (
+            {email !== user?.email && (
               <FormInput
                 htmlFor="password"
                 label="Enter your password to change email"

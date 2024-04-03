@@ -139,7 +139,7 @@ const CreateProjectForm: React.FC = () => {
         method: 'POST',
         body: formData,
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );
@@ -170,7 +170,7 @@ const CreateProjectForm: React.FC = () => {
       setRAM(0);
       setWorkflowText(null);
       setWorkflowImage(null);
-      navigate(`/user/${user.username}`);
+      navigate(`/user/${user?.username}`);
     }
   };
 

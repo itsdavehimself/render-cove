@@ -18,8 +18,10 @@ const EditProfileGeneralForm: React.FC<EditProfileGeneralFormProps> = ({
 }) => {
   const { user } = useAuthContext();
   const { updateUser, error, isLoading } = useUpdateUser();
-  const [displayName, setDisplayName] = useState<string>(user.displayName);
-  const [username, setUsername] = useState<string>(user.username);
+  const [displayName, setDisplayName] = useState<string>(
+    user?.displayName || '',
+  );
+  const [username, setUsername] = useState<string>(user?.username || '');
   const [usernameError, setUsernameError] = useState<boolean>(false);
   const [displayNameError, setDisplayNameError] = useState<boolean>(false);
 

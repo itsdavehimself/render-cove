@@ -1,0 +1,15 @@
+@use 'variables';
+
+.about-page {
+  display: flex;
+  flex-direction: column;
+  margin: 4rem 30rem;
+}
+
+.about-header {
+  display: flex;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: variables.$accent-color;
+}

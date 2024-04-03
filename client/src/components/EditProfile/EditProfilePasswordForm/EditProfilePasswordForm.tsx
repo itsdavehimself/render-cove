@@ -32,7 +32,7 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
   const [incorrectPasswordError, setIncorrectPasswordError] =
     useState<boolean>(false);
   const [isPasswordSet, setIsPasswordSet] = useState<boolean>(
-    user.userSetPassword,
+    user?.userSetPassword || false,
   );
 
   const handleFormSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -57,7 +57,7 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
     }
 
     const passwordUpdateResponse = await fetch(
-      `${API_BASE_URL}/users/updatePassword/${user.userId}`,
+      `${API_BASE_URL}/users/updatePassword/${user?.userId}`,
       {
         method: 'PATCH',
         body: JSON.stringify({
@@ -65,7 +65,7 @@ const EditProfilePasswordForm: React.FC<EditProfilePasswordFormProps> = ({
           newPassword,
         }),
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
           'Content-Type': 'application/json',
         },
       },

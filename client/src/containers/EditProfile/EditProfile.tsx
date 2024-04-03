@@ -107,14 +107,14 @@ const EditProfile: React.FC = () => {
           </div>
           <div className={styles['profile-overview']}>
             <div className={styles['user-avatar']}>
-              <img src={user.avatarUrl}></img>
+              <img src={user?.avatarUrl}></img>
             </div>
             <div>
               <div className={styles['user-display-name']}>
-                {user.displayName}
+                {user?.displayName}
               </div>
               <div className={styles['member-since']}>
-                Member since {formatDate(user.createdAt)}
+                Member since {formatDate(user?.createdAt || new Date())}
               </div>
             </div>
           </div>

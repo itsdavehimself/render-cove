@@ -29,8 +29,11 @@ const EditProfileSocialForm: React.FC<EditProfileSocialFormProps> = ({
   const { updateUser, isLoading, error } = useUpdateUser();
   const { user } = useAuthContext();
 
-  const findUsernameByNetwork = (user: UserType, network: string): string => {
-    const socialEntry = user.socials.find(
+  const findUsernameByNetwork = (
+    user: UserType | null,
+    network: string,
+  ): string => {
+    const socialEntry = user?.socials.find(
       (entry: SocialEntry) => entry.network === network,
     ) as SocialEntry;
     return socialEntry?.username || '';

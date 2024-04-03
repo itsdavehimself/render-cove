@@ -31,35 +31,37 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
   const { user } = useAuthContext();
   const { updateUser, error, isLoading } = useUpdateUser();
 
-  const [softwareList, setSoftwareList] = useState<string[]>(user.software);
+  const [softwareList, setSoftwareList] = useState<string[]>(
+    user?.software || [],
+  );
   const [softwareInputWidth, setSoftwareInputWidth] = useState(23);
   const softwareInputRef = useRef<HTMLInputElement | null>(null);
   const [isSoftwareInputFocused, setIsSoftwareInputFocused] =
     useState<boolean>(false);
 
   const [generatorsList, setGeneratorsList] = useState<string[]>(
-    user.generators,
+    user?.generators || [],
   );
   const [generatorsInputWidth, setGeneratorsInputWidth] = useState(23);
   const generatorsInputRef = useRef<HTMLInputElement | null>(null);
   const [isGeneratorsInputFocused, setIsGeneratorsInputFocused] =
     useState<boolean>(false);
 
-  const [website, setWebsite] = useState<string>(user.website);
+  const [website, setWebsite] = useState<string>(user?.website || '');
   const [websiteError, setWebsiteError] = useState<boolean>(false);
-  const [bio, setBio] = useState<string>(user.summary);
+  const [bio, setBio] = useState<string>(user?.summary || '');
   const [bioCharsRemaining, setBioCharsRemaining] = useState<number>(500);
-  const [tagline, setTagline] = useState<string>(user.tagline);
+  const [tagline, setTagline] = useState<string>(user?.tagline || '');
   const [taglineError, setTaglineError] = useState<boolean>(false);
-  const [location, setLocation] = useState<string>(user.location);
+  const [location, setLocation] = useState<string>(user?.location || '');
   const [locationError, setLocationError] = useState<boolean>(false);
 
   const [avatarPreview, setAvatarPreview] = useState<
     string | ArrayBuffer | null
-  >(user.avatarUrl);
+  >(user?.avatarUrl || '');
   const [bannerPreview, setBannerPreview] = useState<
     string | ArrayBuffer | null
-  >(user.bannerUrl);
+  >(user?.bannerUrl || '');
 
   const [compressedAvatarImage, setCompressedAvatarImage] =
     useState<File | null>(null);

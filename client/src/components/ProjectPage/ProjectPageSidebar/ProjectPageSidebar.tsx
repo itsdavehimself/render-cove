@@ -73,7 +73,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
         body: JSON.stringify({ comment }),
       },

@@ -74,7 +74,7 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
             </div>
           </div>
         </button>
-        {user.userId !== _id ? (
+        {user?.userId !== _id ? (
           <>
             {isFollowing ? (
               <button

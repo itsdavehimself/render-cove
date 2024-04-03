@@ -11,7 +11,7 @@ interface ExistingCollectionProps {
   collections: Collection[];
   setCollections: React.Dispatch<React.SetStateAction<Collection[]>>;
   projectId: string | undefined;
-  user: UserType;
+  user: UserType | null;
 }
 
 const API_BASE_URL: string =
@@ -39,7 +39,7 @@ const ExistingCollection: React.FC<ExistingCollectionProps> = ({
         body: JSON.stringify({ projectId: projectId }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );

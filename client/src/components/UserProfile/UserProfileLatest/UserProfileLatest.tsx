@@ -38,7 +38,7 @@ const UserProfileLatest: React.FC = () => {
       {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );
@@ -75,7 +75,7 @@ const UserProfileLatest: React.FC = () => {
         body: updatedCollectionString,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       },
     );
