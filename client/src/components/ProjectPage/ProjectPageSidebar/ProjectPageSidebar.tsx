@@ -311,6 +311,7 @@ const ProjectPageSidebar: React.FC<ProjectPageSidebarProps> = ({
                       likes={comment.likes}
                       id={comment._id}
                       key={comment._id}
+                      setError={setError}
                     />
                   ))}
                 {commentsToShow < project?.comments.length && (
