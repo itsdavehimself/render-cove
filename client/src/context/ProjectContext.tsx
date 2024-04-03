@@ -13,8 +13,8 @@ import UserInfo from '../types/UserInfo';
 
 interface ProjectContextType {
   dispatchProject: Dispatch<ProjectAction>;
-  project: Project;
-  artist: UserInfo;
+  project: Project | null;
+  artist: UserInfo | null;
 }
 
 const API_BASE_URL: string =
@@ -43,7 +43,7 @@ const ProjectContextProvider = ({ children }: { children: ReactNode }) => {
           const projectInfoData = await projectInfoResponse.json();
           dispatchProject({
             type: 'GET_PROJECT',
-            payload: { project: projectInfoData },
+            payload: projectInfoData,
           });
 
           const artistInfoResponse = await fetch(
@@ -57,7 +57,7 @@ const ProjectContextProvider = ({ children }: { children: ReactNode }) => {
             const artistInfoData = await artistInfoResponse.json();
             dispatchProject({
               type: 'GET_ARTIST',
-              payload: { artist: artistInfoData },
+              payload: artistInfoData,
             });
           } else {
             console.error(artistInfoResponse.json());
