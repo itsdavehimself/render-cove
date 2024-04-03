@@ -21,6 +21,7 @@ interface CommentProps {
   date: Date;
   likes: Like[];
   id: string;
+  setError: React.Dispatch<React.SetStateAction<Error | null>>;
 }
 
 const API_BASE_URL: string =
@@ -32,9 +33,9 @@ const Comment: React.FC<CommentProps> = ({
   date,
   likes,
   id,
+  setError,
 }) => {
   const [authorInfo, setAuthorInfo] = useState<UserInfo | undefined>();
-  const [error, setError] = useState<Error | null>(null);
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const { project, dispatchProject } = useProjectContext();
