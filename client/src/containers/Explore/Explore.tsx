@@ -33,8 +33,16 @@ const Explore: React.FC = () => {
 
   return (
     <main className={styles['explore-page']}>
-      <TagBar tags={tags} />
-      <Outlet />
+      {error ? (
+        <div className={styles['error-message']}>
+          Something went wrong. Please try reloading the page.
+        </div>
+      ) : (
+        <>
+          <TagBar tags={tags} />
+          <Outlet />
+        </>
+      )}
     </main>
   );
 };
