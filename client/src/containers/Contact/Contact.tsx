@@ -2,7 +2,7 @@ import styles from './Contact.module.scss';
 
 const Contact: React.FC = () => {
   return (
-    <main>
+    <main className={styles['contact-page']}>
       <header>Contact</header>
     </main>
   );
