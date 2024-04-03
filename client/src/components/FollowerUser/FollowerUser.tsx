@@ -12,6 +12,7 @@ import {
 import handleFollowClick, {
   FollowAction,
 } from '../../containers/UserProfilePublic/UserProfilePublic.utility';
+import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 interface FollowerUserProps {
   username: string;
@@ -34,7 +35,7 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
   const navigate = useNavigate();
   const { user, dispatch } = useAuthContext();
   const { userInfo, dispatchUserInfo } = useUserInfoContext();
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<Error | null>(new Error());
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [isHoveringFollowButton, setIsHoveringFollowButton] =
@@ -56,83 +57,86 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
   }, [user, userInfo, _id]);
 
   return (
-    <div className={styles['follower-card']}>
-      <button
-        className={styles['user-profile-button']}
-        onClick={handleClickUser}
-      >
-        <div className={styles['follower-details']}>
-          <div className={styles['avatar-container']}>
-            <img src={avatarUrl}></img>
+    <>
+      <div className={styles['error-container']}>{error && <ErrorAlert />}</div>
+      <div className={styles['follower-card']}>
+        <button
+          className={styles['user-profile-button']}
+          onClick={handleClickUser}
+        >
+          <div className={styles['follower-details']}>
+            <div className={styles['avatar-container']}>
+              <img src={avatarUrl}></img>
+            </div>
+            <div className={styles['follower-names']}>
+              <p className={styles['display-name']}>{displayName}</p>
+              <p className={styles.username}>{username}</p>
+            </div>
           </div>
-          <div className={styles['follower-names']}>
-            <p className={styles['display-name']}>{displayName}</p>
-            <p className={styles.username}>{username}</p>
-          </div>
-        </div>
-      </button>
-      {user.userId !== _id ? (
-        <>
-          {isFollowing ? (
-            <button
-              className={styles['unfollow-button']}
-              onClick={
-                !user
-                  ? () => navigate('/login')
-                  : () =>
-                      handleFollowClick(
-                        FollowAction.Unfollow,
-                        setError,
-                        setIsLoading,
-                        API_BASE_URL,
-                        userInfo?._id,
-                        _id,
-                        user,
-                        dispatch,
-                        dispatchUserInfo,
-                        location.pathname === `/user/${userInfo?.username}`,
-                      )
-              }
-              disabled={isLoading}
-              onMouseEnter={() => setIsHoveringFollowButton(true)}
-              onMouseLeave={() => setIsHoveringFollowButton(false)}
-            >
-              {!isHoveringFollowButton ? (
-                <>{checkIcon} Following</>
-              ) : (
-                <>{unfollowIcon} Unfollow</>
-              )}
-            </button>
-          ) : (
-            <button
-              className={styles['follow-button']}
-              onClick={
-                !user
-                  ? () => navigate('/login')
-                  : () =>
-                      handleFollowClick(
-                        FollowAction.Follow,
-                        setError,
-                        setIsLoading,
-                        API_BASE_URL,
-                        userInfo?._id,
-                        _id,
-                        user,
-                        dispatch,
-                        dispatchUserInfo,
-                        location.pathname === `/user/${userInfo?.username}`,
-                      )
-              }
-              disabled={isLoading}
-            >
-              {followIcon} Follow
-            </button>
-          )}
-        </>
-      ) : (
-        ''
-      )}
-    </div>
+        </button>
+        {user.userId !== _id ? (
+          <>
+            {isFollowing ? (
+              <button
+                className={styles['unfollow-button']}
+                onClick={
+                  !user
+                    ? () => navigate('/login')
+                    : () =>
+                        handleFollowClick(
+                          FollowAction.Unfollow,
+                          setError,
+                          setIsLoading,
+                          API_BASE_URL,
+                          userInfo?._id,
+                          _id,
+                          user,
+                          dispatch,
+                          dispatchUserInfo,
+                          location.pathname === `/user/${userInfo?.username}`,
+                        )
+                }
+                disabled={isLoading}
+                onMouseEnter={() => setIsHoveringFollowButton(true)}
+                onMouseLeave={() => setIsHoveringFollowButton(false)}
+              >
+                {!isHoveringFollowButton ? (
+                  <>{checkIcon} Following</>
+                ) : (
+                  <>{unfollowIcon} Unfollow</>
+                )}
+              </button>
+            ) : (
+              <button
+                className={styles['follow-button']}
+                onClick={
+                  !user
+                    ? () => navigate('/login')
+                    : () =>
+                        handleFollowClick(
+                          FollowAction.Follow,
+                          setError,
+                          setIsLoading,
+                          API_BASE_URL,
+                          userInfo?._id,
+                          _id,
+                          user,
+                          dispatch,
+                          dispatchUserInfo,
+                          location.pathname === `/user/${userInfo?.username}`,
+                        )
+                }
+                disabled={isLoading}
+              >
+                {followIcon} Follow
+              </button>
+            )}
+          </>
+        ) : (
+          ''
+        )}
+      </div>
+    </>
   );
 };
 

@@ -2,6 +2,10 @@
 @use '../UserProfile/UserProfileSidebar/UserProfileSidebar.module.scss' as
   Profile;
 
+.error-container {
+  position: absolute;
+}
+
 .follower-card {
   display: flex;
   justify-content: space-between;
