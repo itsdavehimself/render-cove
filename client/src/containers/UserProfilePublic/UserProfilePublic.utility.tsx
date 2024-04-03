@@ -13,7 +13,7 @@ const handleFollowClick = async (
   setError: React.Dispatch<React.SetStateAction<Error | null>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   API_BASE_URL: string,
-  currentProfileId: string,
+  currentProfileId: string | undefined,
   userIdToFollow: string,
   user: UserType,
   dispatch: Dispatch<AuthAction>,
