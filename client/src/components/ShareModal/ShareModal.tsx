@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 interface ShareModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  project: Project;
+  project: Project | null;
 }
 
 const ShareModal: React.FC<ShareModalProps> = ({ setIsOpen, project }) => {
@@ -60,7 +60,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ setIsOpen, project }) => {
             </div>
             <div className={styles['button-container']}>
               <a
-                href={`https://www.reddit.com/submit?url=http://www.rendercove.com/project/${projectId}&title=${project.title}`}
+                href={`https://www.reddit.com/submit?url=http://www.rendercove.com/project/${projectId}&title=${project?.title}`}
                 target="_blank"
                 className={`${styles['share-button']} ${styles.reddit}`}
               >
