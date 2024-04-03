@@ -1,4 +1,11 @@
-export const authReducer = (state, action) => {
+import { AuthAction } from '../types/ActionTypes';
+import { UserType } from '../context/AuthContext';
+
+interface AuthState {
+  user: UserType | null;
+}
+
+export const authReducer = (state: AuthState, action: AuthAction) => {
   switch (action.type) {
     case 'LOGIN':
       return { user: action.payload };

@@ -45,7 +45,7 @@ export interface UserType {
 
 interface AuthContextType {
   dispatch: Dispatch<AuthAction>;
-  user: UserType;
+  user: UserType | null;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -56,10 +56,10 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    const storedUser: string | null = localStorage.getItem('user');
+    const storedUser = localStorage.getItem('user');
 
     if (storedUser) {
-      const user: string = JSON.parse(storedUser);
+      const user = JSON.parse(storedUser);
       dispatch({ type: 'LOGIN', payload: user });
     }
   }, []);

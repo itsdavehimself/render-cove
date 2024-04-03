@@ -1,10 +1,12 @@
+import { UserType } from '../context/AuthContext';
+
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const UPDATE_USER = 'UPDATE_USER';
 
 interface LoginAction {
   type: typeof LOGIN;
-  payload: { email: string; displayName: string; token: string };
+  payload: UserType;
 }
 
 interface LogoutAction {
@@ -13,12 +15,7 @@ interface LogoutAction {
 
 interface UpdateAction {
   type: typeof UPDATE_USER;
-  payload: UpdatedUserData;
+  payload: UserType;
 }
-
-type UpdatedUserData = {
-  email: string;
-  displayName: string;
-};
 
 export type AuthAction = LoginAction | LogoutAction | UpdateAction;
