@@ -44,6 +44,11 @@ const ExploreProjects: React.FC = () => {
 
   return (
     <>
+      {error && (
+        <div className={styles['error-message']}>
+          Something went wrong. Please try reloading the page.
+        </div>
+      )}
       {isLoading ? (
         <LargeLoadingSpinner />
       ) : (

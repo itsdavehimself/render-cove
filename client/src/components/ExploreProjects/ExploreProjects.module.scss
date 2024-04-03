@@ -6,6 +6,13 @@
   gap: 1rem;
 }
 
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: variables.$secondary-darker;
+}
+
 @media screen and (max-width: 550px) {
   .project-cards {
     display: grid;
