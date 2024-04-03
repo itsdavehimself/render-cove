@@ -34,7 +34,7 @@ export interface UserInfoType {
 
 interface UserInfoContextType {
   dispatchUserInfo: Dispatch<UserInfoAction>;
-  userInfo: UserInfoType;
+  userInfo: UserInfoType | null;
 }
 
 const API_BASE_URL: string =
