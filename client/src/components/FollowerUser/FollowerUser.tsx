@@ -85,12 +85,12 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
                         setError,
                         setIsLoading,
                         API_BASE_URL,
-                        userInfo._id,
+                        userInfo?._id,
                         _id,
                         user,
                         dispatch,
                         dispatchUserInfo,
-                        location.pathname === `/user/${userInfo.username}`,
+                        location.pathname === `/user/${userInfo?.username}`,
                       )
               }
               disabled={isLoading}
@@ -115,12 +115,12 @@ const FollowerUser: React.FC<FollowerUserProps> = ({
                         setError,
                         setIsLoading,
                         API_BASE_URL,
-                        userInfo._id,
+                        userInfo?._id,
                         _id,
                         user,
                         dispatch,
                         dispatchUserInfo,
-                        location.pathname === `/user/${userInfo.username}`,
+                        location.pathname === `/user/${userInfo?.username}`,
                       )
               }
               disabled={isLoading}
