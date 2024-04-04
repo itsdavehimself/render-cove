@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './containers/Home/Home';
 import SignUp from './containers/SignUp/SignUp';
