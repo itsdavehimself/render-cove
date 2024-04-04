@@ -69,9 +69,11 @@ button {
 
 .logo {
   color: variables.$accent-color;
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 1.4rem;
   cursor: pointer;
+  font-family: 'tachyon', sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .right-third-nav {
