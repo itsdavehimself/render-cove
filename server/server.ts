@@ -20,7 +20,11 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({
+    origin: ['http://localhost:3000', process.env.ORIGIN!],
+  })
+);
 app.use(express.json());
 app.use('/api/users', usersRouter);
 app.use('/api/projects', projectsRouter);
@@ -56,7 +60,7 @@ mongoose
 
 const io = new Server(server, {
   cors: {
-    origin: ['https://rendercove.netlify.app'],
+    origin: ['http://localhost:3000', process.env.ORIGIN!],
   },
 });
 
