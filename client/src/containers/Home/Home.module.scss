@@ -71,6 +71,17 @@ a {
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 1rem;
   }
+
+  .home-header {
+    h1 {
+      color: variables.$secondary-darker;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .explore-link {
+      font-size: 0.9rem;
+    }
+  }
 }
 
 @media screen and (min-width: 551px) and (max-width: 768px) {
