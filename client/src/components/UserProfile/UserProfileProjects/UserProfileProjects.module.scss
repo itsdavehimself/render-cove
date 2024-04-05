@@ -30,3 +30,35 @@
 .missing-message {
   @include missing();
 }
+
+@media screen and (max-width: 550px) {
+  .user-profile-projects {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 768px) {
+  .user-profile-projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1199px) {
+  .user-profile-projects {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1600px) {
+  .user-profile-projects {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}

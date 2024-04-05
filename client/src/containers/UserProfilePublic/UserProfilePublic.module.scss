@@ -1,5 +1,9 @@
 @use 'variables';
 
+.mobile-user-info {
+  display: none;
+}
+
 .public-profile-container {
   display: grid;
   grid-template-columns: 1fr 26rem;
@@ -45,4 +49,24 @@
 
 .sidebar::-webkit-scrollbar-track {
   background-color: variables.$primary-alt;
+}
+
+@media screen and (max-width: 1024px) {
+  .public-profile-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    column-gap: 0;
+    margin: 0 1rem;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .mobile-user-info {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 }
