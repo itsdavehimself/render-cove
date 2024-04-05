@@ -92,12 +92,15 @@
 }
 
 @media screen and (max-width: 550px) {
+  .notifications {
+    margin: 1rem;
+  }
   .notifications-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    padding: 0 1rem;
+    padding: 0;
     background-color: variables.$primary-color;
   }
 
@@ -116,5 +119,6 @@
     border-radius: 0.25rem;
     transition: all 0.2s ease-in-out;
     margin-bottom: 1rem;
+    padding: 0;
   }
 }
