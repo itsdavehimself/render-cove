@@ -10,7 +10,10 @@ import {
   faEnvelope,
   faUserPen,
 } from '@fortawesome/free-solid-svg-icons';
-import handleFollowClick from '../../../containers/UserProfilePublic/UserProfilePublic.utility';
+import handleFollowClick, {
+  FollowAction,
+} from '../../../containers/UserProfilePublic/UserProfilePublic.utility';
+import { useNavigate } from 'react-router-dom';
 
 interface MobileUserProfileHeaderProps {
   setOpenModal: React.Dispatch<React.SetStateAction<string>>;
@@ -30,6 +33,7 @@ const MobileUserProfileHeader: React.FC<MobileUserProfileHeaderProps> = ({
 }) => {
   const { userInfo, dispatchUserInfo } = useUserInfoContext();
   const { user, dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
