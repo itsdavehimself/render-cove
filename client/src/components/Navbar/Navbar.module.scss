@@ -210,6 +210,10 @@ button {
   color: variables.$secondary-color;
 }
 
+.mobile-notification-button {
+  display: none;
+}
+
 .notification-icons {
   position: relative;
   display: flex;
@@ -223,19 +227,27 @@ button {
   top: 40px;
 }
 
-.notification-button {
+.mobile-notification-popout-container {
+  display: none;
+}
+
+.notification-button,
+.message-button,
+.mobile-notification-button {
   background-color: transparent;
   height: 2rem;
   width: 2rem;
 }
 
-.notification-icon {
+.notification-icon,
+.message-icon {
   position: relative;
   color: variables.$primary-lighter;
   transition: all 0.2s ease-in-out;
 }
 
-.notification-icon:hover {
+.notification-icon:hover,
+.message-icon:hover {
   color: variables.$primary-lightest;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
@@ -334,6 +346,14 @@ button {
     font-family: 'tachyon', sans-serif;
     font-weight: 400;
     font-style: normal;
+  }
+
+  .notification-button {
+    display: none;
+  }
+
+  .mobile-notification-button {
+    display: flex;
   }
 }
 

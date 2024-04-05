@@ -291,10 +291,26 @@ const Navbar: React.FC = () => {
                 </div>
               </button>
               <button
-                className={styles['notification-button']}
+                className={styles['mobile-notification-button']}
+                onClick={() => navigate('/notifications')}
+              >
+                <div
+                  className={styles['notification-icon']}
+                  ref={notificationRef}
+                >
+                  {unreadNotifications > 0 && (
+                    <div className={styles['notification-dot']}>
+                      {unreadNotifications < 9 ? unreadNotifications : '9+'}
+                    </div>
+                  )}
+                  {notificationBell}
+                </div>
+              </button>
+              <button
+                className={styles['message-button']}
                 onClick={() => navigate('/messages')}
               >
-                <div className={styles['notification-icon']}>
+                <div className={styles['message-icon']}>
                   {numOfUnreadMessages > 0 && (
                     <div className={styles['notification-dot']}>
                       {numOfUnreadMessages < 9 ? numOfUnreadMessages : '9+'}
