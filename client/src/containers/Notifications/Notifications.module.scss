@@ -95,13 +95,14 @@
   .notifications {
     margin: 1rem;
   }
+
   .notifications-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    padding: 0;
-    background-color: variables.$primary-color;
+    padding: 1rem;
+    background-color: variables.$primary-alt;
   }
 
   .header {
@@ -120,5 +121,13 @@
     transition: all 0.2s ease-in-out;
     margin-bottom: 1rem;
     padding: 0;
+  }
+
+  .notification-details {
+    font-size: 0.8rem;
+  }
+
+  .date {
+    font-size: 0.7rem;
   }
 }
