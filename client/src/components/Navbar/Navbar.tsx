@@ -16,6 +16,8 @@ import {
   faEye,
   faBookmark,
   faHeart,
+  faBars,
+  faTimes,
   // faAngleDown,
   // faFlask,
   // faBookOpen,
@@ -53,6 +55,7 @@ const Navbar: React.FC = () => {
   //   useState<boolean>(false);
   const [isNotificationPopoutOpen, setIsNotificationPopoutOpen] =
     useState<boolean>(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     socket?.on('connect', () => {
@@ -103,6 +106,8 @@ const Navbar: React.FC = () => {
   // const caretDown: React.ReactNode = <FontAwesomeIcon icon={faAngleDown} />;
   // const caseStudyIcon: React.ReactNode = <FontAwesomeIcon icon={faFlask} />;
   // const tutorialsIcon: React.ReactNode = <FontAwesomeIcon icon={faBookOpen} />;
+  const barsIcon: React.ReactNode = <FontAwesomeIcon icon={faBars} />;
+  const xIcon: React.ReactNode = <FontAwesomeIcon icon={faTimes} />;
 
   return (
     <nav
@@ -125,8 +130,16 @@ const Navbar: React.FC = () => {
                 <button className={styles['navbar-nav-button']}>Contact</button>
               </Link>
             </div>
+            <button
+              className={styles['menu-icon']}
+              onClick={() => setIsMenuOpen(true)}
+            >
+              {barsIcon}
+            </button>
           </div>
-          <SearchBar />
+          <div className={styles['middle-third-nav']}>
+            <SearchBar />
+          </div>
           <div className={styles['right-third-nav']}>
             <div className={styles.login}>
               <Link className={styles['nav-link']} to="/signup">
@@ -142,9 +155,55 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
           </div>
+          {isMenuOpen && (
+            <div className={styles['menu-overlay']}>
+              <div className={styles['menu-header']}>
+                <button
+                  className={styles['menu-icon']}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {xIcon}
+                </button>
+                <Link className={styles['nav-link']} to="/signup">
+                  <button className={styles['menu-signup-button']}>
+                    <div className={styles['signup-icon']}>{signupIcon}</div>
+                    Sign Up
+                  </button>
+                </Link>
+              </div>
+              <div className={styles['menu-search']}>
+                <SearchBar />
+              </div>
+              <div className={styles['menu-options']}>
+                <Link className={styles['nav-link']} to="/explore">
+                  <button
+                    className={styles['navbar-nav-button']}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Explore
+                  </button>
+                </Link>
+                <Link className={styles['nav-link']} to="/about">
+                  <button
+                    className={styles['navbar-nav-button']}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    About
+                  </button>
+                </Link>
+                <Link className={styles['nav-link']} to="/contact">
+                  <button
+                    className={styles['navbar-nav-button']}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Contact
+                  </button>
+                </Link>
+              </div>
+            </div>
+          )}
         </>
       )}
-
       {user && (
         <>
           <div className={styles['left-third-nav']}>
@@ -162,9 +221,17 @@ const Navbar: React.FC = () => {
                 <button className={styles['navbar-nav-button']}>Contact</button>
               </Link>
             </div>
-          </div>{' '}
-          <SearchBar />
-          <div className={styles['right-third-nav']}>
+            <button
+              className={styles['menu-icon']}
+              onClick={() => setIsMenuOpen(true)}
+            >
+              {barsIcon}
+            </button>
+          </div>
+          <div className={styles['middle-third-nav']}>
+            <SearchBar />
+          </div>
+          <div className={styles['user-right-third-nav']}>
             <div className={styles['create-button-container']}>
               <Link className={styles['nav-link']} to="/create/project">
                 <button className={styles['create-project-button']}>
@@ -288,6 +355,54 @@ const Navbar: React.FC = () => {
             </div>
           </div>
         </>
+      )}
+      {isMenuOpen && (
+        <div className={styles['menu-overlay']}>
+          <div className={styles['menu-header']}>
+            <button
+              className={styles['menu-icon']}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {xIcon}
+            </button>
+            <div className={styles['menu-create-button-container']}>
+              <Link className={styles['nav-link']} to="/create/project">
+                <button className={styles['create-project-button']}>
+                  <div>{uploadIcon}</div> Upload Project
+                </button>
+              </Link>
+            </div>
+          </div>
+          <div className={styles['menu-search']}>
+            <SearchBar />
+          </div>
+          <div className={styles['menu-options']}>
+            <Link className={styles['nav-link']} to="/explore">
+              <button
+                className={styles['navbar-nav-button']}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Explore
+              </button>
+            </Link>
+            <Link className={styles['nav-link']} to="/about">
+              <button
+                className={styles['navbar-nav-button']}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </button>
+            </Link>
+            <Link className={styles['nav-link']} to="/contact">
+              <button
+                className={styles['navbar-nav-button']}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
+              </button>
+            </Link>
+          </div>
+        </div>
       )}
     </nav>
   );

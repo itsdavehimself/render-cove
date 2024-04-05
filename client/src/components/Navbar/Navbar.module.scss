@@ -11,6 +11,7 @@
   font-weight: 500;
   transition: all 0.2s ease-in-out;
   column-gap: 0.5rem;
+  white-space: nowrap;
 }
 
 @mixin colored-button-hover {
@@ -28,8 +29,8 @@ button {
   width: 100%;
   top: 0;
   background-color: variables.$primary-color;
-  display: grid;
-  grid-template-columns: repeat(3, 33%);
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 5rem;
   padding: 0 2rem;
@@ -45,13 +46,60 @@ button {
   align-items: center;
 }
 
+.menu-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  background-color: variables.$primary-color;
+  padding: 0 1rem 2rem;
+  box-shadow: 0 0 10px 2px rgba($color: #000000, $alpha: 1);
+}
+
+.menu-icon {
+  display: none;
+  color: variables.$secondary-color;
+  font-size: 1.4rem;
+  background-color: variables.$primary-color;
+}
+
+.menu-icon:hover {
+  cursor: pointer;
+}
+
+.menu-overlay {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5rem;
+}
+
+.menu-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-options {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  margin-top: 2rem;
+}
+
 .nav-links {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   font-weight: 500;
   flex: 1;
-  padding: 0 2rem;
+  column-gap: 1rem;
+  margin-left: 2rem;
 }
 
 .navbar-nav-button {
@@ -67,16 +115,25 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
+.single-letter-logo {
+  display: none;
+}
+
 .logo {
   color: variables.$accent-color;
-  font-size: 1.4rem;
+  font-size: 1rem;
   cursor: pointer;
   font-family: 'tachyon', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-.right-third-nav {
+.middle-third-nav {
+  flex: 0.9;
+}
+
+.right-third-nav,
+.user-right-third-nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -139,13 +196,15 @@ button {
   width: 27rem;
 }
 
-.signup-button {
+.signup-button,
+.menu-signup-button {
   @include colored-button();
   background-color: variables.$primary-light;
   color: variables.$secondary-color;
 }
 
-.signup-button:hover {
+.signup-button:hover,
+.menu-signup-button:hover {
   @include colored-button-hover();
   background-color: variables.$primary-lighter;
   color: variables.$secondary-color;
@@ -191,15 +250,11 @@ button {
 .avatar-container:hover {
   border-radius: 35%;
   transition: all 0.2s ease-in-out;
-}
-
-.avatar-container:hover {
   cursor: pointer;
 }
 
 .user-avatar {
   height: 38px;
-  width: auto;
 }
 
 .avatar-popout-container {
@@ -224,4 +279,90 @@ button {
   font-size: 0.7rem;
   font-weight: 500;
   border-radius: 50%;
+}
+
+@media screen and (max-width: 550px) {
+  .create-button-container {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 551px) {
+  .menu-create-button-container {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .login-button,
+  .menu-signup-button {
+    white-space: nowrap;
+    font-size: 0.8rem;
+  }
+
+  .signup-button {
+    display: none;
+  }
+
+  .menu-icon {
+    display: flex;
+  }
+
+  .middle-third-nav {
+    display: none;
+  }
+
+  .single-letter-logo {
+    display: flex;
+    color: variables.$accent-color;
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-family: 'tachyon', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1600px) {
+  .menu-overlay {
+    padding: 0 2rem 2rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .menu-icon {
+    display: flex;
+  }
+
+  .menu-search {
+    display: none;
+  }
+
+  .menu-signup-button {
+    display: none;
+  }
+
+  .login {
+    column-gap: 1rem;
+  }
 }
