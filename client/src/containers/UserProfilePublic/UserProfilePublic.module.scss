@@ -1,6 +1,10 @@
 @use 'variables';
 
-.mobile-user-info {
+.small-user-info {
+  display: none;
+}
+
+.medium-user-info {
   display: none;
 }
 
@@ -63,8 +67,18 @@
   .sidebar {
     display: none;
   }
+}
 
-  .mobile-user-info {
+@media screen and (max-width: 635px) {
+  .small-user-info {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (min-width: 636px) and (max-width: 1023px) {
+  .medium-user-info {
     display: block;
     width: 100%;
     margin-bottom: 1rem;

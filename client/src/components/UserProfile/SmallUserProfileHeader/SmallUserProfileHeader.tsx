@@ -1,4 +1,4 @@
-import styles from './MobileUserProfileHeader.module.scss';
+import styles from './SmallUserProfileHeader.module.scss';
 import { useUserInfoContext } from '../../../hooks/useUserInfoContext';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
@@ -15,7 +15,7 @@ import handleFollowClick, {
 } from '../../../containers/UserProfilePublic/UserProfilePublic.utility';
 import { useNavigate } from 'react-router-dom';
 
-interface MobileUserProfileHeaderProps {
+interface SmallUserProfileHeaderProps {
   setOpenModal: React.Dispatch<React.SetStateAction<string>>;
   followers: number | undefined;
   following: number | undefined;
@@ -25,7 +25,7 @@ interface MobileUserProfileHeaderProps {
 const API_BASE_URL: string =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
-const MobileUserProfileHeader: React.FC<MobileUserProfileHeaderProps> = ({
+const SmallUserProfileHeader: React.FC<SmallUserProfileHeaderProps> = ({
   setOpenModal,
   followers,
   following,
@@ -184,4 +184,4 @@ const MobileUserProfileHeader: React.FC<MobileUserProfileHeaderProps> = ({
   );
 };
 
-export default MobileUserProfileHeader;
+export default SmallUserProfileHeader;

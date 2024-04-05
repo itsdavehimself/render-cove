@@ -1,0 +1,107 @@
+@use 'variables';
+@use '../UserProfileSidebar/UserProfileSidebar.module.scss' as Sidebar;
+
+.user-info-container {
+  display: flex;
+  flex-direction: column;
+  background-color: variables.$primary-alt;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  row-gap: 1rem;
+}
+
+.user-info-top {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.user-avatar-container {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    height: 4rem;
+    width: 4rem;
+  }
+}
+
+.user-stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1rem;
+  color: variables.$secondary-darker;
+  padding: 0;
+  justify-self: center;
+}
+
+.user-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-stats-number {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.user-stats-label {
+  font-size: 0.6rem;
+  font-weight: 400;
+}
+
+.user-basic-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  row-gap: 0.25rem;
+
+  h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+}
+
+.user-tagline {
+  text-align: center;
+  color: variables.$secondary-darker;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.follow-detail-button {
+  background-color: transparent;
+  color: variables.$secondary-darker;
+  transition: all 0.2s ease-in-out;
+}
+
+.follow-detail-button:hover {
+  cursor: pointer;
+  color: variables.$secondary-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.follower-user-button {
+  @include Sidebar.blue-button();
+}
+
+.follower-user-button:hover {
+  @include Sidebar.blue-button-hover();
+}
+
+.message-user-button,
+.follower-user-button-unfollow {
+  @include Sidebar.gray-button();
+}
+
+.message-user-button:hover,
+.follower-user-button-unfollow:hover {
+  @include Sidebar.gray-button-hover();
+}

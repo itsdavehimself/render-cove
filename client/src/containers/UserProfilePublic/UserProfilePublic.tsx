@@ -10,7 +10,8 @@ import { useUserInfoContext } from '../../hooks/useUserInfoContext';
 import { SocketContext } from '../../context/SocketContext';
 import { useContext } from 'react';
 import { UserType } from '../../context/AuthContext';
-import MobileUserProfileHeader from '../../components/UserProfile/MobileUserProfileHeader/MobileUserProfileHeader';
+import SmallUserProfileHeader from '../../components/UserProfile/SmallUserProfileHeader/SmallUserProfileHeader';
+import MediumUserProfileHeader from '../../components/UserProfile/MediumUserProfileHeader/MediumUserProfileHeader';
 
 const UserProfilePublic: React.FC = () => {
   const { user } = useAuthContext();
@@ -63,8 +64,16 @@ const UserProfilePublic: React.FC = () => {
         <FollowerModal openModal={openModal} setOpenModal={setOpenModal} />
       )}
       <div className={styles['public-profile-container']}>
-        <div className={styles['mobile-user-info']}>
-          <MobileUserProfileHeader
+        <div className={styles['small-user-info']}>
+          <SmallUserProfileHeader
+            setOpenModal={setOpenModal}
+            followers={followers}
+            following={following}
+            isFollowing={isFollowing}
+          />
+        </div>
+        <div className={styles['medium-user-info']}>
+          <MediumUserProfileHeader
             setOpenModal={setOpenModal}
             followers={followers}
             following={following}
