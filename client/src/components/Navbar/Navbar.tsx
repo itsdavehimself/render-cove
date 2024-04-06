@@ -136,6 +136,9 @@ const Navbar: React.FC = () => {
             >
               {barsIcon}
             </button>
+            <Link className={styles['nav-link']} to="/">
+              <div className={styles['mobile-logo']}>RENDERCOVE</div>
+            </Link>
           </div>
           <div className={styles['middle-third-nav']}>
             <SearchBar />
@@ -227,6 +230,9 @@ const Navbar: React.FC = () => {
             >
               {barsIcon}
             </button>
+            <Link className={styles['nav-link']} to="/">
+              <div className={styles['mobile-logo']}>RENDERCOVE</div>
+            </Link>
           </div>
           <div className={styles['middle-third-nav']}>
             <SearchBar />

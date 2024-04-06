@@ -119,6 +119,10 @@ button {
   display: none;
 }
 
+.mobile-logo {
+  display: none;
+}
+
 .logo {
   color: variables.$accent-color;
   font-size: 1rem;
@@ -306,6 +310,17 @@ button {
 }
 
 @media screen and (max-width: 768px) {
+  .mobile-logo {
+    display: flex;
+    color: variables.$accent-color;
+    font-size: 0.6rem;
+    cursor: pointer;
+    font-family: 'tachyon', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    padding-left: 1rem;
+  }
+
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -358,6 +373,10 @@ button {
 }
 
 @media screen and (min-width: 769px) and (max-width: 1600px) {
+  .mobile-logo {
+    display: none;
+  }
+
   .menu-overlay {
     padding: 0 2rem 2rem;
   }
