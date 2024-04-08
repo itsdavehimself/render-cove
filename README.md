@@ -79,9 +79,9 @@ or you can use the sample account credentials:
 
 <img src="./client/src/assets/screenshots/search-desktop.png" alt="Project Upload Page" width="750">
 
-<!-- ### Responsive Design
+### Responsive Design
 
-<img src="" alt="Responsive Design"/> -->
+<img src="./client/src/assets/screenshots/rendercove-responsive-design.gif" alt="Responsive Design"/>
 
 ## Installation
 
