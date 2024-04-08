@@ -86,3 +86,21 @@ textarea::placeholder {
   background-color: variables.$primary-tertiary;
   transition: all 0.2s ease-in-out;
 }
+
+@media screen and (max-width: 550px) {
+  .preview-cards-container {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 768px) {
+  .preview-cards-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 1500px) and (max-width: 1650px) {
+  .preview-cards-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

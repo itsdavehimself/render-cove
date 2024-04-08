@@ -114,3 +114,23 @@
   right: 21rem;
   bottom: 5rem;
 }
+
+@media screen and (max-width: 1500px) {
+  .create-project-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.2rem;
+    margin: 1rem;
+  }
+
+  .create-project-form {
+    display: flex;
+    flex-direction: column;
+    column-gap: 2rem;
+  }
+
+  .form-right-column {
+    width: 100%;
+    row-gap: 2rem;
+  }
+}
