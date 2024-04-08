@@ -65,3 +65,19 @@
   color: variables.$secondary-color;
   transition: all 0.2s ease-in-out;
 }
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .avatar-container {
+    border-radius: 50%;
+    width: 4rem;
+    overflow: hidden;
+  }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1600px) {
+  .avatar-container {
+    border-radius: 50%;
+    width: 4rem;
+    overflow: hidden;
+  }
+}

@@ -211,8 +211,8 @@ h2 {
 
 @media screen and (max-width: 550px) {
   .user-cards {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 1rem;
   }
 
@@ -226,7 +226,7 @@ h2 {
 @media screen and (min-width: 551px) and (max-width: 768px) {
   .user-cards {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 1rem;
   }
 
@@ -237,16 +237,26 @@ h2 {
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1599px) {
+@media screen and (min-width: 769px) and (max-width: 1250px) {
   .user-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1599px) {
+  .project-cards {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
   }
+}
 
-  .project-cards {
+@media screen and (min-width: 1251px) and (max-width: 1599px) {
+  .user-cards {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
   }
 }
