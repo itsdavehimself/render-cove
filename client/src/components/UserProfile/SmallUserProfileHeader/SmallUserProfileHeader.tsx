@@ -161,7 +161,15 @@ const SmallUserProfileHeader: React.FC<SmallUserProfileHeaderProps> = ({
                 )}
                 <button
                   className={styles['message-user-button']}
-                  onClick={() => navigate(`/messages/${userInfo._id}`)}
+                  onClick={() => {
+                    const userIdToMessage = userInfo._id;
+                    const screenWidth = window.innerWidth;
+                    if (screenWidth <= 550) {
+                      navigate(`/messages/thread/${userIdToMessage}`);
+                    } else {
+                      navigate(`/messages/${userIdToMessage}`);
+                    }
+                  }}
                 >
                   {messageIcon} Message
                 </button>
