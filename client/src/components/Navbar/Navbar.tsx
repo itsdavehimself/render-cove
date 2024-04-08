@@ -126,9 +126,9 @@ const Navbar: React.FC = () => {
               <Link className={styles['nav-link']} to="/about">
                 <button className={styles['navbar-nav-button']}>About</button>
               </Link>
-              <Link className={styles['nav-link']} to="/contact">
+              {/* <Link className={styles['nav-link']} to="/contact">
                 <button className={styles['navbar-nav-button']}>Contact</button>
-              </Link>
+              </Link> */}
             </div>
             <button
               className={styles['menu-icon']}
@@ -194,14 +194,14 @@ const Navbar: React.FC = () => {
                     About
                   </button>
                 </Link>
-                <Link className={styles['nav-link']} to="/contact">
+                {/* <Link className={styles['nav-link']} to="/contact">
                   <button
                     className={styles['navbar-nav-button']}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Contact
                   </button>
-                </Link>
+                </Link> */}
               </div>
             </div>
           )}
@@ -220,9 +220,9 @@ const Navbar: React.FC = () => {
               <Link className={styles['nav-link']} to="/about">
                 <button className={styles['navbar-nav-button']}>About</button>
               </Link>
-              <Link className={styles['nav-link']} to="/contact">
+              {/* <Link className={styles['nav-link']} to="/contact">
                 <button className={styles['navbar-nav-button']}>Contact</button>
-              </Link>
+              </Link> */}
             </div>
             <button
               className={styles['menu-icon']}
@@ -415,14 +415,14 @@ const Navbar: React.FC = () => {
                 About
               </button>
             </Link>
-            <Link className={styles['nav-link']} to="/contact">
+            {/* <Link className={styles['nav-link']} to="/contact">
               <button
                 className={styles['navbar-nav-button']}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
               </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       )}

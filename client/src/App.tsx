@@ -21,7 +21,6 @@ import UserProfileCollections from './components/UserProfile/UserProfileCollecti
 import ViewCollection from './components/ViewCollection/ViewCollection';
 import UserProfileLatest from './components/UserProfile/UserProfileLatest/UserProfileLatest';
 import { UserInfoContextProvider } from './context/UserInfoContext';
-import Contact from './containers/Contact/Contact';
 import About from './containers/About/About';
 import Explore from './containers/Explore/Explore';
 import Notifications from './containers/Notifications/Notifications';
@@ -66,7 +65,6 @@ function App() {
                   <Route path="/explore/:tag" element={<ExploreProjects />} />
                 </Route>
                 <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
                 <Route path="/profile/edit" element={<EditProfile />} />
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/search" element={<Search />} />
