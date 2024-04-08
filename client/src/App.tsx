@@ -29,6 +29,7 @@ import Messages from './containers/Messages/Messages';
 import MessageThread from './components/Messages/MessageThread/MessageThread';
 import ExploreProjects from './components/ExploreProjects/ExploreProjects';
 import Search from './containers/Search/Search';
+import MobileThread from './components/Messages/MobileThread/MobileThread';
 
 function App() {
   const { user } = useAuthContext();
@@ -87,6 +88,14 @@ function App() {
                     element={<MessageThread />}
                   />
                 </Route>
+                <Route
+                  path="/messages/thread/:userIdToMessage"
+                  element={
+                    <UserInfoContextProvider>
+                      <MobileThread />
+                    </UserInfoContextProvider>
+                  }
+                />
                 <Route
                   path="/create/project"
                   element={

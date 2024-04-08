@@ -216,3 +216,31 @@
   align-items: center;
   color: variables.$secondary-darker;
 }
+
+@media screen and (min-width: 551px) and (max-width: 850px) {
+  .all-messages-container {
+    background-color: variables.$primary-color;
+    width: 8rem;
+    min-height: calc(100vh - 9rem);
+  }
+
+  .messages-header {
+    display: none;
+  }
+
+  .threads {
+    margin-top: 0;
+  }
+
+  .message-input {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: variables.$primary-color;
+    width: calc(100vw - 8rem - 8px);
+    border-left: 1px solid variables.$primary-tertiary;
+  }
+}

@@ -28,3 +28,27 @@
   font-size: 0.9rem;
   color: variables.$secondary-darker;
 }
+
+@media screen and (max-width: 550px) {
+  .all-messages-container {
+    background-color: variables.$primary-color;
+    width: 100vw;
+    min-height: calc(100vh - 9rem);
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 850px) {
+  .all-messages-container {
+    background-color: variables.$primary-color;
+    width: 8rem;
+    min-height: calc(100vh - 9rem);
+  }
+
+  .messages-header {
+    display: none;
+  }
+
+  .threads {
+    margin-top: 0;
+  }
+}

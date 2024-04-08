@@ -77,3 +77,20 @@
   border-radius: 50%;
   background-color: variables.$accent-color;
 }
+
+@media screen and (min-width: 551px) and (max-width: 850px) {
+  .messages-container {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    padding: 0rem;
+    column-gap: 0rem;
+  }
+
+  .thread-main {
+    column-gap: 0rem;
+  }
+
+  .message-details {
+    display: none;
+  }
+}

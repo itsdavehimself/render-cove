@@ -56,3 +56,51 @@
   font-weight: 400;
   font-size: 0.9rem;
 }
+
+@media screen and (max-width: 550px) {
+  .messages-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0rem;
+    column-gap: 0rem;
+  }
+
+  .all-messages {
+    position: fixed;
+    left: 0;
+    overflow-y: scroll;
+    height: calc(100vh - 5rem);
+    mask-image: linear-gradient(to top, transparent, variables.$primary-color),
+      linear-gradient(to left, transparent 0px, variables.$primary-color 0px);
+    mask-size: 100% 20000px;
+    mask-position: left bottom;
+    -webkit-mask-image: linear-gradient(
+        to top,
+        transparent,
+        variables.$primary-color
+      ),
+      linear-gradient(to left, transparent 0px, variables.$primary-color 0px);
+    -webkit-mask-size: 100% 1000000px;
+    -webkit-mask-position: left bottom;
+    transition:
+      mask-position 0.3s,
+      -webkit-mask-position 0.3s;
+  }
+
+  .right-null {
+    display: none;
+  }
+
+  .thread {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 850px) {
+  .messages-container {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    padding: 0rem;
+    column-gap: 0rem;
+  }
+}
