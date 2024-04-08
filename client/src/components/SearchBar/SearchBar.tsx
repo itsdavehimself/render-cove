@@ -4,7 +4,11 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import styles from './SearchBar.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-const SearchBar: React.FC = () => {
+interface SearchBarProps {
+  setNavbarMenuOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ setNavbarMenuOpen }) => {
   const [isHoveringSearch, setIsHoveringSearch] = useState<boolean>(false);
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -36,6 +40,9 @@ const SearchBar: React.FC = () => {
   ): void => {
     event.preventDefault();
     navigate(`/search?query=${searchQuery}&filter=projects&sort=relevant`);
+    if (setNavbarMenuOpen) {
+      setNavbarMenuOpen(false);
+    }
   };
 
   const handleInput = (search: string) => {

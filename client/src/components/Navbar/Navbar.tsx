@@ -141,7 +141,7 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           <div className={styles['middle-third-nav']}>
-            <SearchBar />
+            <SearchBar setNavbarMenuOpen={setIsMenuOpen} />
           </div>
           <div className={styles['right-third-nav']}>
             <div className={styles.login}>
@@ -175,7 +175,7 @@ const Navbar: React.FC = () => {
                 </Link>
               </div>
               <div className={styles['menu-search']}>
-                <SearchBar />
+                <SearchBar setNavbarMenuOpen={setIsMenuOpen} />
               </div>
               <div className={styles['menu-options']}>
                 <Link className={styles['nav-link']} to="/explore">
@@ -235,7 +235,7 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           <div className={styles['middle-third-nav']}>
-            <SearchBar />
+            <SearchBar setNavbarMenuOpen={setIsMenuOpen} />
           </div>
           <div className={styles['user-right-third-nav']}>
             <div className={styles['create-button-container']}>
@@ -396,7 +396,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
           <div className={styles['menu-search']}>
-            <SearchBar />
+            <SearchBar setNavbarMenuOpen={setIsMenuOpen} />
           </div>
           <div className={styles['menu-options']}>
             <Link className={styles['nav-link']} to="/explore">
