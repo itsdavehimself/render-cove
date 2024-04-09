@@ -4,7 +4,7 @@
   background-color: variables.$primary-color;
   border-radius: 0.25rem;
   color: variables.$secondary-color;
-  padding: 2rem;
+  padding: 0 2rem;
 
   h1 {
     font-size: 2rem;
@@ -35,4 +35,11 @@
 
 .tiptap.ProseMirror {
   min-height: 20rem;
+}
+
+@media screen and (max-width: 1124px) {
+  .tiptap.ProseMirror {
+    min-height: 20rem;
+    padding: 0;
+  }
 }

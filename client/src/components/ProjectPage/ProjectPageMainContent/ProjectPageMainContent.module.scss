@@ -19,10 +19,7 @@
 }
 
 .mobile-button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 3rem;
+  display: none;
 }
 
 .social-button {
@@ -42,20 +39,7 @@
 }
 
 .mobile-social-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(14, 16, 17, 0.5);
-  color: variables.$secondary-color;
-  border: 1px solid variables.$primary-tertiary;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  font-weight: 400;
-  height: 2rem;
-  transition: all 0.2s ease-in-out;
-  width: fit-content;
-  padding: 1.2rem;
-  column-gap: 0.5rem;
+  display: none;
 }
 
 .social-button:hover {
@@ -197,6 +181,58 @@
   p,
   li {
     margin: 0.75rem 0;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .mobile-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1.2rem;
+  }
+
+  .mobile-social-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(14, 16, 17, 0.5);
+    color: variables.$secondary-color;
+    border: 1px solid variables.$primary-tertiary;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    height: 2rem;
+    transition: all 0.2s ease-in-out;
+    width: fit-content;
+    padding: 1rem;
+    column-gap: 0.2rem;
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 1123px) {
+  .mobile-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 4rem;
+  }
+
+  .mobile-social-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(14, 16, 17, 0.5);
+    color: variables.$secondary-color;
+    border: 1px solid variables.$primary-tertiary;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    height: 2rem;
+    transition: all 0.2s ease-in-out;
+    width: fit-content;
+    padding: 1.2rem;
+    column-gap: 0.5rem;
   }
 }
 
