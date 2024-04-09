@@ -79,9 +79,9 @@ const UserLikes: React.FC = () => {
               bit.
             </div>
           ) : (
-            <section className={styles['post-container']}>
+            <>
               {likedProjects.length > 0 ? (
-                <>
+                <section className={styles['post-container']}>
                   {likedProjects
                     .slice()
                     .reverse()
@@ -97,11 +97,13 @@ const UserLikes: React.FC = () => {
                         key={project.projectId._id}
                       />
                     ))}
-                </>
+                </section>
               ) : (
-                <p>You haven't liked any posts yet</p>
+                <p className={styles['empty-likes']}>
+                  You haven't liked any posts yet
+                </p>
               )}
-            </section>
+            </>
           )}
         </>
       )}

@@ -35,6 +35,12 @@
   }
 }
 
+.empty-likes {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: variables.$secondary-darker;
+}
+
 @media screen and (max-width: 550px) {
   .likes-container {
     margin: 3rem 1rem;
