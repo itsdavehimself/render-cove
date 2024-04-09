@@ -72,3 +72,41 @@
   right: 21rem;
   bottom: 5rem;
 }
+
+@media screen and (max-width: 1200px) {
+  .edit-profile-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+    margin: 0 1rem;
+  }
+
+  .edit-profile-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    column-gap: 0;
+    margin-bottom: 0;
+  }
+
+  .edit-profile-sidebar {
+    position: relative;
+    top: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    background-color: variables.$primary-color;
+    height: fit-content;
+    row-gap: 1rem;
+  }
+
+  .edit-profile-side-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    overflow-x: scroll;
+    padding: 1rem 0;
+    column-gap: 0.5rem;
+  }
+}

@@ -40,3 +40,13 @@
     color: variables.$accent-color;
   }
 }
+
+@media screen and (max-width: 1200px) {
+  .edit-profile-button {
+    display: flex;
+  }
+
+  .caret-icon {
+    display: none;
+  }
+}

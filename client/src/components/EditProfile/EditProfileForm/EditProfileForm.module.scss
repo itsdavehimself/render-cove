@@ -88,3 +88,14 @@
 .save-button-container {
   @include profile.save-button-container;
 }
+
+@media screen and (max-width: 900px) {
+  .edit-image-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-label {
+    display: none;
+  }
+}
