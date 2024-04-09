@@ -46,3 +46,27 @@
 .sidebar::-webkit-scrollbar-track {
   background-color: variables.$primary-alt;
 }
+
+@media screen and (max-width: 1123px) {
+  .project-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.5rem;
+    column-gap: 0;
+    row-gap: 1.5rem;
+  }
+
+  .sidebar {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding-right: 0px;
+    height: fit-content;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    width: 0px;
+  }
+}

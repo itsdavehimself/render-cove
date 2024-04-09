@@ -211,6 +211,26 @@ const ProjectPageMainContent: React.FC<ProjectPageMainContentProps> = ({
           </section>
         </section>
       )}
+      <div className={styles['mobile-button-container']}>
+        <button
+          className={`${styles['mobile-social-button']} ${isLiked ? styles.liked : ''}`}
+          onClick={handleLikeClick}
+        >
+          {likeIcon} <span>Like</span>
+        </button>
+        <button
+          className={`${styles['mobile-social-button']} ${styles.bookmark}`}
+          onClick={handleBookmarkClick}
+        >
+          {bookmarkIcon} <span>Save</span>
+        </button>
+        <button
+          className={styles['mobile-social-button']}
+          onClick={() => setIsSharingOpen(true)}
+        >
+          {shareIcon} <span>Share</span>
+        </button>
+      </div>
     </main>
   );
 };

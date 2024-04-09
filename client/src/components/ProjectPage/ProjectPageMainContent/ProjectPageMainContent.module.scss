@@ -18,6 +18,13 @@
   z-index: 5;
 }
 
+.mobile-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 3rem;
+}
+
 .social-button {
   display: flex;
   justify-content: center;
@@ -34,6 +41,23 @@
   padding: 0.25rem;
 }
 
+.mobile-social-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(14, 16, 17, 0.5);
+  color: variables.$secondary-color;
+  border: 1px solid variables.$primary-tertiary;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  height: 2rem;
+  transition: all 0.2s ease-in-out;
+  width: fit-content;
+  padding: 1.2rem;
+  column-gap: 0.5rem;
+}
+
 .social-button:hover {
   cursor: pointer;
   color: variables.$accent-color;
@@ -45,7 +69,8 @@
   color: variables.$yellow-color;
 }
 
-.social-button.liked {
+.social-button.liked,
+.mobile-social-button.liked {
   color: variables.$accent-color;
   border: 1px solid variables.$primary-lighter;
 }
@@ -172,5 +197,23 @@
   p,
   li {
     margin: 0.75rem 0;
+  }
+}
+
+@media screen and (max-width: 1123px) {
+  .button-container {
+    display: none;
+  }
+
+  .project {
+    margin: 1rem;
+  }
+
+  .workflow {
+    margin: 0 1rem;
+  }
+
+  .caption-container {
+    width: 100%;
   }
 }
