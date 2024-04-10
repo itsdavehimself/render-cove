@@ -20,9 +20,12 @@
 
 .popout-menu-container {
   position: absolute;
-  top: 5%;
-  left: 16%;
+  display: flex;
+  justify-content: flex-end;
+  top: 30%;
+  left: -10%;
   width: 100%;
+  font-size: 1rem;
 }
 
 .project-image {

@@ -92,30 +92,30 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
       onClick={(e) => handleCollectionClick(e)}
       ref={menuRef}
     >
-      {isMenuOpen && (
-        <div className={styles['popout-menu-container']}>
-          <PopOutMenu
-            buttons={[
-              {
-                icon: editIcon,
-                label: 'Edit collection',
-                onClick: handleOpenEditModal,
-              },
-              {
-                icon: deleteIcon,
-                label: 'Delete collection',
-                onClick: handleOpenDeleteModal,
-              },
-            ]}
-          />
-        </div>
-      )}
       <div className={styles['card-options']}>
         <div>
           {isPrivate && (
             <div className={styles['private']}>{privateIcon} Private</div>
           )}
         </div>
+        {isMenuOpen && (
+          <div className={styles['popout-menu-container']}>
+            <PopOutMenu
+              buttons={[
+                {
+                  icon: editIcon,
+                  label: 'Edit collection',
+                  onClick: handleOpenEditModal,
+                },
+                {
+                  icon: deleteIcon,
+                  label: 'Delete collection',
+                  onClick: handleOpenDeleteModal,
+                },
+              ]}
+            />
+          </div>
+        )}
         {user?.userId === creator && (
           <>
             <button
