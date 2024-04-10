@@ -75,35 +75,36 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       onClick={(e) => handleProjectClick(e)}
       ref={menuRef}
     >
-      {isMenuOpen && (
-        <div className={styles['popout-menu-container']}>
-          <PopOutMenu
-            buttons={[
-              {
-                icon: user?.username === authorUsername ? editIcon : reportIcon,
-                label:
-                  user?.username === authorUsername
-                    ? 'Edit Project'
-                    : 'Report Project',
-                onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
-                  user?.username === authorUsername
-                    ? handleEditProjectClick(e)
-                    : reportProjectClick(e),
-              },
-              {
-                icon: viewIcon,
-                label: 'View Project',
-                onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
-                  handleProjectClick(e),
-              },
-            ]}
-          />
-        </div>
-      )}
       <div className={styles['card-options']}>
         <div>
           {!published && <div className={styles['not-published']}>Draft</div>}
         </div>
+        {isMenuOpen && (
+          <div className={styles['popout-menu-container']}>
+            <PopOutMenu
+              buttons={[
+                {
+                  icon:
+                    user?.username === authorUsername ? editIcon : reportIcon,
+                  label:
+                    user?.username === authorUsername
+                      ? 'Edit Project'
+                      : 'Report Project',
+                  onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
+                    user?.username === authorUsername
+                      ? handleEditProjectClick(e)
+                      : reportProjectClick(e),
+                },
+                {
+                  icon: viewIcon,
+                  label: 'View Project',
+                  onClick: (e: React.MouseEvent<HTMLButtonElement>) =>
+                    handleProjectClick(e),
+                },
+              ]}
+            />
+          </div>
+        )}
         <button
           className={styles['options-button']}
           onClick={handleOptionClick}
