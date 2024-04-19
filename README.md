@@ -41,7 +41,7 @@ RenderCove is tailored for AI artists, offering a seamless platform to share the
 
 ## Demo
 
-If you'd like to explore the app, you can do so by visiting (https://rendercove.netlify.app).
+If you'd like to explore the app, you can do so by visiting https://rendercove.netlify.app
 
 Feel free to create your own account by using an email and password,
 or you can use the sample account credentials:
