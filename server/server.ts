@@ -16,16 +16,26 @@ import searchRouter from './routes/search.js';
 import { createProjectIndex, createUserIndex } from './createIndexes.js';
 
 dotenv.config();
+console.log('🔥 Loaded ORIGIN from env:', process.env.ORIGIN);
 
 const app = express();
 const server = http.createServer(app);
 
 app.use(
   cors({
-    origin: ['http://localhost:5173', process.env.ORIGIN!],
+    origin: [
+      'http://localhost:5173',
+      process.env.ORIGIN || 'http://yourfrontend.com',
+    ],
   })
 );
+
 app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.send('Server is up!');
+});
+
 app.use('/api/users', usersRouter);
 app.use('/api/projects', projectsRouter);
 app.use('/api/auth', userAuthRouter);
@@ -36,10 +46,10 @@ app.use('/api/messages', messagesRouter);
 app.use('/api/tags', tagsRouter);
 app.use('/api/search', searchRouter);
 
-const mongoURI = process.env.MONGO_URI;
+const mongoURI = process.env.MONGO_URI || '';
 
 if (!mongoURI) {
-  console.log(
+  console.error(
     'MONGO_URI is not defined. Make sure it is set in your environment variables.'
   );
   process.exit(1);
@@ -48,19 +58,23 @@ if (!mongoURI) {
 mongoose
   .connect(mongoURI)
   .then(() => {
-    server.listen(process.env.PORT, () => {
-      console.log(
-        `Connected to MongoDB & listening on port ${process.env.PORT}`
-      );
+    const PORT = Number(process.env.PORT) || 8080;
+
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`Connected to MongoDB & listening on port ${PORT}`);
     });
   })
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
   });
 
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:5173', process.env.ORIGIN!],
+    origin: [
+      'http://localhost:5173',
+      process.env.ORIGIN || 'http://yourfrontend.com',
+    ],
   },
 });
 
